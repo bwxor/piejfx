@@ -1,13 +1,22 @@
 package com.bwxor.piejfx.factory;
 
 import com.bwxor.piejfx.state.CodeAreaState;
+import com.bwxor.piejfx.utility.SaveFileUtility;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCode;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 
 public class TabFactory {
-    public static Tab createEditorTab(String title) {
+    private static final String EMPTY_STRING = "";
+    public static Tab createEditorTab(TabPane tabPane) {
+        return createEditorTab(tabPane, EMPTY_STRING);
+    }
+
+    public static Tab createEditorTab(TabPane tabPane, String title) {
+        Tab tab = new Tab();
+
         CodeArea codeArea = new CodeArea();
         codeArea.setStyle(String.format("-fx-font-size: %dpt", 10));
         CodeAreaState.instance.getIndividualStates().add(new CodeAreaState.IndividualState());
@@ -24,10 +33,26 @@ public class TabFactory {
                     individualState.setFontSize(individualState.getFontSize() - 2);
                     codeArea.setStyle(String.format("-fx-font-size: %dpt", individualState.getFontSize()));
                 }
+                else if (e.getCode().equals(KeyCode.S)) {
+                    SaveFileUtility.saveFile(tabPane, individualState);
+                }
             }
         });
 
+        codeArea.plainTextChanges().subscribe(
+                e -> {
+                    CodeAreaState.IndividualState individualState = CodeAreaState.instance.getIndividualStates().get(Integer.parseInt(codeArea.getId()));
+                    individualState.setContent(codeArea.getText());
+
+                    if (!tab.getText().startsWith("*")) {
+                        tab.setText("*" + tab.getText());
+                    }
+                }
+        );
+
         codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
-        return new Tab(title, codeArea);
+        tab.setText(title);
+        tab.setContent(codeArea);
+        return tab;
     }
 }

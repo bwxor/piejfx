@@ -1,11 +1,14 @@
 package com.bwxor.piejfx.state;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public final class CodeAreaState {
     public static class IndividualState {
         private int fontSize = 10;
+        private File openedFile;
+        private String content;
 
         public int getFontSize() {
             return fontSize;
@@ -13,6 +16,22 @@ public final class CodeAreaState {
 
         public void setFontSize(int fontSize) {
             this.fontSize = fontSize;
+        }
+
+        public File getOpenedFile() {
+            return openedFile;
+        }
+
+        public void setOpenedFile(File openedFile) {
+            this.openedFile = openedFile;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
         }
     }
 
