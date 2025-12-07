@@ -185,6 +185,10 @@
     -fx-background-color: #1e1e1e;
 }
 
+.styled-text-area .caret {
+    -fx-stroke: #FFFFFF;
+}
+
 /* --- AnchorPane --- */
 AnchorPane {
     -fx-background-color: #1e1e1e;

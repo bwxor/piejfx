@@ -4,30 +4,39 @@ import com.bwxor.piejfx.state.StageState;
 import com.bwxor.piejfx.state.ThemeState;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-import java.io.File;
-import java.io.InputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class ThemeUtility {
-    private static final String THEME_FOLDER_NAME = "themes/";
+    private static final String THEME_FOLDER = "themes/";
 
     public static List<ThemeState.Theme> getThemes() {
         List<ThemeState.Theme> themes = new ArrayList<>();
 
-        try {
-            for (final File fileEntry : Objects.requireNonNull(new File(ResourceUtility.getResourceByName(THEME_FOLDER_NAME).toURI()).listFiles())) {
-                ThemeState.Theme theme = new ThemeState.Theme(fileEntry.getName(),
-                        ResourceUtility.getResourceByName(THEME_FOLDER_NAME + fileEntry.getName()));
-                themes.add(theme);
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(ResourceUtility.getResourceByNameAsStream("config/themes.json")))) {
+            String themeContent = bufferedReader.readAllAsString();
+
+            JSONObject jsonObject = new JSONObject(themeContent);
+            JSONArray arr = jsonObject.getJSONArray("themes");
+
+            for (int i = 0; i < arr.length(); i++) {
+                String name = arr.getJSONObject(i).getString("name");
+                String file = arr.getJSONObject(i).getString("file");
+                themes.add(new ThemeState.Theme(name, ResourceUtility.getResourceByName(THEME_FOLDER + file)));
             }
-        } catch (URISyntaxException e) {
-            // ToDo: Show error
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
 
         return themes;
     }
