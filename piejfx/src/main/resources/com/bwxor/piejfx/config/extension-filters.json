@@ -1,0 +1,252 @@
+{
+  "filters": [
+    {
+      "description": "Text documents (*.txt)",
+      "extensions": "*.txt"
+    },
+    {
+      "description": "HTML files (*.html, *.htm)",
+      "extensions": "*.html, *.htm"
+    },
+    {
+      "description": "CSS files (*.css)",
+      "extensions": "*.css"
+    },
+    {
+      "description": "JavaScript files (*.js, *.mjs)",
+      "extensions": "*.js, *.mjs"
+    },
+    {
+      "description": "TypeScript files (*.ts, *.tsx)",
+      "extensions": "*.ts, *.tsx"
+    },
+    {
+      "description": "JSX files (*.jsx)",
+      "extensions": "*.jsx"
+    },
+    {
+      "description": "JSON files (*.json)",
+      "extensions": "*.json"
+    },
+    {
+      "description": "XML files (*.xml)",
+      "extensions": "*.xml"
+    },
+    {
+      "description": "PHP files (*.php)",
+      "extensions": "*.php"
+    },
+    {
+      "description": "Java files (*.java)",
+      "extensions": "*.java"
+    },
+    {
+      "description": "Kotlin files (*.kt, *.kts)",
+      "extensions": "*.kt, *.kts"
+    },
+    {
+      "description": "Scala files (*.scala)",
+      "extensions": "*.scala"
+    },
+    {
+      "description": "Groovy files (*.groovy)",
+      "extensions": "*.groovy"
+    },
+    {
+      "description": "C files (*.c, *.h)",
+      "extensions": "*.c, *.h"
+    },
+    {
+      "description": "C++ files (*.cpp, *.hpp, *.cc, *.cxx, *.hxx)",
+      "extensions": "*.cpp, *.hpp, *.cc, *.cxx, *.hxx"
+    },
+    {
+      "description": "C# files (*.cs)",
+      "extensions": "*.cs"
+    },
+    {
+      "description": "Objective-C files (*.m, *.mm)",
+      "extensions": "*.m, *.mm"
+    },
+    {
+      "description": "Visual Basic files (*.vb)",
+      "extensions": "*.vb"
+    },
+    {
+      "description": "F# files (*.fs, *.fsx)",
+      "extensions": "*.fs, *.fsx"
+    },
+    {
+      "description": "Python files (*.py, *.pyw)",
+      "extensions": "*.py, *.pyw"
+    },
+    {
+      "description": "Ruby files (*.rb)",
+      "extensions": "*.rb"
+    },
+    {
+      "description": "Go files (*.go)",
+      "extensions": "*.go"
+    },
+    {
+      "description": "Rust files (*.rs)",
+      "extensions": "*.rs"
+    },
+    {
+      "description": "Swift files (*.swift)",
+      "extensions": "*.swift"
+    },
+    {
+      "description": "Perl files (*.pl, *.pm)",
+      "extensions": "*.pl, *.pm"
+    },
+    {
+      "description": "Lua files (*.lua)",
+      "extensions": "*.lua"
+    },
+    {
+      "description": "Shell scripts (*.sh, *.bash)",
+      "extensions": "*.sh, *.bash"
+    },
+    {
+      "description": "PowerShell scripts (*.ps1, *.psm1)",
+      "extensions": "*.ps1, *.psm1"
+    },
+    {
+      "description": "Batch files (*.bat, *.cmd)",
+      "extensions": "*.bat, *.cmd"
+    },
+    {
+      "description": "Haskell files (*.hs)",
+      "extensions": "*.hs"
+    },
+    {
+      "description": "Erlang files (*.erl)",
+      "extensions": "*.erl"
+    },
+    {
+      "description": "Elixir files (*.ex, *.exs)",
+      "extensions": "*.ex, *.exs"
+    },
+    {
+      "description": "Clojure files (*.clj, *.cljs)",
+      "extensions": "*.clj, *.cljs"
+    },
+    {
+      "description": "OCaml files (*.ml, *.mli)",
+      "extensions": "*.ml, *.mli"
+    },
+    {
+      "description": "Common Lisp files (*.lisp, *.lsp)",
+      "extensions": "*.lisp, *.lsp"
+    },
+    {
+      "description": "Scheme files (*.scm, *.ss)",
+      "extensions": "*.scm, *.ss"
+    },
+    {
+      "description": "Clojure files (*.clj)",
+      "extensions": "*.clj"
+    },
+    {
+      "description": "SQL files (*.sql)",
+      "extensions": "*.sql"
+    },
+    {
+      "description": "YAML files (*.yaml, *.yml)",
+      "extensions": "*.yaml, *.yml"
+    },
+    {
+      "description": "TOML files (*.toml)",
+      "extensions": "*.toml"
+    },
+    {
+      "description": "Markdown files (*.md, *.markdown)",
+      "extensions": "*.md, *.markdown"
+    },
+    {
+      "description": "LaTeX files (*.tex)",
+      "extensions": "*.tex"
+    },
+    {
+      "description": "Assembly files (*.asm, *.s)",
+      "extensions": "*.asm, *.s"
+    },
+    {
+      "description": "D files (*.d)",
+      "extensions": "*.d"
+    },
+    {
+      "description": "Zig files (*.zig)",
+      "extensions": "*.zig"
+    },
+    {
+      "description": "Dart files (*.dart)",
+      "extensions": "*.dart"
+    },
+    {
+      "description": "R files (*.r, *.R)",
+      "extensions": "*.r, *.R"
+    },
+    {
+      "description": "MATLAB files (*.m)",
+      "extensions": "*.m"
+    },
+    {
+      "description": "Julia files (*.jl)",
+      "extensions": "*.jl"
+    },
+    {
+      "description": "Nim files (*.nim)",
+      "extensions": "*.nim"
+    },
+    {
+      "description": "Crystal files (*.cr)",
+      "extensions": "*.cr"
+    },
+    {
+      "description": "V files (*.v)",
+      "extensions": "*.v"
+    },
+    {
+      "description": "INI files (*.ini)",
+      "extensions": "*.ini"
+    },
+    {
+      "description": "Properties files (*.properties)",
+      "extensions": "*.properties"
+    },
+    {
+      "description": "Environment files (*.env)",
+      "extensions": "*.env"
+    },
+    {
+      "description": "WebAssembly files (*.wasm, *.wat)",
+      "extensions": "*.wasm, *.wat"
+    },
+    {
+      "description": "Pascal files (*.pas)",
+      "extensions": "*.pas"
+    },
+    {
+      "description": "Delphi files (*.dpr, *.dfm)",
+      "extensions": "*.dpr, *.dfm"
+    },
+    {
+      "description": "Fortran files (*.f90, *.f95, *.f03)",
+      "extensions": "*.f90, *.f95, *.f03"
+    },
+    {
+      "description": "COBOL files (*.cbl, *.cob)",
+      "extensions": "*.cbl, *.cob"
+    },
+    {
+      "description": "Ada files (*.adb, *.ads)",
+      "extensions": "*.adb, *.ads"
+    },
+    {
+      "description": "All files (*.*)",
+      "extensions": "*"
+    }
+  ]
+}

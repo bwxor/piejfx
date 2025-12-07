@@ -15,7 +15,7 @@ import java.util.Objects;
 
 public class NotificationUtility {
     public static NotificationYesNoCancelOption showNotificationYesNoCancel(String notificationText) {
-        FXMLLoader loader = new FXMLLoader(NotificationUtility.class.getResource("/com/bwxor/piejfx/notification-yesnocancel-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(ResourceUtility.getResourceByName("notification-yesnocancel-view.fxml"));
         Parent root;
 
         try {
@@ -30,7 +30,7 @@ public class NotificationUtility {
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
         stage.setTitle("Notification");
-        stage.getIcons().add(new Image(Objects.requireNonNull(Application.class.getResourceAsStream("/com/bwxor/piejfx/img/icon.png"))));
+        stage.getIcons().add(new Image(Objects.requireNonNull(ResourceUtility.getResourceByNameAsStream("img/icon.png"))));
         stage.setResizable(false);
         stage.showAndWait();
 

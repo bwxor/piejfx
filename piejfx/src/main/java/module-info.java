@@ -7,6 +7,7 @@ module com.bwxor.piejfx {
     requires javafx.graphics;
     requires org.fxmisc.richtext;
     requires reactfx;
+    requires org.json;
 
     opens com.bwxor.piejfx to javafx.fxml;
     opens com.bwxor.piejfx.controller;
