@@ -1,6 +1,5 @@
 package com.bwxor.piejfx.controller;
 
-import com.bwxor.piejfx.state.CodeAreaState;
 import com.bwxor.piejfx.utility.OpenFileUtility;
 import com.bwxor.piejfx.utility.SaveFileUtility;
 import com.bwxor.piejfx.utility.TabPaneUtility;

@@ -47,7 +47,7 @@ public class TabFactory {
                 e -> {
                     if (e.isControlDown()) {
                         CodeAreaState.IndividualState individualState = CodeAreaState.instance.getIndividualStates().get(Integer.parseInt(codeArea.getId()));
-                        
+
                         if (e.getDeltaY() > 0) {
                             individualState.setFontSize(individualState.getFontSize() + 2);
                             codeArea.setStyle(String.format("-fx-font-size: %dpt", individualState.getFontSize()));
