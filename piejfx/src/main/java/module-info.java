@@ -8,6 +8,7 @@ module com.bwxor.piejfx {
     requires org.fxmisc.richtext;
     requires reactfx;
     requires org.json;
+    requires net.harawata.appdirs;
 
     opens com.bwxor.piejfx to javafx.fxml;
     opens com.bwxor.piejfx.controller;

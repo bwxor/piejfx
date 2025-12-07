@@ -17,7 +17,6 @@ public class EditorController {
 
     @FXML
     public void initialize() {
-        ThemeState.instance.setThemes(ThemeUtility.getThemes());
         ThemeUtility.loadMenuWithThemes(themesMenu, ThemeState.instance.getThemes());
         TabPaneUtility.addTabToPane(tabPane, "Untitled");
     }

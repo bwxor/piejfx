@@ -3,8 +3,10 @@ package com.bwxor.piejfx;
 import com.bwxor.piejfx.state.StageState;
 import com.bwxor.piejfx.state.ThemeState;
 import com.bwxor.piejfx.type.RemoveSelectedTabFromPaneResponse;
+import com.bwxor.piejfx.utility.ConfigUtility;
 import com.bwxor.piejfx.utility.ResourceUtility;
 import com.bwxor.piejfx.utility.TabPaneUtility;
+import com.bwxor.piejfx.utility.ThemeUtility;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
@@ -18,6 +20,9 @@ public class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws IOException {
         StageState.instance.setStage(stage);
+
+        ThemeState.instance.setThemes(ThemeUtility.getThemes());
+        ConfigUtility.loadConfig();
 
         FXMLLoader fxmlLoader = new FXMLLoader(ResourceUtility.getResourceByName("editor-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 750, 500);

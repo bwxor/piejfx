@@ -70,6 +70,13 @@
             <artifactId>json</artifactId>
             <version>20250517</version>
         </dependency>
+
+        <!-- Cross-platform Development -->
+        <dependency>
+            <groupId>net.harawata</groupId>
+            <artifactId>appdirs</artifactId>
+            <version>1.5.0</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
