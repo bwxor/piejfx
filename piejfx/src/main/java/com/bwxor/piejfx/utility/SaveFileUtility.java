@@ -7,10 +7,7 @@ import javafx.stage.FileChooser;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -55,8 +52,9 @@ public class SaveFileUtility {
 
         String filters;
 
-        try (BufferedReader bufferedReader = Files.newBufferedReader(
-                Paths.get(ResourceUtility.getResourceByName("config/extension-filters.json").toURI()))) {
+        try (BufferedReader bufferedReader = new BufferedReader(
+                new InputStreamReader(ResourceUtility.getResourceByNameAsStream("config/extension-filters.json")))) {
+
             filters = bufferedReader.readAllAsString();
 
             var fileChooser = new FileChooser();
@@ -78,7 +76,7 @@ public class SaveFileUtility {
             }
 
             return false;
-        } catch (IOException | URISyntaxException e) {
+        } catch (IOException e) {
             // ToDo: Error here
             throw new RuntimeException(e);
         }

@@ -4,12 +4,8 @@ import com.bwxor.piejfx.factory.TabFactory;
 import com.bwxor.piejfx.state.CodeAreaState;
 import com.bwxor.piejfx.type.NotificationYesNoCancelOption;
 import com.bwxor.piejfx.type.RemoveSelectedTabFromPaneResponse;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.stage.Stage;
 import org.fxmisc.richtext.CodeArea;
 
 import java.io.BufferedReader;

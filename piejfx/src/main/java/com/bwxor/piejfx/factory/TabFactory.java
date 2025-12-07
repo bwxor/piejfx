@@ -37,9 +37,6 @@ public class TabFactory {
                     individualState.setFontSize(individualState.getFontSize() - 2);
                     codeArea.setStyle(String.format("-fx-font-size: %dpt", individualState.getFontSize()));
                 }
-                else if (e.getCode().equals(KeyCode.S)) {
-                    SaveFileUtility.saveFile(tabPane);
-                }
             }
         });
 

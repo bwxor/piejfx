@@ -55,6 +55,9 @@ public class EditorController {
             else if (keyEvent.getCode().equals(KeyCode.W)) {
                 TabPaneUtility.removeSelectedTabFromPane(tabPane);
             }
+            else if (keyEvent.getCode().equals(KeyCode.S)) {
+                SaveFileUtility.saveFile(tabPane);
+            }
         }
     }
 }
