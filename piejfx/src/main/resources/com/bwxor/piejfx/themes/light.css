@@ -133,3 +133,40 @@
 .styled-text-area .paragraph-box:has-caret {
     -fx-background-color: #F7F7F7;
 }
+
+/* --- Buttons --- */
+.button {
+    -fx-background-color: #E9E9E9;
+    -fx-border-color: #DEDEDE;
+    -fx-text-fill: #000000;
+    -fx-font-size: 12px;
+    -fx-font-weight: normal;
+    -fx-padding: 4px;
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #F0F0F0;
+}
+
+.button:focused {
+    -fx-border-color: #0090eb;
+}
+
+.button:disabled {
+    -fx-opacity: 0.5;
+    -fx-cursor: default;
+}
+
+/* -- Notification TextArea -- */
+.text-area {
+    -fx-background-color: transparent;
+    -fx-border-width: 0px;
+    -fx-padding: 5px;
+}
+
+.text-area .content {
+    -fx-background-color: transparent;
+}

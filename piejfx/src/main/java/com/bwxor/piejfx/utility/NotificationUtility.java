@@ -27,8 +27,10 @@ public class NotificationUtility {
 
         NotificationYesNoCancelController controller = loader.getController();
         controller.setNotificationText(notificationText);
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(ResourceUtility.getResourceByName("themes/light.css").toExternalForm());
         Stage stage = new Stage();
-        stage.setScene(new Scene(root));
+        stage.setScene(scene);
         stage.setTitle("Notification");
         stage.getIcons().add(new Image(Objects.requireNonNull(ResourceUtility.getResourceByNameAsStream("img/icon.png"))));
         stage.setResizable(false);
