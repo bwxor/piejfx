@@ -1,10 +1,7 @@
 package com.bwxor.piejfx.controller;
 
 import com.bwxor.piejfx.state.ThemeState;
-import com.bwxor.piejfx.utility.OpenFileUtility;
-import com.bwxor.piejfx.utility.SaveFileUtility;
-import com.bwxor.piejfx.utility.TabPaneUtility;
-import com.bwxor.piejfx.utility.ThemeUtility;
+import com.bwxor.piejfx.utility.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Menu;
 import javafx.scene.control.TabPane;
@@ -43,6 +40,11 @@ public class EditorController {
     @FXML
     public void onSaveAsButtonClickEvent() {
         SaveFileUtility.saveFileAs(tabPane);
+    }
+
+    @FXML
+    public void onAboutButtonClickEvent() {
+        AboutUtility.showAboutPage();
     }
 
     @FXML

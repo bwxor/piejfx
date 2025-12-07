@@ -193,3 +193,8 @@
 AnchorPane {
     -fx-background-color: #1e1e1e;
 }
+
+/* --- Label --- */
+.label {
+    -fx-text-fill: #EDEDED;
+}

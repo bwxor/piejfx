@@ -1,8 +1,6 @@
 package com.bwxor.piejfx.utility;
 
-import com.bwxor.piejfx.Application;
 import com.bwxor.piejfx.controller.NotificationYesNoCancelController;
-import com.bwxor.piejfx.state.StageState;
 import com.bwxor.piejfx.state.ThemeState;
 import com.bwxor.piejfx.type.NotificationYesNoCancelOption;
 import javafx.fxml.FXMLLoader;
@@ -15,9 +13,9 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.util.Objects;
 
-public class NotificationUtility {
-    public static NotificationYesNoCancelOption showNotificationYesNoCancel(String notificationText) {
-        FXMLLoader loader = new FXMLLoader(ResourceUtility.getResourceByName("notification-yesnocancel-view.fxml"));
+public class AboutUtility {
+    public static void showAboutPage() {
+        FXMLLoader loader = new FXMLLoader(ResourceUtility.getResourceByName("about-view.fxml"));
         Parent root;
 
         try {
@@ -27,21 +25,14 @@ public class NotificationUtility {
             throw new RuntimeException(e);
         }
 
-        NotificationYesNoCancelController controller = loader.getController();
-        controller.setNotificationText(notificationText);
         Scene scene = new Scene(root);
         scene.getStylesheets().add(ThemeState.instance.getCurrentTheme().getUrl().toExternalForm());
         Stage stage = new Stage();
         stage.setScene(scene);
-        stage.setTitle("Notification");
-        stage.setOnCloseRequest(e -> {
-            controller.setPickedOption(NotificationYesNoCancelOption.CANCEL);
-        });
+        stage.setTitle("About");
         stage.getIcons().add(new Image(Objects.requireNonNull(ResourceUtility.getResourceByNameAsStream("img/icon.png"))));
         stage.setResizable(false);
         stage.initStyle(StageStyle.UTILITY);
         stage.showAndWait();
-
-        return controller.getPickedOption();
     }
 }
