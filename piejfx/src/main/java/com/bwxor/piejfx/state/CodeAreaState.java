@@ -16,7 +16,9 @@ public final class CodeAreaState {
         }
 
         public void setFontSize(int fontSize) {
-            this.fontSize = fontSize;
+            if (fontSize >= 10 && fontSize <= 30) {
+                this.fontSize = fontSize;
+            }
         }
 
         public File getOpenedFile() {
