@@ -9,6 +9,7 @@ public final class CodeAreaState {
         private int fontSize = 10;
         private File openedFile;
         private String content;
+        private boolean saved;
 
         public int getFontSize() {
             return fontSize;
@@ -32,6 +33,14 @@ public final class CodeAreaState {
 
         public void setContent(String content) {
             this.content = content;
+        }
+
+        public boolean isSaved() {
+            return saved;
+        }
+
+        public void setSaved(boolean saved) {
+            this.saved = saved;
         }
     }
 

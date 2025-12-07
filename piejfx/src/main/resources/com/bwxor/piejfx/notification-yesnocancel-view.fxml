@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="87.0" prefWidth="407.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bwxor.piejfx.controller.NotificationYesNoCancelController">
+    <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="213.0" prefWidth="475.0" styleClass="app-window" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
+        <children>
+            <AnchorPane prefHeight="700.0">
+                <children>
+                    <TextArea fx:id="notificationText" editable="false" prefHeight="274.0" prefWidth="475.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="300.0">
+                <children>
+                    <ButtonBar prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                        <buttons>
+                            <Button fx:id="buttonYes" mnemonicParsing="false" onAction="#onYesButtonClickEvent" text="Yes" />
+                            <Button fx:id="buttonNo" mnemonicParsing="false" onAction="#onNoButtonClickEvent" text="No" />
+                            <Button fx:id="buttonCancel" mnemonicParsing="false" onAction="#onCancelButtonClickEvent" text="Cancel" />
+                        </buttons>
+                    </ButtonBar>
+                </children>
+            </AnchorPane>
+        </children>
+        <VBox.margin>
+            <Insets />
+        </VBox.margin>
+    </VBox>
+</AnchorPane>

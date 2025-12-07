@@ -2,8 +2,13 @@ package com.bwxor.piejfx.utility;
 
 import com.bwxor.piejfx.factory.TabFactory;
 import com.bwxor.piejfx.state.CodeAreaState;
+import com.bwxor.piejfx.type.NotificationYesNoCancelOption;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.stage.Stage;
 import org.fxmisc.richtext.CodeArea;
 
 import java.io.BufferedReader;
@@ -30,6 +35,7 @@ public class TabPaneUtility {
         if (tab.getContent() instanceof CodeArea c) {
             CodeAreaState.IndividualState individualState = CodeAreaState.instance.getIndividualStates().get(Integer.parseInt(c.getId()));
             individualState.setOpenedFile(file);
+            individualState.setSaved(true);
 
             try (BufferedReader bufferedReader = Files.newBufferedReader(file.toPath(), StandardCharsets.UTF_8))
             {
@@ -55,7 +61,27 @@ public class TabPaneUtility {
     }
 
     public static void removeSelectedTabFromPane(TabPane tabPane) {
-        CodeAreaState.instance.getIndividualStates().remove(tabPane.getSelectionModel().getSelectedIndex());
+        CodeAreaState.IndividualState individualState = CodeAreaState.instance.getIndividualStates().get(tabPane.getSelectionModel().getSelectedIndex());
+
+        if (!individualState.isSaved()) {
+            boolean repeatPrompt;
+
+            do {
+                repeatPrompt = false;
+
+                var pickedOption = NotificationUtility.showNotificationYesNoCancel("Save file before closing?");
+
+                if (pickedOption.equals(NotificationYesNoCancelOption.CANCEL)) {
+                    return;
+                } else if (pickedOption.equals(NotificationYesNoCancelOption.YES)) {
+                    if (!SaveFileUtility.saveFile(tabPane)) {
+                        repeatPrompt = true;
+                    }
+                }
+            } while(repeatPrompt);
+        }
+
+        CodeAreaState.instance.getIndividualStates().remove(individualState);
         tabPane.getTabs().remove(tabPane.getSelectionModel().getSelectedItem());
 
         if (tabPane.getTabs().isEmpty()) {

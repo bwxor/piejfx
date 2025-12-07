@@ -12,9 +12,18 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 public class SaveFileUtility {
-    public static void saveFile(TabPane tabPane, CodeAreaState.IndividualState state) {
+    /**
+     * Saves the content of the CodeArea present at the selected tab. If no file is associated with it, a saveFileAs
+     * is triggered.
+     *
+     * @param tabPane
+     * @return true if file has been saved successfully and false otherwise
+     */
+    public static boolean saveFile(TabPane tabPane) {
+        CodeAreaState.IndividualState state = CodeAreaState.instance.getIndividualStates().get(tabPane.getSelectionModel().getSelectedIndex());
+
         if (state.getOpenedFile() == null) {
-            saveFileAs(tabPane, state);
+            return saveFileAs(tabPane);
         } else {
             try (BufferedWriter br = Files.newBufferedWriter(state.getOpenedFile().toPath(), StandardCharsets.UTF_8)) {
                 br.write(state.getContent());
@@ -23,11 +32,22 @@ public class SaveFileUtility {
                 throw new RuntimeException(e);
             }
 
+            state.setSaved(true);
             tabPane.getSelectionModel().getSelectedItem().setText(state.getOpenedFile().getName());
         }
+
+        return true;
     }
 
-    public static void saveFileAs(TabPane tabPane, CodeAreaState.IndividualState state) {
+    /**
+     * Opens a @ref FileChooser and saves the content of the selected tab into the chosen file.
+     *
+     * @param tabPane
+     * @return true if a file has been chosen and false otherwise
+     */
+    public static boolean saveFileAs(TabPane tabPane) {
+        CodeAreaState.IndividualState state = CodeAreaState.instance.getIndividualStates().get(tabPane.getSelectionModel().getSelectedIndex());
+
         var fileChooser = new FileChooser();
 
         // ToDo: This needs to get externalized :)
@@ -98,7 +118,9 @@ public class SaveFileUtility {
 
         if (selectedFile != null) {
             state.setOpenedFile(selectedFile);
-            saveFile(tabPane, state);
+            return saveFile(tabPane);
         }
+
+        return false;
     }
 }

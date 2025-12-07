@@ -19,7 +19,10 @@ public class TabFactory {
 
         CodeArea codeArea = new CodeArea();
         codeArea.setStyle(String.format("-fx-font-size: %dpt", 10));
-        CodeAreaState.instance.getIndividualStates().add(new CodeAreaState.IndividualState());
+
+        CodeAreaState.IndividualState createdState = new CodeAreaState.IndividualState();
+        createdState.setSaved(true);
+        CodeAreaState.instance.getIndividualStates().add(createdState);
 
         codeArea.setOnKeyPressed(e -> {
             if (e.isControlDown()) {
@@ -34,7 +37,7 @@ public class TabFactory {
                     codeArea.setStyle(String.format("-fx-font-size: %dpt", individualState.getFontSize()));
                 }
                 else if (e.getCode().equals(KeyCode.S)) {
-                    SaveFileUtility.saveFile(tabPane, individualState);
+                    SaveFileUtility.saveFile(tabPane);
                 }
             }
         });
@@ -44,7 +47,8 @@ public class TabFactory {
                     CodeAreaState.IndividualState individualState = CodeAreaState.instance.getIndividualStates().get(Integer.parseInt(codeArea.getId()));
                     individualState.setContent(codeArea.getText());
 
-                    if (!tab.getText().startsWith("*")) {
+                    if (individualState.isSaved()) {
+                        individualState.setSaved(false);
                         tab.setText("*" + tab.getText());
                     }
                 }

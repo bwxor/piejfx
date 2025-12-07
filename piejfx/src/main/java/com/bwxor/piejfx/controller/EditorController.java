@@ -30,12 +30,12 @@ public class EditorController {
 
     @FXML
     public void onSaveButtonClickEvent() {
-        SaveFileUtility.saveFile(tabPane, CodeAreaState.instance.getIndividualStates().get(tabPane.getSelectionModel().getSelectedIndex()));
+        SaveFileUtility.saveFile(tabPane);
     }
 
     @FXML
     public void onSaveAsButtonClickEvent() {
-        SaveFileUtility.saveFileAs(tabPane, CodeAreaState.instance.getIndividualStates().get(tabPane.getSelectionModel().getSelectedIndex()));
+        SaveFileUtility.saveFileAs(tabPane);
     }
 
     @FXML
