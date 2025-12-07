@@ -3,6 +3,7 @@ package com.bwxor.piejfx.utility;
 import com.bwxor.piejfx.Application;
 import com.bwxor.piejfx.controller.NotificationYesNoCancelController;
 import com.bwxor.piejfx.state.StageState;
+import com.bwxor.piejfx.state.ThemeState;
 import com.bwxor.piejfx.type.NotificationYesNoCancelOption;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -28,7 +29,7 @@ public class NotificationUtility {
         NotificationYesNoCancelController controller = loader.getController();
         controller.setNotificationText(notificationText);
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(ResourceUtility.getResourceByName("themes/light.css").toExternalForm());
+        scene.getStylesheets().add(ThemeState.instance.getCurrentTheme().getUrl().toExternalForm());
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.setTitle("Notification");

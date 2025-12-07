@@ -1,0 +1,191 @@
+/* --- TabPane --- */
+.tab-pane {
+    -fx-background-color: #1e1e1e;
+    -fx-border-color: #3e3e42;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+}
+
+.tab-pane .tab-header-area {
+    -fx-padding: 0 0 0 0;
+    -fx-background-color: #252526;
+    -fx-min-height: 35px;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: #2d2d30;
+}
+
+.tab-pane .tab-header-area .tab {
+    -fx-padding: 2px 10px;
+    -fx-background-color: #2d2d30;
+    -fx-border-color: #3e3e42;
+    -fx-border-width: 0 1px 0 0;
+    -fx-border-radius: 0;
+}
+
+.tab-pane .tab-header-area .tab:hover {
+    -fx-background-color: #3e3e42;
+}
+
+.tab-pane .tab-header-area .tab:selected {
+    -fx-background-color: #1e1e1e;
+    -fx-border-width: 0 1px 2px 0;
+    -fx-border-color: transparent #3e3e42 #0090eb transparent;
+
+    -fx-border-radius: 0;
+    -fx-text-fill: #d4d4d4;
+}
+
+.tab-pane .tab-content-area {
+    -fx-background-color: #1e1e1e;
+    -fx-padding: 10px;
+    -fx-border-color: #3e3e42;
+}
+
+.tab-pane .tab-header-area .tab .tab-label {
+    -fx-text-fill: #969696;
+    -fx-font-size: 12px;
+}
+
+.tab-pane .tab-header-area .tab:selected .tab-label {
+    -fx-text-fill: #4fc3f7;
+}
+
+.tab-pane .tab-header-area .tab .tab-close-button:hover {
+    -fx-background-color: #e74c3c;
+}
+
+.tab-pane:focused>.tab-header-area>.headers-region>.tab:selected .focus-indicator {
+   -fx-border-width: 0px;
+}
+
+/* --- MenuBar --- */
+.menu-bar {
+    -fx-background-color: #2d2d30;
+    -fx-padding-left: 5px;
+    -fx-padding-right: 5px;
+}
+
+.menu-bar > .container > .menu-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #cccccc;
+}
+
+.menu-bar > .container > .menu-button:hover {
+    -fx-background-color: #0090eb;
+    -fx-text-fill: #ffffff;
+}
+
+.menu-bar > .container > .menu-button:showing {
+    -fx-background-color: #0090eb;
+    -fx-text-fill: #ffffff;
+}
+
+.menu-bar > .container > .menu-button > .label {
+    -fx-text-fill: #cccccc;
+}
+
+.menu-bar > .container > .menu-button:hover > .label {
+    -fx-text-fill: white;
+}
+
+.menu-bar > .container > .menu-button:showing > .label {
+    -fx-text-fill: white;
+}
+
+/* --- Menu Dropdown Items --- */
+.context-menu {
+    -fx-background-color: #252526;
+    -fx-border-color: #3e3e42;
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 10, 0, 0, 2);
+}
+
+.menu-item {
+    -fx-background-color: transparent;
+    -fx-text-fill: #cccccc;
+    -fx-padding-left: 5px;
+    -fx-padding-right: 5px;
+}
+
+.menu-item:hover {
+    -fx-background-color: #0090eb;
+    -fx-text-fill: white;
+}
+
+.menu-item .label {
+    -fx-text-fill: inherit;
+    -fx-font-size: 13px;
+}
+
+/* --- RichTextFX Area --- */
+.styled-text-area {
+    -fx-background-color: #1e1e1e;
+}
+
+.styled-text-area .content {
+    -fx-background-color: #1e1e1e;
+}
+
+.styled-text-area .text {
+    -fx-fill: #ffffff;
+}
+
+/* --- Number Margin --- */
+.lineno {
+    -fx-background-color: #252526;
+    -fx-font-style: normal;
+}
+
+.lineno .text {
+    -fx-fill: #858585;
+}
+
+/* --- Caret Line --- */
+.styled-text-area .paragraph-box:has-caret {
+    -fx-background-color: #2a2a2a;
+}
+
+/* --- Buttons --- */
+.button {
+    -fx-background-color: #3e3e42;
+    -fx-border-color: #5a5a5e;
+    -fx-text-fill: #cccccc;
+    -fx-font-size: 12px;
+    -fx-font-weight: normal;
+    -fx-padding: 4px;
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #505054;
+}
+
+.button:focused {
+    -fx-border-color: #0090eb;
+}
+
+.button:disabled {
+    -fx-opacity: 0.5;
+    -fx-cursor: default;
+}
+
+/* -- Notification TextArea -- */
+.text-area {
+    -fx-background-color: #1e1e1e;
+    -fx-border-width: 0px;
+    -fx-padding: 5px;
+    -fx-text-fill: #EDEDED;
+}
+
+.text-area .content {
+    -fx-background-color: #1e1e1e;
+}
+
+/* --- AnchorPane --- */
+AnchorPane {
+    -fx-background-color: #1e1e1e;
+}

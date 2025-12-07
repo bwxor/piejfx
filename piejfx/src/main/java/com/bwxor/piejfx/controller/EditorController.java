@@ -1,9 +1,12 @@
 package com.bwxor.piejfx.controller;
 
+import com.bwxor.piejfx.state.ThemeState;
 import com.bwxor.piejfx.utility.OpenFileUtility;
 import com.bwxor.piejfx.utility.SaveFileUtility;
 import com.bwxor.piejfx.utility.TabPaneUtility;
+import com.bwxor.piejfx.utility.ThemeUtility;
 import javafx.fxml.FXML;
+import javafx.scene.control.Menu;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -13,7 +16,12 @@ public class EditorController {
     private TabPane tabPane;
 
     @FXML
+    private Menu themesMenu;
+
+    @FXML
     public void initialize() {
+        ThemeState.instance.setThemes(ThemeUtility.getThemes());
+        ThemeUtility.loadMenuWithThemes(themesMenu, ThemeState.instance.getThemes());
         TabPaneUtility.addTabToPane(tabPane, "Untitled");
     }
 

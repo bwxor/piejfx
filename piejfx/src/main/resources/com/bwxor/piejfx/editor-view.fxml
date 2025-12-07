@@ -4,40 +4,56 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane  maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyPressed="#onKeyPressed" prefHeight="475.0" prefWidth="475.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bwxor.piejfx.controller.EditorController">
-    <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="475.0" styleClass="app-window" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyPressed="#onKeyPressed"
+            prefHeight="475.0" prefWidth="475.0" xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bwxor.piejfx.controller.EditorController">
+    <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="475.0"
+          styleClass="app-window" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+          AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
         <children>
-         <AnchorPane prefHeight="23.0" prefWidth="475.0">
-            <children>
-               <MenuBar layoutX="14.0" layoutY="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                 <menus>
-                   <Menu mnemonicParsing="false" text="File">
-                     <items>
-                       <MenuItem mnemonicParsing="false" text="New" onAction="#onNewButtonClickEvent"/>
-                       <MenuItem mnemonicParsing="false" text="Open..." onAction="#onOpenButtonClickEvent" />
-                       <MenuItem mnemonicParsing="false" text="Save" onAction="#onSaveButtonClickEvent" />
-                       <MenuItem mnemonicParsing="false" text="Save as..." onAction="#onSaveAsButtonClickEvent" />
-                     </items>
-                   </Menu>
-                   <Menu mnemonicParsing="false" text="Help">
-                     <items>
-                       <MenuItem mnemonicParsing="false" text="Cheatsheet" />
-                       <MenuItem mnemonicParsing="false" text="About" />
-                     </items>
-                   </Menu>
-                 </menus>
-               </MenuBar>
-            </children>
-         </AnchorPane>
-         <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-            <children>
-               <TabPane fx:id="tabPane" layoutX="122.0" layoutY="43.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="SELECTED_TAB" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               </TabPane>
-            </children>
-         </AnchorPane>
+            <AnchorPane prefHeight="23.0" prefWidth="475.0">
+                <children>
+                    <MenuBar layoutX="14.0" layoutY="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                        <menus>
+                            <Menu mnemonicParsing="false" text="File">
+                                <items>
+                                    <MenuItem mnemonicParsing="false" text="New" onAction="#onNewButtonClickEvent"/>
+                                    <MenuItem mnemonicParsing="false" text="Open..."
+                                              onAction="#onOpenButtonClickEvent"/>
+                                    <MenuItem mnemonicParsing="false" text="Save" onAction="#onSaveButtonClickEvent"/>
+                                    <MenuItem mnemonicParsing="false" text="Save as..."
+                                              onAction="#onSaveAsButtonClickEvent"/>
+                                </items>
+                            </Menu>
+                            <Menu mnemonicParsing="false" text="Appearance">
+                                <items>
+                                    <Menu fx:id="themesMenu" mnemonicParsing="false" text="Themes">
+                                        <items>
+                                        </items>
+                                    </Menu>
+                                </items>
+                            </Menu>
+                            <Menu mnemonicParsing="false" text="Help">
+                                <items>
+                                    <MenuItem mnemonicParsing="false" text="Cheatsheet"/>
+                                    <MenuItem mnemonicParsing="false" text="About"/>
+                                </items>
+                            </Menu>
+                        </menus>
+                    </MenuBar>
+                </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                <children>
+                    <TabPane fx:id="tabPane" layoutX="122.0" layoutY="43.0" prefHeight="200.0" prefWidth="200.0"
+                             tabClosingPolicy="SELECTED_TAB" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                             AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    </TabPane>
+                </children>
+            </AnchorPane>
         </children>
         <VBox.margin>
-            <Insets />
+            <Insets/>
         </VBox.margin>
     </VBox>
 </AnchorPane>

@@ -1,6 +1,7 @@
 package com.bwxor.piejfx;
 
 import com.bwxor.piejfx.state.StageState;
+import com.bwxor.piejfx.state.ThemeState;
 import com.bwxor.piejfx.type.RemoveSelectedTabFromPaneResponse;
 import com.bwxor.piejfx.utility.ResourceUtility;
 import com.bwxor.piejfx.utility.TabPaneUtility;
@@ -20,7 +21,7 @@ public class Application extends javafx.application.Application {
 
         FXMLLoader fxmlLoader = new FXMLLoader(ResourceUtility.getResourceByName("editor-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 750, 500);
-        scene.getStylesheets().add(ResourceUtility.getResourceByName("themes/light.css").toExternalForm());
+        scene.getStylesheets().add(ThemeState.instance.getCurrentTheme().getUrl().toExternalForm());
         stage.setTitle("piejfx");
         stage.getIcons().add(new Image(Objects.requireNonNull(ResourceUtility.getResourceByNameAsStream("img/icon.png"))));
         stage.setScene(scene);
