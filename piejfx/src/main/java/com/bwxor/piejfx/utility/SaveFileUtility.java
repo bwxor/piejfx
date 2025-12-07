@@ -55,7 +55,6 @@ public class SaveFileUtility {
 
         String filters;
 
-        // ToDo: This needs to get externalized :)
         try (BufferedReader bufferedReader = Files.newBufferedReader(
                 Paths.get(ResourceUtility.getResourceByName("config/extension-filters.json").toURI()))) {
             filters = bufferedReader.readAllAsString();

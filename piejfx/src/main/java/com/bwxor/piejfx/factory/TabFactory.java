@@ -5,6 +5,7 @@ import com.bwxor.piejfx.utility.SaveFileUtility;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.ScrollEvent;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 
@@ -41,6 +42,23 @@ public class TabFactory {
                 }
             }
         });
+
+        codeArea.addEventFilter(ScrollEvent.SCROLL,
+                e -> {
+                    if (e.isControlDown()) {
+                        CodeAreaState.IndividualState individualState = CodeAreaState.instance.getIndividualStates().get(Integer.parseInt(codeArea.getId()));
+                        
+                        if (e.getDeltaY() > 0) {
+                            individualState.setFontSize(individualState.getFontSize() + 2);
+                            codeArea.setStyle(String.format("-fx-font-size: %dpt", individualState.getFontSize()));
+                        }
+                        else {
+                            individualState.setFontSize(individualState.getFontSize() - 2);
+                            codeArea.setStyle(String.format("-fx-font-size: %dpt", individualState.getFontSize()));
+                        }
+                    }
+                }
+        );
 
         codeArea.plainTextChanges().subscribe(
                 e -> {
