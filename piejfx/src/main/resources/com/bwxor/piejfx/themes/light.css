@@ -131,5 +131,5 @@
 
 /* --- Caret Line --- */
 .styled-text-area .paragraph-box:has-caret {
-    -fx-background-color: #e8f4ff;
+    -fx-background-color: #F7F7F7;
 }
