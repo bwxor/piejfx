@@ -32,6 +32,9 @@ public class NotificationUtility {
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.setTitle("Notification");
+        stage.setOnCloseRequest(e -> {
+            controller.setPickedOption(NotificationYesNoCancelOption.CANCEL);
+        });
         stage.getIcons().add(new Image(Objects.requireNonNull(ResourceUtility.getResourceByNameAsStream("img/icon.png"))));
         stage.setResizable(false);
         stage.showAndWait();

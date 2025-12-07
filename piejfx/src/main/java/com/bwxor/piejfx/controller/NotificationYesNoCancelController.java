@@ -21,6 +21,10 @@ public class NotificationYesNoCancelController {
         return pickedOption;
     }
 
+    public void setPickedOption(NotificationYesNoCancelOption pickedOption) {
+        this.pickedOption = pickedOption;
+    }
+
     public void setNotificationText(String text) {
         notificationText.setText(text);
     }
