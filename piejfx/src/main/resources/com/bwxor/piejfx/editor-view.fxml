@@ -31,7 +31,7 @@
          </AnchorPane>
          <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
             <children>
-               <TabPane fx:id="tabPane" layoutX="122.0" layoutY="43.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <TabPane fx:id="tabPane" layoutX="122.0" layoutY="43.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="SELECTED_TAB" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                </TabPane>
             </children>
          </AnchorPane>

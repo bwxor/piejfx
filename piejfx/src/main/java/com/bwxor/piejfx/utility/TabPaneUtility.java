@@ -53,6 +53,10 @@ public class TabPaneUtility {
 
     public static void addTabToPane(TabPane tabPane, String tabTitle) {
         Tab tab = TabFactory.createEditorTab(tabPane, tabTitle);
+        tab.setOnCloseRequest(e -> {
+            removeSelectedTabFromPane(tabPane);
+            e.consume();
+        });
         tabPane.getTabs().add(tab);
 
         resyncCodeAreaIds(tabPane);

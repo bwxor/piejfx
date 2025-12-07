@@ -1,0 +1,105 @@
+/* --- TabPane --- */
+.tab-pane {
+    /* Set the background color of the entire control */
+    -fx-background-color: #ffffff;
+    /* Set the border around the entire TabPane */
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+}
+
+/* --- 2. Tab Header Area (The strip that holds the tabs) --- */
+.tab-pane .tab-header-area {
+    -fx-padding: 0 0 0 0; /* Adjust padding around the header area */
+    -fx-background-color: #e0e0e0; /* Background color of the header strip */
+    -fx-min-height: 35px; /* Minimum height for the header strip */
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: #F5F5F5;
+}
+
+/* --- 3. Tab Headers (The actual Tab button) --- */
+.tab-pane .tab-header-area .tab {
+    /* Set padding within each individual tab */
+    -fx-padding: 2px 10px;
+    -fx-background-color: #F7F7F7; /* Default background color of a tab */
+    -fx-border-color: #bbbbbb;
+    -fx-border-width: 0 1px 0 0; /* Optional: vertical separation between tabs */
+    -fx-border-radius: 0;
+}
+
+/* --- 3a. Hovered Tab Header --- */
+.tab-pane .tab-header-area .tab:hover {
+    -fx-background-color: #EBEBEB; /* Color when the mouse hovers over a tab */
+}
+
+/* --- 3b. Selected (Active) Tab Header --- */
+.tab-pane .tab-header-area .tab:selected {
+    -fx-background-color: white; /* Highlight color for the active tab */
+    /* Remove the bottom border to make it look connected to the content area */
+    -fx-border-width: 0 1px 2px 0;
+    -fx-border-color: transparent #bbbbbb #0090eb transparent;
+
+    -fx-border-radius: 0; /* Rounded top corners */
+    -fx-text-fill: #333333;
+}
+
+/* --- 4. Tab Content Area (The area below the headers) --- */
+.tab-pane .tab-content-area {
+    -fx-background-color: white; /* Background color of the area where the Tab's content is displayed */
+    -fx-padding: 10px; /* Padding around the content inside the TabPane */
+    -fx-border-color: #cccccc;
+}
+
+/* --- 5. Tab Label (Text inside the Tab) --- */
+.tab-pane .tab-header-area .tab .tab-label {
+    -fx-text-fill: #555555; /* Default text color */
+    -fx-font-size: 12px;
+}
+
+/* --- 5a. Selected Tab Label (Text inside the Active Tab) --- */
+.tab-pane .tab-header-area .tab:selected .tab-label {
+    -fx-text-fill: #0078d7; /* Text color for the active tab */
+}
+
+/* --- 6. Tab Close Button (The 'x' icon) --- */
+.tab-pane .tab-header-area .tab .tab-close-button {
+}
+
+/* --- 6a. Close Button Icon Color (The 'x' path color) --- */
+.tab-pane .tab-header-area .tab .tab-close-button:hover {
+    -fx-background-color: #ff0000; /* Highlight color on hover */
+}
+
+.tab-pane:focused>.tab-header-area>.headers-region>.tab:selected .focus-indicator {
+   -fx-border-width: 0px;
+}
+
+/* --- MenuBar --- */
+.menu-bar {
+    -fx-background-color: #f5f5f5; /* Dark blue-gray */
+    -fx-padding-left: 5px;
+    -fx-padding-right: 5px;
+}
+
+/* --- Top-level Menu Items (File, Edit, etc.) --- */
+.menu-bar > .container > .menu-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: black;
+}
+
+.menu-bar > .container > .menu-button:hover {
+    -fx-background-color: #0090eb; /* Lighter on hover */
+    -fx-text-fill: #ffffff;
+}
+
+.menu-bar > .container > .menu-button:showing {
+    -fx-background-color: #0090eb; /* When menu is open */
+    -fx-text-fill: #ffffff;
+}
+
+/* --- Menu Labels --- */
+.menu-bar > .container > .menu-button > .label {
+    -fx-text-fill: black;
+}

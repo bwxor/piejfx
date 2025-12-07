@@ -20,6 +20,7 @@ public class Application extends javafx.application.Application {
 
         FXMLLoader fxmlLoader = new FXMLLoader(ResourceUtility.getResourceByName("editor-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 750, 500);
+        scene.getStylesheets().add(ResourceUtility.getResourceByName("themes/light.css").toExternalForm());
         stage.setTitle("piejfx");
         stage.getIcons().add(new Image(Objects.requireNonNull(ResourceUtility.getResourceByNameAsStream("img/icon.png"))));
         stage.setScene(scene);
@@ -34,6 +35,7 @@ public class Application extends javafx.application.Application {
                         var saveResponse = TabPaneUtility.removeSelectedTabFromPane(tabPane);
                         if (saveResponse.equals(RemoveSelectedTabFromPaneResponse.CANCELLED)) {
                             e.consume();
+                            return;
                         }
                     }
                 }
