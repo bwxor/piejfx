@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ThemeUtility {
-    private static final String THEME_FOLDER = "themes/";
+    private static final String THEME_FOLDER = "config/themes/";
 
     public static List<ThemeState.Theme> getThemes() {
         List<ThemeState.Theme> themes = new ArrayList<>();
