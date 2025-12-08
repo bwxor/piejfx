@@ -1,8 +1,11 @@
 package com.bwxor.piejfx.state;
 
+import com.bwxor.piejfx.entity.GrammarRule;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public final class CodeAreaState {
     public static class IndividualState {
@@ -10,6 +13,7 @@ public final class CodeAreaState {
         private File openedFile;
         private String content;
         private boolean saved;
+        private List<GrammarRule> grammarRules;
 
         public int getFontSize() {
             return fontSize;
@@ -43,6 +47,14 @@ public final class CodeAreaState {
 
         public void setSaved(boolean saved) {
             this.saved = saved;
+        }
+
+        public List<GrammarRule> getGrammarRules() {
+            return grammarRules;
+        }
+
+        public void setGrammarRules(List<GrammarRule> grammarRules) {
+            this.grammarRules = grammarRules;
         }
     }
 

@@ -11,5 +11,6 @@ public interface AppDirConstants {
     String APP_AUTHOR = "Mario-Mihai Mateas";
     String USER_DATA_DIR = AppDirsFactory.getInstance().getUserDataDir(APP_NAME, APP_VERSION, APP_AUTHOR);
     Path CONFIG_DIR = Paths.get(USER_DATA_DIR, "config");
+    Path GRAMMARS_DIR = Paths.get(CONFIG_DIR.toString(), "grammars");
     Path CONFIG_FILE = Paths.get(CONFIG_DIR.toString(), "config.json");
 }

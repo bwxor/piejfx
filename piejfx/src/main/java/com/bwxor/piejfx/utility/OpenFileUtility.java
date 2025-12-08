@@ -21,6 +21,7 @@ public class OpenFileUtility {
         TabPaneUtility.addTabToPane(tabPane, file);
 
         CodeAreaState.IndividualState state = CodeAreaState.instance.getIndividualStates().get(tabPane.getSelectionModel().getSelectedIndex());
+        state.setGrammarRules(GrammarUtility.loadGrammar(file.getName().substring(file.getName().lastIndexOf(".") + 1)));
         state.setSaved(true);
         tabPane.getSelectionModel().getSelectedItem().setText(state.getOpenedFile().getName());
     }

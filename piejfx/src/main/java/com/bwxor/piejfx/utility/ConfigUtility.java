@@ -2,14 +2,11 @@ package com.bwxor.piejfx.utility;
 
 import com.bwxor.piejfx.constants.AppDirConstants;
 import com.bwxor.piejfx.state.ThemeState;
-import net.harawata.appdirs.AppDirsFactory;
 import org.json.JSONObject;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 
 public class ConfigUtility {
     public static void loadConfig() {
