@@ -8,17 +8,33 @@ import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+import java.io.File;
+import java.util.List;
+
 public class EditorController {
+    private List<String> parameters;
     @FXML
     private TabPane tabPane;
 
     @FXML
     private Menu themesMenu;
 
+    public void setParameters(List<String> parameters) {
+        this.parameters = parameters;
+    }
+
+    public void handleParameters() {
+        if (!parameters.isEmpty()) {
+            OpenFileUtility.openFile(tabPane, new File(parameters.getFirst()));
+        }
+        else {
+            TabPaneUtility.addTabToPane(tabPane, "Untitled");
+        }
+    }
+
     @FXML
     public void initialize() {
         ThemeUtility.loadMenuWithThemes(themesMenu, ThemeState.instance.getThemes());
-        TabPaneUtility.addTabToPane(tabPane, "Untitled");
     }
 
     @FXML

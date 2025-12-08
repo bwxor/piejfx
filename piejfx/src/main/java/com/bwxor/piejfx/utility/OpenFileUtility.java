@@ -13,11 +13,15 @@ public class OpenFileUtility {
         File selectedFile = fileChooser.showOpenDialog(StageState.instance.getStage());
 
         if (selectedFile != null) {
-            TabPaneUtility.addTabToPane(tabPane, selectedFile);
-
-            CodeAreaState.IndividualState state = CodeAreaState.instance.getIndividualStates().get(tabPane.getSelectionModel().getSelectedIndex());
-            state.setSaved(true);
-            tabPane.getSelectionModel().getSelectedItem().setText(state.getOpenedFile().getName());
+            openFile(tabPane, selectedFile);
         }
+    }
+
+    public static void openFile(TabPane tabPane, File file) {
+        TabPaneUtility.addTabToPane(tabPane, file);
+
+        CodeAreaState.IndividualState state = CodeAreaState.instance.getIndividualStates().get(tabPane.getSelectionModel().getSelectedIndex());
+        state.setSaved(true);
+        tabPane.getSelectionModel().getSelectedItem().setText(state.getOpenedFile().getName());
     }
 }
