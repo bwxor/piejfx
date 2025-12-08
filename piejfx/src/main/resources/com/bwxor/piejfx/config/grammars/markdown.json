@@ -1,0 +1,10 @@
+{
+  "extensions": [".md"],
+  "rules": {
+    "headers": { "type": "header", "regex": "^#{1,6}\\s+.*" },
+    "bold": { "type": "bold", "regex": "\\*\\*[^*]+\\*\\*" },
+    "italic": { "type": "italic", "regex": "\\*[^*]+\\*" },
+    "code": { "type": "code", "regex": "`[^`]+`" },
+    "links": { "type": "link", "regex": "\\[[^\\]]+\\]\\([^)]+\\)" }
+  }
+}

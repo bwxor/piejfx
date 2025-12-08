@@ -1,0 +1,16 @@
+{
+  "extensions": [".go"],
+  "rules": {
+    "leading_spaces": { "type": "indent", "regex": "^\\s+" },
+    "keywords": {
+      "type": "keyword",
+      "regex": "\\b(break|case|chan|const|continue|default|defer|else|for|func|go|goto|if|import|interface|map|package|range|return|select|struct|switch|type|var)\\b"
+    },
+    "strings": { "type": "string", "regex": "`[\\s\\S]*?`|\"(\\\\.|[^\"\\\\])*\"" },
+    "comments": { "type": "comment", "regex": "//.*|/\\*[\\s\\S]*?\\*/" },
+    "numbers": { "type": "number", "regex": "\\b\\d+(\\.\\d+)?\\b" },
+    "operators": { "type": "operator", "regex": "==|!=|<=|>=|:=|[-+*/%=&|^~<>!]" },
+    "punctuation": { "type": "punctuation", "regex": "[{}()\\[\\];,\\.]" },
+    "function": { "type": "function", "regex": "\\bfunc\\s+[A-Za-z_][A-Za-z0-9_]*" }
+  }
+}

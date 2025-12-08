@@ -1,0 +1,49 @@
+{
+  "extensions": [".sql"],
+  "rules": {
+    "leading_spaces": {
+      "type": "indent",
+      "regex": "^\\s+"
+    },
+    "keywords": {
+      "type": "keyword",
+      "regex": "\\b(SELECT|INSERT|UPDATE|DELETE|FROM|WHERE|JOIN|INNER|LEFT|RIGHT|FULL|ON|GROUP|BY|HAVING|ORDER|LIMIT|OFFSET|DISTINCT|AS|AND|OR|NOT|IN|IS|NULL|LIKE|BETWEEN|EXISTS|CREATE|ALTER|DROP|TRUNCATE|TABLE|VIEW|INDEX|DATABASE|PRIMARY|KEY|FOREIGN|REFERENCES|UNIQUE|CHECK|DEFAULT)\\b"
+    },
+    "types": {
+      "type": "type",
+      "regex": "\\b(INT|INTEGER|SMALLINT|BIGINT|DECIMAL|NUMERIC|FLOAT|REAL|DOUBLE|CHAR|VARCHAR|TEXT|DATE|TIME|TIMESTAMP|BOOLEAN|BLOB)\\b"
+    },
+    "strings": {
+      "type": "string",
+      "regex": "'([^']|'')*'"
+    },
+    "single_line_comment": {
+      "type": "comment",
+      "regex": "--.*"
+    },
+    "multi_line_comment": {
+      "type": "comment",
+      "regex": "/\\*[\\s\\S]*?\\*/"
+    },
+    "numbers": {
+      "type": "number",
+      "regex": "\\b\\d+(\\.\\d+)?\\b"
+    },
+    "operators": {
+      "type": "operator",
+      "regex": "=|<>|!=|<|>|<=|>=|\\+|\\-|\\*|/|%"
+    },
+    "punctuation": {
+      "type": "punctuation",
+      "regex": "[(),.;]"
+    },
+    "functions": {
+      "type": "function",
+      "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\s*(?=\\()"
+    },
+    "identifiers": {
+      "type": "identifier",
+      "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
+    }
+  }
+}

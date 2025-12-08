@@ -1,0 +1,8 @@
+{
+  "extensions": ["Dockerfile"],
+  "rules": {
+    "instructions": { "type": "keyword", "regex": "\\b(FROM|RUN|CMD|LABEL|MAINTAINER|EXPOSE|ENV|ADD|COPY|ENTRYPOINT|VOLUME|USER|WORKDIR|ARG|ONBUILD|STOPSIGNAL|HEALTHCHECK|SHELL)\\b" },
+    "comments": { "type": "comment", "regex": "#.*" },
+    "strings": { "type": "string", "regex": "\"[^\"]*\"|'[^']*'" }
+  }
+}

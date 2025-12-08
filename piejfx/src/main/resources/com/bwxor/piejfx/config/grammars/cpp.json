@@ -1,0 +1,17 @@
+{
+  "extensions": [".cpp", ".cc", ".cxx", ".hpp", ".h"],
+  "rules": {
+    "leading_spaces": { "type": "indent", "regex": "^\\s+" },
+    "keywords": {
+      "type": "keyword",
+      "regex": "\\b(alignas|auto|bool|break|case|catch|class|const|constexpr|continue|delete|do|double|else|enum|explicit|export|extern|false|float|for|friend|goto|if|inline|int|long|mutable|namespace|new|nullptr|operator|private|protected|public|return|short|signed|sizeof|static|struct|switch|template|this|throw|true|try|typedef|typename|union|unsigned|using|virtual|void|volatile|while)\\b"
+    },
+    "strings": { "type": "string", "regex": "\"(\\\\.|[^\"\\\\])*\"" },
+    "comments": { "type": "comment", "regex": "//.*|/\\*[\\s\\S]*?\\*/" },
+    "numbers": { "type": "number", "regex": "\\b(0x[0-9a-fA-F]+|\\d+\\.\\d+|\\d+)\\b" },
+    "operators": { "type": "operator", "regex": "==|!=|<=|>=|&&|\\|\\||::|->|[-+*/%=&|^~<>!]" },
+    "punctuation": { "type": "punctuation", "regex": "[{}()\\[\\];,\\.:]" },
+    "function": { "type": "function", "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\s*(?=\\()" },
+    "identifiers": { "type": "identifier", "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\b" }
+  }
+}

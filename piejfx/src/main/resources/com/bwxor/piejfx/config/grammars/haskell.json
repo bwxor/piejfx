@@ -1,0 +1,9 @@
+{
+  "extensions": [".hs"],
+  "rules": {
+    "leading_spaces": { "type": "indent", "regex": "^\\s+" },
+    "keywords": { "type": "keyword", "regex": "\\b(case|class|data|default|deriving|do|else|foreign|if|import|in|infix|infixl|infixr|instance|let|module|newtype|of|then|type|where)\\b" },
+    "strings": { "type": "string", "regex": "\"(\\\\.|[^\"\\\\])*\"" },
+    "comments": { "type": "comment", "regex": "--.*|\\{-[\\s\\S]*?-\\}" }
+  }
+}

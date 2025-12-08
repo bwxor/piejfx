@@ -1,0 +1,9 @@
+{
+  "extensions": [".json"],
+  "rules": {
+    "strings": { "type": "string", "regex": "\"(\\\\.|[^\"\\\\])*\"" },
+    "numbers": { "type": "number", "regex": "\\b\\d+(\\.\\d+)?\\b" },
+    "booleans": { "type": "boolean", "regex": "\\b(true|false|null)\\b" },
+    "punctuation": { "type": "punctuation", "regex": "[{}\\[\\]:,]" }
+  }
+}

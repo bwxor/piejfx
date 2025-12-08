@@ -1,0 +1,12 @@
+{
+  "extensions": [".kt", ".kts"],
+  "rules": {
+    "leading_spaces": { "type": "indent", "regex": "^\\s+" },
+    "keywords": { "type": "keyword", "regex": "\\b(abstract|actual|annotation|as|break|by|catch|class|companion|const|constructor|continue|crossinline|data|do|else|enum|expect|external|false|final|for|fun|if|in|interface|internal|is|it|lateinit|noinline|null|object|open|operator|out|override|package|private|protected|public|return|sealed|super|suspend|this|throw|true|try|typealias|val|var|when|where|while)\\b" },
+    "strings": { "type": "string", "regex": "\"(\\\\.|[^\"\\\\])*\"" },
+    "comments": { "type": "comment", "regex": "//.*|/\\*[\\s\\S]*?\\*/" },
+    "numbers": { "type": "number", "regex": "\\b\\d+(\\.\\d+)?\\b" },
+    "function": { "type": "function", "regex": "\\bfun\\s+[A-Za-z_][A-Za-z0-9_]*" },
+    "class": { "type": "class", "regex": "\\bclass\\s+[A-Za-z_][A-Za-z0-9_]*" }
+  }
+}

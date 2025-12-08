@@ -1,0 +1,9 @@
+{
+  "extensions": [".css"],
+  "rules": {
+    "selectors": { "type": "selector", "regex": "[.#]?[A-Za-z_][A-Za-z0-9_-]*" },
+    "strings": { "type": "string", "regex": "\"[^\"]*\"|'[^']*'" },
+    "numbers": { "type": "number", "regex": "\\b\\d+(px|em|rem|%|vh|vw)?\\b" },
+    "comments": { "type": "comment", "regex": "/\\*[\\s\\S]*?\\*/" }
+  }
+}

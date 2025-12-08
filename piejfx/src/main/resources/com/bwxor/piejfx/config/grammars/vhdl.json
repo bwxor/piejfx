@@ -1,0 +1,8 @@
+{
+  "extensions": [".vhd", ".vhdl"],
+  "rules": {
+    "leading_spaces": { "type": "indent", "regex": "^\\s+" },
+    "keywords": { "type": "keyword", "regex": "\\b(entity|architecture|begin|end|signal|process|if|then|else|case|when|loop|for|while|use|library|is|port|map|generic)\\b" },
+    "comments": { "type": "comment", "regex": "--.*" }
+  }
+}

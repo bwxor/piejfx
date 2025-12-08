@@ -1,0 +1,8 @@
+{
+  "extensions": [".dart"],
+  "rules": {
+    "leading_spaces": { "type": "indent", "regex": "^\\s+" },
+    "keywords": { "type": "keyword", "regex": "\\b(abstract|as|assert|async|await|break|case|catch|class|const|continue|default|deferred|do|dynamic|else|enum|export|extends|extension|external|factory|false|final|finally|for|get|if|implements|import|in|interface|is|late|library|mixin|new|null|on|operator|part|required|rethrow|return|set|static|super|switch|sync|this|throw|true|try|typedef|var|void|while|with|yield)\\b" },
+    "strings": { "type": "string", "regex": "\"(\\\\.|[^\"\\\\])*\"|'(\\\\.|[^'\\\\])*'" }
+  }
+}

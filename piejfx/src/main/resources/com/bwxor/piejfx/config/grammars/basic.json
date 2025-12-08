@@ -1,0 +1,45 @@
+{
+  "extensions": [".bas", ".vb"],
+  "rules": {
+    "leading_spaces": {
+      "type": "indent",
+      "regex": "^\\s+"
+    },
+    "keywords": {
+      "type": "keyword",
+      "regex": "\\b(DIM|REDIM|AS|IF|THEN|ELSE|ELSEIF|END|FOR|TO|STEP|NEXT|WHILE|WEND|DO|LOOP|UNTIL|SELECT|CASE|FUNCTION|SUB|RETURN|EXIT|PUBLIC|PRIVATE|GLOBAL|CONST|ON|ERROR|GOTO|GOSUB|OPTION|EXPLICIT|MODULE|IMPORTS)\\b"
+    },
+    "types": {
+      "type": "type",
+      "regex": "\\b(INTEGER|LONG|SINGLE|DOUBLE|STRING|BOOLEAN|VARIANT|OBJECT|BYTE|DATE)\\b"
+    },
+    "strings": {
+      "type": "string",
+      "regex": "\"[^\"]*\""
+    },
+    "single_line_comment": {
+      "type": "comment",
+      "regex": "' .*|REM .*"
+    },
+    "numbers": {
+      "type": "number",
+      "regex": "\\b\\d+(\\.\\d+)?\\b"
+    },
+    "operators": {
+      "type": "operator",
+      "regex": "\\+|\\-|\\*|/|=|<>|<=|>=|<|>|\\^|&"
+    },
+    "punctuation": {
+      "type": "punctuation",
+      "regex": "[()\\[\\],:]"
+    },
+    "function": {
+      "type": "function",
+      "regex": "\\b(FUNCTION|SUB)\\s+[A-Za-z_][A-Za-z0-9_]*"
+    },
+    "identifiers": {
+      "type": "identifier",
+      "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
+    }
+  }
+}
