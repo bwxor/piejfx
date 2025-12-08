@@ -1,9 +1,7 @@
 package com.bwxor.piejfx.utility;
 
 import com.bwxor.piejfx.state.ThemeState;
-import net.harawata.appdirs.AppDirs;
 import net.harawata.appdirs.AppDirsFactory;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.*;
@@ -50,6 +48,24 @@ public class ConfigUtility {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+        }
+    }
+
+    public static void rewriteConfig() {
+        JSONObject root = new JSONObject();
+        JSONObject config = new JSONObject();
+        root.put("config", config);
+
+        config.put("currentTheme", ThemeState.instance.getCurrentTheme().getName());
+
+        try (BufferedWriter bufferedWriter =
+                     new BufferedWriter(new FileWriter(CONFIG_PATH.toFile()))) {
+
+            bufferedWriter.write(root.toString());
+            bufferedWriter.flush();
+        } catch (IOException e) {
+            // ToDo: Show error
+            throw new RuntimeException(e);
         }
     }
 }
