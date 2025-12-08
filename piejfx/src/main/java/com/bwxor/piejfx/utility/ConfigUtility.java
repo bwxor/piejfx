@@ -1,40 +1,44 @@
 package com.bwxor.piejfx.utility;
 
+import com.bwxor.piejfx.constants.AppDirConstants;
 import com.bwxor.piejfx.state.ThemeState;
 import net.harawata.appdirs.AppDirsFactory;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
 public class ConfigUtility {
-    private static final String APP_NAME = "piejfx";
-    private static final String APP_VERSION = "1.0.00";
-    private static final String APP_AUTHOR = "Mario-Mihai Mateas";
-    private static final String USER_DATA_DIR = AppDirsFactory.getInstance().getUserDataDir(APP_NAME, APP_AUTHOR, APP_VERSION);
-    private static final Path CONFIG_PATH = Paths.get(USER_DATA_DIR, "/config/config.json");
-
     public static void loadConfig() {
-        if (!new File(CONFIG_PATH.toUri()).exists()) {
-            try (BufferedReader bufferedReader =
-                         new BufferedReader(new InputStreamReader(
-                                 ResourceUtility.getResourceByNameAsStream("config/config.json")))) {
+        if (!new File(AppDirConstants.CONFIG_DIR.toUri()).exists()) {
+            try (BufferedReader bufferedReader = new BufferedReader(
+                    new InputStreamReader(ResourceUtility.getResourceByNameAsStream("internal/indexes"))
+            )){
+                File file = new File(AppDirConstants.USER_DATA_DIR);
+                file.mkdirs();
+
                 String content = bufferedReader.readAllAsString();
-                File file = new File(CONFIG_PATH.toUri());
-                file.getParentFile().mkdirs();
-                file.createNewFile();
-                BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file.getAbsoluteFile()));
-                bufferedWriter.write(content);
-                bufferedWriter.flush();
-                loadConfig();
+                String[] items = content.split("\n");
+
+                for (String s : items ) {
+                    s = s.trim();
+                    File fileToCreate = new File(Paths.get(AppDirConstants.USER_DATA_DIR, s).toUri());
+                    fileToCreate.getParentFile().mkdirs();
+                    Files.copy(ResourceUtility.getResourceByNameAsStream(s), Paths.get(AppDirConstants.USER_DATA_DIR.toString(), s));
+                }
+
+
             } catch (IOException e) {
                 // ToDo: Show error
                 throw new RuntimeException(e);
             }
+            loadConfig();
         } else {
             try (BufferedReader bufferedReader =
-                         new BufferedReader(new FileReader(CONFIG_PATH.toFile()))) {
+                         new BufferedReader(new FileReader(AppDirConstants.CONFIG_FILE.toFile()))) {
                 String configContent = bufferedReader.readAllAsString();
 
                 JSONObject jsonObject = new JSONObject(configContent);
@@ -59,7 +63,7 @@ public class ConfigUtility {
         config.put("currentTheme", ThemeState.instance.getCurrentTheme().getName());
 
         try (BufferedWriter bufferedWriter =
-                     new BufferedWriter(new FileWriter(CONFIG_PATH.toFile()))) {
+                     new BufferedWriter(new FileWriter(AppDirConstants.CONFIG_FILE.toFile()))) {
 
             bufferedWriter.write(root.toString());
             bufferedWriter.flush();
