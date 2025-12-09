@@ -170,3 +170,43 @@
 .text-area .content {
     -fx-background-color: transparent;
 }
+
+/* -- Grammars -- */
+.keyword {
+    -fx-fill: #2974FF;
+}
+
+.type {
+    -fx-fill: #2974FF;
+}
+
+.string {
+    -fx-fill: #A229FF;
+}
+
+.char {
+    -fx-fill: #A229FF;
+}
+.comment {
+    -fx-fill: #ADADAD;
+}
+
+.number {
+    -fx-fill: #28B066;
+}
+
+.annotation {
+    -fx-fill: #E82525;
+}
+
+.operator {
+    -fx-fill: black;
+}
+
+.punctuation {
+    -fx-fill: black;
+}
+
+.identifier {
+    -fx-fill: black;
+}

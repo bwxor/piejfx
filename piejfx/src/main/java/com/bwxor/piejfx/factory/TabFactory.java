@@ -1,6 +1,7 @@
 package com.bwxor.piejfx.factory;
 
 import com.bwxor.piejfx.state.CodeAreaState;
+import com.bwxor.piejfx.utility.GrammarUtility;
 import com.bwxor.piejfx.utility.SaveFileUtility;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
