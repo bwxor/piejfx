@@ -2,39 +2,17 @@ package com.bwxor.piejfx.utility;
 
 import com.bwxor.piejfx.constants.AppDirConstants;
 import com.bwxor.piejfx.state.ThemeState;
-import net.harawata.appdirs.AppDirsFactory;
 import org.json.JSONObject;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 
 public class ConfigUtility {
     public static void loadConfig() {
         if (!new File(AppDirConstants.CONFIG_DIR.toUri()).exists()) {
-            try (BufferedReader bufferedReader = new BufferedReader(
-                    new InputStreamReader(ResourceUtility.getResourceByNameAsStream("internal/indexes"))
-            )){
-                File file = new File(AppDirConstants.USER_DATA_DIR);
-                file.mkdirs();
-
-                String content = bufferedReader.readAllAsString();
-                String[] items = content.split("\n");
-
-                for (String s : items ) {
-                    s = s.trim();
-                    File fileToCreate = new File(Paths.get(AppDirConstants.USER_DATA_DIR, s).toUri());
-                    fileToCreate.getParentFile().mkdirs();
-                    Files.copy(ResourceUtility.getResourceByNameAsStream(s), Paths.get(AppDirConstants.USER_DATA_DIR.toString(), s));
-                }
-
-
-            } catch (IOException e) {
-                // ToDo: Show error
-                throw new RuntimeException(e);
-            }
+            copyResourceFilesIntoAppdata();
             loadConfig();
         } else {
             try (BufferedReader bufferedReader =
@@ -67,6 +45,29 @@ public class ConfigUtility {
 
             bufferedWriter.write(root.toString());
             bufferedWriter.flush();
+        } catch (IOException e) {
+            // ToDo: Show error
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void copyResourceFilesIntoAppdata() {
+        try (BufferedReader bufferedReader = new BufferedReader(
+                new InputStreamReader(ResourceUtility.getResourceByNameAsStream("internal/indexes"))
+        )){
+            File file = new File(AppDirConstants.USER_DATA_DIR);
+            file.mkdirs();
+
+            String content = bufferedReader.readAllAsString();
+            String[] items = content.split("\n");
+
+            for (String s : items ) {
+                s = s.trim();
+                Path target = Paths.get(AppDirConstants.USER_DATA_DIR, s);
+                File fileToCreate = new File(target.toUri());
+                fileToCreate.getParentFile().mkdirs();
+                Files.copy(ResourceUtility.getResourceByNameAsStream(s), target);
+            }
         } catch (IOException e) {
             // ToDo: Show error
             throw new RuntimeException(e);
