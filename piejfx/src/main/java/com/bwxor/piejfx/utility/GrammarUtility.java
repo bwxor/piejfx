@@ -1,6 +1,7 @@
 package com.bwxor.piejfx.utility;
 
 import com.bwxor.piejfx.constants.AppDirConstants;
+<<<<<<< HEAD
 import com.bwxor.piejfx.state.ThemeState;
 import org.fxmisc.richtext.CodeArea;
 import org.json.JSONObject;
@@ -29,4 +30,120 @@ public class GrammarUtility {
     public static void highlight(CodeArea codeArea, String fileName) {
 
     }
+=======
+import com.bwxor.piejfx.entity.GrammarMatch;
+import com.bwxor.piejfx.entity.GrammarRule;
+import com.bwxor.piejfx.state.CodeAreaState;
+import javafx.css.Match;
+import javafx.scene.control.TabPane;
+import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.model.StyleSpans;
+import org.fxmisc.richtext.model.StyleSpansBuilder;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.*;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class GrammarUtility {
+    public static List<GrammarRule> loadGrammar(String extension) {
+        List<GrammarRule> grammarRules = new ArrayList<>();
+
+        File grammarDir = new File(AppDirConstants.GRAMMARS_DIR.toUri());
+
+        if (grammarDir.isDirectory()) {
+            File[] files = grammarDir.listFiles();
+
+            assert files != null;
+
+            for (var f : files) {
+                if (hasExtension(f, extension)) {
+                    try (BufferedReader bufferedReader = new BufferedReader(new FileReader(f))) {
+                        JSONObject grammarJsonObject = new JSONObject(bufferedReader.readAllAsString());
+                        JSONObject rulesJsonObject = grammarJsonObject.getJSONObject("rules");
+
+                        for (String key: rulesJsonObject.keySet()) {
+                            JSONObject currentRuleJsonObject = rulesJsonObject.getJSONObject(key);
+
+                            GrammarRule grammarRule = new GrammarRule(currentRuleJsonObject.getString("regex"), currentRuleJsonObject.getString("type"));
+                            grammarRules.add(grammarRule);
+                        }
+
+                        return grammarRules;
+
+                    } catch (IOException e) {
+                        // ToDo: Show error
+                        throw new RuntimeException();
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public static StyleSpans<Collection<String>> computeHighlighting(CodeArea codeArea, CodeAreaState.IndividualState state) {
+        StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();
+
+        List<GrammarMatch> matches = new ArrayList<>();
+
+        if (state.getGrammarRules() != null) {
+            for (var rule : state.getGrammarRules()) {
+                Pattern pattern = Pattern.compile(rule.getRegexPattern());
+                Matcher matcher = pattern.matcher(codeArea.getText());
+
+                while (matcher.find()) {
+                    var grammarMatch = new GrammarMatch(matcher.start(), matcher.end(), rule.getType());
+                    if (!matches.contains(grammarMatch)) {
+                        matches.add(grammarMatch);
+                    }
+                }
+            }
+        }
+
+        matches.sort(Comparator.comparingInt(GrammarMatch::getStart));
+
+        int lastEnd = 0;
+
+        for (var match : matches) {
+            if (match.getStart() > lastEnd) {
+                spansBuilder.add(Collections.emptyList(), match.getStart() - lastEnd);
+            }
+
+            int length = match.getEnd() - match.getStart();
+            spansBuilder.add(List.of(match.getStyleClass()), length);
+
+            lastEnd = match.getEnd();
+        }
+
+        if (lastEnd <= codeArea.getText().length()) {
+            spansBuilder.add(Collections.emptyList(), codeArea.getText().length() - lastEnd);
+        }
+
+        return spansBuilder.create();
+    }
+
+    private static boolean hasExtension(File file, String extension) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+            JSONObject jsonObject = new JSONObject(bufferedReader.readAllAsString());
+            JSONArray arr = jsonObject.getJSONArray("extensions");
+
+            for (int i = 0; i < arr.length(); i++) {
+                if (arr.get(i).equals("." + extension)) {
+                    return true;
+                }
+            }
+
+            return false;
+        } catch (FileNotFoundException e) {
+            // ToDo: Show error
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            // ToDo: Show error
+            throw new RuntimeException(e);
+        }
+    }
+>>>>>>> ef0c8b8bffdec67932ee21bcd961e4211d1c0237
 }

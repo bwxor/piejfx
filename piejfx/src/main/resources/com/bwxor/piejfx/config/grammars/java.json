@@ -1,45 +1,29 @@
 {
   "extensions": [".java"],
   "rules": {
-    "keywords": {
-      "type": "keyword",
-      "regex": "\\b(abstract|assert|boolean|break|byte|case|catch|char|class|const|continue|default|do|double|else|enum|extends|final|finally|float|for|goto|if|implements|import|instanceof|int|interface|long|native|new|package|private|protected|public|return|short|static|strictfp|super|switch|synchronized|this|throw|throws|transient|try|void|volatile|while)\\b"
-    },
-    "types": {
-      "type": "type",
-      "regex": "\\b(byte|short|int|long|float|double|boolean|char|void|String|Object)\\b"
+    "comments": {
+      "type": "comment",
+      "regex": "//.*|/\\*[\\s\\S]*?\\*\\/"
     },
     "strings": {
       "type": "string",
-      "regex": "\"(\\\\.|[^\"\\\\])*\""
+      "regex": "\"([^\"\\\\]|\\\\.)*\""
     },
     "character": {
       "type": "char",
-      "regex": "'(\\\\.|[^'\\\\])'"
-    },
-    "single_line_comment": {
-      "type": "comment",
-      "regex": "//.*"
-    },
-    "multi_line_comment": {
-      "type": "comment",
-      "regex": "/\\*[\\s\\S]*?\\*/"
-    },
-    "numbers": {
-      "type": "number",
-      "regex": "\\b(0x[0-9a-fA-F]+|\\d+\\.\\d+f?|\\d+f?|\\d+L?)\\b"
+      "regex": "'([^'\\\\]|\\\\.)'"
     },
     "annotations": {
       "type": "annotation",
       "regex": "@[A-Za-z_][A-Za-z0-9_]*"
     },
-    "imports": {
-      "type": "import",
-      "regex": "^\\s*import\\s+(static\\s+)?[A-Za-z_][A-Za-z0-9_\\.]*\\s*;"
+    "keywords": {
+      "type": "keyword",
+      "regex": "\\b(abstract|assert|boolean|break|byte|case|catch|char|class|const|continue|default|do|double|else|enum|extends|final|finally|float|for|goto|if|implements|import|instanceof|int|interface|long|native|new|package|private|protected|public|return|short|static|strictfp|super|switch|synchronized|this|throw|throws|transient|try|void|volatile|while|String|Object)\\b"
     },
-    "package": {
-      "type": "package",
-      "regex": "^\\s*package\\s+[A-Za-z_][A-Za-z0-9_\\.]*\\s*;"
+    "numbers": {
+      "type": "number",
+      "regex": "\\b(0x[0-9a-fA-F]+|\\d+\\.\\d+[fFdD]?|\\d+[lLfFdD]?)\\b"
     },
     "operators": {
       "type": "operator",
@@ -48,18 +32,6 @@
     "punctuation": {
       "type": "punctuation",
       "regex": "[{}()\\[\\];,\\.]"
-    },
-    "class_name": {
-      "type": "class",
-      "regex": "\\bclass\\s+[A-Za-z_][A-Za-z0-9_]*"
-    },
-    "function": {
-      "type": "function",
-      "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\s*(?=\\()"
-    },
-    "identifiers": {
-      "type": "identifier",
-      "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
     }
   }
 }
