@@ -1,9 +1,29 @@
 {
   "extensions": [".css"],
-  "rules": {
-    "selectors": { "type": "selector", "regex": "[.#]?[A-Za-z_][A-Za-z0-9_-]*" },
-    "strings": { "type": "string", "regex": "\"[^\"]*\"|'[^']*'" },
-    "numbers": { "type": "number", "regex": "\\b\\d+(px|em|rem|%|vh|vw)?\\b" },
-    "comments": { "type": "comment", "regex": "/\\*[\\s\\S]*?\\*/" }
-  }
+  "rules": [
+    {
+      "type": "comment",
+      "regex": "/\\*[\\s\\S]*?\\*/"
+    },
+    {
+      "type": "string",
+      "regex": "\"[^\"]*\"|'[^']*'"
+    },
+    {
+      "type": "number",
+      "regex": "\\b\\d+(\\.\\d+)?(px|em|rem|%|vh|vw|ch|fr|pt|pc|in|cm|mm)?\\b"
+    },
+    {
+      "type": "selector",
+      "regex": "[.#]?[A-Za-z_][A-Za-z0-9_-]*"
+    },
+    {
+      "type": "identifier",
+      "regex": "[A-Za-z-][A-Za-z0-9-]*"
+    },
+    {
+      "type": "punctuation",
+      "regex": "[{}();:,]"
+    }
+  ]
 }

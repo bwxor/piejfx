@@ -1,17 +1,45 @@
 {
   "extensions": [".cs"],
-  "rules": {
-    "leading_spaces": { "type": "indent", "regex": "^\\s+" },
-    "keywords": {
+  "rules": [
+    {
+      "type": "comment",
+      "regex": "//.*|/\\*[\\s\\S]*?\\*/"
+    },
+    {
+      "type": "string",
+      "regex": "@?\"(\\\\.|[^\"])*\""
+    },
+    {
+      "type": "number",
+      "regex": "\\b\\d+(\\.\\d+)?\\b"
+    },
+    {
       "type": "keyword",
       "regex": "\\b(abstract|as|base|bool|break|byte|case|catch|char|checked|class|const|continue|decimal|default|delegate|do|double|else|enum|event|explicit|extern|false|finally|float|for|foreach|goto|if|implicit|in|int|interface|internal|is|lock|long|namespace|new|null|object|operator|out|override|params|private|protected|public|readonly|ref|return|short|sizeof|stackalloc|static|string|struct|switch|this|throw|true|try|typeof|uint|ulong|unchecked|unsafe|ushort|using|virtual|void|volatile|while)\\b"
     },
-    "strings": { "type": "string", "regex": "@?\"(\\\\.|[^\"])*\"" },
-    "comments": { "type": "comment", "regex": "//.*|/\\*[\\s\\S]*?\\*/" },
-    "numbers": { "type": "number", "regex": "\\b\\d+(\\.\\d+)?\\b" },
-    "operators": { "type": "operator", "regex": "==|!=|<=|>=|&&|\\|\\||=>|[-+*/%=&|^~<>!]" },
-    "punctuation": { "type": "punctuation", "regex": "[{}()\\[\\];,\\.]" },
-    "class_name": { "type": "class", "regex": "\\bclass\\s+[A-Za-z_][A-Za-z0-9_]*" },
-    "function": { "type": "function", "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\s*(?=\\()" }
-  }
+    {
+      "type": "class",
+      "regex": "(?<=class\\s+)[A-Za-z_][A-Za-z0-9_]*"
+    },
+    {
+      "type": "operator",
+      "regex": "==|!=|<=|>=|&&|\\|\\||=>|[-+*/%=&|^~<>!]"
+    },
+    {
+      "type": "punctuation",
+      "regex": "[{}()\\[\\];,\\.]"
+    },
+    {
+      "type": "indent",
+      "regex": "^\\s+"
+    },
+    {
+      "type": "function",
+      "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\s*(?=\\()"
+    },
+    {
+      "type": "identifier",
+      "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
+    }
+  ]
 }

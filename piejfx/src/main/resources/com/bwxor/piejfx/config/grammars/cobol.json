@@ -1,61 +1,61 @@
 {
   "extensions": [".cob", ".cbl", ".cpy", ".cobol"],
-  "rules": {
-    "leading_spaces": {
+  "rules": [
+    {
       "type": "indent",
       "regex": "^\\s+"
     },
-    "keywords": {
-      "type": "keyword",
-      "regex": "\\b(ACCEPT|ADD|CALL|CANCEL|CLOSE|COMPUTE|CONTINUE|DELETE|DISPLAY|DIVIDE|ELSE|END-IF|END-PERFORM|END-READ|END-WRITE|EVALUATE|EXIT|GOBACK|GO|IF|INITIALIZE|INSPECT|MERGE|MOVE|MULTIPLY|OPEN|PERFORM|READ|RETURN|REWRITE|SEARCH|SET|SORT|START|STOP|STRING|SUBTRACT|UNSTRING|WRITE)\\b"
-    },
-    "divisions": {
-      "type": "division",
-      "regex": "\\b(IDENTIFICATION|ENVIRONMENT|DATA|PROCEDURE)\\s+DIVISION\\b"
-    },
-    "sections": {
-      "type": "section",
-      "regex": "\\b[A-Za-z0-9-]+\\s+SECTION\\b"
-    },
-    "data_types": {
-      "type": "type",
-      "regex": "\\b(PIC|PICTURE|USAGE|COMP|COMP-1|COMP-2|COMP-3|COMP-4|COMP-5|BINARY|DISPLAY)\\b"
-    },
-    "strings": {
-      "type": "string",
-      "regex": "'([^']|'')*'|\"([^\"]|\"\")*\""
-    },
-    "numbers": {
-      "type": "number",
-      "regex": "\\b[+-]?\\d+(\\.\\d+)?\\b"
-    },
-    "inline_comment": {
-      "type": "comment",
-      "regex": "\\*>.*"
-    },
-    "fixed_column_comment": {
+    {
       "type": "comment",
       "regex": "^.{6}\\*.*"
     },
-    "operators": {
+    {
+      "type": "comment",
+      "regex": "\\*>.*"
+    },
+    {
+      "type": "string",
+      "regex": "'([^']|'')*'|\"([^\"]|\"\")*\""
+    },
+    {
+      "type": "division",
+      "regex": "\\b(IDENTIFICATION|ENVIRONMENT|DATA|PROCEDURE)\\s+DIVISION\\b"
+    },
+    {
+      "type": "section",
+      "regex": "\\b[A-Za-z0-9-]+\\s+SECTION\\b"
+    },
+    {
+      "type": "keyword",
+      "regex": "\\b(ACCEPT|ADD|CALL|CANCEL|CLOSE|COMPUTE|CONTINUE|DELETE|DISPLAY|DIVIDE|ELSE|END-IF|END-PERFORM|END-READ|END-WRITE|EVALUATE|EXIT|GOBACK|GO|IF|INITIALIZE|INSPECT|MERGE|MOVE|MULTIPLY|OPEN|PERFORM|READ|RETURN|REWRITE|SEARCH|SET|SORT|START|STOP|STRING|SUBTRACT|UNSTRING|WRITE)\\b"
+    },
+    {
+      "type": "type",
+      "regex": "\\b(PIC|PICTURE|USAGE|COMP|COMP-1|COMP-2|COMP-3|COMP-4|COMP-5|BINARY|DISPLAY)\\b"
+    },
+    {
+      "type": "number",
+      "regex": "\\b[+-]?\\d+(\\.\\d+)?\\b"
+    },
+    {
       "type": "operator",
       "regex": "\\b(EQUAL|NOT|AND|OR|LESS|GREATER|THAN)\\b|[=<>\\+\\-*/]"
     },
-    "punctuation": {
+    {
       "type": "punctuation",
       "regex": "[(),.;:]"
     },
-    "level_numbers": {
+    {
       "type": "level",
       "regex": "^\\s*(01|02|03|04|05|07|10|15|20|30|40|50|66|77|88)\\b"
     },
-    "paragraphs": {
+    {
       "type": "function",
       "regex": "^\\s*[A-Za-z][A-Za-z0-9-]*\\."
     },
-    "identifiers": {
+    {
       "type": "identifier",
       "regex": "\\b[A-Za-z][A-Za-z0-9-]*\\b"
     }
-  }
+  ]
 }

@@ -1,8 +1,40 @@
 {
-  "extensions": [".vhd", ".vhdl"],
-  "rules": {
-    "leading_spaces": { "type": "indent", "regex": "^\\s+" },
-    "keywords": { "type": "keyword", "regex": "\\b(entity|architecture|begin|end|signal|process|if|then|else|case|when|loop|for|while|use|library|is|port|map|generic)\\b" },
-    "comments": { "type": "comment", "regex": "--.*" }
-  }
+  "extensions": [
+    ".vhd",
+    ".vhdl"
+  ],
+  "rules": [
+    {
+      "type": "comment",
+      "regex": "--.*"
+    },
+    {
+      "type": "string",
+      "regex": "'[^']*'"
+    },
+    {
+      "type": "number",
+      "regex": "\\b\\d+(\\.\\d+)?\\b"
+    },
+    {
+      "type": "keyword",
+      "regex": "\\b(entity|architecture|begin|end|signal|process|if|then|else|case|when|loop|for|while|use|library|is|port|map|generic|constant|component|in|out|inout|buffer|to|downto|others|all|open|report|severity|assert|wait|attribute|configuration|package|body|of)\\b"
+    },
+    {
+      "type": "operator",
+      "regex": "==|/=|<|<=|>|>=|and|or|not|xor|nand|nor|xnor|\\+|\\-|\\*|/|&"
+    },
+    {
+      "type": "punctuation",
+      "regex": "[();:,\\.]"
+    },
+    {
+      "type": "indent",
+      "regex": "^\\s+"
+    },
+    {
+      "type": "identifier",
+      "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
+    }
+  ]
 }

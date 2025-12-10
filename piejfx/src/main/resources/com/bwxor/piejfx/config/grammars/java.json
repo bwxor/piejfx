@@ -1,37 +1,49 @@
 {
   "extensions": [".java"],
-  "rules": {
-    "comments": {
+  "rules": [
+    {
       "type": "comment",
-      "regex": "//.*|/\\*[\\s\\S]*?\\*\\/"
+      "regex": "(\\/\\*[\\s\\S]*?\\*\\/|\\/\\/.*)"
     },
-    "strings": {
+    {
       "type": "string",
       "regex": "\"([^\"\\\\]|\\\\.)*\""
     },
-    "character": {
+    {
       "type": "char",
       "regex": "'([^'\\\\]|\\\\.)'"
     },
-    "annotations": {
-      "type": "annotation",
-      "regex": "@[A-Za-z_][A-Za-z0-9_]*"
+    {
+      "type": "boolean",
+      "regex": "\\b(true|false|null)\\b"
     },
-    "keywords": {
+    {
       "type": "keyword",
-      "regex": "\\b(abstract|assert|boolean|break|byte|case|catch|char|class|const|continue|default|do|double|else|enum|extends|final|finally|float|for|goto|if|implements|import|instanceof|int|interface|long|native|new|package|private|protected|public|return|short|static|strictfp|super|switch|synchronized|this|throw|throws|transient|try|void|volatile|while|String|Object)\\b"
+      "regex": "\\b(abstract|assert|boolean|break|byte|case|catch|char|class|const|continue|default|do|double|else|enum|extends|final|finally|float|for|goto|if|implements|import|instanceof|int|interface|long|native|new|package|private|protected|public|return|short|static|strictfp|super|switch|synchronized|this|throw|throws|transient|try|void|volatile|while|var)\\b"
     },
-    "numbers": {
+    {
       "type": "number",
-      "regex": "\\b(0x[0-9a-fA-F]+|\\d+\\.\\d+[fFdD]?|\\d+[lLfFdD]?)\\b"
+      "regex": "\\b\\d+([.]\\d+)?([eE][+-]?\\d+)?[dfDF]?\\b|\\b0x[a-fA-F0-9]+\\b"
     },
-    "operators": {
+    {
+      "type": "annotation",
+      "regex": "@\\w+"
+    },
+    {
+      "type": "function",
+      "regex": "\\b\\w+(?=\\()"
+    },
+    {
+      "type": "type",
+      "regex": "\\b[A-Z]\\w*\\b"
+    },
+    {
       "type": "operator",
-      "regex": "\\+\\+|--|==|!=|<=|>=|&&|\\|\\||<<|>>>|>>|[-+*/%=&|^~<>!]"
+      "regex": "[=+\\-*/%&|^~!<>?:]+"
     },
-    "punctuation": {
+    {
       "type": "punctuation",
-      "regex": "[{}()\\[\\];,\\.]"
+      "regex": "[.,;(){}\\[\\]]"
     }
-  }
+  ]
 }

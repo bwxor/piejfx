@@ -1,16 +1,47 @@
 {
-  "extensions": [".swift"],
-  "rules": {
-    "leading_spaces": { "type": "indent", "regex": "^\\s+" },
-    "keywords": {
+  "extensions": [
+    ".swift"
+  ],
+  "rules": [
+    {
+      "type": "comment",
+      "regex": "/\\*[\\s\\S]*?\\*/"
+    },
+    {
+      "type": "comment",
+      "regex": "//.*"
+    },
+    {
+      "type": "string",
+      "regex": "\"(\\\\.|[^\"\\\\])*\""
+    },
+    {
+      "type": "number",
+      "regex": "\\b\\d+(\\.\\d+)?\\b"
+    },
+    {
       "type": "keyword",
       "regex": "\\b(associatedtype|class|deinit|enum|extension|func|import|init|inout|internal|let|open|operator|private|protocol|public|static|struct|subscript|typealias|var|break|case|continue|default|defer|do|else|fallthrough|for|guard|if|in|repeat|return|switch|where|while|as|catch|is|rethrows|throw|try)\\b"
     },
-    "strings": { "type": "string", "regex": "\"(\\\\.|[^\"\\\\])*\"" },
-    "comments": { "type": "comment", "regex": "//.*|/\\*[\\s\\S]*?\\*/" },
-    "numbers": { "type": "number", "regex": "\\b\\d+(\\.\\d+)?\\b" },
-    "operators": { "type": "operator", "regex": "==|!=|<=|>=|->|[-+*/%=&|^~<>!]" },
-    "punctuation": { "type": "punctuation", "regex": "[{}()\\[\\];,\\.]" },
-    "function": { "type": "function", "regex": "\\bfunc\\s+[A-Za-z_][A-Za-z0-9_]*" }
-  }
+    {
+      "type": "function",
+      "regex": "(?<=\\bfunc\\s+)[A-Za-z_][A-Za-z0-9_]*"
+    },
+    {
+      "type": "operators",
+      "regex": "==|!=|<=|>=|->|[-+*/%=&|^~<>!]"
+    },
+    {
+      "type": "punctuation",
+      "regex": "[{}()\\[\\];,\\.]"
+    },
+    {
+      "type": "indent",
+      "regex": "^\\s+"
+    },
+    {
+      "type": "identifier",
+      "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
+    }
+  ]
 }

@@ -30,14 +30,10 @@ public class TabPaneUtility {
         resyncCodeAreaIds(tabPane);
 
         if (tab.getContent() instanceof CodeArea c) {
+
+            GrammarUtility.setGrammarToCodeArea(c, file);
+
             CodeAreaState.IndividualState individualState = CodeAreaState.instance.getIndividualStates().get(Integer.parseInt(c.getId()));
-
-            individualState.setGrammarRules(GrammarUtility.loadGrammar(file.getName().substring(file.getName().lastIndexOf(".") + 1)));
-
-            c.textProperty().addListener((obs, oldText, newText) -> {
-                c.setStyleSpans(0, GrammarUtility.computeHighlighting(c, individualState));
-            });
-
             individualState.setOpenedFile(file);
             individualState.setSaved(true);
 

@@ -36,16 +36,4 @@ public class GrammarMatch {
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        GrammarMatch that = (GrammarMatch) o;
-        return start <= that.start && that.start < end;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(start, end);
-    }
 }

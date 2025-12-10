@@ -1,12 +1,9 @@
 package com.bwxor.piejfx.utility;
 
 import com.bwxor.piejfx.constants.AppDirConstants;
-import com.bwxor.piejfx.state.ThemeState;
 import com.bwxor.piejfx.entity.GrammarMatch;
 import com.bwxor.piejfx.entity.GrammarRule;
 import com.bwxor.piejfx.state.CodeAreaState;
-import javafx.css.Match;
-import javafx.scene.control.TabPane;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyleSpansBuilder;
@@ -33,10 +30,10 @@ public class GrammarUtility {
                 if (hasExtension(f, extension)) {
                     try (BufferedReader bufferedReader = new BufferedReader(new FileReader(f))) {
                         JSONObject grammarJsonObject = new JSONObject(bufferedReader.readAllAsString());
-                        JSONObject rulesJsonObject = grammarJsonObject.getJSONObject("rules");
+                        JSONArray rulesJsonArray = grammarJsonObject.getJSONArray("rules");
 
-                        for (String key: rulesJsonObject.keySet()) {
-                            JSONObject currentRuleJsonObject = rulesJsonObject.getJSONObject(key);
+                        for (int i = 0; i<rulesJsonArray.length(); i++) {
+                            JSONObject currentRuleJsonObject = rulesJsonArray.getJSONObject(i);
 
                             GrammarRule grammarRule = new GrammarRule(currentRuleJsonObject.getString("regex"), currentRuleJsonObject.getString("type"));
                             grammarRules.add(grammarRule);
@@ -62,12 +59,12 @@ public class GrammarUtility {
 
         if (state.getGrammarRules() != null) {
             for (var rule : state.getGrammarRules()) {
-                Pattern pattern = Pattern.compile(rule.getRegexPattern());
+                Pattern pattern = Pattern.compile(rule.getRegexPattern(), Pattern.MULTILINE);
                 Matcher matcher = pattern.matcher(codeArea.getText());
 
                 while (matcher.find()) {
                     var grammarMatch = new GrammarMatch(matcher.start(), matcher.end(), rule.getType());
-                    if (!matches.contains(grammarMatch)) {
+                    if (matches.stream().noneMatch((e -> grammarMatch.getStart() < e.getEnd() && e.getStart() < grammarMatch.getEnd()))) {
                         matches.add(grammarMatch);
                     }
                 }
@@ -115,5 +112,19 @@ public class GrammarUtility {
             // ToDo: Show error
             throw new RuntimeException(e);
         }
+    }
+
+    public static void setGrammarToCodeArea(CodeArea codeArea, File file) {
+        CodeAreaState.IndividualState individualState = CodeAreaState.instance.getIndividualStates().get(Integer.parseInt(codeArea.getId()));
+
+        individualState.setGrammarRules(GrammarUtility.loadGrammar(file.getName().substring(file.getName().lastIndexOf(".") + 1)));
+
+        codeArea.textProperty().addListener((obs, oldText, newText) -> {
+            resetCodeAreaStyle(codeArea, individualState);
+        });
+    }
+
+    public static void resetCodeAreaStyle(CodeArea codeArea, CodeAreaState.IndividualState individualState) {
+        codeArea.setStyleSpans(0, GrammarUtility.computeHighlighting(codeArea, individualState));
     }
 }

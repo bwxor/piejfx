@@ -4,6 +4,7 @@ import com.bwxor.piejfx.state.CodeAreaState;
 import com.bwxor.piejfx.state.StageState;
 import javafx.scene.control.TabPane;
 import javafx.stage.FileChooser;
+import org.fxmisc.richtext.CodeArea;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -32,6 +33,11 @@ public class SaveFileUtility {
             } catch (IOException e) {
                 // ToDo: Show an error
                 throw new RuntimeException(e);
+            }
+
+            if (tabPane.getSelectionModel().getSelectedItem().getContent() instanceof CodeArea c) {
+                GrammarUtility.setGrammarToCodeArea(c, state.getOpenedFile());
+                GrammarUtility.resetCodeAreaStyle(c, state);
             }
 
             state.setSaved(true);

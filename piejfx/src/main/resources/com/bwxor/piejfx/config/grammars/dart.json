@@ -1,8 +1,41 @@
 {
   "extensions": [".dart"],
-  "rules": {
-    "leading_spaces": { "type": "indent", "regex": "^\\s+" },
-    "keywords": { "type": "keyword", "regex": "\\b(abstract|as|assert|async|await|break|case|catch|class|const|continue|default|deferred|do|dynamic|else|enum|export|extends|extension|external|factory|false|final|finally|for|get|if|implements|import|in|interface|is|late|library|mixin|new|null|on|operator|part|required|rethrow|return|set|static|super|switch|sync|this|throw|true|try|typedef|var|void|while|with|yield)\\b" },
-    "strings": { "type": "string", "regex": "\"(\\\\.|[^\"\\\\])*\"|'(\\\\.|[^'\\\\])*'" }
-  }
+  "rules": [
+    {
+      "type": "string",
+      "regex": "\"(\\\\.|[^\"\\\\])*\"|'(\\\\.|[^'\\\\])*'"
+    },
+    {
+      "type": "comment",
+      "regex": "//.*|/\\*[\\s\\S]*?\\*/"
+    },
+    {
+      "type": "keyword",
+      "regex": "\\b(abstract|as|assert|async|await|break|case|catch|class|const|continue|default|deferred|do|dynamic|else|enum|export|extends|extension|external|factory|false|final|finally|for|get|if|implements|import|in|interface|is|late|library|mixin|new|null|on|operator|part|required|rethrow|return|set|static|super|switch|sync|this|throw|true|try|typedef|var|void|while|with|yield)\\b"
+    },
+    {
+      "type": "number",
+      "regex": "\\b\\d+(\\.\\d+)?\\b"
+    },
+    {
+      "type": "operator",
+      "regex": "==|!=|<=|>=|&&|\\|\\||\\??\\.|\\?\\?|->|[-+*/%=&|^~<>!]"
+    },
+    {
+      "type": "punctuation",
+      "regex": "[{}()\\[\\];,\\.:]"
+    },
+    {
+      "type": "indent",
+      "regex": "^\\s+"
+    },
+    {
+      "type": "function",
+      "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\s*(?=\\()"
+    },
+    {
+      "type": "identifier",
+      "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
+    }
+  ]
 }

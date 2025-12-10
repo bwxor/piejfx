@@ -1,16 +1,43 @@
 {
-  "extensions": [".lua"],
-  "rules": {
-    "leading_spaces": { "type": "indent", "regex": "^\\s+" },
-    "keywords": {
+  "extensions": [
+    ".lua"
+  ],
+  "rules": [
+    {
+      "type": "comment",
+      "regex": "--.*|--\\[\\[[\\s\\S]*?\\]\\]"
+    },
+    {
+      "type": "string",
+      "regex": "'(\\\\.|[^'\\\\])*'|\"(\\\\.|[^\"\\\\])*\"|\\[\\[[\\s\\S]*?\\]\\]"
+    },
+    {
+      "type": "number",
+      "regex": "\\b\\d+(\\.\\d+)?\\b"
+    },
+    {
       "type": "keyword",
       "regex": "\\b(and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while)\\b"
     },
-    "strings": { "type": "string", "regex": "'(\\\\.|[^'\\\\])*'|\"(\\\\.|[^\"\\\\])*\"" },
-    "comments": { "type": "comment", "regex": "--.*|--\\[\\[[\\s\\S]*?\\]\\]" },
-    "numbers": { "type": "number", "regex": "\\b\\d+(\\.\\d+)?\\b" },
-    "operators": { "type": "operator", "regex": "==|~=|<=|>=|\\.\\.|[-+*/%=&|^#<>]" },
-    "punctuation": { "type": "punctuation", "regex": "[{}()\\[\\];,\\.]" },
-    "function": { "type": "function", "regex": "\\bfunction\\s+[A-Za-z_][A-Za-z0-9_]*" }
-  }
+    {
+      "type": "function",
+      "regex": "(?<=\\bfunction\\s+)[A-Za-z_][A-Za-z0-9_]*"
+    },
+    {
+      "type": "operator",
+      "regex": "==|~=|<=|>=|\\.\\.|[-+*/%=&|^#<>]"
+    },
+    {
+      "type": "punctuation",
+      "regex": "[{}()\\[\\];,\\.]"
+    },
+    {
+      "type": "indent",
+      "regex": "^\\s+"
+    },
+    {
+      "type": "identifier",
+      "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
+    }
+  ]
 }

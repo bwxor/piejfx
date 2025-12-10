@@ -1,9 +1,23 @@
 {
-  "extensions": [".json"],
-  "rules": {
-    "strings": { "type": "string", "regex": "\"(\\\\.|[^\"\\\\])*\"" },
-    "numbers": { "type": "number", "regex": "\\b\\d+(\\.\\d+)?\\b" },
-    "booleans": { "type": "boolean", "regex": "\\b(true|false|null)\\b" },
-    "punctuation": { "type": "punctuation", "regex": "[{}\\[\\]:,]" }
-  }
+  "extensions": [
+    ".json"
+  ],
+  "rules": [
+    {
+      "type": "string",
+      "regex": "\"(\\\\.|[^\"\\\\])*\""
+    },
+    {
+      "type": "number",
+      "regex": "\\b-?\\d+(\\.\\d+)?([eE][+-]?\\d+)?\\b"
+    },
+    {
+      "type": "boolean",
+      "regex": "\\b(true|false|null)\\b"
+    },
+    {
+      "type": "punctuation",
+      "regex": "[{}\\[\\]:,]"
+    }
+  ]
 }

@@ -1,8 +1,35 @@
 {
-  "extensions": [".xml"],
-  "rules": {
-    "tags": { "type": "tag", "regex": "</?[A-Za-z_:][A-Za-z0-9_:\\-\\.]*" },
-    "attributes": { "type": "attribute", "regex": "\\b[A-Za-z_:][A-Za-z0-9_:\\-\\.]*" },
-    "strings": { "type": "string", "regex": "\"[^\"]*\"" }
-  }
+  "extensions": [
+    ".xml"
+  ],
+  "rules": [
+    {
+      "type": "comment",
+      "regex": ""
+    },
+    {
+      "type": "string",
+      "regex": "\"[^\"]*\"|'[^']*'"
+    },
+    {
+      "type": "tag",
+      "regex": "</?[A-Za-z_:][A-Za-z0-9_:\\-\\.]*"
+    },
+    {
+      "type": "attribute",
+      "regex": "\\b[A-Za-z_:][A-Za-z0-9_:\\-\\.]*(?==)"
+    },
+    {
+      "type": "operator",
+      "regex": "="
+    },
+    {
+      "type": "punctuation",
+      "regex": "[<>/]"
+    },
+    {
+      "type": "identifier",
+      "regex": "[A-Za-z0-9_:\\-\\.]+"
+    }
+  ]
 }

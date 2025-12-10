@@ -1,8 +1,39 @@
 {
-  "extensions": [".v"],
-  "rules": {
-    "leading_spaces": { "type": "indent", "regex": "^\\s+" },
-    "keywords": { "type": "keyword", "regex": "\\b(module|endmodule|input|output|wire|reg|always|assign|if|else|case|endcase|for|while|begin|end)\\b" },
-    "comments": { "type": "comment", "regex": "//.*|/\\*[\\s\\S]*?\\*/" }
-  }
+  "extensions": [
+    ".v"
+  ],
+  "rules": [
+    {
+      "type": "comment",
+      "regex": "//.*|/\\*[\\s\\S]*?\\*/"
+    },
+    {
+      "type": "number",
+      "regex": "\\b[0-9]+'[bBoOdDhH][0-9a-fA-FzZ_]+\\b|\\b\\d+\\b"
+    },
+    {
+      "type": "string",
+      "regex": "\"(\\\\.|[^\"\\\\])*\""
+    },
+    {
+      "type": "keyword",
+      "regex": "\\b(module|endmodule|input|output|wire|reg|always|assign|if|else|case|endcase|for|while|begin|end)\\b"
+    },
+    {
+      "type": "operator",
+      "regex": "==|!=|<=|>=|&&|\\|\\||<<|>>|\\+|\\-|\\*|/|%|=|&|\\||\\^|~"
+    },
+    {
+      "type": "punctuation",
+      "regex": "[{}()[\\];,:]"
+    },
+    {
+      "type": "indent",
+      "regex": "^\\s+"
+    },
+    {
+      "type": "identifier",
+      "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
+    }
+  ]
 }

@@ -1,9 +1,51 @@
 {
-  "extensions": [".rb"],
-  "rules": {
-    "leading_spaces": { "type": "indent", "regex": "^\\s+" },
-    "keywords": { "type": "keyword", "regex": "\\b(alias|and|begin|break|case|class|def|defined\\?|do|else|elsif|end|ensure|for|if|in|module|next|nil|not|or|redo|rescue|retry|return|self|super|then|true|false|undef|unless|until|when|while|yield)\\b" },
-    "strings": { "type": "string", "regex": "\"(\\\\.|[^\"\\\\])*\"|'(\\\\.|[^'\\\\])*'" },
-    "comments": { "type": "comment", "regex": "#.*" }
-  }
+  "extensions": [
+    ".rb"
+  ],
+  "rules": [
+    {
+      "type": "comment",
+      "regex": "#.*"
+    },
+    {
+      "type": "string",
+      "regex": "\"(\\\\.|[^\"\\\\])*\"|'(\\\\.|[^'\\\\])*'"
+    },
+    {
+      "type": "number",
+      "regex": "\\b\\d+(\\.\\d+)?\\b"
+    },
+    {
+      "type": "keyword",
+      "regex": "\\b(alias|and|begin|break|case|class|def|defined\\?|do|else|elsif|end|ensure|for|if|in|module|next|nil|not|or|redo|rescue|retry|return|self|super|then|true|false|undef|unless|until|when|while|yield)\\b"
+    },
+    {
+      "type": "function",
+      "regex": "(?<=\\bdef\\s+)[A-Za-z_][A-Za-z0-9_]*"
+    },
+    {
+      "type": "class",
+      "regex": "(?<=\\bclass\\s+)[A-Za-z_][A-Za-z0-9_]*"
+    },
+    {
+      "type": "variable",
+      "regex": "[@$][A-Za-z_][A-Za-z0-9_]*"
+    },
+    {
+      "type": "operator",
+      "regex": "==|!=|<=|>=|&&|\\|\\||\\+\\+|--|[-+*/%=&|^~<>!]"
+    },
+    {
+      "type": "punctuation",
+      "regex": "[{}()\\[\\];,\\.:]"
+    },
+    {
+      "type": "indent",
+      "regex": "^\\s+"
+    },
+    {
+      "type": "identifier",
+      "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
+    }
+  ]
 }

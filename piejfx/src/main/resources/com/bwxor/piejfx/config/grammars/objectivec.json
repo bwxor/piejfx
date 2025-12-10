@@ -1,8 +1,44 @@
 {
-  "extensions": [".m", ".mm"],
-  "rules": {
-    "leading_spaces": { "type": "indent", "regex": "^\\s+" },
-    "keywords": { "type": "keyword", "regex": "\\b(@interface|@implementation|@end|@class|@protocol|@selector|@synthesize|@dynamic|if|else|for|while|return|break|continue|switch|case|default|nil|YES|NO|self|super)\\b" },
-    "strings": { "type": "string", "regex": "@?\"(\\\\.|[^\"\\\\])*\"" }
-  }
+  "extensions": [
+    ".m",
+    ".mm"
+  ],
+  "rules": [
+    {
+      "type": "string",
+      "regex": "@?\"(\\\\.|[^\"\\\\])*\""
+    },
+    {
+      "type": "comment",
+      "regex": "//.*|/\\*[\\s\\S]*?\\*/"
+    },
+    {
+      "type": "keyword",
+      "regex": "\\b(@interface|@implementation|@end|@class|@protocol|@selector|@synthesize|@dynamic|if|else|for|while|return|break|continue|switch|case|default|nil|YES|NO|self|super)\\b"
+    },
+    {
+      "type": "number",
+      "regex": "\\b\\d+(\\.\\d+)?\\b"
+    },
+    {
+      "type": "operator",
+      "regex": "==|!=|<=|>=|&&|\\|\\||->|[-+*/%=&|^~<>!]"
+    },
+    {
+      "type": "punctuation",
+      "regex": "[{}()\\[\\];,\\.:]"
+    },
+    {
+      "type": "indent",
+      "regex": "^\\s+"
+    },
+    {
+      "type": "function",
+      "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\s*(?=\\()"
+    },
+    {
+      "type": "identifier",
+      "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
+    }
+  ]
 }

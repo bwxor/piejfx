@@ -139,7 +139,7 @@
 }
 
 .lineno .text {
-    -fx-fill: #858585;
+    -fx-text-fill: #858585;
 }
 
 /* --- Caret Line --- */
@@ -197,4 +197,113 @@ AnchorPane {
 /* --- Label --- */
 .label {
     -fx-text-fill: #EDEDED;
+}
+
+/* --- Grammars --- */
+.styled-text-area .keyword {
+    -fx-fill: #4fc3f7;
+}
+
+.styled-text-area .type {
+    -fx-fill: #4fc3f7;
+}
+
+.styled-text-area .string {
+    -fx-fill: #A229FF;
+}
+
+.styled-text-area .char {
+    -fx-fill: #A229FF;
+}
+
+.styled-text-area .comment {
+    -fx-fill: #858585;
+}
+
+.styled-text-area .number {
+    -fx-fill: #28B066;
+}
+
+.styled-text-area .annotation {
+    -fx-fill: #e74c3c;
+}
+
+.styled-text-area .decorator {
+    -fx-fill: #e74c3c;
+}
+
+.styled-text-area .operator {
+    -fx-fill: #d4d4d4;
+}
+
+.styled-text-area .punctuation {
+    -fx-fill: #d4d4d4;
+}
+
+.styled-text-area .identifier {
+    -fx-fill: #d4d4d4;
+}
+
+.styled-text-area .division {
+    -fx-fill: #4fc3f7;
+}
+
+.styled-text-area .section {
+    -fx-fill: #4fc3f7;
+}
+
+.styled-text-area .level {
+    -fx-fill: #4fc3f7;
+}
+
+.styled-text-area .function {
+    -fx-fill: #4fc3f7;
+}
+
+.styled-text-area .selector {
+    -fx-fill: #4fc3f7;
+}
+
+.styled-text-area .variable {
+    -fx-fill: #4fc3f7;
+}
+
+.styled-text-area .tag {
+    -fx-fill: #4fc3f7;
+}
+
+.styled-text-area .attribute {
+    -fx-fill: #e74c3c;
+}
+
+.styled-text-area .preprocessor {
+    -fx-fill: #4fc3f7;
+}
+
+.styled-text-area .boolean {
+    -fx-fill: #e74c3c;
+}
+
+.styled-text-area .header {
+    -fx-fill: #A229FF;
+}
+
+.styled-text-area .bold {
+    -fx-font-weight: bold;
+}
+
+.styled-text-area .italic {
+    -fx-font-style: italic; /* Note: JavaFX usually uses -fx-font-style for italic */
+}
+
+.styled-text-area .link {
+    -fx-fill: #A229FF;
+}
+
+.styled-text-area .lifetime {
+    -fx-fill: #4fc3f7;
+}
+
+.styled-text-area .macro {
+    -fx-fill: #e74c3c;
 }

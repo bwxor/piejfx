@@ -1,53 +1,57 @@
 {
-  "extensions": [".js", ".mjs", ".cjs"],
-  "rules": {
-    "leading_spaces": {
-      "type": "indent",
-      "regex": "^\\s+"
-    },
-    "keywords": {
-      "type": "keyword",
-      "regex": "\\b(await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|false|finally|for|function|if|import|in|instanceof|let|new|null|return|super|switch|this|throw|true|try|typeof|var|void|while|with|yield)\\b"
-    },
-    "types": {
-      "type": "type",
-      "regex": "\\b(Number|String|Boolean|Object|Array|Function|BigInt|Symbol)\\b"
-    },
-    "strings": {
-      "type": "string",
-      "regex": "\"(\\\\.|[^\"\\\\])*\"|'(\\\\.|[^'\\\\])*'|`(\\\\.|[^`\\\\])*`"
-    },
-    "single_line_comment": {
-      "type": "comment",
-      "regex": "//.*"
-    },
-    "multi_line_comment": {
+  "extensions": [
+    ".js",
+    ".mjs",
+    ".cjs"
+  ],
+  "rules": [
+    {
       "type": "comment",
       "regex": "/\\*[\\s\\S]*?\\*/"
     },
-    "numbers": {
+    {
+      "type": "comment",
+      "regex": "//.*"
+    },
+    {
+      "type": "string",
+      "regex": "\"(\\\\.|[^\"\\\\])*\"|'(\\\\.|[^'\\\\])*'|`(\\\\.|[^`\\\\])*`"
+    },
+    {
       "type": "number",
       "regex": "\\b(0x[0-9a-fA-F]+|\\d+\\.\\d+|\\d+)\\b"
     },
-    "operators": {
-      "type": "operator",
-      "regex": "\\+\\+|--|==|!=|===|!==|<=|>=|&&|\\|\\||\\?\\?|<<|>>|>>>|[-+*/%=&|^~<>!]"
+    {
+      "type": "type",
+      "regex": "\\b(Number|String|Boolean|Object|Array|Function|BigInt|Symbol)\\b"
     },
-    "punctuation": {
-      "type": "punctuation",
-      "regex": "[{}()\\[\\];,\\.]"
+    {
+      "type": "keyword",
+      "regex": "\\b(await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|false|finally|for|function|if|import|in|instanceof|let|new|null|return|super|switch|this|throw|true|try|typeof|var|void|while|with|yield)\\b"
     },
-    "function": {
+    {
+      "type": "class",
+      "regex": "(?<=\\bclass\\s+)[A-Za-z_][A-Za-z0-9_]*"
+    },
+    {
       "type": "function",
       "regex": "\\bfunction\\s+[A-Za-z_][A-Za-z0-9_]*|\\b[A-Za-z_][A-Za-z0-9_]*\\s*(?=\\()"
     },
-    "class_name": {
-      "type": "class",
-      "regex": "\\bclass\\s+[A-Za-z_][A-Za-z0-9_]*"
+    {
+      "type": "operator",
+      "regex": "\\+\\+|--|==|!=|===|!==|<=|>=|&&|\\|\\||\\?\\?|<<|>>|>>>|[-+*/%=&|^~<>!]"
     },
-    "identifiers": {
+    {
+      "type": "punctuation",
+      "regex": "[{}()\\[\\];,\\.]"
+    },
+    {
+      "type": "indent",
+      "regex": "^\\s+"
+    },
+    {
       "type": "identifier",
       "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
     }
-  }
+  ]
 }

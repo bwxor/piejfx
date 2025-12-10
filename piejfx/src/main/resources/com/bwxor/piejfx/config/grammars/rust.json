@@ -1,69 +1,71 @@
 {
-  "extensions": [".rs"],
-  "rules": {
-    "leading_spaces": {
-      "type": "indent",
-      "regex": "^\\s+"
-    },
-    "keywords": {
-      "type": "keyword",
-      "regex": "\\b(as|async|await|break|const|continue|crate|dyn|else|enum|extern|false|fn|for|if|impl|in|let|loop|match|mod|move|mut|pub|ref|return|self|Self|static|struct|super|trait|true|type|unsafe|use|where|while|yield)\\b"
-    },
-    "types": {
-      "type": "type",
-      "regex": "\\b(i8|i16|i32|i64|i128|isize|u8|u16|u32|u64|u128|usize|f32|f64|bool|char|str|String|Option|Result|Vec|Box)\\b"
-    },
-    "strings": {
-      "type": "string",
-      "regex": "r#*\"[\\s\\S]*?\"#*|\"(\\\\.|[^\"\\\\])*\""
-    },
-    "single_line_comment": {
-      "type": "comment",
-      "regex": "//.*"
-    },
-    "multi_line_comment": {
+  "extensions": [
+    ".rs"
+  ],
+  "rules": [
+    {
       "type": "comment",
       "regex": "/\\*[\\s\\S]*?\\*/"
     },
-    "numbers": {
+    {
+      "type": "comment",
+      "regex": "//.*"
+    },
+    {
+      "type": "string",
+      "regex": "r#*\"[\\s\\S]*?\"#*|\"(\\\\.|[^\"\\\\])*\""
+    },
+    {
       "type": "number",
       "regex": "\\b(0x[0-9a-fA-F]+|0b[01]+|0o[0-7]+|\\d+\\.\\d+|\\d+)\\b"
     },
-    "lifetimes": {
+    {
       "type": "lifetime",
       "regex": "'[A-Za-z_][A-Za-z0-9_]*"
     },
-    "macros": {
+    {
       "type": "macro",
       "regex": "\\b[A-Za-z_][A-Za-z0-9_]*!"
     },
-    "operators": {
+    {
+      "type": "type",
+      "regex": "\\b(i8|i16|i32|i64|i128|isize|u8|u16|u32|u64|u128|usize|f32|f64|bool|char|str|String|Option|Result|Vec|Box)\\b"
+    },
+    {
+      "type": "keyword",
+      "regex": "\\b(as|async|await|break|const|continue|crate|dyn|else|enum|extern|false|fn|for|if|impl|in|let|loop|match|mod|move|mut|pub|ref|return|self|Self|static|struct|super|trait|true|type|unsafe|use|where|while|yield)\\b"
+    },
+    {
+      "type": "struct",
+      "regex": "(?<=\\bstruct\\s+)[A-Za-z_][A-Za-z0-9_]*"
+    },
+    {
+      "type": "enum",
+      "regex": "(?<=\\benum\\s+)[A-Za-z_][A-Za-z0-9_]*"
+    },
+    {
+      "type": "trait",
+      "regex": "(?<=\\btrait\\s+)[A-Za-z_][A-Za-z0-9_]*"
+    },
+    {
+      "type": "function",
+      "regex": "(?<=\\bfn\\s+)[A-Za-z_][A-Za-z0-9_]*"
+    },
+    {
       "type": "operator",
       "regex": "==|!=|<=|>=|&&|\\|\\||<<|>>|->|=>|\\+|\\-|\\*|/|%|=|&|\\||\\^|!"
     },
-    "punctuation": {
+    {
       "type": "punctuation",
       "regex": "[{}()\\[\\];,\\.:]"
     },
-    "function": {
-      "type": "function",
-      "regex": "\\bfn\\s+[A-Za-z_][A-Za-z0-9_]*"
+    {
+      "type": "indent",
+      "regex": "^\\s+"
     },
-    "struct_name": {
-      "type": "struct",
-      "regex": "\\bstruct\\s+[A-Za-z_][A-Za-z0-9_]*"
-    },
-    "enum_name": {
-      "type": "enum",
-      "regex": "\\benum\\s+[A-Za-z_][A-Za-z0-9_]*"
-    },
-    "trait_name": {
-      "type": "trait",
-      "regex": "\\btrait\\s+[A-Za-z_][A-Za-z0-9_]*"
-    },
-    "identifiers": {
+    {
       "type": "identifier",
       "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
     }
-  }
+  ]
 }

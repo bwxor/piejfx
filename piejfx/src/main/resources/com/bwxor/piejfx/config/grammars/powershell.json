@@ -1,9 +1,43 @@
 {
-  "extensions": [".ps1"],
-  "rules": {
-    "leading_spaces": { "type": "indent", "regex": "^\\s+" },
-    "keywords": { "type": "keyword", "regex": "\\b(param|function|filter|workflow|if|else|elseif|switch|for|foreach|while|do|until|break|continue|return|try|catch|finally|throw)\\b" },
-    "variables": { "type": "variable", "regex": "\\$[A-Za-z_][A-Za-z0-9_]*" },
-    "comments": { "type": "comment", "regex": "#.*" }
-  }
+  "extensions": [
+    ".ps1"
+  ],
+  "rules": [
+    {
+      "type": "comment",
+      "regex": "#.*"
+    },
+    {
+      "type": "variable",
+      "regex": "\\$[A-Za-z_][A-Za-z0-9_]*"
+    },
+    {
+      "type": "string",
+      "regex": "\"(\\\\.|[^\"\\\\])*\"|'(\\\\.|[^'\\\\])*'"
+    },
+    {
+      "type": "number",
+      "regex": "\\b\\d+(\\.\\d+)?\\b"
+    },
+    {
+      "type": "keyword",
+      "regex": "\\b(param|function|filter|workflow|if|else|elseif|switch|for|foreach|while|do|until|break|continue|return|try|catch|finally|throw)\\b"
+    },
+    {
+      "type": "operator",
+      "regex": "-eq|-ne|-lt|-gt|-le|-ge|-and|-or|[-+*/%=&|^~<>!]"
+    },
+    {
+      "type": "punctuation",
+      "regex": "[{}()\\[\\];,\\.]"
+    },
+    {
+      "type": "indent",
+      "regex": "^\\s+"
+    },
+    {
+      "type": "identifier",
+      "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
+    }
+  ]
 }

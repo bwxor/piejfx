@@ -187,6 +187,7 @@
 .char {
     -fx-fill: #A229FF;
 }
+
 .comment {
     -fx-fill: #ADADAD;
 }
@@ -196,6 +197,10 @@
 }
 
 .annotation {
+    -fx-fill: #E82525;
+}
+
+.decorator {
     -fx-fill: #E82525;
 }
 
@@ -209,4 +214,68 @@
 
 .identifier {
     -fx-fill: black;
+}
+
+.division {
+    -fx-fill: #2974FF;
+}
+
+.section {
+    -fx-fill: #2974FF;
+}
+
+.level {
+    -fx-fill: #2974FF;
+}
+
+.function {
+    -fx-fill: #2974FF;
+}
+
+.selector {
+    -fx-fill: #2974FF;
+}
+
+.variable {
+    -fx-fill: #2974FF;
+}
+
+.tag {
+    -fx-fill: #2974FF;
+}
+
+.attribute {
+    -fx-fill: #E82525;
+}
+
+.preprocessor {
+    -fx-fill: #2974FF;
+}
+
+.boolean {
+    -fx-fill: #E82525;
+}
+
+.header {
+    -fx-fill: #A229FF;
+}
+
+.bold {
+    -fx-weight: bold;
+}
+
+.italic {
+    -fx-weight: italic;
+}
+
+.link {
+    -fx-fill: #A229FF;
+}
+
+.lifetime {
+    -fx-fill: #2974FF;
+}
+
+.macro {
+    -fx-fill: #E82525;
 }

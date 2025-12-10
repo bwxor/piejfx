@@ -1,10 +1,47 @@
 {
-  "extensions": [".php"],
-  "rules": {
-    "leading_spaces": { "type": "indent", "regex": "^\\s+" },
-    "keywords": { "type": "keyword", "regex": "\\b(abstract|and|array|as|break|callable|case|catch|class|clone|const|continue|declare|default|do|echo|else|elseif|empty|enddeclare|endfor|endforeach|endif|endswitch|endwhile|eval|exit|extends|final|for|foreach|function|global|goto|if|implements|include|interface|isset|list|namespace|new|null|or|print|private|protected|public|require|return|static|switch|throw|trait|try|unset|use|var|while|xor)\\b" },
-    "variables": { "type": "variable", "regex": "\\$[A-Za-z_][A-Za-z0-9_]*" },
-    "strings": { "type": "string", "regex": "\"(\\\\.|[^\"\\\\])*\"|'(\\\\.|[^'\\\\])*'" },
-    "comments": { "type": "comment", "regex": "//.*|#.*|/\\*[\\s\\S]*?\\*/" }
-  }
+  "extensions": [
+    ".php"
+  ],
+  "rules": [
+    {
+      "type": "comment",
+      "regex": "//.*|#.*|/\\*[\\s\\S]*?\\*/"
+    },
+    {
+      "type": "string",
+      "regex": "\"(\\\\.|[^\"\\\\])*\"|'(\\\\.|[^'\\\\])*'"
+    },
+    {
+      "type": "variable",
+      "regex": "\\$[A-Za-z_][A-Za-z0-9_]*"
+    },
+    {
+      "type": "number",
+      "regex": "\\b\\d+(\\.\\d+)?\\b"
+    },
+    {
+      "type": "keyword",
+      "regex": "\\b(abstract|and|array|as|break|callable|case|catch|class|clone|const|continue|declare|default|do|echo|else|elseif|empty|enddeclare|endfor|endforeach|endif|endswitch|endwhile|eval|exit|extends|final|for|foreach|function|global|goto|if|implements|include|interface|isset|list|namespace|new|null|or|print|private|protected|public|require|return|static|switch|throw|trait|try|unset|use|var|while|xor)\\b"
+    },
+    {
+      "type": "operator",
+      "regex": "==|!=|===|!==|<=|>=|&&|\\|\\||\\+\\+|--|=>|[-+*/%=&|^~<>!]"
+    },
+    {
+      "type": "punctuation",
+      "regex": "[{}()\\[\\];,\\.:]"
+    },
+    {
+      "type": "indent",
+      "regex": "^\\s+"
+    },
+    {
+      "type": "function",
+      "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\s*(?=\\()"
+    },
+    {
+      "type": "identifier",
+      "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
+    }
+  ]
 }

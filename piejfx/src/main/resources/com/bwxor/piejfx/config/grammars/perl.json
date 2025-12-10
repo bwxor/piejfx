@@ -1,49 +1,52 @@
 {
-  "extensions": [".pl", ".pm"],
-  "rules": {
-    "leading_spaces": {
-      "type": "indent",
-      "regex": "^\\s+"
-    },
-    "keywords": {
-      "type": "keyword",
-      "regex": "\\b(my|our|use|require|package|sub|if|elsif|else|unless|while|until|for|foreach|given|when|default|continue|last|next|redo|goto|return|eval|die|warn)\\b"
-    },
-    "types": {
-      "type": "type",
-      "regex": "\\b(scalar|array|hash|code|glob|ref)\\b"
-    },
-    "strings": {
-      "type": "string",
-      "regex": "\"(\\\\.|[^\"\\\\])*\"|'(\\\\.|[^'\\\\])*'"
-    },
-    "single_line_comment": {
+  "extensions": [
+    ".pl",
+    ".pm"
+  ],
+  "rules": [
+    {
       "type": "comment",
       "regex": "#.*"
     },
-    "numbers": {
+    {
+      "type": "string",
+      "regex": "\"(\\\\.|[^\"\\\\])*\"|'(\\\\.|[^'\\\\])*'"
+    },
+    {
       "type": "number",
       "regex": "\\b(0x[0-9a-fA-F]+|\\d+\\.\\d+|\\d+)\\b"
     },
-    "variables": {
+    {
+      "type": "type",
+      "regex": "\\b(scalar|array|hash|code|glob|ref)\\b"
+    },
+    {
+      "type": "keyword",
+      "regex": "\\b(my|our|use|require|package|sub|if|elsif|else|unless|while|until|for|foreach|given|when|default|continue|last|next|redo|goto|return|eval|die|warn)\\b"
+    },
+    {
+      "type": "function",
+      "regex": "(?<=\\bsub\\s+)[A-Za-z_][A-Za-z0-9_]*"
+    },
+    {
       "type": "variable",
       "regex": "[\\$@%][A-Za-z_][A-Za-z0-9_]*"
     },
-    "operators": {
+    {
       "type": "operator",
-      "regex": "==|!=|<=|>=|<=|>=|=>|=~|!~|\\+|\\-|\\*|/|%|=|\\.|x|\\*\\*|&&|\\|\\|"
+      "regex": "==|!=|<=|>=|=>|=~|!~|\\+|\\-|\\*|/|%|=|\\.|x|\\*\\*|&&|\\|\\|"
     },
-    "punctuation": {
+    {
       "type": "punctuation",
       "regex": "[{}()\\[\\];,]"
     },
-    "function": {
-      "type": "function",
-      "regex": "\\bsub\\s+[A-Za-z_][A-Za-z0-9_]*"
+    {
+      "type": "indent",
+      "regex": "^\\s+"
     },
-    "identifiers": {
+    {
       "type": "identifier",
       "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
     }
-  }
+  ]
 }

@@ -1,15 +1,40 @@
 {
-  "extensions": [".pas", ".p"],
-  "rules": {
-    "leading_spaces": { "type": "indent", "regex": "^\\s+" },
-    "keywords": {
+  "extensions": [
+    ".pas",
+    ".p"
+  ],
+  "rules": [
+    {
+      "type": "comment",
+      "regex": "\\{[\\s\\S]*?\\}|\\(\\*[\\s\\S]*?\\*\\)"
+    },
+    {
+      "type": "string",
+      "regex": "'([^']|'')*'"
+    },
+    {
+      "type": "number",
+      "regex": "\\b\\d+(\\.\\d+)?\\b"
+    },
+    {
       "type": "keyword",
       "regex": "\\b(begin|end|if|then|else|while|do|for|to|downto|repeat|until|case|of|procedure|function|var|type|const|record|array|set|file|program|with)\\b"
     },
-    "strings": { "type": "string", "regex": "'([^']|'')*'" },
-    "comments": { "type": "comment", "regex": "\\{[\\s\\S]*?\\}|\\(\\*[\\s\\S]*?\\*\\)" },
-    "numbers": { "type": "number", "regex": "\\b\\d+(\\.\\d+)?\\b" },
-    "operators": { "type": "operator", "regex": ":=|=|<>|<=|>=|[-+*/]" },
-    "punctuation": { "type": "punctuation", "regex": "[()\\[\\];,\\.]" }
-  }
+    {
+      "type": "operator",
+      "regex": ":=|=|<>|<=|>=|[-+*/]"
+    },
+    {
+      "type": "punctuation",
+      "regex": "[()\\[\\];,\\.]"
+    },
+    {
+      "type": "indent",
+      "regex": "^\\s+"
+    },
+    {
+      "type": "identifier",
+      "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
+    }
+  ]
 }
