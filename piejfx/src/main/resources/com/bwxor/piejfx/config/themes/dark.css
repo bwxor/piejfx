@@ -67,6 +67,11 @@
     -fx-padding: 0;
 }
 
+.split-pane *.split-pane-divider {
+    -fx-padding: 0 1 0 1;
+    -fx-background-color: #1e1e1e;
+}
+
 /* --- MenuBar --- */
 .menu-bar {
     -fx-background-color: #2d2d30;
