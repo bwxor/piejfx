@@ -1,11 +1,13 @@
 {
-  "extensions": [
-    ".xml"
-  ],
+  "extensions": [".xml"],
   "rules": [
     {
       "type": "comment",
-      "regex": ""
+      "regex": "<!--[\\s\\S]*?-->"
+    },
+    {
+      "type": "comment",
+      "regex": "<![\\s\\S]*?>"
     },
     {
       "type": "string",
@@ -13,11 +15,15 @@
     },
     {
       "type": "tag",
-      "regex": "</?[A-Za-z_:][A-Za-z0-9_:\\-\\.]*"
+      "regex": "</?[A-Za-z][A-Za-z0-9-]*"
+    },
+    {
+      "type": "tag",
+      "regex": "/?>"
     },
     {
       "type": "attribute",
-      "regex": "\\b[A-Za-z_:][A-Za-z0-9_:\\-\\.]*(?==)"
+      "regex": "\\b[A-Za-z-]+(?=\\s*=)"
     },
     {
       "type": "operator",
@@ -25,11 +31,11 @@
     },
     {
       "type": "punctuation",
-      "regex": "[<>/]"
+      "regex": "[<>]"
     },
     {
       "type": "identifier",
-      "regex": "[A-Za-z0-9_:\\-\\.]+"
+      "regex": "[A-Za-z0-9-]+"
     }
   ]
 }

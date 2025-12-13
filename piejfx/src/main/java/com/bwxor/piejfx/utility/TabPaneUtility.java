@@ -25,6 +25,10 @@ public class TabPaneUtility {
 
     public static void addTabToPane(TabPane tabPane, File file) {
         Tab tab = TabFactory.createEditorTab(tabPane, file.getName());
+        tab.setOnCloseRequest(e -> {
+            removeSelectedTabFromPane(tabPane);
+            e.consume();
+        });
         tabPane.getTabs().add(tab);
 
         resyncCodeAreaIds(tabPane);
