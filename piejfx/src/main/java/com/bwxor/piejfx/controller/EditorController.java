@@ -1,6 +1,9 @@
 package com.bwxor.piejfx.controller;
 
+import com.bwxor.piejfx.factory.ContextMenuFactory;
+import com.bwxor.piejfx.state.StageState;
 import com.bwxor.piejfx.state.ThemeState;
+import com.bwxor.piejfx.type.RemoveSelectedTabFromPaneResponse;
 import com.bwxor.piejfx.utility.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Menu;
@@ -30,29 +33,44 @@ public class EditorController {
 
     public void handleParameters() {
         if (!parameters.isEmpty()) {
-            OpenFileUtility.openFile(editorTabPane, new File(parameters.getFirst()));
-        }
-        else {
-            EditorTabPaneUtility.addTabToPane(editorTabPane, "Untitled");
+            OpenFileUtility.openFile(splitPane, editorTabPane, terminalTabPane, new File(parameters.getFirst()));
+        } else {
+            EditorTabPaneUtility.addTabToPane(splitPane, editorTabPane, terminalTabPane, "Untitled");
         }
 
         splitPane.getItems().remove(terminalTabPane);
         TerminalTabPaneUtility.addTabToPane(terminalTabPane, "cmd.exe");
+        terminalTabPane.setContextMenu(ContextMenuFactory.createTerminalTabPaneContextMenu(terminalTabPane));
     }
 
     @FXML
     public void initialize() {
         ThemeUtility.loadMenuWithThemes(themesMenu, ThemeState.instance.getThemes());
+
+        StageState.instance.getStage().setOnCloseRequest(
+                e -> {
+                    int size = editorTabPane.getTabs().size();
+                    editorTabPane.getSelectionModel().select(size - 1);
+
+                    for (int i = 0; i < size; i++) {
+                        var saveResponse = EditorTabPaneUtility.removeSelectedTabFromPane(splitPane, editorTabPane, terminalTabPane);
+                        if (saveResponse.equals(RemoveSelectedTabFromPaneResponse.CANCELLED)) {
+                            e.consume();
+                            return;
+                        }
+                    }
+                }
+        );
     }
 
     @FXML
     public void onNewButtonClickEvent() {
-        EditorTabPaneUtility.addTabToPane(editorTabPane, "Untitled");
+        EditorTabPaneUtility.addTabToPane(splitPane, editorTabPane, terminalTabPane, "Untitled");
     }
 
     @FXML
     public void onOpenButtonClickEvent() {
-        OpenFileUtility.openFile(editorTabPane);
+        OpenFileUtility.openFile(splitPane, editorTabPane, terminalTabPane);
     }
 
     @FXML
@@ -74,21 +92,13 @@ public class EditorController {
     public void onKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.isControlDown()) { // Modifiers will be handled
             if (keyEvent.getCode().equals(KeyCode.T)) {
-                EditorTabPaneUtility.addTabToPane(editorTabPane, "Untitled");
-            }
-            else if (keyEvent.getCode().equals(KeyCode.W)) {
-                EditorTabPaneUtility.removeSelectedTabFromPane(editorTabPane);
-            }
-            else if (keyEvent.getCode().equals(KeyCode.S)) {
+                EditorTabPaneUtility.addTabToPane(splitPane, editorTabPane, terminalTabPane, "Untitled");
+            } else if (keyEvent.getCode().equals(KeyCode.W)) {
+                EditorTabPaneUtility.removeSelectedTabFromPane(splitPane, editorTabPane, terminalTabPane);
+            } else if (keyEvent.getCode().equals(KeyCode.S)) {
                 SaveFileUtility.saveFile(editorTabPane);
-            }
-            else if (keyEvent.getCode().equals(KeyCode.B)) {
-                if (splitPane.getItems().contains(terminalTabPane)) {
-                    splitPane.getItems().remove(terminalTabPane);
-                }
-                else {
-                    splitPane.getItems().add(terminalTabPane);
-                }
+            } else if (keyEvent.getCode().equals(KeyCode.B)) {
+                TerminalTabPaneUtility.toggleTerminalTabPane(splitPane, terminalTabPane);
             }
         }
     }

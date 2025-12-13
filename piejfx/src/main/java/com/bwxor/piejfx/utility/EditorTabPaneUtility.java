@@ -4,6 +4,7 @@ import com.bwxor.piejfx.factory.TabFactory;
 import com.bwxor.piejfx.state.CodeAreaState;
 import com.bwxor.piejfx.type.NotificationYesNoCancelOption;
 import com.bwxor.piejfx.type.RemoveSelectedTabFromPaneResponse;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import org.fxmisc.richtext.CodeArea;
@@ -23,15 +24,15 @@ public class EditorTabPaneUtility {
         }
     }
 
-    public static void addTabToPane(TabPane tabPane, File file) {
-        Tab tab = TabFactory.createEditorTab(file.getName());
+    public static void addTabToPane(SplitPane splitPane, TabPane editorTabPane, TabPane terminalTabPane, File file) {
+        Tab tab = TabFactory.createEditorTab(splitPane, terminalTabPane, file.getName());
         tab.setOnCloseRequest(e -> {
-            removeSelectedTabFromPane(tabPane);
+            removeSelectedTabFromPane(splitPane, editorTabPane, terminalTabPane);
             e.consume();
         });
-        tabPane.getTabs().add(tab);
+        editorTabPane.getTabs().add(tab);
 
-        resyncCodeAreaIds(tabPane);
+        resyncCodeAreaIds(editorTabPane);
 
         if (tab.getContent() instanceof CodeArea c) {
 
@@ -50,31 +51,32 @@ public class EditorTabPaneUtility {
             }
         }
 
-        tabPane.getSelectionModel().select(tab);
+        editorTabPane.getSelectionModel().select(tab);
 
     }
 
-    public static void addTabToPane(TabPane tabPane, String tabTitle) {
-        Tab tab = TabFactory.createEditorTab(tabTitle);
+    public static void addTabToPane(SplitPane splitPane, TabPane editorTabPane, TabPane terminalTabPane, String tabTitle) {
+        Tab tab = TabFactory.createEditorTab(splitPane, terminalTabPane, tabTitle);
         tab.setOnCloseRequest(e -> {
-            removeSelectedTabFromPane(tabPane);
+            removeSelectedTabFromPane(splitPane, editorTabPane, terminalTabPane);
             e.consume();
         });
-        tabPane.getTabs().add(tab);
+        editorTabPane.getTabs().add(tab);
 
-        resyncCodeAreaIds(tabPane);
+        resyncCodeAreaIds(editorTabPane);
 
-        tabPane.getSelectionModel().select(tab);
+        editorTabPane.getSelectionModel().select(tab);
     }
 
     /**
      * Removes the selected tab from the pane and prompts to a save if the content is not stored in any file.
      *
-     * @param tabPane
+     * @param splitPane
+     * @param editorTabPane
      * @return a negative response only if the user was prompted for a save and cancelled it.
      */
-    public static RemoveSelectedTabFromPaneResponse removeSelectedTabFromPane(TabPane tabPane) {
-        CodeAreaState.IndividualState individualState = CodeAreaState.instance.getIndividualStates().get(tabPane.getSelectionModel().getSelectedIndex());
+    public static RemoveSelectedTabFromPaneResponse removeSelectedTabFromPane(SplitPane splitPane, TabPane editorTabPane, TabPane terminalTabPane) {
+        CodeAreaState.IndividualState individualState = CodeAreaState.instance.getIndividualStates().get(editorTabPane.getSelectionModel().getSelectedIndex());
 
         if (!individualState.isSaved()) {
             boolean repeatPrompt;
@@ -87,7 +89,7 @@ public class EditorTabPaneUtility {
                 if (pickedOption.equals(NotificationYesNoCancelOption.CANCEL)) {
                     return RemoveSelectedTabFromPaneResponse.CANCELLED;
                 } else if (pickedOption.equals(NotificationYesNoCancelOption.YES)) {
-                    if (!SaveFileUtility.saveFile(tabPane)) {
+                    if (!SaveFileUtility.saveFile(editorTabPane)) {
                         repeatPrompt = true;
                     }
                 }
@@ -95,13 +97,13 @@ public class EditorTabPaneUtility {
         }
 
         CodeAreaState.instance.getIndividualStates().remove(individualState);
-        tabPane.getTabs().remove(tabPane.getSelectionModel().getSelectedItem());
+        editorTabPane.getTabs().remove(editorTabPane.getSelectionModel().getSelectedItem());
 
-        if (tabPane.getTabs().isEmpty()) {
-            addTabToPane(tabPane, "Untitled");
+        if (editorTabPane.getTabs().isEmpty()) {
+            addTabToPane(splitPane, editorTabPane, terminalTabPane, "Untitled");
         }
 
-        resyncCodeAreaIds(tabPane);
+        resyncCodeAreaIds(editorTabPane);
 
         return RemoveSelectedTabFromPaneResponse.REMOVED;
     }

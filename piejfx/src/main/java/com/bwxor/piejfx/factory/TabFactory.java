@@ -10,7 +10,10 @@ import com.techsenger.jeditermfx.core.util.Platform;
 import com.techsenger.jeditermfx.ui.DefaultHyperlinkFilter;
 import com.techsenger.jeditermfx.ui.JediTermFxWidget;
 import com.bwxor.piejfx.dto.CreateTtyConnectorResponse;
+import javafx.event.Event;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.ScrollEvent;
 import org.fxmisc.richtext.CodeArea;
@@ -22,11 +25,12 @@ import java.util.Map;
 
 public class TabFactory {
     private static final String EMPTY_STRING = "";
-    public static Tab createEditorTab() {
-        return createEditorTab(EMPTY_STRING);
+
+    public static Tab createEditorTab(SplitPane splitPane, TabPane terminalTabPane) {
+        return createEditorTab(splitPane, terminalTabPane, EMPTY_STRING);
     }
 
-    public static Tab createEditorTab(String title) {
+    public static Tab createEditorTab(SplitPane splitPane, TabPane terminalTabPane, String title) {
         Tab tab = new Tab();
 
         CodeArea codeArea = new CodeArea();
@@ -36,6 +40,10 @@ public class TabFactory {
         createdState.setSaved(true);
         CodeAreaState.instance.getIndividualStates().add(createdState);
 
+        codeArea.setContextMenu(
+                ContextMenuFactory.createCodeAreaContextMenu(splitPane, terminalTabPane)
+        );
+
         codeArea.setOnKeyPressed(e -> {
             if (e.isControlDown()) {
                 CodeAreaState.IndividualState individualState = CodeAreaState.instance.getIndividualStates().get(Integer.parseInt(codeArea.getId()));
@@ -43,8 +51,7 @@ public class TabFactory {
                 if (e.getCode().equals(KeyCode.ADD)) {
                     individualState.setFontSize(individualState.getFontSize() + 2);
                     codeArea.setStyle(String.format("-fx-font-size: %dpt", individualState.getFontSize()));
-                }
-                else if (e.getCode().equals(KeyCode.SUBTRACT)) {
+                } else if (e.getCode().equals(KeyCode.SUBTRACT)) {
                     individualState.setFontSize(individualState.getFontSize() - 2);
                     codeArea.setStyle(String.format("-fx-font-size: %dpt", individualState.getFontSize()));
                 }
@@ -59,8 +66,7 @@ public class TabFactory {
                         if (e.getDeltaY() > 0) {
                             individualState.setFontSize(individualState.getFontSize() + 2);
                             codeArea.setStyle(String.format("-fx-font-size: %dpt", individualState.getFontSize()));
-                        }
-                        else {
+                        } else {
                             individualState.setFontSize(individualState.getFontSize() - 2);
                             codeArea.setStyle(String.format("-fx-font-size: %dpt", individualState.getFontSize()));
                         }
@@ -93,6 +99,9 @@ public class TabFactory {
         var createTtyConnectorResponse = createTtyConnector(cmdToRun);
         jediTermFxWidget.setTtyConnector(createTtyConnectorResponse.ttyConnector());
         jediTermFxWidget.addHyperlinkFilter(new DefaultHyperlinkFilter());
+        jediTermFxWidget.getPane().setOnContextMenuRequested(
+                Event::consume
+        );
         jediTermFxWidget.start();
 
         TerminalState.instance.getTerminals().add(jediTermFxWidget);
@@ -115,9 +124,8 @@ public class TabFactory {
                     envs = new HashMap<>(System.getenv());
                     envs.put("TERM", "xterm-256color");
                 }
-            }
-            else {
-                command = new String[] {cmdToRun};
+            } else {
+                command = new String[]{cmdToRun};
             }
 
             PtyProcess process = new PtyProcessBuilder().setCommand(command).setEnvironment(envs).start();

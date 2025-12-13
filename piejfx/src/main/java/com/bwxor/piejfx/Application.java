@@ -32,22 +32,7 @@ public class Application extends javafx.application.Application {
         stage.setTitle("piejfx");
         stage.getIcons().add(new Image(Objects.requireNonNull(ResourceUtility.getResourceByNameAsStream("img/icon.png"))));
         stage.setScene(scene);
-        stage.setOnCloseRequest(
-                e -> {
-                    TabPane tabPane = (TabPane) stage.getScene().getRoot().lookup("#editorTabPane");
 
-                    int size = tabPane.getTabs().size();
-                    tabPane.getSelectionModel().select(size - 1);
-
-                    for (int i = 0; i < size; i++) {
-                        var saveResponse = EditorTabPaneUtility.removeSelectedTabFromPane(tabPane);
-                        if (saveResponse.equals(RemoveSelectedTabFromPaneResponse.CANCELLED)) {
-                            e.consume();
-                            return;
-                        }
-                    }
-                }
-        );
         stage.show();
     }
 }
