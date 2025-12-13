@@ -12,7 +12,6 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
 
 public class Application extends javafx.application.Application {
@@ -20,6 +19,7 @@ public class Application extends javafx.application.Application {
     public void start(Stage stage) throws IOException {
         StageState.instance.setStage(stage);
 
+        ConfigUtility.createConfigDirectoryStructure();
         ThemeState.instance.setThemes(ThemeUtility.getThemes());
         ConfigUtility.loadConfig();
 
@@ -34,13 +34,13 @@ public class Application extends javafx.application.Application {
         stage.setScene(scene);
         stage.setOnCloseRequest(
                 e -> {
-                    TabPane tabPane = (TabPane) stage.getScene().getRoot().lookup("#tabPane");
+                    TabPane tabPane = (TabPane) stage.getScene().getRoot().lookup("#editorTabPane");
 
                     int size = tabPane.getTabs().size();
                     tabPane.getSelectionModel().select(size - 1);
 
                     for (int i = 0; i < size; i++) {
-                        var saveResponse = TabPaneUtility.removeSelectedTabFromPane(tabPane);
+                        var saveResponse = EditorTabPaneUtility.removeSelectedTabFromPane(tabPane);
                         if (saveResponse.equals(RemoveSelectedTabFromPaneResponse.CANCELLED)) {
                             e.consume();
                             return;

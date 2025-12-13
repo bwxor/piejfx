@@ -60,6 +60,13 @@
    -fx-border-width: 0px;
 }
 
+/* --- SplitPane --- */
+.split-pane {
+    -fx-border-width: 0;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
 /* --- MenuBar --- */
 .menu-bar {
     -fx-background-color: #f5f5f5;
@@ -169,6 +176,12 @@
 
 .text-area .content {
     -fx-background-color: transparent;
+}
+
+/* -- Terminal -- */
+.terminal {
+    -fx-background-color: #FFFFFF;
+    -fx-foreground-color: #000000;
 }
 
 /* -- Grammars -- */

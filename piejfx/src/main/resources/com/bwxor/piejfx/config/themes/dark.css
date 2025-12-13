@@ -60,6 +60,13 @@
    -fx-border-width: 0px;
 }
 
+/* --- SplitPane --- */
+.split-pane {
+    -fx-border-width: 0;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
 /* --- MenuBar --- */
 .menu-bar {
     -fx-background-color: #2d2d30;
@@ -187,6 +194,12 @@
 
 .styled-text-area .caret {
     -fx-stroke: #FFFFFF;
+}
+
+/* -- Terminal -- */
+.terminal {
+    -fx-background-color: #1e1e1e;
+    -fx-foreground-color: #FFFFFF;
 }
 
 /* --- AnchorPane --- */

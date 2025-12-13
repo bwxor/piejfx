@@ -18,7 +18,7 @@ public class OpenFileUtility {
     }
 
     public static void openFile(TabPane tabPane, File file) {
-        TabPaneUtility.addTabToPane(tabPane, file);
+        EditorTabPaneUtility.addTabToPane(tabPane, file);
 
         CodeAreaState.IndividualState state = CodeAreaState.instance.getIndividualStates().get(tabPane.getSelectionModel().getSelectedIndex());
 

@@ -18,7 +18,9 @@
                             <Menu mnemonicParsing="false" text="File">
                                 <items>
                                     <MenuItem mnemonicParsing="false" text="New" onAction="#onNewButtonClickEvent"/>
-                                    <MenuItem mnemonicParsing="false" text="Open..."
+                                    <MenuItem mnemonicParsing="false" text="Open File..."
+                                              onAction="#onOpenButtonClickEvent"/>
+                                    <MenuItem mnemonicParsing="false" text="Open Folder..."
                                               onAction="#onOpenButtonClickEvent"/>
                                     <MenuItem mnemonicParsing="false" text="Save" onAction="#onSaveButtonClickEvent"/>
                                     <MenuItem mnemonicParsing="false" text="Save as..."
@@ -43,14 +45,14 @@
                     </MenuBar>
                 </children>
             </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                <children>
-                    <TabPane fx:id="tabPane" layoutX="122.0" layoutY="43.0" prefHeight="200.0" prefWidth="200.0"
-                             tabClosingPolicy="SELECTED_TAB" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                             AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    </TabPane>
-                </children>
-            </AnchorPane>
+            <SplitPane fx:id="splitPane" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                <TabPane fx:id="editorTabPane" layoutX="122.0" layoutY="43.0" prefHeight="200.0" prefWidth="200.0"
+                         tabClosingPolicy="SELECTED_TAB">
+                </TabPane>
+                <TabPane fx:id="terminalTabPane" layoutX="122.0" layoutY="43.0" prefHeight="200.0" prefWidth="200.0"
+                         tabClosingPolicy="SELECTED_TAB" side="BOTTOM">
+                </TabPane>
+            </SplitPane>
         </children>
         <VBox.margin>
             <Insets/>

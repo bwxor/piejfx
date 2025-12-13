@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
-public class TabPaneUtility {
+public class EditorTabPaneUtility {
     private static void resyncCodeAreaIds(TabPane tabPane) {
         for (int i = 0; i < tabPane.getTabs().size(); i++) {
             if (tabPane.getTabs().get(i).getContent() instanceof CodeArea c) {
@@ -24,7 +24,7 @@ public class TabPaneUtility {
     }
 
     public static void addTabToPane(TabPane tabPane, File file) {
-        Tab tab = TabFactory.createEditorTab(tabPane, file.getName());
+        Tab tab = TabFactory.createEditorTab(file.getName());
         tab.setOnCloseRequest(e -> {
             removeSelectedTabFromPane(tabPane);
             e.consume();
@@ -55,7 +55,7 @@ public class TabPaneUtility {
     }
 
     public static void addTabToPane(TabPane tabPane, String tabTitle) {
-        Tab tab = TabFactory.createEditorTab(tabPane, tabTitle);
+        Tab tab = TabFactory.createEditorTab(tabTitle);
         tab.setOnCloseRequest(e -> {
             removeSelectedTabFromPane(tabPane);
             e.consume();

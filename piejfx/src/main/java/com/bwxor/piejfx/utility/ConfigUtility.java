@@ -10,26 +10,27 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class ConfigUtility {
-    public static void loadConfig() {
+    public static void createConfigDirectoryStructure() {
         if (!new File(AppDirConstants.CONFIG_DIR.toUri()).exists()) {
             copyResourceFilesIntoAppdata();
-            loadConfig();
-        } else {
-            try (BufferedReader bufferedReader =
-                         new BufferedReader(new FileReader(AppDirConstants.CONFIG_FILE.toFile()))) {
-                String configContent = bufferedReader.readAllAsString();
+        }
+    }
 
-                JSONObject jsonObject = new JSONObject(configContent);
-                JSONObject obj = jsonObject.getJSONObject("config");
-                String theme = obj.getString("currentTheme");
+    public static void loadConfig() {
+        try (BufferedReader bufferedReader =
+                     new BufferedReader(new FileReader(AppDirConstants.CONFIG_FILE.toFile()))) {
+            String configContent = bufferedReader.readAllAsString();
 
-                ThemeState.instance.getThemes().stream()
-                        .filter(t -> t.getName().equals(theme))
-                        .findFirst()
-                        .ifPresent(t -> ThemeState.instance.setCurrentTheme(t));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            JSONObject jsonObject = new JSONObject(configContent);
+            JSONObject obj = jsonObject.getJSONObject("config");
+            String theme = obj.getString("currentTheme");
+
+            ThemeState.instance.getThemes().stream()
+                    .filter(t -> t.getName().equals(theme))
+                    .findFirst()
+                    .ifPresent(t -> ThemeState.instance.setCurrentTheme(t));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

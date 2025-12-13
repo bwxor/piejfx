@@ -9,6 +9,11 @@ module com.bwxor.piejfx {
     requires reactfx;
     requires org.json;
     requires net.harawata.appdirs;
+    requires com.techsenger.jeditermfx.ui;
+    requires com.techsenger.jeditermfx.core;
+    requires pty4j;
+    requires com.helger.css;
+    requires com.helger.collection;
 
     opens com.bwxor.piejfx to javafx.fxml;
     opens com.bwxor.piejfx.controller;

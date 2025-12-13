@@ -31,14 +31,6 @@ public final class ThemeState {
 
     private ThemeState() {}
 
-    public static ThemeState getInstance() {
-        return instance;
-    }
-
-    public static void setInstance(ThemeState instance) {
-        ThemeState.instance = instance;
-    }
-
     public Theme getCurrentTheme() {
         return currentTheme;
     }
