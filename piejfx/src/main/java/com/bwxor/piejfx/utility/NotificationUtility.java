@@ -17,7 +17,7 @@ import java.util.Objects;
 
 public class NotificationUtility {
     public static NotificationYesNoCancelOption showNotificationYesNoCancel(String notificationText) {
-        FXMLLoader loader = new FXMLLoader(ResourceUtility.getResourceByName("notification-yesnocancel-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(ResourceUtility.getResourceByName("views/notification-yesnocancel-view.fxml"));
         Parent root;
 
         try {

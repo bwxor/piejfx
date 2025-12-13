@@ -23,7 +23,7 @@ public class Application extends javafx.application.Application {
         ThemeState.instance.setThemes(ThemeUtility.getThemes());
         ConfigUtility.loadConfig();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(ResourceUtility.getResourceByName("editor-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(ResourceUtility.getResourceByName("views/editor-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 750, 500);
         EditorController controller = fxmlLoader.getController();
         controller.setParameters(getParameters().getRaw());

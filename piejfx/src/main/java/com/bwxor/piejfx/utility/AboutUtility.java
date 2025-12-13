@@ -15,7 +15,7 @@ import java.util.Objects;
 
 public class AboutUtility {
     public static void showAboutPage() {
-        FXMLLoader loader = new FXMLLoader(ResourceUtility.getResourceByName("about-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(ResourceUtility.getResourceByName("views/about-view.fxml"));
         Parent root;
 
         try {
