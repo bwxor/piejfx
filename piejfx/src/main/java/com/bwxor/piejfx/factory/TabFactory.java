@@ -88,6 +88,12 @@ public class TabFactory {
                         codeArea.deleteNextChar();
                     }
                 }
+                else if (e.getCode().equals(KeyCode.D)) {
+                    codeArea.selectLine();
+                    String text = codeArea.getSelectedText();
+                    codeArea.replaceText(codeArea.getSelection().getEnd(), codeArea.getSelection().getEnd(), System.lineSeparator() + text);
+//                    codeArea.selectRange(codeArea.getSelection().getEnd(), codeArea.getSelection().getEnd());
+                }
             }
         });
 
