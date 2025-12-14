@@ -7,7 +7,7 @@
 <AnchorPane styleClass="window-root" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyPressed="#onKeyPressed" prefHeight="475.0" prefWidth="475.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bwxor.piejfx.controller.EditorController">
     <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="475.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
         <children>
-            <AnchorPane fx:id="titleBarAnchorPane" onMouseDragged="#handleMovementAction" onMousePressed="#handleClickAction" prefHeight="40.0" prefWidth="475.0">
+            <AnchorPane fx:id="titleBarAnchorPane" onMouseClicked="#handleDoubleClickAction" onMouseDragged="#handleMovementAction" onMousePressed="#handleClickAction" prefHeight="40.0" prefWidth="475.0">
                 <children>
                     <Label alignment="CENTER" layoutY="12.0" prefHeight="17.0" prefWidth="475.0" text="pie" styleClass="window-title" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                     <Button fx:id="closeButton" layoutX="439.0" layoutY="5.0" mnemonicParsing="false" onAction="#onCloseButtonClick" prefHeight="30.0" prefWidth="30.0" styleClass="button-close" text="✕" AnchorPane.rightAnchor="6.0">

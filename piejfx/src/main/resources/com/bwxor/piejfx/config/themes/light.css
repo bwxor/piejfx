@@ -1,13 +1,10 @@
 /* --- Window --- */
 .window-root {
     -fx-background-radius: 10px;
-    -fx-border-radius: 10px;
-
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 0);
+    -fx-border-radius: 6px;
 }
 
 .window-title {
-    -fx-font-family: "Funnel Sans";
     -fx-font-weight: bold;
     -fx-text-fill: #3D3D3D;
 }

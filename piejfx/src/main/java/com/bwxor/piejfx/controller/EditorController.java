@@ -1,6 +1,8 @@
 package com.bwxor.piejfx.controller;
 
 import com.bwxor.piejfx.factory.ContextMenuFactory;
+import com.bwxor.piejfx.state.MaximizeState;
+import com.bwxor.piejfx.state.StageState;
 import com.bwxor.piejfx.state.ThemeState;
 import com.bwxor.piejfx.type.RemoveSelectedTabFromPaneResponse;
 import com.bwxor.piejfx.utility.*;
@@ -11,6 +13,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -82,16 +85,29 @@ public class EditorController {
     }
 
     @FXML
+    public void handleDoubleClickAction(MouseEvent mouseEvent) {
+        if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
+            if(mouseEvent.getClickCount() == 2){
+                MaximizeState.instance.toggleMaximize(StageState.instance.getStage());
+            }
+        }
+    }
+
+    @FXML
     public void handleClickAction(MouseEvent mouseEvent) {
-        xOffset = mouseEvent.getSceneX();
-        yOffset = mouseEvent.getSceneY();
+        if (!MaximizeState.instance.isMaximized()) {
+            xOffset = mouseEvent.getSceneX();
+            yOffset = mouseEvent.getSceneY();
+        }
     }
 
     @FXML
     public void handleMovementAction(MouseEvent mouseEvent) {
-        Stage stage = (Stage) titleBarAnchorPane.getScene().getWindow();
-        stage.setX(mouseEvent.getScreenX() - xOffset);
-        stage.setY(mouseEvent.getScreenY() - yOffset);
+        if (!MaximizeState.instance.isMaximized()) {
+            Stage stage = (Stage) titleBarAnchorPane.getScene().getWindow();
+            stage.setX(mouseEvent.getScreenX() - xOffset);
+            stage.setY(mouseEvent.getScreenY() - yOffset);
+        }
     }
 
     @FXML
