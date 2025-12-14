@@ -10,6 +10,10 @@
       "regex": "\"(\\\\.|[^\"\\\\])*\""
     },
     {
+      "type": "preprocessor",
+      "regex": "^\\s*#\\s*(include|define|undef|ifdef|ifndef|if|else|elif|endif|pragma|error|warning|line)\\b.*"
+    },
+    {
       "type": "number",
       "regex": "\\b(0x[0-9a-fA-F]+|\\d+\\.\\d+|\\d+)\\b"
     },
