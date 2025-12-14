@@ -43,15 +43,12 @@ public class TerminalTabPaneUtility {
      *
      * @param splitPane
      * @param terminalTabPane
-     * @return true if the terminal tab pane is still visible, and false otherwise
      */
-    public static boolean toggleTerminalTabPane(SplitPane splitPane, TabPane terminalTabPane) {
+    public static void toggleTerminalTabPane(SplitPane splitPane, TabPane terminalTabPane) {
         if (splitPane.getItems().contains(terminalTabPane)) {
             splitPane.getItems().remove(terminalTabPane);
-            return false;
         } else {
             splitPane.getItems().add(terminalTabPane);
-            return true;
         }
     }
 }

@@ -13,11 +13,10 @@ public class ContextMenuFactory {
         contextMenu.setStyle("-fx-font-family: " + Font.getDefault().getName());
 
         MenuItem showTerminalContextMenuItem = new MenuItem();
-        showTerminalContextMenuItem.setText("Show Terminal");
+        showTerminalContextMenuItem.setText("Toggle Terminal Tab");
         showTerminalContextMenuItem.setOnAction(
                 e -> {
-                    boolean visible = TerminalTabPaneUtility.toggleTerminalTabPane(splitPane, terminalTabPane);
-                    showTerminalContextMenuItem.setText((visible ? "Hide" : "Show") + " Terminal");
+                    TerminalTabPaneUtility.toggleTerminalTabPane(splitPane, terminalTabPane);
                 }
         );
 
