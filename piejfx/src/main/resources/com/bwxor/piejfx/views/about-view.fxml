@@ -6,51 +6,66 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="315.0" prefWidth="303.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bwxor.piejfx.controller.NotificationYesNoCancelController">
-    <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="450.0" prefWidth="261.0" styleClass="app-window" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" VBox.vgrow="ALWAYS">
-        <VBox.margin>
-            <Insets />
-        </VBox.margin>
-      <children>
-         <ImageView preserveRatio="true">
-            <image>
-               <Image url="@../img/icon-small.png" />
-            </image>
-            <VBox.margin>
-               <Insets bottom="10.0" />
-            </VBox.margin>
-         </ImageView>
-         <Label text="PieJFX Pre-Alpha 2025.1">
-            <font>
-               <Font size="20.0" />
-            </font>
-            <VBox.margin>
-               <Insets bottom="5.0" />
-            </VBox.margin></Label>
-         <Label layoutX="10.0" layoutY="10.0" text="This is an early build.">
-            <VBox.margin>
-               <Insets />
-            </VBox.margin></Label>
-         <Label layoutX="10.0" layoutY="10.0" text="Might contain bugs that could" />
-         <Label layoutX="10.0" layoutY="10.0" text="affect (or even delete) your workspaces.">
-            <VBox.margin>
-               <Insets />
-            </VBox.margin></Label>
-         <Label layoutX="10.0" layoutY="10.0" text="Do not use it in a production environment.">
-            <VBox.margin>
-               <Insets bottom="10.0" />
-            </VBox.margin></Label>
-         <Label layoutX="10.0" layoutY="10.0" text="Report any bugs and leave your feedback" />
-         <Label layoutX="10.0" layoutY="10.0" text="via e-mail on mario@mail.bwxor.com.">
-            <VBox.margin>
-               <Insets bottom="30.0" />
-            </VBox.margin></Label>
-         <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
-            <children>
-               <Button mnemonicParsing="false" text="Project Website" />
-               <Button mnemonicParsing="false" text="GitHub Repository" />
-            </children>
-         </HBox>
-      </children>
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="315.0" prefWidth="303.0" styleClass="window-root" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bwxor.piejfx.controller.AboutController">
+    <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
+        <children>
+            <AnchorPane fx:id="titleBarAnchorPane" onMouseDragged="#handleMovementAction" onMousePressed="#handleClickAction" prefHeight="32.0" prefWidth="475.0">
+                <children>
+                    <Label alignment="CENTER" layoutY="12.0" prefHeight="17.0" prefWidth="475.0" text="About" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                    <Button fx:id="closeButton" layoutX="439.0" layoutY="3.0" mnemonicParsing="false" onAction="#onCloseButtonClick" prefHeight="30.0" prefWidth="30.0" styleClass="button-close" text="✕" AnchorPane.rightAnchor="6.0">
+                    </Button>
+                    <Button fx:id="minimizeButton" layoutX="404.0" layoutY="3.0" mnemonicParsing="false" onAction="#onMinimizeButtonClick" prefHeight="30.0" prefWidth="30.0" styleClass="button-minimize" text="_" AnchorPane.rightAnchor="41.0">
+                    </Button>
+                </children>
+            </AnchorPane>
+            <AnchorPane styleClass="main-content">
+                <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="450.0" prefWidth="261.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" VBox.vgrow="ALWAYS">
+                <ImageView preserveRatio="true">
+                    <image>
+                        <Image url="@../img/icon-small.png" />
+                    </image>
+                    <VBox.margin>
+                        <Insets bottom="10.0" />
+                    </VBox.margin>
+                </ImageView>
+                <Label text="PieJFX Pre-Alpha 2025.1">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets bottom="5.0" />
+                    </VBox.margin>
+                </Label>
+                <Label layoutX="10.0" layoutY="10.0" text="This is an early build.">
+                    <VBox.margin>
+                        <Insets />
+                    </VBox.margin>
+                </Label>
+                <Label layoutX="10.0" layoutY="10.0" text="Might contain bugs that could" />
+                <Label layoutX="10.0" layoutY="10.0" text="affect (or even delete) your workspaces.">
+                    <VBox.margin>
+                        <Insets />
+                    </VBox.margin>
+                </Label>
+                <Label layoutX="10.0" layoutY="10.0" text="Do not use it in a production environment.">
+                    <VBox.margin>
+                        <Insets bottom="10.0" />
+                    </VBox.margin>
+                </Label>
+                <Label layoutX="10.0" layoutY="10.0" text="Report any bugs and leave your feedback" />
+                <Label layoutX="10.0" layoutY="10.0" text="via e-mail on mario@mail.bwxor.com.">
+                    <VBox.margin>
+                        <Insets bottom="30.0" />
+                    </VBox.margin>
+                </Label>
+                <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+                    <children>
+                        <Button mnemonicParsing="false" text="Project Website" />
+                        <Button mnemonicParsing="false" text="GitHub Repository" />
+                    </children>
+                </HBox>
+                </VBox>
+            </AnchorPane>
+        </children>
     </VBox>
 </AnchorPane>

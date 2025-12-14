@@ -6,11 +6,15 @@ import com.bwxor.piejfx.state.ThemeState;
 import com.bwxor.piejfx.type.RemoveSelectedTabFromPaneResponse;
 import com.bwxor.piejfx.utility.*;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.List;
@@ -18,11 +22,19 @@ import java.util.List;
 public class EditorController {
     private List<String> parameters;
     @FXML
+    private AnchorPane titleBarAnchorPane;
+    @FXML
+    private Button closeButton;
+    @FXML
+    private Button minimizeButton;
+    @FXML
     private SplitPane splitPane;
     @FXML
     private TabPane editorTabPane;
     @FXML
     private TabPane terminalTabPane;
+    private double xOffset = 0;
+    private double yOffset = 0;
 
     @FXML
     private Menu themesMenu;
@@ -46,21 +58,41 @@ public class EditorController {
     @FXML
     public void initialize() {
         ThemeUtility.loadMenuWithThemes(themesMenu, ThemeState.instance.getThemes());
+    }
 
-        StageState.instance.getStage().setOnCloseRequest(
-                e -> {
-                    int size = editorTabPane.getTabs().size();
-                    editorTabPane.getSelectionModel().select(size - 1);
+    @FXML
+    public void onCloseButtonClick() {
+        int size = editorTabPane.getTabs().size();
+        editorTabPane.getSelectionModel().select(size - 1);
 
-                    for (int i = 0; i < size; i++) {
-                        var saveResponse = EditorTabPaneUtility.removeSelectedTabFromPane(splitPane, editorTabPane, terminalTabPane);
-                        if (saveResponse.equals(RemoveSelectedTabFromPaneResponse.CANCELLED)) {
-                            e.consume();
-                            return;
-                        }
-                    }
-                }
-        );
+        for (int i = 0; i < size; i++) {
+            var saveResponse = EditorTabPaneUtility.removeSelectedTabFromPane(splitPane, editorTabPane, terminalTabPane);
+            if (saveResponse.equals(RemoveSelectedTabFromPaneResponse.CANCELLED)) {
+                return;
+            }
+        }
+
+        Stage stage = (Stage) closeButton.getScene().getWindow();
+        stage.close();
+    }
+
+    @FXML
+    public void onMinimizeButtonClick() {
+        Stage stage = (Stage) closeButton.getScene().getWindow();
+        stage.setIconified(true);
+    }
+
+    @FXML
+    public void handleClickAction(MouseEvent mouseEvent) {
+        xOffset = mouseEvent.getSceneX();
+        yOffset = mouseEvent.getSceneY();
+    }
+
+    @FXML
+    public void handleMovementAction(MouseEvent mouseEvent) {
+        Stage stage = (Stage) titleBarAnchorPane.getScene().getWindow();
+        stage.setX(mouseEvent.getScreenX() - xOffset);
+        stage.setY(mouseEvent.getScreenY() - yOffset);
     }
 
     @FXML

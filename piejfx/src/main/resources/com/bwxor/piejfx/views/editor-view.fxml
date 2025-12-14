@@ -4,27 +4,29 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyPressed="#onKeyPressed"
-            prefHeight="475.0" prefWidth="475.0" xmlns="http://javafx.com/javafx/17.0.12"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bwxor.piejfx.controller.EditorController">
-    <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="475.0"
-          styleClass="app-window" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-          AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
+<AnchorPane styleClass="window-root" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyPressed="#onKeyPressed" prefHeight="475.0" prefWidth="475.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bwxor.piejfx.controller.EditorController">
+    <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="475.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
         <children>
-            <AnchorPane prefHeight="23.0" prefWidth="475.0">
+            <AnchorPane fx:id="titleBarAnchorPane" onMouseDragged="#handleMovementAction" onMousePressed="#handleClickAction" prefHeight="32.0" prefWidth="475.0">
+                <children>
+                    <Label alignment="CENTER" layoutY="12.0" prefHeight="17.0" prefWidth="475.0" text="PieJFX" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                    <Button fx:id="closeButton" layoutX="439.0" layoutY="3.0" mnemonicParsing="false" onAction="#onCloseButtonClick" prefHeight="30.0" prefWidth="30.0" styleClass="button-close" text="✕" AnchorPane.rightAnchor="6.0">
+                    </Button>
+                    <Button fx:id="minimizeButton" layoutX="404.0" layoutY="3.0" mnemonicParsing="false" onAction="#onMinimizeButtonClick" prefHeight="30.0" prefWidth="30.0" styleClass="button-minimize" text="_" AnchorPane.rightAnchor="41.0">
+                    </Button>
+                </children>
+            </AnchorPane>
+            <AnchorPane styleClass="main-content" prefHeight="23.0" prefWidth="475.0">
                 <children>
                     <MenuBar layoutX="14.0" layoutY="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                         <menus>
                             <Menu mnemonicParsing="false" text="File">
                                 <items>
-                                    <MenuItem mnemonicParsing="false" text="New" onAction="#onNewButtonClickEvent"/>
-                                    <MenuItem mnemonicParsing="false" text="Open File..."
-                                              onAction="#onOpenButtonClickEvent"/>
-                                    <MenuItem mnemonicParsing="false" text="Open Folder..."
-                                              onAction="#onOpenButtonClickEvent"/>
-                                    <MenuItem mnemonicParsing="false" text="Save" onAction="#onSaveButtonClickEvent"/>
-                                    <MenuItem mnemonicParsing="false" text="Save as..."
-                                              onAction="#onSaveAsButtonClickEvent"/>
+                                    <MenuItem mnemonicParsing="false" onAction="#onNewButtonClickEvent" text="New" />
+                                    <MenuItem mnemonicParsing="false" onAction="#onOpenButtonClickEvent" text="Open File..." />
+                                    <MenuItem mnemonicParsing="false" onAction="#onOpenButtonClickEvent" text="Open Folder..." />
+                                    <MenuItem mnemonicParsing="false" onAction="#onSaveButtonClickEvent" text="Save" />
+                                    <MenuItem mnemonicParsing="false" onAction="#onSaveAsButtonClickEvent" text="Save as..." />
                                 </items>
                             </Menu>
                             <Menu mnemonicParsing="false" text="Appearance">
@@ -37,25 +39,26 @@
                             </Menu>
                             <Menu mnemonicParsing="false" text="Help">
                                 <items>
-                                    <MenuItem mnemonicParsing="false" text="Cheatsheet"/>
-                                    <MenuItem mnemonicParsing="false" onAction="#onAboutButtonClickEvent" text="About"/>
+                                    <MenuItem mnemonicParsing="false" text="Cheatsheet" />
+                                    <MenuItem mnemonicParsing="false" onAction="#onAboutButtonClickEvent" text="About" />
                                 </items>
                             </Menu>
                         </menus>
                     </MenuBar>
                 </children>
             </AnchorPane>
-            <SplitPane fx:id="splitPane" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                <TabPane fx:id="editorTabPane" layoutX="122.0" layoutY="43.0" prefHeight="200.0" prefWidth="200.0"
-                         tabClosingPolicy="SELECTED_TAB">
+            <SplitPane fx:id="splitPane" dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                <TabPane fx:id="editorTabPane" layoutX="122.0" layoutY="43.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="SELECTED_TAB">
                 </TabPane>
-                <TabPane fx:id="terminalTabPane" layoutX="122.0" layoutY="43.0" prefHeight="200.0" prefWidth="200.0"
-                         tabClosingPolicy="SELECTED_TAB" side="BOTTOM">
+                <TabPane fx:id="terminalTabPane" layoutX="122.0" layoutY="43.0" prefHeight="200.0" prefWidth="200.0" side="BOTTOM" tabClosingPolicy="SELECTED_TAB">
                 </TabPane>
             </SplitPane>
         </children>
         <VBox.margin>
-            <Insets/>
+            <Insets />
         </VBox.margin>
     </VBox>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
 </AnchorPane>

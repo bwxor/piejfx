@@ -1,6 +1,14 @@
+/* --- Window --- */
+.window-root {
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 0);
+}
+
 /* --- TabPane --- */
 .tab-pane {
-    -fx-background-color: #1e1e1e;
+    -fx-background-color: #2d2d30;
     -fx-border-color: #3e3e42;
     -fx-border-width: 1px;
     -fx-border-radius: 5px;
@@ -69,7 +77,7 @@
 
 .split-pane *.split-pane-divider {
     -fx-padding: 0 1 0 1;
-    -fx-background-color: #1e1e1e;
+    -fx-background-color: #2d2d30;
 }
 
 /* --- MenuBar --- */
@@ -160,7 +168,7 @@
 }
 
 /* --- Buttons --- */
-.button {
+.main-content .button {
     -fx-background-color: #3e3e42;
     -fx-border-color: #5a5a5e;
     -fx-text-fill: #cccccc;
@@ -172,7 +180,7 @@
     -fx-cursor: hand;
 }
 
-.button:hover {
+.main-content .button:hover {
     -fx-background-color: #505054;
 }
 
@@ -180,12 +188,30 @@
     -fx-border-color: #0090eb;
 }
 
-.button:disabled {
+.main-content .button:disabled {
     -fx-opacity: 0.5;
     -fx-cursor: default;
 }
 
-/* -- Notification TextArea -- */
+.button-close {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ffffff;
+}
+
+.button-close:hover {
+    -fx-background-color: #C2230E;
+}
+
+.button-minimize {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ffffff;
+}
+
+.button-minimize:hover {
+    -fx-background-color: #39393d;
+}
+
+/* --- Notification TextArea --- */
 .text-area {
     -fx-background-color: #1e1e1e;
     -fx-border-width: 0px;
@@ -201,7 +227,7 @@
     -fx-stroke: #FFFFFF;
 }
 
-/* -- Terminal -- */
+/* --- Terminal --- */
 .terminal {
     -fx-background-color: #1e1e1e;
     -fx-foreground-color: #FFFFFF;
@@ -209,7 +235,7 @@
 
 /* --- AnchorPane --- */
 AnchorPane {
-    -fx-background-color: #1e1e1e;
+    -fx-background-color: #2d2d30;
 }
 
 /* --- Label --- */
