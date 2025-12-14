@@ -1,7 +1,6 @@
 package com.bwxor.piejfx.controller;
 
 import com.bwxor.piejfx.factory.ContextMenuFactory;
-import com.bwxor.piejfx.state.StageState;
 import com.bwxor.piejfx.state.ThemeState;
 import com.bwxor.piejfx.type.RemoveSelectedTabFromPaneResponse;
 import com.bwxor.piejfx.utility.*;

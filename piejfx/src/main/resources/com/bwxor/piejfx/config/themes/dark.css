@@ -6,6 +6,12 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 0);
 }
 
+.window-title {
+    -fx-font-family: "Funnel Sans";
+    -fx-font-weight: bold;
+    -fx-text-fill: #BFBFBF;
+}
+
 /* --- TabPane --- */
 .tab-pane {
     -fx-background-color: #2d2d30;
@@ -77,6 +83,11 @@
 
 .split-pane *.split-pane-divider {
     -fx-padding: 0 1 0 1;
+    -fx-background-color: #2d2d30;
+}
+
+/* --- ScrollPane --- */
+.scroll-pane .viewport  {
     -fx-background-color: #2d2d30;
 }
 
@@ -213,14 +224,14 @@
 
 /* --- Notification TextArea --- */
 .text-area {
-    -fx-background-color: #1e1e1e;
+    -fx-background-color: #2d2d30;
     -fx-border-width: 0px;
     -fx-padding: 5px;
     -fx-text-fill: #EDEDED;
 }
 
 .text-area .content {
-    -fx-background-color: #1e1e1e;
+    -fx-background-color: #2d2d30;
 }
 
 .styled-text-area .caret {

@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -19,6 +20,10 @@ import java.util.Objects;
 public class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws IOException {
+        Font.loadFont(ResourceUtility.getResourceByName("fonts/FunnelSans-Regular.ttf").toExternalForm(), 10);
+        Font.loadFont(ResourceUtility.getResourceByName("fonts/FunnelSans-Bold.ttf").toExternalForm(), 10);
+        Font.loadFont(ResourceUtility.getResourceByName("fonts/FunnelSans-Semibold.ttf").toExternalForm(), 10);
+
         StageState.instance.setStage(stage);
 
         ConfigUtility.createConfigDirectoryStructure();
