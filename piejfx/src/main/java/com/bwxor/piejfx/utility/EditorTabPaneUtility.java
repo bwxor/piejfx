@@ -35,7 +35,6 @@ public class EditorTabPaneUtility {
         resyncCodeAreaIds(editorTabPane);
 
         if (tab.getContent() instanceof CodeArea c) {
-
             GrammarUtility.setGrammarToCodeArea(c, file);
 
             CodeAreaState.IndividualState individualState = CodeAreaState.instance.getIndividualStates().get(Integer.parseInt(c.getId()));

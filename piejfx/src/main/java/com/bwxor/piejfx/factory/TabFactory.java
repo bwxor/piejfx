@@ -11,10 +11,12 @@ import com.techsenger.jeditermfx.ui.DefaultHyperlinkFilter;
 import com.techsenger.jeditermfx.ui.JediTermFxWidget;
 import com.bwxor.piejfx.dto.CreateTtyConnectorResponse;
 import javafx.event.Event;
+import javafx.scene.control.IndexRange;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
@@ -73,6 +75,21 @@ public class TabFactory {
                     }
                 }
         );
+
+        codeArea.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
+            if (e.isControlDown()) {
+                if (e.getCode().equals(KeyCode.X)) {
+                    IndexRange indexRange = codeArea.getSelection();
+                    if (indexRange.getLength() == 0) {
+                        e.consume();
+
+                        codeArea.selectLine();
+                        codeArea.cut();
+                        codeArea.deleteNextChar();
+                    }
+                }
+            }
+        });
 
         codeArea.plainTextChanges().subscribe(
                 e -> {
