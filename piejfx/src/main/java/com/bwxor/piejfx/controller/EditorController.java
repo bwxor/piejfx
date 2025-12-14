@@ -6,6 +6,7 @@ import com.bwxor.piejfx.state.StageState;
 import com.bwxor.piejfx.state.ThemeState;
 import com.bwxor.piejfx.type.RemoveSelectedTabFromPaneResponse;
 import com.bwxor.piejfx.utility.*;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
@@ -76,6 +77,7 @@ public class EditorController {
 
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
+        Platform.exit();
     }
 
     @FXML
