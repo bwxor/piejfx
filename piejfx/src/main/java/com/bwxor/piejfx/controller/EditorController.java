@@ -7,11 +7,10 @@ import com.bwxor.piejfx.state.ThemeState;
 import com.bwxor.piejfx.type.RemoveSelectedTabFromPaneResponse;
 import com.bwxor.piejfx.utility.*;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
-import javafx.scene.control.SplitPane;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -26,6 +25,8 @@ public class EditorController {
     private List<String> parameters;
     @FXML
     private AnchorPane titleBarAnchorPane;
+    @FXML
+    private Label titleBarLabel;
     @FXML
     private Button closeButton;
     @FXML
@@ -53,9 +54,22 @@ public class EditorController {
             EditorTabPaneUtility.addTabToPane(splitPane, editorTabPane, terminalTabPane, "Untitled");
         }
 
+        titleBarLabel.setText(editorTabPane.getSelectionModel().getSelectedItem().getText());
+
         splitPane.getItems().remove(terminalTabPane);
         TerminalTabPaneUtility.addTabToPane(terminalTabPane, "cmd.exe");
         terminalTabPane.setContextMenu(ContextMenuFactory.createTerminalTabPaneContextMenu(terminalTabPane));
+
+        editorTabPane.getSelectionModel().selectedItemProperty().addListener(
+                new ChangeListener<Tab>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Tab> ov, Tab t, Tab t1) {
+                        if (t1 != null) {
+                            titleBarLabel.setText(t1.getText());
+                        }
+                    }
+                }
+        );
     }
 
     @FXML
