@@ -1,9 +1,4 @@
 /* --- Window --- */
-.window-root {
-    -fx-background-radius: 10px;
-    -fx-border-radius: 6px;
-}
-
 .window-title {
     -fx-font-weight: bold;
     -fx-text-fill: #3D3D3D;

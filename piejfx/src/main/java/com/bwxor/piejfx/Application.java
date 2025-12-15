@@ -1,5 +1,6 @@
 package com.bwxor.piejfx;
 
+import com.bwxor.piejfx.constants.AppDirConstants;
 import com.bwxor.piejfx.controller.EditorController;
 import com.bwxor.piejfx.state.StageState;
 import com.bwxor.piejfx.state.ThemeState;
@@ -28,6 +29,7 @@ public class Application extends javafx.application.Application {
         EditorController controller = fxmlLoader.getController();
         controller.setParameters(getParameters().getRaw());
         controller.handleParameters();
+        scene.getStylesheets().add(AppDirConstants.DEFAULT_STYLES_FILE.toUri().toURL().toExternalForm());
         scene.getStylesheets().add(ThemeState.instance.getCurrentTheme().getUrl().toExternalForm());
         stage.setTitle("piejfx");
         stage.getIcons().add(new Image(Objects.requireNonNull(ResourceUtility.getResourceByNameAsStream("img/icon.png"))));

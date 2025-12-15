@@ -61,12 +61,9 @@ public class EditorController {
         terminalTabPane.setContextMenu(ContextMenuFactory.createTerminalTabPaneContextMenu(terminalTabPane));
 
         editorTabPane.getSelectionModel().selectedItemProperty().addListener(
-                new ChangeListener<Tab>() {
-                    @Override
-                    public void changed(ObservableValue<? extends Tab> ov, Tab t, Tab t1) {
-                        if (t1 != null) {
-                            titleBarLabel.setText(t1.getText());
-                        }
+                (_, _, t1) -> {
+                    if (t1 != null) {
+                        titleBarLabel.setText(t1.getText());
                     }
                 }
         );

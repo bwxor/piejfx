@@ -2,6 +2,7 @@ package com.bwxor.piejfx.utility;
 
 import com.bwxor.piejfx.constants.AppDirConstants;
 import com.bwxor.piejfx.provider.ThemeBasedSettingsProvider;
+import com.bwxor.piejfx.state.MaximizeState;
 import com.bwxor.piejfx.state.StageState;
 import com.bwxor.piejfx.state.TerminalState;
 import com.bwxor.piejfx.state.ThemeState;
@@ -15,6 +16,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.net.MalformedURLException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +60,18 @@ public class ThemeUtility {
                                     ThemeState.instance.setCurrentTheme(f);
                                     StageState.instance.getStage().getScene().getStylesheets().clear();
                                     StageState.instance.getStage().getScene().getStylesheets().add(f.getUrl().toExternalForm());
+
+                                    try {
+                                        if (MaximizeState.instance.isMaximized()) {
+                                            StageState.instance.getStage().getScene().getStylesheets().add(AppDirConstants.DEFAULT_MAXIMIZED_STYLES_FILE.toUri().toURL().toExternalForm());
+                                        } else {
+                                            StageState.instance.getStage().getScene().getStylesheets().add(AppDirConstants.DEFAULT_STYLES_FILE.toUri().toURL().toExternalForm());
+                                        }
+                                    } catch (MalformedURLException ex) {
+                                        // ToDo: Show an error
+                                        throw new RuntimeException(ex);
+                                    }
+
                                     ConfigUtility.rewriteConfig();
 
                                     for (JediTermFxWidget terminal : TerminalState.instance.getTerminals()) {

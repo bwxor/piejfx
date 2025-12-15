@@ -36,3 +36,5 @@ config/themes/light.css
 config/config.json
 config/extension-filters.json
 config/themes.json
+config/styles/default.css
+config/styles/default-maximized.css

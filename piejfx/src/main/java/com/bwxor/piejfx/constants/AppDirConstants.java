@@ -13,6 +13,9 @@ public interface AppDirConstants {
     Path CONFIG_DIR = Paths.get(USER_DATA_DIR, "config");
     Path GRAMMARS_DIR = Paths.get(CONFIG_DIR.toString(), "grammars");
     Path THEMES_DIR = Paths.get(CONFIG_DIR.toString(), "themes");
+    Path STYLES_DIR = Paths.get(CONFIG_DIR.toString(), "styles");
     Path CONFIG_FILE = Paths.get(CONFIG_DIR.toString(), "config.json");
     Path THEMES_FILE = Paths.get(CONFIG_DIR.toString(), "themes.json");
+    Path DEFAULT_STYLES_FILE = Paths.get(STYLES_DIR.toString(), "default.css");
+    Path DEFAULT_MAXIMIZED_STYLES_FILE = Paths.get(STYLES_DIR.toString(), "default-maximized.css");
 }
