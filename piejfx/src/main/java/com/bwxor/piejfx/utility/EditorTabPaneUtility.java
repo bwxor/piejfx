@@ -4,6 +4,7 @@ import com.bwxor.piejfx.factory.TabFactory;
 import com.bwxor.piejfx.state.CodeAreaState;
 import com.bwxor.piejfx.type.NotificationYesNoCancelOption;
 import com.bwxor.piejfx.type.RemoveSelectedTabFromPaneResponse;
+import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -24,10 +25,10 @@ public class EditorTabPaneUtility {
         }
     }
 
-    public static void addTabToPane(SplitPane splitPane, TabPane editorTabPane, TabPane terminalTabPane, File file) {
+    public static void addTabToPane(SplitPane splitPane, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel, File file) {
         Tab tab = TabFactory.createEditorTab(splitPane, terminalTabPane, file.getName());
         tab.setOnCloseRequest(e -> {
-            removeSelectedTabFromPane(splitPane, editorTabPane, terminalTabPane);
+            removeSelectedTabFromPane(splitPane, editorTabPane, terminalTabPane, titleBarLabel);
             e.consume();
         });
         editorTabPane.getTabs().add(tab);
@@ -54,10 +55,10 @@ public class EditorTabPaneUtility {
 
     }
 
-    public static void addTabToPane(SplitPane splitPane, TabPane editorTabPane, TabPane terminalTabPane, String tabTitle) {
+    public static void addTabToPane(SplitPane splitPane, TabPane editorTabPane, TabPane terminalTabPane, String tabTitle, Label titleBarLabel) {
         Tab tab = TabFactory.createEditorTab(splitPane, terminalTabPane, tabTitle);
         tab.setOnCloseRequest(e -> {
-            removeSelectedTabFromPane(splitPane, editorTabPane, terminalTabPane);
+            removeSelectedTabFromPane(splitPane, editorTabPane, terminalTabPane, titleBarLabel);
             e.consume();
         });
         editorTabPane.getTabs().add(tab);
@@ -74,7 +75,7 @@ public class EditorTabPaneUtility {
      * @param editorTabPane
      * @return a negative response only if the user was prompted for a save and cancelled it.
      */
-    public static RemoveSelectedTabFromPaneResponse removeSelectedTabFromPane(SplitPane splitPane, TabPane editorTabPane, TabPane terminalTabPane) {
+    public static RemoveSelectedTabFromPaneResponse removeSelectedTabFromPane(SplitPane splitPane, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel) {
         CodeAreaState.IndividualState individualState = CodeAreaState.instance.getIndividualStates().get(editorTabPane.getSelectionModel().getSelectedIndex());
 
         if (!individualState.isSaved()) {
@@ -88,7 +89,7 @@ public class EditorTabPaneUtility {
                 if (pickedOption.equals(NotificationYesNoCancelOption.CANCEL)) {
                     return RemoveSelectedTabFromPaneResponse.CANCELLED;
                 } else if (pickedOption.equals(NotificationYesNoCancelOption.YES)) {
-                    if (!SaveFileUtility.saveFile(editorTabPane)) {
+                    if (!SaveFileUtility.saveFile(editorTabPane, titleBarLabel)) {
                         repeatPrompt = true;
                     }
                 }
@@ -99,7 +100,7 @@ public class EditorTabPaneUtility {
         editorTabPane.getTabs().remove(editorTabPane.getSelectionModel().getSelectedItem());
 
         if (editorTabPane.getTabs().isEmpty()) {
-            addTabToPane(splitPane, editorTabPane, terminalTabPane, "Untitled");
+            addTabToPane(splitPane, editorTabPane, terminalTabPane, "Untitled", titleBarLabel);
         }
 
         resyncCodeAreaIds(editorTabPane);

@@ -47,9 +47,9 @@ public class EditorController {
 
     public void handleParameters() {
         if (!parameters.isEmpty()) {
-            OpenFileUtility.openFile(splitPane, editorTabPane, terminalTabPane, new File(parameters.getFirst()));
+            OpenFileUtility.openFile(splitPane, editorTabPane, terminalTabPane, titleBarLabel, new File(parameters.getFirst()));
         } else {
-            EditorTabPaneUtility.addTabToPane(splitPane, editorTabPane, terminalTabPane, "Untitled");
+            EditorTabPaneUtility.addTabToPane(splitPane, editorTabPane, terminalTabPane, "Untitled", titleBarLabel);
         }
 
         titleBarLabel.setText(editorTabPane.getSelectionModel().getSelectedItem().getText());
@@ -78,7 +78,7 @@ public class EditorController {
         editorTabPane.getSelectionModel().select(size - 1);
 
         for (int i = 0; i < size; i++) {
-            var saveResponse = EditorTabPaneUtility.removeSelectedTabFromPane(splitPane, editorTabPane, terminalTabPane);
+            var saveResponse = EditorTabPaneUtility.removeSelectedTabFromPane(splitPane, editorTabPane, terminalTabPane, titleBarLabel);
             if (saveResponse.equals(RemoveSelectedTabFromPaneResponse.CANCELLED)) {
                 return;
             }
@@ -128,22 +128,22 @@ public class EditorController {
 
     @FXML
     public void onNewButtonClickEvent() {
-        EditorTabPaneUtility.addTabToPane(splitPane, editorTabPane, terminalTabPane, "Untitled");
+        EditorTabPaneUtility.addTabToPane(splitPane, editorTabPane, terminalTabPane, "Untitled", titleBarLabel);
     }
 
     @FXML
     public void onOpenButtonClickEvent() {
-        OpenFileUtility.openFile(splitPane, editorTabPane, terminalTabPane);
+        OpenFileUtility.openFile(splitPane, editorTabPane, terminalTabPane, titleBarLabel);
     }
 
     @FXML
     public void onSaveButtonClickEvent() {
-        SaveFileUtility.saveFile(editorTabPane);
+        SaveFileUtility.saveFile(editorTabPane, titleBarLabel);
     }
 
     @FXML
     public void onSaveAsButtonClickEvent() {
-        SaveFileUtility.saveFileAs(editorTabPane);
+        SaveFileUtility.saveFileAs(editorTabPane, titleBarLabel);
     }
 
     @FXML
@@ -155,11 +155,11 @@ public class EditorController {
     public void onKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.isControlDown()) { // Modifiers will be handled
             if (keyEvent.getCode().equals(KeyCode.T)) {
-                EditorTabPaneUtility.addTabToPane(splitPane, editorTabPane, terminalTabPane, "Untitled");
+                EditorTabPaneUtility.addTabToPane(splitPane, editorTabPane, terminalTabPane, "Untitled", titleBarLabel);
             } else if (keyEvent.getCode().equals(KeyCode.W)) {
-                EditorTabPaneUtility.removeSelectedTabFromPane(splitPane, editorTabPane, terminalTabPane);
+                EditorTabPaneUtility.removeSelectedTabFromPane(splitPane, editorTabPane, terminalTabPane, titleBarLabel);
             } else if (keyEvent.getCode().equals(KeyCode.S)) {
-                SaveFileUtility.saveFile(editorTabPane);
+                SaveFileUtility.saveFile(editorTabPane, titleBarLabel);
             } else if (keyEvent.getCode().equals(KeyCode.B)) {
                 TerminalTabPaneUtility.toggleTerminalTabPane(splitPane, terminalTabPane);
             }

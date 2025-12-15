@@ -9,6 +9,8 @@ import java.util.Map;
 
 public final class CodeAreaState {
     public static class IndividualState {
+        private static final String EMPTY_STRING = "";
+
         private int fontSize = 10;
         private File openedFile;
         private String content;
@@ -34,7 +36,7 @@ public final class CodeAreaState {
         }
 
         public String getContent() {
-            return content;
+            return content == null ? EMPTY_STRING : content;
         }
 
         public void setContent(String content) {

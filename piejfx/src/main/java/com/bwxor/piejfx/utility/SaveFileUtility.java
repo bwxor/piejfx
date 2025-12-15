@@ -2,6 +2,7 @@ package com.bwxor.piejfx.utility;
 
 import com.bwxor.piejfx.state.CodeAreaState;
 import com.bwxor.piejfx.state.StageState;
+import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
 import javafx.stage.FileChooser;
 import org.fxmisc.richtext.CodeArea;
@@ -22,11 +23,11 @@ public class SaveFileUtility {
      * @param tabPane
      * @return true if file has been saved successfully and false otherwise
      */
-    public static boolean saveFile(TabPane tabPane) {
+    public static boolean saveFile(TabPane tabPane, Label titleBarLabel) {
         CodeAreaState.IndividualState state = CodeAreaState.instance.getIndividualStates().get(tabPane.getSelectionModel().getSelectedIndex());
 
         if (state.getOpenedFile() == null) {
-            return saveFileAs(tabPane);
+            return saveFileAs(tabPane, titleBarLabel);
         } else {
             try (BufferedWriter br = Files.newBufferedWriter(state.getOpenedFile().toPath(), StandardCharsets.UTF_8)) {
                 br.write(state.getContent());
@@ -42,6 +43,7 @@ public class SaveFileUtility {
 
             state.setSaved(true);
             tabPane.getSelectionModel().getSelectedItem().setText(state.getOpenedFile().getName());
+            titleBarLabel.setText(state.getOpenedFile().getName());
         }
 
         return true;
@@ -53,7 +55,7 @@ public class SaveFileUtility {
      * @param tabPane
      * @return true if a file has been chosen and false otherwise
      */
-    public static boolean saveFileAs(TabPane tabPane) {
+    public static boolean saveFileAs(TabPane tabPane, Label titleBarLabel) {
         CodeAreaState.IndividualState state = CodeAreaState.instance.getIndividualStates().get(tabPane.getSelectionModel().getSelectedIndex());
 
         String filters;
@@ -78,7 +80,7 @@ public class SaveFileUtility {
 
             if (selectedFile != null) {
                 state.setOpenedFile(selectedFile);
-                return saveFile(tabPane);
+                return saveFile(tabPane, titleBarLabel);
             }
 
             return false;

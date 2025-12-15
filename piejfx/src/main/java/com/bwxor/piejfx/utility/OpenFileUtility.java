@@ -2,6 +2,7 @@ package com.bwxor.piejfx.utility;
 
 import com.bwxor.piejfx.state.CodeAreaState;
 import com.bwxor.piejfx.state.StageState;
+import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TabPane;
 import javafx.stage.FileChooser;
@@ -9,17 +10,17 @@ import javafx.stage.FileChooser;
 import java.io.File;
 
 public class OpenFileUtility {
-    public static void openFile(SplitPane splitPane, TabPane editorTabPane, TabPane terminalTabPane) {
+    public static void openFile(SplitPane splitPane, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel) {
         FileChooser fileChooser = new FileChooser();
         File selectedFile = fileChooser.showOpenDialog(StageState.instance.getStage());
 
         if (selectedFile != null) {
-            openFile(splitPane, editorTabPane, terminalTabPane, selectedFile);
+            openFile(splitPane, editorTabPane, terminalTabPane, titleBarLabel, selectedFile);
         }
     }
 
-    public static void openFile(SplitPane splitPane, TabPane editorTabPane, TabPane terminalTabPane, File file) {
-        EditorTabPaneUtility.addTabToPane(splitPane, editorTabPane, terminalTabPane, file);
+    public static void openFile(SplitPane splitPane, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel, File file) {
+        EditorTabPaneUtility.addTabToPane(splitPane, editorTabPane, terminalTabPane, titleBarLabel, file);
 
         CodeAreaState.IndividualState state = CodeAreaState.instance.getIndividualStates().get(editorTabPane.getSelectionModel().getSelectedIndex());
 
