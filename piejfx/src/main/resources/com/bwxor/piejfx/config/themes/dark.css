@@ -1,4 +1,8 @@
 /* --- Window --- */
+.window-root {
+    -fx-border-color: #3d3d41;
+}
+
 .window-title {
     -fx-font-weight: bold;
     -fx-text-fill: #BFBFBF;
@@ -199,15 +203,27 @@
 .button-close {
     -fx-background-color: transparent;
     -fx-text-fill: #ffffff;
+    -fx-font-family: "Segoe UI Symbol";
 }
 
 .button-close:hover {
     -fx-background-color: #C2230E;
 }
 
+.button-maximize {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ffffff;
+    -fx-font-family: "Segoe UI Symbol";
+}
+
+.button-maximize:hover {
+    -fx-background-color: #39393d;
+}
+
 .button-minimize {
     -fx-background-color: transparent;
     -fx-text-fill: #ffffff;
+    -fx-font-family: "Segoe UI Symbol";
 }
 
 .button-minimize:hover {

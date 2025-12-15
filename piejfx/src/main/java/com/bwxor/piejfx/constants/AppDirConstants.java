@@ -14,6 +14,7 @@ public interface AppDirConstants {
     Path GRAMMARS_DIR = Paths.get(CONFIG_DIR.toString(), "grammars");
     Path THEMES_DIR = Paths.get(CONFIG_DIR.toString(), "themes");
     Path STYLES_DIR = Paths.get(CONFIG_DIR.toString(), "styles");
+    Path FONTS_DIR = Paths.get(CONFIG_DIR.toString(), "fonts");
     Path CONFIG_FILE = Paths.get(CONFIG_DIR.toString(), "config.json");
     Path THEMES_FILE = Paths.get(CONFIG_DIR.toString(), "themes.json");
     Path DEFAULT_STYLES_FILE = Paths.get(STYLES_DIR.toString(), "default.css");

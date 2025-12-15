@@ -1,6 +1,8 @@
 package com.bwxor.piejfx.utility;
 
+import com.bwxor.piejfx.constants.AppDirConstants;
 import com.bwxor.piejfx.controller.NotificationYesNoCancelController;
+import com.bwxor.piejfx.state.StageState;
 import com.bwxor.piejfx.state.ThemeState;
 import com.bwxor.piejfx.type.NotificationYesNoCancelOption;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +14,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.Objects;
 
 public class AboutUtility {
@@ -34,6 +37,12 @@ public class AboutUtility {
         stage.getIcons().add(new Image(Objects.requireNonNull(ResourceUtility.getResourceByNameAsStream("img/icon.png"))));
         stage.initStyle(StageStyle.TRANSPARENT);
         scene.setFill(Color.TRANSPARENT);
+        try {
+            scene.getStylesheets().add(AppDirConstants.DEFAULT_STYLES_FILE.toUri().toURL().toExternalForm());
+        } catch (MalformedURLException e) {
+            // ToDo: Show an error
+            throw new RuntimeException(e);
+        }
         stage.showAndWait();
     }
 }

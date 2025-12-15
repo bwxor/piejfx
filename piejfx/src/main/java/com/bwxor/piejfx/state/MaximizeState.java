@@ -2,6 +2,7 @@ package com.bwxor.piejfx.state;
 
 import com.bwxor.piejfx.constants.AppDirConstants;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.control.Button;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -13,13 +14,14 @@ public final class MaximizeState {
     private boolean maximized;
     private double oldX, oldY, oldWidth, oldHeight;
 
-    private MaximizeState() {}
+    private MaximizeState() {
+    }
 
     public boolean isMaximized() {
         return maximized;
     }
 
-    public void toggleMaximize(Stage stage) {
+    public void toggleMaximize(Stage stage, Button maximizeButton) {
         if (!maximized) {
             try {
                 StageState.instance.getStage().getScene().getStylesheets().remove(AppDirConstants.DEFAULT_STYLES_FILE.toUri().toURL().toExternalForm());
@@ -42,9 +44,10 @@ public final class MaximizeState {
             stage.setWidth(bounds.getWidth());
             stage.setHeight(bounds.getHeight());
 
+            maximizeButton.setText("⧉");
+
             maximized = true;
-        }
-        else {
+        } else {
             try {
                 StageState.instance.getStage().getScene().getStylesheets().remove(AppDirConstants.DEFAULT_MAXIMIZED_STYLES_FILE.toUri().toURL().toExternalForm());
                 StageState.instance.getStage().getScene().getStylesheets().add(AppDirConstants.DEFAULT_STYLES_FILE.toUri().toURL().toExternalForm());
@@ -57,6 +60,8 @@ public final class MaximizeState {
             stage.setHeight(oldHeight);
             stage.setX(oldX);
             stage.setY(oldY);
+
+            maximizeButton.setText("⬜");
 
             maximized = false;
         }

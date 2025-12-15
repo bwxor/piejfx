@@ -4,19 +4,21 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane styleClass="window-root" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyPressed="#onKeyPressed" prefHeight="475.0" prefWidth="475.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bwxor.piejfx.controller.EditorController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyPressed="#onKeyPressed" prefHeight="475.0" prefWidth="475.0" styleClass="window-root" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bwxor.piejfx.controller.EditorController">
     <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="475.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
         <children>
             <AnchorPane fx:id="titleBarAnchorPane" onMouseClicked="#handleDoubleClickAction" onMouseDragged="#handleMovementAction" onMousePressed="#handleClickAction" prefHeight="40.0" prefWidth="475.0">
                 <children>
-                    <Label alignment="CENTER" layoutY="12.0" prefHeight="17.0" prefWidth="475.0" fx:id="titleBarLabel" text="PieJFX Pre-Alpha 2025.1" styleClass="window-title" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                    <Button fx:id="closeButton" layoutX="439.0" layoutY="5.0" mnemonicParsing="false" onAction="#onCloseButtonClick" prefHeight="30.0" prefWidth="30.0" styleClass="button-close" text="✕" AnchorPane.rightAnchor="6.0">
+                    <Label fx:id="titleBarLabel" alignment="CENTER" layoutY="12.0" prefHeight="17.0" prefWidth="475.0" styleClass="window-title" text="PieJFX Pre-Alpha 2025.1" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                    <Button fx:id="closeButton" layoutX="439.0" layoutY="5.0" mnemonicParsing="false" onAction="#onCloseButtonClick" prefHeight="30.0" prefWidth="46.0" styleClass="button-close" text="✕" AnchorPane.rightAnchor="6.0">
                     </Button>
-                    <Button fx:id="minimizeButton" layoutX="404.0" layoutY="5.0" mnemonicParsing="false" onAction="#onMinimizeButtonClick" prefHeight="30.0" prefWidth="30.0" styleClass="button-minimize" text="_" AnchorPane.rightAnchor="41.0">
+                    <Button fx:id="maximizeButton" layoutX="404.0" layoutY="5.0" mnemonicParsing="false" onAction="#onMaximizeButtonClick" prefHeight="30.0" prefWidth="46.0" styleClass="button-maximize" text="□" AnchorPane.rightAnchor="58.0">
+                    </Button>
+                    <Button fx:id="minimizeButton" layoutX="369.0" layoutY="5.0" mnemonicParsing="false" onAction="#onMinimizeButtonClick" prefHeight="30.0" prefWidth="46.0" styleClass="button-minimize" text="─" AnchorPane.rightAnchor="110.0">
                     </Button>
                 </children>
             </AnchorPane>
-            <AnchorPane styleClass="main-content" prefHeight="23.0" prefWidth="475.0">
+            <AnchorPane prefHeight="23.0" prefWidth="475.0" styleClass="main-content">
                 <children>
                     <MenuBar layoutX="14.0" layoutY="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                         <menus>

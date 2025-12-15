@@ -7,8 +7,6 @@ import com.bwxor.piejfx.state.ThemeState;
 import com.bwxor.piejfx.type.RemoveSelectedTabFromPaneResponse;
 import com.bwxor.piejfx.utility.*;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -30,7 +28,7 @@ public class EditorController {
     @FXML
     private Button closeButton;
     @FXML
-    private Button minimizeButton;
+    private Button maximizeButton;
     @FXML
     private SplitPane splitPane;
     @FXML
@@ -92,6 +90,11 @@ public class EditorController {
     }
 
     @FXML
+    public void onMaximizeButtonClick() {
+        MaximizeState.instance.toggleMaximize(StageState.instance.getStage(), maximizeButton);
+    }
+
+    @FXML
     public void onMinimizeButtonClick() {
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.setIconified(true);
@@ -101,7 +104,7 @@ public class EditorController {
     public void handleDoubleClickAction(MouseEvent mouseEvent) {
         if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
             if(mouseEvent.getClickCount() == 2){
-                MaximizeState.instance.toggleMaximize(StageState.instance.getStage());
+                MaximizeState.instance.toggleMaximize(StageState.instance.getStage(), maximizeButton);
             }
         }
     }

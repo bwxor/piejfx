@@ -9,15 +9,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Objects;
 
 public class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws IOException {
+        Font.loadFont(Paths.get(AppDirConstants.FONTS_DIR.toString(), "Segoe UI Symbol.ttf").toUri().toURL().toExternalForm(), 10);
+
         StageState.instance.setStage(stage);
 
         ConfigUtility.createConfigDirectoryStructure();

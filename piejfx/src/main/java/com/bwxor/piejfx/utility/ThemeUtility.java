@@ -9,9 +9,6 @@ import com.bwxor.piejfx.state.ThemeState;
 import com.techsenger.jeditermfx.ui.JediTermFxWidget;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.layout.Pane;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
