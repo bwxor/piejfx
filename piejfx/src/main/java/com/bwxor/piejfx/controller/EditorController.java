@@ -61,7 +61,7 @@ public class EditorController {
 
         verticalSplitPane.getItems().remove(terminalTabPane);
         horizontalSplitPane.getItems().remove(folderTreeView);
-        TerminalTabPaneUtility.addTabToPane(terminalTabPane, "cmd.exe");
+        TerminalTabPaneUtility.addTabToPane(terminalTabPane, null);
         terminalTabPane.setContextMenu(ContextMenuFactory.createTerminalTabPaneContextMenu(terminalTabPane));
 
         editorTabPane.getSelectionModel().selectedItemProperty().addListener(
