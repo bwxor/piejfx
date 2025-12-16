@@ -259,6 +259,61 @@ AnchorPane {
     -fx-background-color: #2d2d30;
 }
 
+/* --- TreeView --- */
+.tree-view .tree-cell{
+    -fx-text-fill: #FFFFFF;
+    -fx-background-color: #2d2d30;
+}
+
+.tree-view .tree-cell > .tree-disclosure-node > .arrow  {
+    -fx-background-color: #FFFFFF;
+}
+
+.tree-view .tree-cell:selected {
+    -fx-background-color: #0090eb;
+    -fx-text-fill: #ffffff;
+}
+
+.tree-view .tree-cell:selected > .tree-disclosure-node > .arrow  {
+    -fx-background-color: #FFFFFF;
+}
+
+.tree-view .corner {
+    -fx-background-color: #2d2d30;
+}
+
+/* --- ScrollBars --- */
+.scroll-bar {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #545454;
+    -fx-padding: 10px;
+    -fx-background-radius: 0;
+}
+
+.scroll-bar .track {
+    -fx-background-color: #2d2d30;
+}
+
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
+    -fx-background-color: #545454;
+    -fx-border-color: #2d2d30;
+    -fx-border-width: 0;
+    -fx-background-insets: 0;
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: #2d2d30;
+    -fx-border-color: #2d2d30;
+    -fx-border-width: 0;
+    -fx-background-insets: 0;
+}
+
 /* --- Label --- */
 .label {
     -fx-text-fill: #EDEDED;

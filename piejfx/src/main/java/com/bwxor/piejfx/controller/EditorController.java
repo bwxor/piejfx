@@ -168,7 +168,7 @@ public class EditorController {
             } else if (keyEvent.getCode().equals(KeyCode.B)) {
                 TerminalTabPaneUtility.toggleTerminalTabPane(verticalSplitPane, terminalTabPane);
             } else if (keyEvent.getCode().equals(KeyCode.G)) {
-                DirectoryTreeViewUtility.toggleDirectoryTreeView(horizontalSplitPane, folderTreeView);
+                FolderTreeViewUtility.toggleFolderTreeView(horizontalSplitPane, folderTreeView);
             }
         }
     }
