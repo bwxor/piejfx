@@ -15,7 +15,7 @@ You can do this through the `mvn package` command (or directly from IntelliJ's M
 
 #### For Windows
 ```powershell
-jpackage --type exe --input . --name Pie --main-jar <GENERATED_JAR_FILE> --main-class com.bwxor.piejfx.Launcher --dest output --win-dir-chooser --win-menu --win-shortcut --icon <ICON_FILE>
+jpackage --type exe --input <CREATED_FOLDER> --name Pie --main-jar <GENERATED_JAR_FILE> --main-class com.bwxor.piejfx.Launcher --dest output --win-dir-chooser --win-menu --win-shortcut --icon <ICON_FILE>
 ```
 Also include the `--win-console` flag and run your exectuable from a terminal, in order to see error messages on application launch. Make sure you're using the JPackage integrated with the Java 25 SDK or later. In order to see the version, type `jpackage --version`.
 
@@ -23,5 +23,6 @@ The icon file is located under `piejfx/src/main/resources/com/bwxor/piejfx/img/i
 
 #### For Linux
 ```bash
-jpackage --type deb --input input_folder --name Pie --main-jar <GENERATED_JAR_FILE> --main-class com.bwxor.piejfx.Launcher --dest output --linux-shortcut --linux-menu-group "Utility" --icon <ICON_FILE>
+jpackage --type deb --input <CREATED_FOLDER> --name Pie --main-jar <GENERATED_JAR_FILE> --main-class com.bwxor.piejfx.Launcher --dest output --linux-shortcut --linux-menu-group "Utility" --icon <ICON_FILE>
 ```
+
