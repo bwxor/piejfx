@@ -233,6 +233,8 @@
 .terminal {
     -fx-background-color: #FFFFFF;
     -fx-foreground-color: #000000;
+    -fx-selection-foreground-color: #FFFFFF;
+    -fx-selection-background-color: #0090eb;
 }
 
 /* --- AnchorPane --- */

@@ -1,5 +1,5 @@
 /* --- Window --- */
 .window-root {
-    -fx-background-radius: 12px;
-    -fx-border-radius: 12px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
 }

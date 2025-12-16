@@ -8,7 +8,9 @@ import com.helger.css.decl.CSSStyleRule;
 import com.helger.css.decl.CascadingStyleSheet;
 import com.helger.css.reader.CSSReader;
 import com.techsenger.jeditermfx.core.TerminalColor;
+import com.techsenger.jeditermfx.core.TextStyle;
 import com.techsenger.jeditermfx.ui.settings.DefaultSettingsProvider;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -17,6 +19,8 @@ import java.util.Optional;
 public class ThemeBasedSettingsProvider extends DefaultSettingsProvider {
     private static RGB foregroundColor;
     private static RGB backgroundColor;
+    private static RGB selectionForegroundColor;
+    private static RGB selectionBackgroundColor;
 
     private RGB getColorFromTheme(String color) {
         try {
@@ -76,8 +80,31 @@ public class ThemeBasedSettingsProvider extends DefaultSettingsProvider {
         return new TerminalColor(backgroundColor.red(), backgroundColor.green(), backgroundColor.blue());
     }
 
+    @Override
+    public @NotNull TextStyle getSelectionColor() {
+        if (selectionForegroundColor == null) {
+            selectionForegroundColor = getColorFromTheme("-fx-selection-foreground-color");
+        }
+
+        if (selectionBackgroundColor == null) {
+            selectionBackgroundColor = getColorFromTheme("-fx-selection-background-color");
+        }
+
+        return new TextStyle(
+                new TerminalColor(selectionForegroundColor.red(), selectionForegroundColor.green(), selectionForegroundColor.blue()),
+                new TerminalColor(selectionBackgroundColor.red(), selectionBackgroundColor.green(), selectionBackgroundColor.blue())
+        );
+    }
+
+    @Override
+    public boolean useInverseSelectionColor() {
+        return false;
+    }
+
     public static void resetCache() {
         foregroundColor = null;
         backgroundColor = null;
+        selectionForegroundColor = null;
+        selectionBackgroundColor = null;
     }
 }
