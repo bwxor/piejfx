@@ -118,40 +118,6 @@
                     <target>25</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>io.github.fvarrui</groupId>
-                <artifactId>javapackager</artifactId>
-                <version>1.7.6</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>package</goal>
-                        </goals>
-                        <configuration>
-                            <!-- mandatory -->
-                            <mainClass>com.bwxor.piejfx.Launcher</mainClass>
-                            <!-- optional -->
-                            <iconFile>src/main/resources/com/bwxor/piejfx/img/icons/icon.ico</iconFile>
-                            <bundleJre>true</bundleJre>
-                            <generateInstaller>false</generateInstaller>
-                            <administratorRequired>false</administratorRequired>
-                            <platform>windows</platform>
-                            <winConfig>
-                                <headerType>gui</headerType>
-                                <exeCreationTool>launch4j</exeCreationTool>
-                                <companyName>bwxor</companyName>
-                                <fileVersion>1.0.0.0</fileVersion>
-                                <productVersion>1.0.0.0</productVersion>
-                                <productName>piejfx</productName>
-                                <internalName>piejfx</internalName>
-                                <shortcutName>piejfx</shortcutName>
-                                <originalFilename>piejfx.exe</originalFilename>
-                            </winConfig>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 </project>
