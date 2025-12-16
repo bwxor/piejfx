@@ -41,14 +41,14 @@ public class TerminalTabPaneUtility {
 
     /**
      *
-     * @param splitPane
+     * @param verticalSplitPane
      * @param terminalTabPane
      */
-    public static void toggleTerminalTabPane(SplitPane splitPane, TabPane terminalTabPane) {
-        if (splitPane.getItems().contains(terminalTabPane)) {
-            splitPane.getItems().remove(terminalTabPane);
+    public static void toggleTerminalTabPane(SplitPane verticalSplitPane, TabPane terminalTabPane) {
+        if (verticalSplitPane.getItems().contains(terminalTabPane)) {
+            verticalSplitPane.getItems().remove(terminalTabPane);
         } else {
-            splitPane.getItems().add(terminalTabPane);
+            verticalSplitPane.getItems().add(terminalTabPane);
         }
     }
 }

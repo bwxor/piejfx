@@ -8,7 +8,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.text.Font;
 
 public class ContextMenuFactory {
-    public static ContextMenu createCodeAreaContextMenu(SplitPane splitPane, TabPane terminalTabPane) {
+    public static ContextMenu createCodeAreaContextMenu(SplitPane verticalSplitPane, TabPane terminalTabPane) {
         ContextMenu contextMenu = new ContextMenu();
         contextMenu.setStyle("-fx-font-family: " + Font.getDefault().getName());
 
@@ -16,7 +16,7 @@ public class ContextMenuFactory {
         showTerminalContextMenuItem.setText("Toggle Terminal Tab");
         showTerminalContextMenuItem.setOnAction(
                 e -> {
-                    TerminalTabPaneUtility.toggleTerminalTabPane(splitPane, terminalTabPane);
+                    TerminalTabPaneUtility.toggleTerminalTabPane(verticalSplitPane, terminalTabPane);
                 }
         );
 

@@ -26,13 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TabFactory {
-    private static final String EMPTY_STRING = "";
-
-    public static Tab createEditorTab(SplitPane splitPane, TabPane terminalTabPane) {
-        return createEditorTab(splitPane, terminalTabPane, EMPTY_STRING);
-    }
-
-    public static Tab createEditorTab(SplitPane splitPane, TabPane terminalTabPane, String title) {
+    public static Tab createEditorTab(SplitPane verticalSplitPane, TabPane terminalTabPane, String title) {
         Tab tab = new Tab();
 
         CodeArea codeArea = new CodeArea();
@@ -43,7 +37,7 @@ public class TabFactory {
         CodeAreaState.instance.getIndividualStates().add(createdState);
 
         codeArea.setContextMenu(
-                ContextMenuFactory.createCodeAreaContextMenu(splitPane, terminalTabPane)
+                ContextMenuFactory.createCodeAreaContextMenu(verticalSplitPane, terminalTabPane)
         );
 
         codeArea.setOnKeyPressed(e -> {

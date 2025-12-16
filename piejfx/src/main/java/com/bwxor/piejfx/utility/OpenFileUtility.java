@@ -10,17 +10,17 @@ import javafx.stage.FileChooser;
 import java.io.File;
 
 public class OpenFileUtility {
-    public static void openFile(SplitPane splitPane, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel) {
+    public static void openFile(SplitPane verticalSplitPane, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel) {
         FileChooser fileChooser = new FileChooser();
         File selectedFile = fileChooser.showOpenDialog(StageState.instance.getStage());
 
         if (selectedFile != null) {
-            openFile(splitPane, editorTabPane, terminalTabPane, titleBarLabel, selectedFile);
+            openFile(verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel, selectedFile);
         }
     }
 
-    public static void openFile(SplitPane splitPane, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel, File file) {
-        EditorTabPaneUtility.addTabToPane(splitPane, editorTabPane, terminalTabPane, titleBarLabel, file);
+    public static void openFile(SplitPane verticalSplitPane, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel, File file) {
+        EditorTabPaneUtility.addTabToPane(verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel, file);
 
         CodeAreaState.IndividualState state = CodeAreaState.instance.getIndividualStates().get(editorTabPane.getSelectionModel().getSelectedIndex());
 

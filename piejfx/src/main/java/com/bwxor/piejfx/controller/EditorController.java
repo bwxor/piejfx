@@ -30,9 +30,13 @@ public class EditorController {
     @FXML
     private Button maximizeButton;
     @FXML
-    private SplitPane splitPane;
+    private SplitPane verticalSplitPane;
+    @FXML
+    private SplitPane horizontalSplitPane;
     @FXML
     private TabPane editorTabPane;
+    @FXML
+    private TreeView folderTreeView;
     @FXML
     private TabPane terminalTabPane;
     private double xOffset = 0;
@@ -47,14 +51,15 @@ public class EditorController {
 
     public void handleParameters() {
         if (!parameters.isEmpty()) {
-            OpenFileUtility.openFile(splitPane, editorTabPane, terminalTabPane, titleBarLabel, new File(parameters.getFirst()));
+            OpenFileUtility.openFile(verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel, new File(parameters.getFirst()));
         } else {
-            EditorTabPaneUtility.addTabToPane(splitPane, editorTabPane, terminalTabPane, "Untitled", titleBarLabel);
+            EditorTabPaneUtility.addTabToPane(verticalSplitPane, editorTabPane, terminalTabPane, "Untitled", titleBarLabel);
         }
 
         titleBarLabel.setText(editorTabPane.getSelectionModel().getSelectedItem().getText());
 
-        splitPane.getItems().remove(terminalTabPane);
+        verticalSplitPane.getItems().remove(terminalTabPane);
+        horizontalSplitPane.getItems().remove(folderTreeView);
         TerminalTabPaneUtility.addTabToPane(terminalTabPane, "cmd.exe");
         terminalTabPane.setContextMenu(ContextMenuFactory.createTerminalTabPaneContextMenu(terminalTabPane));
 
@@ -78,7 +83,7 @@ public class EditorController {
         editorTabPane.getSelectionModel().select(size - 1);
 
         for (int i = 0; i < size; i++) {
-            var saveResponse = EditorTabPaneUtility.removeSelectedTabFromPane(splitPane, editorTabPane, terminalTabPane, titleBarLabel);
+            var saveResponse = EditorTabPaneUtility.removeSelectedTabFromPane(verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
             if (saveResponse.equals(RemoveSelectedTabFromPaneResponse.CANCELLED)) {
                 return;
             }
@@ -128,12 +133,12 @@ public class EditorController {
 
     @FXML
     public void onNewButtonClickEvent() {
-        EditorTabPaneUtility.addTabToPane(splitPane, editorTabPane, terminalTabPane, "Untitled", titleBarLabel);
+        EditorTabPaneUtility.addTabToPane(verticalSplitPane, editorTabPane, terminalTabPane, "Untitled", titleBarLabel);
     }
 
     @FXML
     public void onOpenButtonClickEvent() {
-        OpenFileUtility.openFile(splitPane, editorTabPane, terminalTabPane, titleBarLabel);
+        OpenFileUtility.openFile(verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
     }
 
     @FXML
@@ -155,13 +160,15 @@ public class EditorController {
     public void onKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.isControlDown()) { // Modifiers will be handled
             if (keyEvent.getCode().equals(KeyCode.T)) {
-                EditorTabPaneUtility.addTabToPane(splitPane, editorTabPane, terminalTabPane, "Untitled", titleBarLabel);
+                EditorTabPaneUtility.addTabToPane(verticalSplitPane, editorTabPane, terminalTabPane, "Untitled", titleBarLabel);
             } else if (keyEvent.getCode().equals(KeyCode.W)) {
-                EditorTabPaneUtility.removeSelectedTabFromPane(splitPane, editorTabPane, terminalTabPane, titleBarLabel);
+                EditorTabPaneUtility.removeSelectedTabFromPane(verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
             } else if (keyEvent.getCode().equals(KeyCode.S)) {
                 SaveFileUtility.saveFile(editorTabPane, titleBarLabel);
             } else if (keyEvent.getCode().equals(KeyCode.B)) {
-                TerminalTabPaneUtility.toggleTerminalTabPane(splitPane, terminalTabPane);
+                TerminalTabPaneUtility.toggleTerminalTabPane(verticalSplitPane, terminalTabPane);
+            } else if (keyEvent.getCode().equals(KeyCode.G)) {
+                DirectoryTreeViewUtility.toggleDirectoryTreeView(horizontalSplitPane, folderTreeView);
             }
         }
     }

@@ -25,10 +25,10 @@ public class EditorTabPaneUtility {
         }
     }
 
-    public static void addTabToPane(SplitPane splitPane, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel, File file) {
-        Tab tab = TabFactory.createEditorTab(splitPane, terminalTabPane, file.getName());
+    public static void addTabToPane(SplitPane verticalSplitPane, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel, File file) {
+        Tab tab = TabFactory.createEditorTab(verticalSplitPane, terminalTabPane, file.getName());
         tab.setOnCloseRequest(e -> {
-            removeSelectedTabFromPane(splitPane, editorTabPane, terminalTabPane, titleBarLabel);
+            removeSelectedTabFromPane(verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
             e.consume();
         });
         editorTabPane.getTabs().add(tab);
@@ -55,10 +55,10 @@ public class EditorTabPaneUtility {
 
     }
 
-    public static void addTabToPane(SplitPane splitPane, TabPane editorTabPane, TabPane terminalTabPane, String tabTitle, Label titleBarLabel) {
-        Tab tab = TabFactory.createEditorTab(splitPane, terminalTabPane, tabTitle);
+    public static void addTabToPane(SplitPane verticalSplitPane, TabPane editorTabPane, TabPane terminalTabPane, String tabTitle, Label titleBarLabel) {
+        Tab tab = TabFactory.createEditorTab(verticalSplitPane, terminalTabPane, tabTitle);
         tab.setOnCloseRequest(e -> {
-            removeSelectedTabFromPane(splitPane, editorTabPane, terminalTabPane, titleBarLabel);
+            removeSelectedTabFromPane(verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
             e.consume();
         });
         editorTabPane.getTabs().add(tab);
@@ -71,11 +71,11 @@ public class EditorTabPaneUtility {
     /**
      * Removes the selected tab from the pane and prompts to a save if the content is not stored in any file.
      *
-     * @param splitPane
+     * @param verticalSplitPane
      * @param editorTabPane
      * @return a negative response only if the user was prompted for a save and cancelled it.
      */
-    public static RemoveSelectedTabFromPaneResponse removeSelectedTabFromPane(SplitPane splitPane, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel) {
+    public static RemoveSelectedTabFromPaneResponse removeSelectedTabFromPane(SplitPane verticalSplitPane, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel) {
         CodeAreaState.IndividualState individualState = CodeAreaState.instance.getIndividualStates().get(editorTabPane.getSelectionModel().getSelectedIndex());
 
         if (!individualState.isSaved()) {
@@ -100,7 +100,7 @@ public class EditorTabPaneUtility {
         editorTabPane.getTabs().remove(editorTabPane.getSelectionModel().getSelectedItem());
 
         if (editorTabPane.getTabs().isEmpty()) {
-            addTabToPane(splitPane, editorTabPane, terminalTabPane, "Untitled", titleBarLabel);
+            addTabToPane(verticalSplitPane, editorTabPane, terminalTabPane, "Untitled", titleBarLabel);
         }
 
         resyncCodeAreaIds(editorTabPane);
