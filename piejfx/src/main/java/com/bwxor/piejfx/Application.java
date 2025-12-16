@@ -29,7 +29,7 @@ public class Application extends javafx.application.Application {
         ConfigUtility.loadConfig();
 
         FXMLLoader fxmlLoader = new FXMLLoader(ResourceUtility.getResourceByName("views/editor-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 750, 500);
+        Scene scene = new Scene(fxmlLoader.load(), 800, 550);
         EditorController controller = fxmlLoader.getController();
         controller.setParameters(getParameters().getRaw());
         controller.handleParameters();

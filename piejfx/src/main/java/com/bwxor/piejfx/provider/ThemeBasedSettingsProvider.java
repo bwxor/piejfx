@@ -2,6 +2,7 @@ package com.bwxor.piejfx.provider;
 
 import com.bwxor.piejfx.dto.RGB;
 import com.bwxor.piejfx.state.ThemeState;
+import com.bwxor.piejfx.utility.NotificationUtility;
 import com.helger.collection.commons.ICommonsList;
 import com.helger.css.decl.CSSDeclaration;
 import com.helger.css.decl.CSSStyleRule;
@@ -54,7 +55,7 @@ public class ThemeBasedSettingsProvider extends DefaultSettingsProvider {
 
 
         } catch (URISyntaxException e) {
-            // ToDo: Show an error
+            NotificationUtility.showNotificationOk("Error while trying to read a terminal color.");
             throw new RuntimeException(e);
         }
 

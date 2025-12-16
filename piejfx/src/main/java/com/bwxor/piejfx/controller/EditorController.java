@@ -1,6 +1,7 @@
 package com.bwxor.piejfx.controller;
 
 import com.bwxor.piejfx.factory.ContextMenuFactory;
+import com.bwxor.piejfx.state.FolderTreeViewState;
 import com.bwxor.piejfx.state.MaximizeState;
 import com.bwxor.piejfx.state.StageState;
 import com.bwxor.piejfx.state.ThemeState;
@@ -173,7 +174,12 @@ public class EditorController {
             } else if (keyEvent.getCode().equals(KeyCode.B)) {
                 TerminalTabPaneUtility.toggleTerminalTabPane(verticalSplitPane, terminalTabPane);
             } else if (keyEvent.getCode().equals(KeyCode.G)) {
-                FolderTreeViewUtility.toggleFolderTreeView(horizontalSplitPane, folderTreeView, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
+                if (FolderTreeViewState.instance.getOpenedFolder() != null) {
+                    FolderTreeViewUtility.toggleFolderTreeView(horizontalSplitPane, folderTreeView, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
+                }
+                else {
+                    OpenFolderUtility.openFolder(horizontalSplitPane, folderTreeView, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
+                }
             }
         }
     }

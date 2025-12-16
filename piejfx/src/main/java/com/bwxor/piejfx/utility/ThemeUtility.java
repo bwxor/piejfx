@@ -34,7 +34,7 @@ public class ThemeUtility {
                 themes.add(new ThemeState.Theme(name, Paths.get(String.valueOf(AppDirConstants.THEMES_DIR), file).toUri().toURL()));
             }
         } catch (IOException e) {
-            // ToDo: Show an error
+            NotificationUtility.showNotificationOk("Error while trying to load the themes.");
             throw new RuntimeException(e);
         }
 
@@ -65,7 +65,7 @@ public class ThemeUtility {
                                             StageState.instance.getStage().getScene().getStylesheets().add(AppDirConstants.DEFAULT_STYLES_FILE.toUri().toURL().toExternalForm());
                                         }
                                     } catch (MalformedURLException ex) {
-                                        // ToDo: Show an error
+                                        NotificationUtility.showNotificationOk("Error while trying to load the themes inside the menu.");
                                         throw new RuntimeException(ex);
                                     }
 

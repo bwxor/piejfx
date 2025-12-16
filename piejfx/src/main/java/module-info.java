@@ -15,6 +15,7 @@ module com.bwxor.piejfx {
     requires com.helger.css;
     requires com.helger.collection;
     requires org.jetbrains.annotations;
+    requires java.management;
 
     opens com.bwxor.piejfx to javafx.fxml;
     opens com.bwxor.piejfx.controller;

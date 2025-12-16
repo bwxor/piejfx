@@ -42,7 +42,7 @@ public class GrammarUtility {
                         return grammarRules;
 
                     } catch (IOException e) {
-                        // ToDo: Show error
+                        NotificationUtility.showNotificationOk("Error while trying to read the grammar file.");
                         throw new RuntimeException();
                     }
                 }
@@ -105,11 +105,8 @@ public class GrammarUtility {
             }
 
             return false;
-        } catch (FileNotFoundException e) {
-            // ToDo: Show error
-            throw new RuntimeException(e);
         } catch (IOException e) {
-            // ToDo: Show error
+            NotificationUtility.showNotificationOk("Error while trying to read the grammar file.");
             throw new RuntimeException(e);
         }
     }

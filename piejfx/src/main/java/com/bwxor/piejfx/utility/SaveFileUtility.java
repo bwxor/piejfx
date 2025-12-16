@@ -32,7 +32,7 @@ public class SaveFileUtility {
             try (BufferedWriter br = Files.newBufferedWriter(state.getOpenedFile().toPath(), StandardCharsets.UTF_8)) {
                 br.write(state.getContent());
             } catch (IOException e) {
-                // ToDo: Show an error
+                NotificationUtility.showNotificationOk("Error while trying to save the file.");
                 throw new RuntimeException(e);
             }
 
@@ -85,7 +85,7 @@ public class SaveFileUtility {
 
             return false;
         } catch (IOException e) {
-            // ToDo: Error here
+            NotificationUtility.showNotificationOk("Error while trying to save the file.");
             throw new RuntimeException(e);
         }
     }

@@ -5,7 +5,7 @@ import java.io.File;
 public final class FolderTreeViewState {
     public static FolderTreeViewState instance = new FolderTreeViewState();
 
-    private File openedFolder = new File(System.getProperty("user.dir"));
+    private File openedFolder;
 
     private FolderTreeViewState() {
     }

@@ -25,7 +25,7 @@ public class AboutUtility {
         try {
             root = loader.load();
         } catch (IOException e) {
-            // ToDo: Show an error here, maybe?
+            NotificationUtility.showNotificationOk("Error while trying to load the About window.");
             throw new RuntimeException(e);
         }
 
@@ -34,13 +34,13 @@ public class AboutUtility {
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.setTitle("About");
-        stage.getIcons().add(new Image(Objects.requireNonNull(ResourceUtility.getResourceByNameAsStream("img/icon.png"))));
+        stage.getIcons().add(new Image(Objects.requireNonNull(ResourceUtility.getResourceByNameAsStream("img/icons/icon.png"))));
         stage.initStyle(StageStyle.TRANSPARENT);
         scene.setFill(Color.TRANSPARENT);
         try {
             scene.getStylesheets().add(AppDirConstants.DEFAULT_STYLES_FILE.toUri().toURL().toExternalForm());
         } catch (MalformedURLException e) {
-            // ToDo: Show an error
+            NotificationUtility.showNotificationOk("Error while trying to read the default stylesheet.");
             throw new RuntimeException(e);
         }
         stage.showAndWait();

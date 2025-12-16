@@ -10,6 +10,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import org.fxmisc.richtext.CodeArea;
 
+import javax.management.Notification;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -46,8 +47,8 @@ public class EditorTabPaneUtility {
                 c.replaceText(bufferedReader.readAllAsString());
                 tab.setText(tab.getText().substring(1));
             } catch (IOException e) {
-                // ToDo: Show an error
-                throw new RuntimeException(e);
+                editorTabPane.getTabs().remove(editorTabPane.getTabs().size() - 1);
+                NotificationUtility.showNotificationOk("Could not open specified file.");
             }
         }
 

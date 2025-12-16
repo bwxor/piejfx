@@ -47,7 +47,7 @@ public class ConfigUtility {
             bufferedWriter.write(root.toString());
             bufferedWriter.flush();
         } catch (IOException e) {
-            // ToDo: Show error
+            NotificationUtility.showNotificationOk("Error while trying to rewrite the configuration.");
             throw new RuntimeException(e);
         }
     }
@@ -70,7 +70,7 @@ public class ConfigUtility {
                 Files.copy(ResourceUtility.getResourceByNameAsStream(s), target);
             }
         } catch (IOException e) {
-            // ToDo: Show error
+            NotificationUtility.showNotificationOk("Error while trying to write the config folder to the local disk.");
             throw new RuntimeException(e);
         }
     }
