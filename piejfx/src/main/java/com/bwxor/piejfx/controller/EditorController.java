@@ -142,6 +142,11 @@ public class EditorController {
     }
 
     @FXML
+    public void onOpenFolderButtonClickEvent() {
+        OpenFolderUtility.openFolder(horizontalSplitPane, folderTreeView, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
+    }
+
+    @FXML
     public void onSaveButtonClickEvent() {
         SaveFileUtility.saveFile(editorTabPane, titleBarLabel);
     }
@@ -168,7 +173,7 @@ public class EditorController {
             } else if (keyEvent.getCode().equals(KeyCode.B)) {
                 TerminalTabPaneUtility.toggleTerminalTabPane(verticalSplitPane, terminalTabPane);
             } else if (keyEvent.getCode().equals(KeyCode.G)) {
-                FolderTreeViewUtility.toggleFolderTreeView(horizontalSplitPane, folderTreeView);
+                FolderTreeViewUtility.toggleFolderTreeView(horizontalSplitPane, folderTreeView, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
             }
         }
     }

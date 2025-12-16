@@ -22,7 +22,7 @@
                 <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="450.0" prefWidth="261.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" VBox.vgrow="ALWAYS">
                 <ImageView preserveRatio="true">
                     <image>
-                        <Image url="@../img/icon-small.png" />
+                        <Image url="@../img/icons/icon-small.png" />
                     </image>
                     <VBox.margin>
                         <Insets bottom="10.0" />

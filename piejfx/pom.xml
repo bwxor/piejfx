@@ -132,7 +132,7 @@
                             <!-- mandatory -->
                             <mainClass>com.bwxor.piejfx.Launcher</mainClass>
                             <!-- optional -->
-                            <iconFile>src/main/resources/com/bwxor/piejfx/img/icon.ico</iconFile>
+                            <iconFile>src/main/resources/com/bwxor/piejfx/img/icons/icon.ico</iconFile>
                             <bundleJre>true</bundleJre>
                             <generateInstaller>false</generateInstaller>
                             <administratorRequired>false</administratorRequired>

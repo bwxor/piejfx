@@ -26,7 +26,7 @@
                                 <items>
                                     <MenuItem mnemonicParsing="false" onAction="#onNewButtonClickEvent" text="New" />
                                     <MenuItem mnemonicParsing="false" onAction="#onOpenButtonClickEvent" text="Open File..." />
-                                    <MenuItem mnemonicParsing="false" onAction="#onOpenButtonClickEvent" text="Open Folder..." />
+                                    <MenuItem mnemonicParsing="false" onAction="#onOpenFolderButtonClickEvent" text="Open Folder..." />
                                     <MenuItem mnemonicParsing="false" onAction="#onSaveButtonClickEvent" text="Save" />
                                     <MenuItem mnemonicParsing="false" onAction="#onSaveAsButtonClickEvent" text="Save as..." />
                                 </items>
