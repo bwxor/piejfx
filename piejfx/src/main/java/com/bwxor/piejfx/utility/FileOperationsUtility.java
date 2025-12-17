@@ -13,8 +13,10 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.nio.file.Files;
 import java.util.Objects;
 
 public class FileOperationsUtility {
@@ -52,5 +54,19 @@ public class FileOperationsUtility {
             NotificationUtility.showNotificationOk("Error while trying to load the window.");
             return null;
         }
+    }
+
+    public static boolean deleteFolder(File file) {
+        File[] contents = file.listFiles();
+        if (contents != null) {
+            for (File f : contents) {
+                if (! Files.isSymbolicLink(f.toPath())) {
+                    if (!deleteFolder(f)) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return file.delete();
     }
 }

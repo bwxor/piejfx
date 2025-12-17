@@ -5,6 +5,7 @@ import com.bwxor.piejfx.dto.NewFileResponse;
 import com.bwxor.piejfx.state.FolderTreeViewState;
 import com.bwxor.piejfx.type.CreationType;
 import com.bwxor.piejfx.type.NewFileOption;
+import com.bwxor.piejfx.type.NotificationYesNoCancelOption;
 import com.bwxor.piejfx.utility.FileOperationsUtility;
 import com.bwxor.piejfx.utility.NotificationUtility;
 import com.bwxor.piejfx.utility.TerminalTabPaneUtility;
@@ -29,7 +30,7 @@ public class ContextMenuFactory {
         MenuItem deleteFileMenuItem = new MenuItem("Delete");
         deleteFileMenuItem.setOnAction(e ->
         {
-
+            deleteFile(folderTreeView);
         });
         contextMenu.getItems().add(deleteFileMenuItem);
 
@@ -131,6 +132,38 @@ public class ContextMenuFactory {
             }
         } catch (IOException ex) {
             NotificationUtility.showNotificationOk("Error while trying to create the file.");
+        }
+    }
+
+    private static void deleteFile(TreeView folderTreeView) {
+        if (folderTreeView.getSelectionModel().getSelectedIndex() > 0) {
+            if (folderTreeView.getSelectionModel().getSelectedItem().equals(folderTreeView.getRoot())) {
+                return;
+            }
+
+            NotificationYesNoCancelOption response = NotificationUtility.showNotificationYesNoCancel("Are you sure you want to delete the file?");
+
+            if (response.equals(NotificationYesNoCancelOption.YES)) {
+                FileTreeItem treeItem = (FileTreeItem) folderTreeView.getSelectionModel().getSelectedItem();
+
+                if (treeItem.getFile().isDirectory()) {
+                    if (!FileOperationsUtility.deleteFolder(treeItem.getFile())) {
+                        NotificationUtility.showNotificationOk("Could not delete file.");
+                    }
+                    else {
+                        treeItem.getParent().getChildren().remove(treeItem);
+                    }
+                }
+                else {
+                    boolean deletionStatus = treeItem.getFile().delete();
+
+                    if (!deletionStatus) {
+                        NotificationUtility.showNotificationOk("Could not delete file.");
+                    } else {
+                        treeItem.getParent().getChildren().remove(treeItem);
+                    }
+                }
+            }
         }
     }
 }

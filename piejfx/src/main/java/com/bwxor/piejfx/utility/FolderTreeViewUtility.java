@@ -20,7 +20,7 @@ public class FolderTreeViewUtility {
                         File file = ((FileTreeItem) folderTreeView.getSelectionModel().getSelectedItem()).getFile();
 
                         if (!file.isDirectory()) {
-                            OpenFileUtility.openFile(verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel, file);
+                            OpenFileUtility.openFile(horizontalSplitPane, verticalSplitPane, folderTreeView, editorTabPane, terminalTabPane, titleBarLabel, file);
                         }
                     }
                 }

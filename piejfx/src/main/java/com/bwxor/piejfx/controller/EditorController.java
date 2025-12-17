@@ -49,9 +49,9 @@ public class EditorController {
 
     public void handleParameters() {
         if (!parameters.isEmpty()) {
-            OpenFileUtility.openFile(verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel, new File(parameters.getFirst()));
+            OpenFileUtility.openFile(horizontalSplitPane, verticalSplitPane, folderTreeView, editorTabPane, terminalTabPane, titleBarLabel, new File(parameters.getFirst()));
         } else {
-            EditorTabPaneUtility.addTabToPane(verticalSplitPane, editorTabPane, terminalTabPane, "Untitled", titleBarLabel);
+            EditorTabPaneUtility.addTabToPane(horizontalSplitPane, verticalSplitPane, folderTreeView, editorTabPane, terminalTabPane, "Untitled", titleBarLabel);
         }
 
         titleBarLabel.setText(editorTabPane.getSelectionModel().getSelectedItem().getText());
@@ -88,7 +88,7 @@ public class EditorController {
         editorTabPane.getSelectionModel().select(size - 1);
 
         for (int i = 0; i < size; i++) {
-            var saveResponse = EditorTabPaneUtility.removeSelectedTabFromPane(verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
+            var saveResponse = EditorTabPaneUtility.removeSelectedTabFromPane(horizontalSplitPane, verticalSplitPane, folderTreeView, editorTabPane, terminalTabPane, titleBarLabel);
             if (saveResponse.equals(RemoveSelectedTabFromPaneResponse.CANCELLED)) {
                 return;
             }
@@ -138,12 +138,12 @@ public class EditorController {
 
     @FXML
     public void onNewButtonClickEvent() {
-        EditorTabPaneUtility.addTabToPane(verticalSplitPane, editorTabPane, terminalTabPane, "Untitled", titleBarLabel);
+        EditorTabPaneUtility.addTabToPane(horizontalSplitPane, verticalSplitPane, folderTreeView, editorTabPane, terminalTabPane, "Untitled", titleBarLabel);
     }
 
     @FXML
     public void onOpenButtonClickEvent() {
-        OpenFileUtility.openFile(verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
+        OpenFileUtility.openFile(horizontalSplitPane, verticalSplitPane, folderTreeView, editorTabPane, terminalTabPane, titleBarLabel);
     }
 
     @FXML
@@ -153,12 +153,12 @@ public class EditorController {
 
     @FXML
     public void onSaveButtonClickEvent() {
-        SaveFileUtility.saveFile(editorTabPane, titleBarLabel);
+        SaveFileUtility.saveFile(horizontalSplitPane, folderTreeView, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
     }
 
     @FXML
     public void onSaveAsButtonClickEvent() {
-        SaveFileUtility.saveFileAs(editorTabPane, titleBarLabel);
+        SaveFileUtility.saveFileAs(horizontalSplitPane, folderTreeView, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
     }
 
     @FXML
@@ -170,11 +170,11 @@ public class EditorController {
     public void onKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.isControlDown()) { // Modifiers will be handled
             if (keyEvent.getCode().equals(KeyCode.T)) {
-                EditorTabPaneUtility.addTabToPane(verticalSplitPane, editorTabPane, terminalTabPane, "Untitled", titleBarLabel);
+                EditorTabPaneUtility.addTabToPane(horizontalSplitPane, verticalSplitPane, folderTreeView, editorTabPane, terminalTabPane, "Untitled", titleBarLabel);
             } else if (keyEvent.getCode().equals(KeyCode.W)) {
-                EditorTabPaneUtility.removeSelectedTabFromPane(verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
+                EditorTabPaneUtility.removeSelectedTabFromPane(horizontalSplitPane, verticalSplitPane, folderTreeView, editorTabPane, terminalTabPane, titleBarLabel);
             } else if (keyEvent.getCode().equals(KeyCode.S)) {
-                SaveFileUtility.saveFile(editorTabPane, titleBarLabel);
+                SaveFileUtility.saveFile(horizontalSplitPane, folderTreeView, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
             } else if (keyEvent.getCode().equals(KeyCode.B)) {
                 TerminalTabPaneUtility.toggleTerminalTabPane(verticalSplitPane, terminalTabPane);
             } else if (keyEvent.getCode().equals(KeyCode.G)) {
