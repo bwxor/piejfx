@@ -1,6 +1,7 @@
 /* --- Window --- */
 .window-root {
     -fx-border-color: #cecece;
+    -fx-font-family: "Segoe UI";
 }
 
 .window-title {
@@ -228,6 +229,7 @@
 .text-area .content {
     -fx-background-color: transparent;
 }
+
 
 /* --- Terminal --- */
 .terminal {

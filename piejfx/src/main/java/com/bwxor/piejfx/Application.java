@@ -14,14 +14,15 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.Objects;
 
 public class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws IOException {
-        Font.loadFont(Paths.get(AppDirConstants.FONTS_DIR.toString(), "Segoe UI Symbol.ttf").toUri().toURL().toExternalForm(), 10);
-
+        Font.loadFont(ResourceUtility.getResourceByName("config/fonts/JetBrainsMono-Regular.ttf").toExternalForm(), 10);
+        Font.loadFont(ResourceUtility.getResourceByName("config/fonts/SegoeUISymbol.ttf").toExternalForm(), 10);
+        Font.loadFont(ResourceUtility.getResourceByName("config/fonts/SegoeUI.ttf").toExternalForm(), 10);
+        Font.loadFont(ResourceUtility.getResourceByName("config/fonts/SegoeUIBold.ttf").toExternalForm(), 10);
         StageState.instance.setStage(stage);
 
         ConfigUtility.createConfigDirectoryStructure();

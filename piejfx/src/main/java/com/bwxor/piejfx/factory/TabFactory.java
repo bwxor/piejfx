@@ -19,6 +19,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.InlineCssTextArea;
 import org.fxmisc.richtext.LineNumberFactory;
 
 import java.nio.charset.StandardCharsets;
@@ -30,7 +31,12 @@ public class TabFactory {
         Tab tab = new Tab();
 
         CodeArea codeArea = new CodeArea();
-        codeArea.setStyle(String.format("-fx-font-size: %dpt", 10));
+        codeArea.setStyle(String.format(
+                "-fx-font-size: %dpt; " +
+                        "-fx-font-family: 'JetBrains Mono'; " +
+                        "-fx-font-feature-settings: 'liga' 1, 'calt' 1;",
+                10
+        ));
 
         CodeAreaState.IndividualState createdState = new CodeAreaState.IndividualState();
         createdState.setSaved(true);
@@ -46,11 +52,16 @@ public class TabFactory {
 
                 if (e.getCode().equals(KeyCode.ADD)) {
                     individualState.setFontSize(individualState.getFontSize() + 2);
-                    codeArea.setStyle(String.format("-fx-font-size: %dpt", individualState.getFontSize()));
                 } else if (e.getCode().equals(KeyCode.SUBTRACT)) {
                     individualState.setFontSize(individualState.getFontSize() - 2);
-                    codeArea.setStyle(String.format("-fx-font-size: %dpt", individualState.getFontSize()));
                 }
+
+                codeArea.setStyle(String.format(
+                        "-fx-font-size: %dpt; " +
+                                "-fx-font-family: 'JetBrains Mono'; " +
+                                "-fx-font-feature-settings: 'liga' 1, 'calt' 1;",
+                        individualState.getFontSize()
+                ));
             }
         });
 
@@ -61,11 +72,16 @@ public class TabFactory {
 
                         if (e.getDeltaY() > 0) {
                             individualState.setFontSize(individualState.getFontSize() + 2);
-                            codeArea.setStyle(String.format("-fx-font-size: %dpt", individualState.getFontSize()));
                         } else {
                             individualState.setFontSize(individualState.getFontSize() - 2);
-                            codeArea.setStyle(String.format("-fx-font-size: %dpt", individualState.getFontSize()));
                         }
+
+                        codeArea.setStyle(String.format(
+                                "-fx-font-size: %dpt; " +
+                                        "-fx-font-family: 'JetBrains Mono'; " +
+                                        "-fx-font-feature-settings: 'liga' 1, 'calt' 1;",
+                                individualState.getFontSize()
+                        ));
                     }
                 }
         );

@@ -17,8 +17,11 @@ public class FolderTreeViewUtility {
             folderTreeView.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
                 if (folderTreeView.getSelectionModel().getSelectedIndex() > 0) {
                     if (e.getClickCount() == 2) {
-                        OpenFileUtility.openFile(verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel,
-                                ((FileTreeItem)folderTreeView.getSelectionModel().getSelectedItem()).getFile());
+                        File file = ((FileTreeItem) folderTreeView.getSelectionModel().getSelectedItem()).getFile();
+
+                        if (!file.isDirectory()) {
+                            OpenFileUtility.openFile(verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel, file);
+                        }
                     }
                 }
             });
@@ -53,10 +56,10 @@ public class FolderTreeViewUtility {
 
     private static void createTreeItem(File rootFile, TreeItem parent, SplitPane verticalSplitPane, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel) {
         if (rootFile.isDirectory()) {
-            TreeItem node = new TreeItem("\uD83D\uDCC1 " + rootFile.getName());
+            TreeItem node = new FileTreeItem("\uD83D\uDCC1 " + rootFile.getName(), rootFile);
             parent.getChildren().add(node);
             for (File f : rootFile.listFiles()) {
-                TreeItem placeholder = new TreeItem();
+                TreeItem placeholder = new FileTreeItem();
                 node.getChildren().add(placeholder);
 
                 node.addEventHandler(TreeItem.branchExpandedEvent(), new EventHandler() {
