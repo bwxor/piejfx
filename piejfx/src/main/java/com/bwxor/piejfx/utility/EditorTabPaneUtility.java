@@ -45,7 +45,7 @@ public class EditorTabPaneUtility {
 
             try (BufferedReader bufferedReader = Files.newBufferedReader(file.toPath(), StandardCharsets.UTF_8)) {
                 c.replaceText(bufferedReader.readAllAsString());
-                tab.setText(tab.getText().substring(1));
+                tab.setText(tab.getText());
             } catch (IOException e) {
                 editorTabPane.getTabs().remove(editorTabPane.getTabs().size() - 1);
                 NotificationUtility.showNotificationOk("Could not open specified file.");

@@ -1,10 +1,7 @@
 package com.bwxor.piejfx.controller;
 
 import com.bwxor.piejfx.factory.ContextMenuFactory;
-import com.bwxor.piejfx.state.FolderTreeViewState;
-import com.bwxor.piejfx.state.MaximizeState;
-import com.bwxor.piejfx.state.StageState;
-import com.bwxor.piejfx.state.ThemeState;
+import com.bwxor.piejfx.state.*;
 import com.bwxor.piejfx.type.RemoveSelectedTabFromPaneResponse;
 import com.bwxor.piejfx.utility.*;
 import javafx.application.Platform;
@@ -67,10 +64,17 @@ public class EditorController {
         editorTabPane.getSelectionModel().selectedItemProperty().addListener(
                 (_, _, t1) -> {
                     if (t1 != null) {
-                        titleBarLabel.setText(t1.getText());
+                        if (CodeAreaState.instance.getIndividualStates().get(editorTabPane.getSelectionModel().getSelectedIndex()).isSaved()) {
+                            titleBarLabel.setText(t1.getText());
+                        }
+                        else {
+                            titleBarLabel.setText(t1.getText().substring(1));
+                        }
                     }
                 }
         );
+
+        folderTreeView.setContextMenu(ContextMenuFactory.createFolderTreeViewContextMenu(folderTreeView));
     }
 
     @FXML

@@ -22,7 +22,7 @@ public final class CodeAreaState {
         }
 
         public void setFontSize(int fontSize) {
-            if (fontSize >= 10 && fontSize <= 30) {
+            if (fontSize >= 6 && fontSize <= 30) {
                 this.fontSize = fontSize;
             }
         }

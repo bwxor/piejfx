@@ -243,6 +243,21 @@
     -fx-background-color: #2d2d30;
 }
 
+/* --- TextField --- */
+.text-field {
+    -fx-background-color: transparent;
+    -fx-padding-top: 2px;
+    -fx-padding-bottom: 2px;
+    -fx-padding-left: 4px;
+    -fx-padding-right: 4px;
+    -fx-border-color: #3d3d41;
+    -fx-text-fill: #EDEDED;
+}
+
+.text-field .content {
+    -fx-background-color: transparent;
+}
+
 .styled-text-area .caret {
     -fx-stroke: #FFFFFF;
 }
