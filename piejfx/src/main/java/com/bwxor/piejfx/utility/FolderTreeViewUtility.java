@@ -31,12 +31,18 @@ public class FolderTreeViewUtility {
             firstLaunch = false;
         }
 
+        FolderTreeViewState.instance.setTreeViewStructure(new TreeViewStructure());
+        fillExpansionState(FolderTreeViewState.instance.getTreeViewStructure(), folderTreeView.getRoot());
         folderTreeView.setRoot(createTreeItem(verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel));
 
         if (!horizontalSplitPane.getItems().contains(folderTreeView)) {
-            toggleFolderTreeView(horizontalSplitPane, folderTreeView, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
+            horizontalSplitPane.getItems().addFirst(folderTreeView);
+            horizontalSplitPane.setDividerPosition(0, 0.25);
         }
 
+        if (FolderTreeViewState.instance.getTreeViewStructure() != null) {
+            fillTreeViewWithExpansionState(FolderTreeViewState.instance.getTreeViewStructure(), folderTreeView.getRoot());
+        }
         folderTreeView.getRoot().setExpanded(true);
     }
 
@@ -98,6 +104,10 @@ public class FolderTreeViewUtility {
     }
 
     private static void fillExpansionState(TreeViewStructure treeViewStructure, TreeItem treeItem) {
+        if (treeItem == null) {
+            return;
+        }
+
         treeViewStructure.setChildren(new ArrayList<>());
 
         for (int i = 0; i < treeItem.getChildren().size(); i++) {
