@@ -104,10 +104,8 @@ public class FolderTreeViewUtility {
             TreeItem child = (TreeItem) treeItem.getChildren().get(i);
             TreeViewStructure newItem = new TreeViewStructure();
             newItem.setFile(((FileTreeItem) child).getFile());
-            treeViewStructure.getChildren().add(newItem);
             if (child.isExpanded()) {
                 newItem.setExpanded(true);
-                treeViewStructure.setChildren(new ArrayList<>());
                 treeViewStructure.getChildren().add(newItem);
                 fillExpansionState(newItem, child);
             }
