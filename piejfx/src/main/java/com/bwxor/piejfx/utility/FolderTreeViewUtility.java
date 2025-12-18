@@ -1,13 +1,16 @@
 package com.bwxor.piejfx.utility;
 
 import com.bwxor.piejfx.control.FileTreeItem;
+import com.bwxor.piejfx.dto.TreeViewStructure;
 import com.bwxor.piejfx.state.FolderTreeViewState;
+import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class FolderTreeViewUtility {
     private static boolean firstLaunch = true;
@@ -33,16 +36,23 @@ public class FolderTreeViewUtility {
         if (!horizontalSplitPane.getItems().contains(folderTreeView)) {
             toggleFolderTreeView(horizontalSplitPane, folderTreeView, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
         }
+
+        folderTreeView.getRoot().setExpanded(true);
     }
 
     public static void toggleFolderTreeView(SplitPane horizontalSplitPane, TreeView folderTreeView, SplitPane verticalSplitPane, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel) {
-        folderTreeView.setRoot(createTreeItem(verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel));
-
         if (horizontalSplitPane.getItems().contains(folderTreeView)) {
+            FolderTreeViewState.instance.setTreeViewStructure(new TreeViewStructure());
+            fillExpansionState(FolderTreeViewState.instance.getTreeViewStructure(), folderTreeView.getRoot());
             horizontalSplitPane.getItems().remove(folderTreeView);
         } else {
+            folderTreeView.setRoot(createTreeItem(verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel));
             horizontalSplitPane.getItems().addFirst(folderTreeView);
             horizontalSplitPane.setDividerPosition(0, 0.25);
+
+            if (FolderTreeViewState.instance.getTreeViewStructure() != null) {
+                fillTreeViewWithExpansionState(FolderTreeViewState.instance.getTreeViewStructure(), folderTreeView.getRoot());
+            }
         }
     }
 
@@ -84,6 +94,42 @@ public class FolderTreeViewUtility {
         } else {
             FileTreeItem treeItem = new FileTreeItem(rootFile.getName(), rootFile);
             parent.getChildren().add(treeItem);
+        }
+    }
+
+    private static void fillExpansionState(TreeViewStructure treeViewStructure, TreeItem treeItem) {
+        treeViewStructure.setChildren(new ArrayList<>());
+
+        for (int i = 0; i < treeItem.getChildren().size(); i++) {
+            TreeItem child = (TreeItem) treeItem.getChildren().get(i);
+            TreeViewStructure newItem = new TreeViewStructure();
+            newItem.setFile(((FileTreeItem) child).getFile());
+            treeViewStructure.getChildren().add(newItem);
+            if (child.isExpanded()) {
+                newItem.setExpanded(true);
+                treeViewStructure.setChildren(new ArrayList<>());
+                treeViewStructure.getChildren().add(newItem);
+                fillExpansionState(newItem, child);
+            }
+        }
+    }
+
+    private static void fillTreeViewWithExpansionState(TreeViewStructure treeViewStructure, TreeItem treeItem) {
+        ObservableList<TreeItem> children = treeItem.getChildren();
+
+        if (treeViewStructure.getChildren() != null) {
+            treeItem.setExpanded(true);
+
+            for (int i = 0; i < children.size(); i++) {
+                for (TreeViewStructure s : treeViewStructure.getChildren()) {
+                    FileTreeItem f = (FileTreeItem) children.get(i);
+                    if (f.getFile() != null && f.getFile().equals(s.getFile())
+                            && s.isExpanded()) {
+                        children.get(i).setExpanded(true);
+                        fillTreeViewWithExpansionState(s, children.get(i));
+                    }
+                }
+            }
         }
     }
 }
