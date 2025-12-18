@@ -1,8 +1,15 @@
 # piejfx - A cross-platform, Java-FX version of pie
 
-## Contribute
+## Building binaries
 
-### Build steps
+The project's build process implies generating a jar file through the Maven build tool and storing it, together with the project's dependency jars, in a separate folder. `jpackage` will be then used on that folder to generate the artifact.
+
+There are two ways of building Pie locally. The first one is the fastest, and requires a single command. The command will automatically create the needed temporary files and the output directory, together with the artifact. You can also build Pie manually, by following the steps from the second subsection.
+
+### Variant 1: Building using the provided scripts
+Pie can be built easily by simply running the OS-specific script from the `/build` folder.
+
+### Variant 2: Building manually
 
 #### Step 1: Create a jar file
 You can do this through the `mvn package` command (or directly from IntelliJ's Maven interface).
@@ -26,3 +33,4 @@ The Windows icon file is located under `piejfx/src/main/resources/com/bwxor/piej
 jpackage --type deb --input <CREATED_FOLDER> --name Pie --main-jar <GENERATED_JAR_FILE> --main-class com.bwxor.piejfx.Launcher --dest output --linux-shortcut --linux-menu-group "Utility" --icon <ICON_FILE>
 ```
 The Linux icon file is located under `piejfx/src/main/resources/com/bwxor/piejfx/img/icons/icon.png`. Linux doesn't support `.ico` icons.
+
