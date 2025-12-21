@@ -41,5 +41,6 @@
       "type": "identifier",
       "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
     }
-  ]
+  ],
+  "autocomplete": ["DIM","REDIM","AS","IF","THEN","ELSE","ELSEIF","END","FOR","TO","STEP","NEXT","WHILE","WEND","DO","LOOP","UNTIL","SELECT","CASE","FUNCTION","SUB","RETURN","EXIT","PUBLIC","PRIVATE","GLOBAL","CONST","ON","ERROR","GOTO","GOSUB","OPTION","EXPLICIT","MODULE","IMPORTS","INTEGER","LONG","SINGLE","DOUBLE","STRING","BOOLEAN","VARIANT","OBJECT","BYTE","DATE"]
 }

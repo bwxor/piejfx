@@ -41,5 +41,6 @@
       "type": "identifier",
       "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
     }
-  ]
+  ],
+  "autocomplete": ["include","define","undef","ifdef","ifndef","if","else","elif","endif","pragma","error","warning","line","alignas","auto","bool","break","case","catch","class","const","constexpr","continue","delete","do","double","enum","explicit","export","extern","false","float","for","friend","goto","if","inline","int","long","mutable","namespace","new","nullptr","operator","private","protected","public","return","short","signed","sizeof","static","struct","switch","template","this","throw","true","try","typedef","typename","union","unsigned","using","virtual","void","volatile","while"]
 }

@@ -59,5 +59,6 @@
       "type": "identifier",
       "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
     }
-  ]
+  ],
+  "autocomplete": ["int","float","str","bool","list","dict","set","tuple","object","False","None","True","and","as","assert","break","class","continue","def","del","elif","else","except","finally","for","from","global","if","import","in","is","lambda","nonlocal","not","or","pass","raise","required","return","try","while","with","yield"]
 }

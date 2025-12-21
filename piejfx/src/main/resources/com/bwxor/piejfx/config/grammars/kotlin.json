@@ -44,5 +44,6 @@
       "type": "identifier",
       "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
     }
-  ]
+  ],
+  "autocomplete": ["abstract","actual","annotation","as","break","by","catch","class","companion","const","constructor","continue","crossinline","data","do","else","enum","expect","external","false","final","for","fun","if","in","interface","internal","is","it","lateinit","noinline","null","object","open","operator","out","override","package","private","protected","public","return","sealed","super","suspend","this","throw","true","try","typealias","val","var","when","where","while"]
 }

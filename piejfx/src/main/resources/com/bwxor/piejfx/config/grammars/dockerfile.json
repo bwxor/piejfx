@@ -23,5 +23,6 @@
       "type": "identifier",
       "regex": "[A-Za-z0-9_\\/\\.-]+"
     }
-  ]
+  ],
+  "autocomplete": ["FROM","RUN","CMD","LABEL","MAINTAINER","EXPOSE","ENV","ADD","COPY","ENTRYPOINT","VOLUME","USER","WORKDIR","ARG","ONBUILD","STOPSIGNAL","HEALTHCHECK","SHELL"]
 }

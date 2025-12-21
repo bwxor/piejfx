@@ -35,5 +35,6 @@
       "type": "identifier",
       "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
     }
-  ]
+  ],
+  "autocomplete": ["module","endmodule","input","output","wire","reg","always","assign","if","else","case","endcase","for","while","begin","end"]
 }

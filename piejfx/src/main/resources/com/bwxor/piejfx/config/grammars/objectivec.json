@@ -40,5 +40,6 @@
       "type": "identifier",
       "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
     }
-  ]
+  ],
+  "autocomplete": ["@interface","@implementation","@end","@class","@protocol","@selector","@synthesize","@dynamic","if","else","for","while","return","break","continue","switch","case","default","nil","YES","NO","self","super"]
 }

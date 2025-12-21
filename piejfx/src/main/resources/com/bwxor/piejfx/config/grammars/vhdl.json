@@ -36,5 +36,6 @@
       "type": "identifier",
       "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
     }
-  ]
+  ],
+  "autocomplete": ["entity","architecture","begin","end","signal","process","if","then","else","case","when","loop","for","while","use","library","is","port","map","generic","constant","component","in","out","inout","buffer","to","downto","others","all","open","report","severity","assert","wait","attribute","configuration","package","body","of"]
 }

@@ -64,5 +64,6 @@
       "type": "identifier",
       "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
     }
-  ]
+  ],
+  "autocomplete": ["string","number","boolean","any","void","never","unknown","object","bigint","symbol","abstract","as","asserts","async","await","break","case","catch","class","const","continue","debugger","declare","default","delete","do","else","enum","export","extends","false","finally","for","from","function","get","if","implements","import","in","infer","instanceof","interface","is","keyof","let","module","namespace","of","private","protected","public","required","readonly","return","set","static","super","switch","this","throw","true","try","type","typeof","undefined","unique","var","while","with","yield"]
 }

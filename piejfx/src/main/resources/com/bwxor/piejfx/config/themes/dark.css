@@ -262,6 +262,35 @@
     -fx-stroke: #FFFFFF;
 }
 
+/* --- ListView --- */
+.list-view {
+    -fx-background-color: #252526;
+    -fx-border-color: #3e3e42;
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 10, 0, 0, 2);
+}
+
+.list-view .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #cccccc;
+    -fx-padding: 4px 8px;
+    -fx-font-size: 13px;
+}
+
+.list-view .list-cell:hover {
+    -fx-background-color: #3e3e42;
+}
+
+.list-view .list-cell:selected {
+    -fx-background-color: #0090eb;
+    -fx-text-fill: #ffffff;
+}
+
+.list-view .list-cell:focused {
+    -fx-background-color: #0090eb;
+    -fx-text-fill: #ffffff;
+}
+
 /* --- Terminal --- */
 .terminal {
     -fx-background-color: #1e1e1e;

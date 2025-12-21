@@ -49,5 +49,6 @@
       "type": "identifier",
       "regex": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
     }
-  ]
+  ],
+  "autocomplete": ["include","define","undef","if","ifdef","ifndef","elif","else","endif","error","pragma","auto","break","case","char","const","continue","default","do","double","enum","extern","float","for","goto","inline","int","long","register","restrict","return","short","signed","sizeof","static","struct","switch","typedef","union","unsigned","void","volatile","while"]
 }

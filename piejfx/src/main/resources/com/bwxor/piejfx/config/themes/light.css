@@ -246,6 +246,34 @@
     -fx-background-color: transparent;
 }
 
+/* --- ListView --- */
+.list-view {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #dee2e6;
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 2);
+}
+
+.list-view .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #212529;
+    -fx-padding: 4px 8px;
+    -fx-font-size: 13px;
+}
+
+.list-view .list-cell:hover {
+    -fx-background-color: #f0f0f0;
+}
+
+.list-view .list-cell:selected {
+    -fx-background-color: #0090eb;
+    -fx-text-fill: #ffffff;
+}
+
+.list-view .list-cell:focused {
+    -fx-background-color: #0090eb;
+    -fx-text-fill: #ffffff;
+}
 
 /* --- Terminal --- */
 .terminal {

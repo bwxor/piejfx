@@ -43,7 +43,7 @@ public class AutofillChangeListener implements ChangeListener<String> {
             }
 
             for (int i = codeArea.getAnchor(); i >= 0 && i < codeArea.getText().length(); i--) {
-                if (codeArea.getText().charAt(i) == '\n' || codeArea.getText().charAt(i) == ' ') {
+                if (codeArea.getText().charAt(i) == '\n' || codeArea.getText().charAt(i) == ' ' || codeArea.getText().charAt(i) == '\t') {
                     break;
                 } else {
                     curr.append(codeArea.getText().charAt(i));
@@ -51,8 +51,6 @@ public class AutofillChangeListener implements ChangeListener<String> {
             }
 
             curr = curr.reverse();
-
-            System.out.println(curr);
 
             if (curr.toString().trim().equals(EMPTY_STRING)) {
                 if (CodeAreaState.instance.getPopup() != null) {
@@ -71,7 +69,7 @@ public class AutofillChangeListener implements ChangeListener<String> {
                     var autocompleteWords = state.getGrammar().getAutocompleteWords();
 
                     for (String word : autocompleteWords) {
-                        if (word.startsWith(curr.toString())) {
+                        if (word.toLowerCase().startsWith(curr.toString().toLowerCase())) {
                             fil.add(word);
                         }
                     }
