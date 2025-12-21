@@ -1,6 +1,7 @@
 package com.bwxor.piejfx.utility;
 
 import com.bwxor.piejfx.constants.AppDirConstants;
+import com.bwxor.piejfx.entity.Grammar;
 import com.bwxor.piejfx.entity.GrammarMatch;
 import com.bwxor.piejfx.entity.GrammarRule;
 import com.bwxor.piejfx.state.CodeAreaState;
@@ -16,8 +17,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class GrammarUtility {
-    public static List<GrammarRule> loadGrammar(String extension) {
-        List<GrammarRule> grammarRules = new ArrayList<>();
+    public static Grammar loadGrammar(String extension) {
+        Grammar grammar = new Grammar();
 
         File grammarDir = new File(AppDirConstants.GRAMMARS_DIR.toUri());
 
@@ -30,17 +31,8 @@ public class GrammarUtility {
                 if (hasExtension(f, extension)) {
                     try (BufferedReader bufferedReader = new BufferedReader(new FileReader(f))) {
                         JSONObject grammarJsonObject = new JSONObject(bufferedReader.readAllAsString());
-                        JSONArray rulesJsonArray = grammarJsonObject.getJSONArray("rules");
-
-                        for (int i = 0; i<rulesJsonArray.length(); i++) {
-                            JSONObject currentRuleJsonObject = rulesJsonArray.getJSONObject(i);
-
-                            GrammarRule grammarRule = new GrammarRule(currentRuleJsonObject.getString("regex"), currentRuleJsonObject.getString("type"));
-                            grammarRules.add(grammarRule);
-                        }
-
-                        return grammarRules;
-
+                        grammar.setRules(loadGrammarRules(grammarJsonObject));
+                        grammar.setAutocompleteWords(loadAutocompleteWords(grammarJsonObject));
                     } catch (IOException e) {
                         NotificationUtility.showNotificationOk("Error while trying to read the grammar file.");
                         throw new RuntimeException();
@@ -49,16 +41,46 @@ public class GrammarUtility {
             }
         }
 
-        return null;
+        return grammar;
+    }
+
+    private static List<GrammarRule> loadGrammarRules(JSONObject grammarJsonObject) {
+        List<GrammarRule> grammarRules = new ArrayList<>();
+
+        JSONArray rulesJsonArray = grammarJsonObject.getJSONArray("rules");
+
+        for (int i = 0; i < rulesJsonArray.length(); i++) {
+            JSONObject currentRuleJsonObject = rulesJsonArray.getJSONObject(i);
+
+            GrammarRule grammarRule = new GrammarRule(currentRuleJsonObject.getString("regex"), currentRuleJsonObject.getString("type"));
+            grammarRules.add(grammarRule);
+        }
+
+        return grammarRules;
+    }
+
+    private static List<String> loadAutocompleteWords(JSONObject grammarJsonObject) {
+        List<String> autocompleteWords = new ArrayList<>();
+
+        JSONArray wordsJsonArray = grammarJsonObject.getJSONArray("autocomplete");
+
+        for (int i = 0; i < wordsJsonArray.length(); i++) {
+            String currentWord = wordsJsonArray.getString(i);
+            autocompleteWords.add(currentWord);
+        }
+
+        return autocompleteWords;
     }
 
     public static StyleSpans<Collection<String>> computeHighlighting(CodeArea codeArea, CodeAreaState.IndividualState state) {
+        List<GrammarRule> grammarRules = state.getGrammar().getRules();
+
         StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();
 
         List<GrammarMatch> matches = new ArrayList<>();
 
-        if (state.getGrammarRules() != null) {
-            for (var rule : state.getGrammarRules()) {
+        if (grammarRules != null) {
+            for (var rule : grammarRules) {
                 Pattern pattern = Pattern.compile(rule.getRegexPattern(), Pattern.MULTILINE);
                 Matcher matcher = pattern.matcher(codeArea.getText());
 
@@ -114,7 +136,7 @@ public class GrammarUtility {
     public static void setGrammarToCodeArea(CodeArea codeArea, File file) {
         CodeAreaState.IndividualState individualState = CodeAreaState.instance.getIndividualStates().get(Integer.parseInt(codeArea.getId()));
 
-        individualState.setGrammarRules(GrammarUtility.loadGrammar(file.getName().substring(file.getName().lastIndexOf(".") + 1)));
+        individualState.setGrammar(GrammarUtility.loadGrammar(file.getName().substring(file.getName().lastIndexOf(".") + 1)));
 
         codeArea.textProperty().addListener((obs, oldText, newText) -> {
             resetCodeAreaStyle(codeArea, individualState);

@@ -1,13 +1,15 @@
 package com.bwxor.piejfx.state;
 
-import com.bwxor.piejfx.entity.GrammarRule;
+import com.bwxor.piejfx.entity.Grammar;
+import javafx.stage.Popup;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public final class CodeAreaState {
+    private Popup popup;
+
     public static class IndividualState {
         private static final String EMPTY_STRING = "";
 
@@ -15,7 +17,7 @@ public final class CodeAreaState {
         private File openedFile;
         private String content;
         private boolean saved;
-        private List<GrammarRule> grammarRules;
+        private Grammar grammar;
 
         public int getFontSize() {
             return fontSize;
@@ -51,12 +53,12 @@ public final class CodeAreaState {
             this.saved = saved;
         }
 
-        public List<GrammarRule> getGrammarRules() {
-            return grammarRules;
+        public Grammar getGrammar() {
+            return grammar;
         }
 
-        public void setGrammarRules(List<GrammarRule> grammarRules) {
-            this.grammarRules = grammarRules;
+        public void setGrammar(Grammar grammar) {
+            this.grammar = grammar;
         }
     }
 
@@ -68,5 +70,13 @@ public final class CodeAreaState {
 
     public List<IndividualState> getIndividualStates() {
         return individualStates;
+    }
+
+    public Popup getPopup() {
+        return popup;
+    }
+
+    public void setPopup(Popup popup) {
+        this.popup = popup;
     }
 }

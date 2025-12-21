@@ -1,6 +1,7 @@
 package com.bwxor.piejfx.factory;
 
 import com.bwxor.piejfx.connector.LocalPtyProcessTtyConnector;
+import com.bwxor.piejfx.listener.AutofillChangeListener;
 import com.bwxor.piejfx.provider.ThemeBasedSettingsProvider;
 import com.bwxor.piejfx.state.CodeAreaState;
 import com.bwxor.piejfx.state.TerminalState;
@@ -11,15 +12,11 @@ import com.techsenger.jeditermfx.ui.DefaultHyperlinkFilter;
 import com.techsenger.jeditermfx.ui.JediTermFxWidget;
 import com.bwxor.piejfx.dto.CreateTtyConnectorResponse;
 import javafx.event.Event;
-import javafx.scene.control.IndexRange;
-import javafx.scene.control.SplitPane;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 import org.fxmisc.richtext.CodeArea;
-import org.fxmisc.richtext.InlineCssTextArea;
 import org.fxmisc.richtext.LineNumberFactory;
 
 import java.nio.charset.StandardCharsets;
@@ -37,6 +34,11 @@ public class TabFactory {
                         "-fx-font-feature-settings: 'liga' 1, 'calt' 1;",
                 10
         ));
+
+        var changeListener = new AutofillChangeListener(codeArea);
+        changeListener.setOpenPopup(false);
+        codeArea.textProperty().addListener(changeListener);
+
 
         CodeAreaState.IndividualState createdState = new CodeAreaState.IndividualState();
         createdState.setSaved(true);
