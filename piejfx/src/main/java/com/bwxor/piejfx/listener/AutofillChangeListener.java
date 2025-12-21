@@ -95,6 +95,10 @@ public class AutofillChangeListener implements ChangeListener<String> {
                             } else if (e.getCode().equals(KeyCode.ESCAPE)) {
                                 CodeAreaState.instance.getPopup().hide();
                             }
+                            else {
+                                CodeAreaState.instance.getPopup().hide();
+                                codeArea.getOnKeyPressed().handle(e);
+                            }
                         });
                         for (String string : fil) {
                             lop.getItems().add(string);
