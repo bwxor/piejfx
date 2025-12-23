@@ -33,39 +33,40 @@ public class AutofillChangeListener implements ChangeListener<String> {
 
     @Override
     public void changed(ObservableValue<? extends String> observableValue, String s, String s2) {
-        if (openPopup) {
-            StringBuilder curr = new StringBuilder();
-            if (codeArea.getAnchor() > codeArea.getText().length()) {
-                if (CodeAreaState.instance.getPopup() != null) {
-                    CodeAreaState.instance.getPopup().hide();
-                }
-                return;
-            }
+        CodeAreaState.IndividualState state = CodeAreaState.instance.getIndividualStates().get(Integer.parseInt(codeArea.getId()));
 
-            for (int i = codeArea.getAnchor(); i >= 0 && i < codeArea.getText().length(); i--) {
-                if (codeArea.getText().charAt(i) == '\n' || codeArea.getText().charAt(i) == ' ' || codeArea.getText().charAt(i) == '\t') {
-                    break;
-                } else {
-                    curr.append(codeArea.getText().charAt(i));
-                }
-            }
-
-            curr = curr.reverse();
-
-            if (curr.toString().trim().equals(EMPTY_STRING)) {
-                if (CodeAreaState.instance.getPopup() != null) {
-                    CodeAreaState.instance.getPopup().hide();
+        if (state.getGrammar() != null && state.getGrammar().getAutocompleteWords() != null) {
+            if (openPopup) {
+                StringBuilder curr = new StringBuilder();
+                if (codeArea.getAnchor() > codeArea.getText().length()) {
+                    if (CodeAreaState.instance.getPopup() != null) {
+                        CodeAreaState.instance.getPopup().hide();
+                    }
+                    return;
                 }
 
-                return;
-            }
+                for (int i = codeArea.getAnchor(); i >= 0 && i < codeArea.getText().length(); i--) {
+                    if (codeArea.getText().charAt(i) == '\n' || codeArea.getText().charAt(i) == ' ' || codeArea.getText().charAt(i) == '\t') {
+                        break;
+                    } else {
+                        curr.append(codeArea.getText().charAt(i));
+                    }
+                }
 
-            if (!curr.isEmpty()) {
-                ArrayList<String> fil = new ArrayList<>();
+                curr = curr.reverse();
 
-                CodeAreaState.IndividualState state = CodeAreaState.instance.getIndividualStates().get(Integer.parseInt(codeArea.getId()));
+                if (curr.toString().trim().equals(EMPTY_STRING)) {
+                    if (CodeAreaState.instance.getPopup() != null) {
+                        CodeAreaState.instance.getPopup().hide();
+                    }
 
-                if (state.getGrammar() != null) {
+                    return;
+                }
+
+                if (!curr.isEmpty()) {
+                    ArrayList<String> fil = new ArrayList<>();
+
+
                     var autocompleteWords = state.getGrammar().getAutocompleteWords();
 
                     for (String word : autocompleteWords) {
@@ -94,8 +95,7 @@ public class AutofillChangeListener implements ChangeListener<String> {
                                 CodeAreaState.instance.getPopup().hide();
                             } else if (e.getCode().equals(KeyCode.ESCAPE)) {
                                 CodeAreaState.instance.getPopup().hide();
-                            }
-                            else {
+                            } else {
                                 CodeAreaState.instance.getPopup().hide();
                                 codeArea.getOnKeyPressed().handle(e);
                             }
@@ -119,8 +119,9 @@ public class AutofillChangeListener implements ChangeListener<String> {
                     }
                 }
             }
-        } else {
-            openPopup = true;
+            else {
+                openPopup = true;
+            }
         }
     }
 }
