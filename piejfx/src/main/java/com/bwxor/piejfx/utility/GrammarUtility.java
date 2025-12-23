@@ -60,16 +60,21 @@ public class GrammarUtility {
     }
 
     private static List<String> loadAutocompleteWords(JSONObject grammarJsonObject) {
-        List<String> autocompleteWords = new ArrayList<>();
 
-        JSONArray wordsJsonArray = grammarJsonObject.getJSONArray("autocomplete");
+        if (grammarJsonObject.has("autocomplete")) {
+            List<String> autocompleteWords = new ArrayList<>();
 
-        for (int i = 0; i < wordsJsonArray.length(); i++) {
-            String currentWord = wordsJsonArray.getString(i);
-            autocompleteWords.add(currentWord);
+            JSONArray wordsJsonArray = grammarJsonObject.getJSONArray("autocomplete");
+
+            for (int i = 0; i < wordsJsonArray.length(); i++) {
+                String currentWord = wordsJsonArray.getString(i);
+                autocompleteWords.add(currentWord);
+            }
+
+            return autocompleteWords;
         }
 
-        return autocompleteWords;
+        return null;
     }
 
     public static StyleSpans<Collection<String>> computeHighlighting(CodeArea codeArea, CodeAreaState.IndividualState state) {
