@@ -5,6 +5,9 @@ import net.harawata.appdirs.AppDirsFactory;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * Constants referencing paths of directories stored under the user's appdata (e.g. on Windows APP_DATA/Local) folder.
+ */
 public interface AppDirConstants {
     String APP_NAME = "piejfx";
     String APP_VERSION = "1.0.00";
@@ -14,7 +17,6 @@ public interface AppDirConstants {
     Path GRAMMARS_DIR = Paths.get(CONFIG_DIR.toString(), "grammars");
     Path THEMES_DIR = Paths.get(CONFIG_DIR.toString(), "themes");
     Path STYLES_DIR = Paths.get(CONFIG_DIR.toString(), "styles");
-    Path FONTS_DIR = Paths.get(CONFIG_DIR.toString(), "fonts");
     Path CONFIG_FILE = Paths.get(CONFIG_DIR.toString(), "config.json");
     Path THEMES_FILE = Paths.get(CONFIG_DIR.toString(), "themes.json");
     Path DEFAULT_STYLES_FILE = Paths.get(STYLES_DIR.toString(), "default.css");

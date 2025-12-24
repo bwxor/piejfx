@@ -5,6 +5,9 @@ import com.techsenger.jeditermfx.core.ProcessTtyConnector;
 
 import java.nio.charset.Charset;
 
+/**
+ * Custom TtyConnector for the JediTermFxWidget Terminal.
+ */
 public class LocalPtyProcessTtyConnector extends ProcessTtyConnector {
     private final PtyProcess myProcess;
 
