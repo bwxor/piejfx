@@ -96,8 +96,7 @@ public class EditorController {
 
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
-        Platform.exit();
-        System.exit(0);
+        CloseUtility.close();
     }
 
     @FXML

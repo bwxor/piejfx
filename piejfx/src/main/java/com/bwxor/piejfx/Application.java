@@ -5,6 +5,7 @@ import com.bwxor.piejfx.controller.EditorController;
 import com.bwxor.piejfx.state.StageState;
 import com.bwxor.piejfx.state.ThemeState;
 import com.bwxor.piejfx.utility.*;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -39,6 +40,7 @@ public class Application extends javafx.application.Application {
         stage.setTitle("piejfx");
         stage.getIcons().add(new Image(Objects.requireNonNull(ResourceUtility.getResourceByNameAsStream("img/icons/icon.png"))));
         stage.setScene(scene);
+        stage.setOnCloseRequest(e -> CloseUtility.close());
         stage.initStyle(StageStyle.TRANSPARENT);
         scene.setFill(Color.TRANSPARENT);
         ResizeUtility.addResizeListener(stage);
