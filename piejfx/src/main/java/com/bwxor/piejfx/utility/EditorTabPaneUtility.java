@@ -45,6 +45,7 @@ public class EditorTabPaneUtility {
             } catch (IOException e) {
                 editorTabPane.getTabs().remove(editorTabPane.getTabs().size() - 1);
                 NotificationUtility.showNotificationOk("Could not open specified file.");
+                throw new RuntimeException();
             }
         }
 
