@@ -1,6 +1,5 @@
 package com.bwxor.piejfx.controller;
 
-import com.bwxor.piejfx.type.NotificationYesNoCancelOption;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;

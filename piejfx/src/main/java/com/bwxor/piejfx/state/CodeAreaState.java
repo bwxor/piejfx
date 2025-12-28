@@ -6,6 +6,7 @@ import javafx.stage.Popup;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 
 public final class CodeAreaState {
     private Popup popup;
@@ -18,6 +19,7 @@ public final class CodeAreaState {
         private String content;
         private boolean saved;
         private Grammar grammar;
+        private Timer debounceTimer;
 
         public int getFontSize() {
             return fontSize;
@@ -59,6 +61,14 @@ public final class CodeAreaState {
 
         public void setGrammar(Grammar grammar) {
             this.grammar = grammar;
+        }
+
+        public Timer getDebounceTimer() {
+            return debounceTimer;
+        }
+
+        public void setDebounceTimer(Timer debounceTimer) {
+            this.debounceTimer = debounceTimer;
         }
     }
 

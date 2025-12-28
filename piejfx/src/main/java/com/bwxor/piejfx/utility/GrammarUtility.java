@@ -5,6 +5,7 @@ import com.bwxor.piejfx.entity.Grammar;
 import com.bwxor.piejfx.entity.GrammarMatch;
 import com.bwxor.piejfx.entity.GrammarRule;
 import com.bwxor.piejfx.state.CodeAreaState;
+import javafx.application.Platform;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyleSpansBuilder;
@@ -17,6 +18,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class GrammarUtility {
+    private static final short DEBOUNCE_DELAY = 300;
+
     public static Grammar loadGrammar(String extension) {
         Grammar grammar = new Grammar();
 
@@ -144,7 +147,21 @@ public class GrammarUtility {
         individualState.setGrammar(GrammarUtility.loadGrammar(file.getName().substring(file.getName().lastIndexOf(".") + 1)));
 
         codeArea.textProperty().addListener((obs, oldText, newText) -> {
-            resetCodeAreaStyle(codeArea, individualState);
+            Timer existingTimer = individualState.getDebounceTimer();
+
+            if (existingTimer != null) {
+                existingTimer.cancel();
+            }
+
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    Platform.runLater(() -> resetCodeAreaStyle(codeArea, individualState));
+                }
+            }, DEBOUNCE_DELAY);
+
+            individualState.setDebounceTimer(timer);
         });
     }
 
