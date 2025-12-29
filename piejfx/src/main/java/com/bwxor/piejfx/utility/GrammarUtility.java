@@ -18,7 +18,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class GrammarUtility {
-    private static final short DEBOUNCE_DELAY = 300;
+    private static final short DEBOUNCE_DELAY = 200;
 
     public static Grammar loadGrammar(String extension) {
         Grammar grammar = new Grammar();
@@ -55,7 +55,7 @@ public class GrammarUtility {
         for (int i = 0; i < rulesJsonArray.length(); i++) {
             JSONObject currentRuleJsonObject = rulesJsonArray.getJSONObject(i);
 
-            GrammarRule grammarRule = new GrammarRule(currentRuleJsonObject.getString("regex"), currentRuleJsonObject.getString("type"));
+            GrammarRule grammarRule = new GrammarRule(Pattern.compile(currentRuleJsonObject.getString("regex"), Pattern.MULTILINE), currentRuleJsonObject.getString("type"));
             grammarRules.add(grammarRule);
         }
 
@@ -89,8 +89,7 @@ public class GrammarUtility {
 
         if (grammarRules != null) {
             for (var rule : grammarRules) {
-                Pattern pattern = Pattern.compile(rule.getRegexPattern(), Pattern.MULTILINE);
-                Matcher matcher = pattern.matcher(codeArea.getText());
+                Matcher matcher = rule.getRegexPattern().matcher(codeArea.getText());
 
                 while (matcher.find()) {
                     var grammarMatch = new GrammarMatch(matcher.start(), matcher.end(), rule.getType());

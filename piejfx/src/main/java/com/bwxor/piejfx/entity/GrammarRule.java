@@ -1,19 +1,21 @@
 package com.bwxor.piejfx.entity;
 
+import java.util.regex.Pattern;
+
 public class GrammarRule {
-    private String regexPattern;
+    private Pattern regexPattern;
     private String type;
 
-    public GrammarRule(String regexPattern, String type) {
+    public GrammarRule(Pattern regexPattern, String type) {
         this.regexPattern = regexPattern;
         this.type = type;
     }
 
-    public String getRegexPattern() {
+    public Pattern getRegexPattern() {
         return regexPattern;
     }
 
-    public void setRegexPattern(String regexPattern) {
+    public void setRegexPattern(Pattern regexPattern) {
         this.regexPattern = regexPattern;
     }
 

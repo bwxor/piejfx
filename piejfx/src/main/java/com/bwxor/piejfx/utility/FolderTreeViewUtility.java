@@ -33,17 +33,22 @@ public class FolderTreeViewUtility {
 
         FolderTreeViewState.instance.setTreeViewStructure(new TreeViewStructure());
         fillExpansionState(FolderTreeViewState.instance.getTreeViewStructure(), folderTreeView.getRoot());
-        folderTreeView.setRoot(createTreeItem(verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel));
 
-        if (!horizontalSplitPane.getItems().contains(folderTreeView)) {
-            horizontalSplitPane.getItems().addFirst(folderTreeView);
-            horizontalSplitPane.setDividerPosition(0, 0.25);
-        }
+        TreeItem treeItem = createTreeItem(verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
 
-        if (FolderTreeViewState.instance.getTreeViewStructure() != null) {
-            fillTreeViewWithExpansionState(FolderTreeViewState.instance.getTreeViewStructure(), folderTreeView.getRoot());
+        if (treeItem != null) {
+            folderTreeView.setRoot(treeItem);
+
+            if (!horizontalSplitPane.getItems().contains(folderTreeView)) {
+                horizontalSplitPane.getItems().addFirst(folderTreeView);
+                horizontalSplitPane.setDividerPosition(0, 0.25);
+            }
+
+            if (FolderTreeViewState.instance.getTreeViewStructure() != null) {
+                fillTreeViewWithExpansionState(FolderTreeViewState.instance.getTreeViewStructure(), folderTreeView.getRoot());
+            }
+            folderTreeView.getRoot().setExpanded(true);
         }
-        folderTreeView.getRoot().setExpanded(true);
     }
 
     public static void toggleFolderTreeView(SplitPane horizontalSplitPane, TreeView folderTreeView, SplitPane verticalSplitPane, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel) {
@@ -65,9 +70,13 @@ public class FolderTreeViewUtility {
     public static TreeItem createTreeItem(SplitPane verticalSplitPane, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel) {
         File rootFile = FolderTreeViewState.instance.getOpenedFolder();
 
-        FileTreeItem parent = new FileTreeItem();
-        createTreeItem(rootFile, parent, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
-        return parent.getChildren().getFirst();
+        if (rootFile != null) {
+            FileTreeItem parent = new FileTreeItem();
+            createTreeItem(rootFile, parent, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
+            return parent.getChildren().getFirst();
+        }
+
+        return null;
     }
 
     private static void createTreeItem(File rootFile, TreeItem parent, SplitPane verticalSplitPane, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel) {
