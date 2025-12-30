@@ -51,9 +51,12 @@
             </AnchorPane>
             <SplitPane fx:id="verticalSplitPane" dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                 <SplitPane fx:id="horizontalSplitPane" dividerPositions="0.05" orientation="HORIZONTAL">
-                    <TreeView fx:id="folderTreeView">
-
-                    </TreeView>
+                    <TabPane fx:id="splitTabPane" prefHeight="200.0" prefWidth="200.0" side="LEFT" tabClosingPolicy="UNAVAILABLE">
+                        <Tab text="Folder">
+                            <TreeView fx:id="folderTreeView">
+                            </TreeView>
+                        </Tab>
+                    </TabPane>
                     <TabPane fx:id="editorTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="SELECTED_TAB">
                     </TabPane>
                 </SplitPane>

@@ -11,17 +11,17 @@ import javafx.stage.FileChooser;
 import java.io.File;
 
 public class OpenFileUtility {
-    public static void openFile(SplitPane horizontalSplitPane, SplitPane verticalSplitPane, TreeView folderTreeView, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel) {
+    public static void openFile(SplitPane horizontalSplitPane, SplitPane verticalSplitPane, TabPane splitTabPane, TreeView folderTreeView, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel) {
         FileChooser fileChooser = new FileChooser();
         File selectedFile = fileChooser.showOpenDialog(StageState.instance.getStage());
 
         if (selectedFile != null) {
-            openFile(horizontalSplitPane, verticalSplitPane, folderTreeView, editorTabPane, terminalTabPane, titleBarLabel, selectedFile);
+            openFile(horizontalSplitPane, verticalSplitPane, splitTabPane, folderTreeView, editorTabPane, terminalTabPane, titleBarLabel, selectedFile);
         }
     }
 
-    public static void openFile(SplitPane horizontalSplitPane, SplitPane verticalSplitPane, TreeView folderTreeView, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel, File file) {
-        EditorTabPaneUtility.addTabToPane(horizontalSplitPane, verticalSplitPane, folderTreeView, editorTabPane, terminalTabPane, titleBarLabel, file);
+    public static void openFile(SplitPane horizontalSplitPane, SplitPane verticalSplitPane, TabPane splitTabPane, TreeView folderTreeView, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel, File file) {
+        EditorTabPaneUtility.addTabToPane(horizontalSplitPane, verticalSplitPane, splitTabPane, folderTreeView, editorTabPane, terminalTabPane, titleBarLabel, file);
 
         CodeAreaState.IndividualState state = CodeAreaState.instance.getIndividualStates().get(editorTabPane.getSelectionModel().getSelectedIndex());
 

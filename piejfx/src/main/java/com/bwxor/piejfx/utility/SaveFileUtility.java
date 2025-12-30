@@ -24,11 +24,11 @@ public class SaveFileUtility {
      *
      * @return true if file has been saved successfully and false otherwise
      */
-    public static boolean saveFile(SplitPane horizontalSplitPane, TreeView folderTreeView, SplitPane verticalSplitPane, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel) {
+    public static boolean saveFile(SplitPane horizontalSplitPane, TabPane splitTabPane, TreeView folderTreeView, SplitPane verticalSplitPane, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel) {
         CodeAreaState.IndividualState state = CodeAreaState.instance.getIndividualStates().get(editorTabPane.getSelectionModel().getSelectedIndex());
 
         if (state.getOpenedFile() == null) {
-            return saveFileAs(horizontalSplitPane, folderTreeView, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
+            return saveFileAs(horizontalSplitPane, splitTabPane, folderTreeView, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
         } else {
             try (BufferedWriter br = Files.newBufferedWriter(state.getOpenedFile().toPath(), StandardCharsets.UTF_8)) {
                 br.write(state.getContent());
@@ -46,7 +46,7 @@ public class SaveFileUtility {
             editorTabPane.getSelectionModel().getSelectedItem().setText(state.getOpenedFile().getName());
             titleBarLabel.setText(state.getOpenedFile().getName());
 
-            FolderTreeViewUtility.showFolderTreeView(horizontalSplitPane, folderTreeView, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
+            FolderTreeViewUtility.showFolderTreeView(horizontalSplitPane, splitTabPane, folderTreeView, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
         }
         return true;
     }
@@ -56,7 +56,7 @@ public class SaveFileUtility {
      *
      * @return true if a file has been chosen and false otherwise
      */
-    public static boolean saveFileAs(SplitPane horizontalSplitPane, TreeView folderTreeView, SplitPane verticalSplitPane, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel) {
+    public static boolean saveFileAs(SplitPane horizontalSplitPane, TabPane splitTabPane, TreeView folderTreeView, SplitPane verticalSplitPane, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel) {
         CodeAreaState.IndividualState state = CodeAreaState.instance.getIndividualStates().get(editorTabPane.getSelectionModel().getSelectedIndex());
 
         String filters;
@@ -81,7 +81,7 @@ public class SaveFileUtility {
 
             if (selectedFile != null) {
                 state.setOpenedFile(selectedFile);
-                return saveFile(horizontalSplitPane, folderTreeView, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
+                return saveFile(horizontalSplitPane, splitTabPane, folderTreeView, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
             }
 
             return false;

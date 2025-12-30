@@ -22,10 +22,10 @@ public class EditorTabPaneUtility {
         }
     }
 
-    public static void addTabToPane(SplitPane horizontalSplitPane, SplitPane verticalSplitPane, TreeView folderTreeView, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel, File file) {
+    public static void addTabToPane(SplitPane horizontalSplitPane, SplitPane verticalSplitPane, TabPane splitTabPane, TreeView folderTreeView, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel, File file) {
         Tab tab = TabFactory.createEditorTab(verticalSplitPane, terminalTabPane, file.getName());
         tab.setOnCloseRequest(e -> {
-            removeSelectedTabFromPane(horizontalSplitPane, verticalSplitPane, folderTreeView, editorTabPane, terminalTabPane, titleBarLabel);
+            removeSelectedTabFromPane(horizontalSplitPane, verticalSplitPane, splitTabPane, folderTreeView, editorTabPane, terminalTabPane, titleBarLabel);
             e.consume();
         });
         editorTabPane.getTabs().add(tab);
@@ -53,10 +53,10 @@ public class EditorTabPaneUtility {
 
     }
 
-    public static void addTabToPane(SplitPane horizontalSplitPane, SplitPane verticalSplitPane, TreeView folderTreeView, TabPane editorTabPane, TabPane terminalTabPane, String tabTitle, Label titleBarLabel) {
+    public static void addTabToPane(SplitPane horizontalSplitPane, SplitPane verticalSplitPane, TabPane splitTabPane, TreeView folderTreeView, TabPane editorTabPane, TabPane terminalTabPane, String tabTitle, Label titleBarLabel) {
         Tab tab = TabFactory.createEditorTab(verticalSplitPane, terminalTabPane, tabTitle);
         tab.setOnCloseRequest(e -> {
-            removeSelectedTabFromPane(horizontalSplitPane, verticalSplitPane, folderTreeView, editorTabPane, terminalTabPane, titleBarLabel);
+            removeSelectedTabFromPane(horizontalSplitPane, verticalSplitPane, splitTabPane, folderTreeView, editorTabPane, terminalTabPane, titleBarLabel);
             e.consume();
         });
         editorTabPane.getTabs().add(tab);
@@ -73,7 +73,7 @@ public class EditorTabPaneUtility {
      * @param editorTabPane
      * @return a negative response only if the user was prompted for a save and cancelled it.
      */
-    public static RemoveSelectedTabFromPaneResponse removeSelectedTabFromPane(SplitPane horizontalSplitPane, SplitPane verticalSplitPane, TreeView folderTreeView, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel) {
+    public static RemoveSelectedTabFromPaneResponse removeSelectedTabFromPane(SplitPane horizontalSplitPane, SplitPane verticalSplitPane, TabPane splitTabPane, TreeView folderTreeView, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel) {
         CodeAreaState.IndividualState individualState = CodeAreaState.instance.getIndividualStates().get(editorTabPane.getSelectionModel().getSelectedIndex());
 
         if (!individualState.isSaved()) {
@@ -87,7 +87,7 @@ public class EditorTabPaneUtility {
                 if (pickedOption.equals(NotificationYesNoCancelOption.CANCEL)) {
                     return RemoveSelectedTabFromPaneResponse.CANCELLED;
                 } else if (pickedOption.equals(NotificationYesNoCancelOption.YES)) {
-                    if (!SaveFileUtility.saveFile(horizontalSplitPane, folderTreeView, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel)) {
+                    if (!SaveFileUtility.saveFile(horizontalSplitPane, splitTabPane, folderTreeView, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel)) {
                         repeatPrompt = true;
                     }
                 }
@@ -98,7 +98,7 @@ public class EditorTabPaneUtility {
         editorTabPane.getTabs().remove(editorTabPane.getSelectionModel().getSelectedItem());
 
         if (editorTabPane.getTabs().isEmpty()) {
-            addTabToPane(horizontalSplitPane, verticalSplitPane, folderTreeView, editorTabPane, terminalTabPane, "Untitled", titleBarLabel);
+            addTabToPane(horizontalSplitPane, verticalSplitPane, splitTabPane, folderTreeView, editorTabPane, terminalTabPane, "Untitled", titleBarLabel);
         }
 
         resyncCodeAreaIds(editorTabPane);

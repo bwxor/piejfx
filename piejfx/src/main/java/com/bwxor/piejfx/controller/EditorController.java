@@ -4,7 +4,6 @@ import com.bwxor.piejfx.factory.ContextMenuFactory;
 import com.bwxor.piejfx.state.*;
 import com.bwxor.piejfx.type.RemoveSelectedTabFromPaneResponse;
 import com.bwxor.piejfx.utility.*;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -34,6 +33,8 @@ public class EditorController {
     @FXML
     private TabPane editorTabPane;
     @FXML
+    private TabPane splitTabPane;
+    @FXML
     private TreeView folderTreeView;
     @FXML
     private TabPane terminalTabPane;
@@ -49,15 +50,15 @@ public class EditorController {
 
     public void handleParameters() {
         if (!parameters.isEmpty()) {
-            OpenFileUtility.openFile(horizontalSplitPane, verticalSplitPane, folderTreeView, editorTabPane, terminalTabPane, titleBarLabel, new File(parameters.getFirst()));
+            OpenFileUtility.openFile(horizontalSplitPane, verticalSplitPane, splitTabPane, folderTreeView, editorTabPane, terminalTabPane, titleBarLabel, new File(parameters.getFirst()));
         } else {
-            EditorTabPaneUtility.addTabToPane(horizontalSplitPane, verticalSplitPane, folderTreeView, editorTabPane, terminalTabPane, "Untitled", titleBarLabel);
+            EditorTabPaneUtility.addTabToPane(horizontalSplitPane, verticalSplitPane, splitTabPane, folderTreeView, editorTabPane, terminalTabPane, "Untitled", titleBarLabel);
         }
 
         titleBarLabel.setText(editorTabPane.getSelectionModel().getSelectedItem().getText());
 
         verticalSplitPane.getItems().remove(terminalTabPane);
-        horizontalSplitPane.getItems().remove(folderTreeView);
+        horizontalSplitPane.getItems().remove(splitTabPane);
         TerminalTabPaneUtility.addTabToPane(terminalTabPane, null);
         terminalTabPane.setContextMenu(ContextMenuFactory.createTerminalTabPaneContextMenu(terminalTabPane));
 
@@ -66,8 +67,7 @@ public class EditorController {
                     if (t1 != null) {
                         if (CodeAreaState.instance.getIndividualStates().get(editorTabPane.getSelectionModel().getSelectedIndex()).isSaved()) {
                             titleBarLabel.setText(t1.getText());
-                        }
-                        else {
+                        } else {
                             titleBarLabel.setText(t1.getText().substring(1));
                         }
                     }
@@ -88,7 +88,7 @@ public class EditorController {
         editorTabPane.getSelectionModel().select(size - 1);
 
         for (int i = 0; i < size; i++) {
-            var saveResponse = EditorTabPaneUtility.removeSelectedTabFromPane(horizontalSplitPane, verticalSplitPane, folderTreeView, editorTabPane, terminalTabPane, titleBarLabel);
+            var saveResponse = EditorTabPaneUtility.removeSelectedTabFromPane(horizontalSplitPane, verticalSplitPane, splitTabPane, folderTreeView, editorTabPane, terminalTabPane, titleBarLabel);
             if (saveResponse.equals(RemoveSelectedTabFromPaneResponse.CANCELLED)) {
                 return;
             }
@@ -112,8 +112,8 @@ public class EditorController {
 
     @FXML
     public void handleDoubleClickAction(MouseEvent mouseEvent) {
-        if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
-            if(mouseEvent.getClickCount() == 2){
+        if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+            if (mouseEvent.getClickCount() == 2) {
                 MaximizeState.instance.toggleMaximize(StageState.instance.getStage(), maximizeButton);
             }
         }
@@ -138,27 +138,27 @@ public class EditorController {
 
     @FXML
     public void onNewButtonClickEvent() {
-        EditorTabPaneUtility.addTabToPane(horizontalSplitPane, verticalSplitPane, folderTreeView, editorTabPane, terminalTabPane, "Untitled", titleBarLabel);
+        EditorTabPaneUtility.addTabToPane(horizontalSplitPane, verticalSplitPane, splitTabPane, folderTreeView, editorTabPane, terminalTabPane, "Untitled", titleBarLabel);
     }
 
     @FXML
     public void onOpenButtonClickEvent() {
-        OpenFileUtility.openFile(horizontalSplitPane, verticalSplitPane, folderTreeView, editorTabPane, terminalTabPane, titleBarLabel);
+        OpenFileUtility.openFile(horizontalSplitPane, verticalSplitPane, splitTabPane,folderTreeView, editorTabPane, terminalTabPane, titleBarLabel);
     }
 
     @FXML
     public void onOpenFolderButtonClickEvent() {
-        OpenFolderUtility.openFolder(horizontalSplitPane, folderTreeView, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
+        OpenFolderUtility.openFolder(horizontalSplitPane, folderTreeView, splitTabPane,verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
     }
 
     @FXML
     public void onSaveButtonClickEvent() {
-        SaveFileUtility.saveFile(horizontalSplitPane, folderTreeView, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
+        SaveFileUtility.saveFile(horizontalSplitPane, splitTabPane, folderTreeView, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
     }
 
     @FXML
     public void onSaveAsButtonClickEvent() {
-        SaveFileUtility.saveFileAs(horizontalSplitPane, folderTreeView, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
+        SaveFileUtility.saveFileAs(horizontalSplitPane, splitTabPane, folderTreeView, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
     }
 
     @FXML
@@ -170,19 +170,18 @@ public class EditorController {
     public void onKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.isControlDown()) { // Modifiers will be handled
             if (keyEvent.getCode().equals(KeyCode.T)) {
-                EditorTabPaneUtility.addTabToPane(horizontalSplitPane, verticalSplitPane, folderTreeView, editorTabPane, terminalTabPane, "Untitled", titleBarLabel);
+                EditorTabPaneUtility.addTabToPane(horizontalSplitPane, verticalSplitPane, splitTabPane, folderTreeView, editorTabPane, terminalTabPane, "Untitled", titleBarLabel);
             } else if (keyEvent.getCode().equals(KeyCode.W)) {
-                EditorTabPaneUtility.removeSelectedTabFromPane(horizontalSplitPane, verticalSplitPane, folderTreeView, editorTabPane, terminalTabPane, titleBarLabel);
+                EditorTabPaneUtility.removeSelectedTabFromPane(horizontalSplitPane, verticalSplitPane, splitTabPane, folderTreeView, editorTabPane, terminalTabPane, titleBarLabel);
             } else if (keyEvent.getCode().equals(KeyCode.S)) {
-                SaveFileUtility.saveFile(horizontalSplitPane, folderTreeView, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
+                SaveFileUtility.saveFile(horizontalSplitPane, splitTabPane, folderTreeView, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
             } else if (keyEvent.getCode().equals(KeyCode.B)) {
                 TerminalTabPaneUtility.toggleTerminalTabPane(verticalSplitPane, terminalTabPane);
             } else if (keyEvent.getCode().equals(KeyCode.G)) {
                 if (FolderTreeViewState.instance.getOpenedFolder() != null) {
-                    FolderTreeViewUtility.toggleFolderTreeView(horizontalSplitPane, folderTreeView, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
-                }
-                else {
-                    OpenFolderUtility.openFolder(horizontalSplitPane, folderTreeView, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
+                    FolderTreeViewUtility.toggleFolderTreeView(horizontalSplitPane, splitTabPane, folderTreeView, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
+                } else {
+                    OpenFolderUtility.openFolder(horizontalSplitPane, folderTreeView,splitTabPane, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
                 }
             }
         }
