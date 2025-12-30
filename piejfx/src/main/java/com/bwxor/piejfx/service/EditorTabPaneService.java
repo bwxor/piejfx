@@ -4,8 +4,8 @@ import com.bwxor.piejfx.factory.TabFactory;
 import com.bwxor.piejfx.state.CodeAreaState;
 import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.UIState;
-import com.bwxor.piejfx.type.NotificationYesNoCancelOption;
-import com.bwxor.piejfx.type.RemoveSelectedTabFromPaneResponse;
+import com.bwxor.plugin.type.NotificationYesNoCancelOption;
+import com.bwxor.plugin.type.RemoveSelectedTabFromPaneOption;
 import javafx.scene.control.*;
 import org.fxmisc.richtext.CodeArea;
 
@@ -80,7 +80,7 @@ public class EditorTabPaneService {
      *
      * @return a negative response only if the user was prompted for a save and cancelled it.
      */
-    public RemoveSelectedTabFromPaneResponse removeSelectedTabFromPane() {
+    public RemoveSelectedTabFromPaneOption removeSelectedTabFromPane() {
         UIState uiState = UIState.getInstance();
         ServiceState serviceState = ServiceState.getInstance();
 
@@ -95,7 +95,7 @@ public class EditorTabPaneService {
                 var pickedOption = serviceState.getNotificationService().showNotificationYesNoCancel("Save file before closing?");
 
                 if (pickedOption.equals(NotificationYesNoCancelOption.CANCEL)) {
-                    return RemoveSelectedTabFromPaneResponse.CANCELLED;
+                    return RemoveSelectedTabFromPaneOption.CANCELLED;
                 } else if (pickedOption.equals(NotificationYesNoCancelOption.YES)) {
                     if (!serviceState.getSaveFileService().saveFile()) {
                         repeatPrompt = true;
@@ -113,6 +113,6 @@ public class EditorTabPaneService {
 
         resyncCodeAreaIds();
 
-        return RemoveSelectedTabFromPaneResponse.REMOVED;
+        return RemoveSelectedTabFromPaneOption.REMOVED;
     }
 }

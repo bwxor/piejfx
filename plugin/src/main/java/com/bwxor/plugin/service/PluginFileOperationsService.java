@@ -1,5 +1,7 @@
 package com.bwxor.plugin.service;
 
+import com.bwxor.plugin.dto.NewFileResponse;
+
 import java.io.File;
 
 public interface PluginFileOperationsService {

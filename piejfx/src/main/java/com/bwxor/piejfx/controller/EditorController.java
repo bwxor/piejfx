@@ -1,9 +1,8 @@
 package com.bwxor.piejfx.controller;
 
 import com.bwxor.piejfx.factory.ContextMenuFactory;
-import com.bwxor.piejfx.service.*;
 import com.bwxor.piejfx.state.*;
-import com.bwxor.piejfx.type.RemoveSelectedTabFromPaneResponse;
+import com.bwxor.plugin.type.RemoveSelectedTabFromPaneOption;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -98,7 +97,7 @@ public class EditorController {
 
         for (int i = 0; i < size; i++) {
             var saveResponse = ServiceState.getInstance().getEditorTabPaneService().removeSelectedTabFromPane();
-            if (saveResponse.equals(RemoveSelectedTabFromPaneResponse.CANCELLED)) {
+            if (saveResponse.equals(RemoveSelectedTabFromPaneOption.CANCELLED)) {
                 return;
             }
         }

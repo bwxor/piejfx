@@ -1,4 +1,4 @@
-package com.bwxor.piejfx.type;
+package com.bwxor.plugin.type;
 
 public enum NotificationYesNoCancelOption {
     YES, NO, CANCEL;

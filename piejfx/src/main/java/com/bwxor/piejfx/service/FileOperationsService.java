@@ -2,10 +2,10 @@ package com.bwxor.piejfx.service;
 
 import com.bwxor.piejfx.constants.AppDirConstants;
 import com.bwxor.piejfx.controller.NewFileController;
-import com.bwxor.piejfx.dto.NewFileResponse;
 import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.ThemeState;
-import com.bwxor.piejfx.type.NewFileOption;
+import com.bwxor.plugin.dto.NewFileResponse;
+import com.bwxor.plugin.type.NewFileOption;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;

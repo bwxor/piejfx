@@ -5,7 +5,7 @@ import com.bwxor.piejfx.controller.NotificationOkController;
 import com.bwxor.piejfx.controller.NotificationYesNoCancelController;
 import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.ThemeState;
-import com.bwxor.piejfx.type.NotificationYesNoCancelOption;
+import com.bwxor.plugin.type.NotificationYesNoCancelOption;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;

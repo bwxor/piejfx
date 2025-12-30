@@ -18,6 +18,7 @@ module com.bwxor.piejfx {
     requires java.management;
     requires javafx.base;
     requires com.helger.base;
+    requires com.bwxor.plugin;
 
     opens com.bwxor.piejfx to javafx.fxml;
     opens com.bwxor.piejfx.controller;

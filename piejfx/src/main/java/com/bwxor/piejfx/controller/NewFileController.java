@@ -1,7 +1,7 @@
 package com.bwxor.piejfx.controller;
 
-import com.bwxor.piejfx.dto.NewFileResponse;
-import com.bwxor.piejfx.type.NewFileOption;
+import com.bwxor.plugin.dto.NewFileResponse;
+import com.bwxor.plugin.type.NewFileOption;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

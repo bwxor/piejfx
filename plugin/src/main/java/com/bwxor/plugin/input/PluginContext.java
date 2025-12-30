@@ -1,4 +1,4 @@
-package com.bwxor.plugin;
+package com.bwxor.plugin.input;
 
 import com.bwxor.plugin.service.*;
 

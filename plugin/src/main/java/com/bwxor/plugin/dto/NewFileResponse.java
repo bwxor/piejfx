@@ -1,6 +1,7 @@
-package com.bwxor.piejfx.dto;
+package com.bwxor.plugin.dto;
 
-import com.bwxor.piejfx.type.NewFileOption;
+
+import com.bwxor.plugin.type.NewFileOption;
 
 /**
  * The response returned by the @ref NewFileController when creating a new file from the folder navigation view. A

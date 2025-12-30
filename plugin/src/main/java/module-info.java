@@ -5,8 +5,10 @@ module com.bwxor.plugin {
 
     opens com.bwxor.plugin to javafx.fxml;
     exports com.bwxor.plugin;
-    exports com.bwxor.plugin.sender;
-    opens com.bwxor.plugin.sender to javafx.fxml;
     exports com.bwxor.plugin.service;
+    exports com.bwxor.plugin.dto;
+    exports com.bwxor.plugin.type;
     opens com.bwxor.plugin.service to javafx.fxml;
+    exports com.bwxor.plugin.input;
+    opens com.bwxor.plugin.input to javafx.fxml;
 }

@@ -1,16 +1,13 @@
 package com.bwxor.piejfx.factory;
 
 import com.bwxor.piejfx.control.FileTreeItem;
-import com.bwxor.piejfx.dto.NewFileResponse;
 import com.bwxor.piejfx.state.FolderTreeViewState;
 import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.UIState;
 import com.bwxor.piejfx.type.CreationType;
-import com.bwxor.piejfx.type.NewFileOption;
-import com.bwxor.piejfx.type.NotificationYesNoCancelOption;
-import com.bwxor.piejfx.service.FileOperationsService;
-import com.bwxor.piejfx.service.NotificationService;
-import com.bwxor.piejfx.service.TerminalTabPaneService;
+import com.bwxor.plugin.dto.NewFileResponse;
+import com.bwxor.plugin.type.NewFileOption;
+import com.bwxor.plugin.type.NotificationYesNoCancelOption;
 import javafx.scene.control.*;
 
 import java.io.File;

@@ -1,4 +1,4 @@
-package com.bwxor.plugin;
+package com.bwxor.plugin.input;
 
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TabPane;
