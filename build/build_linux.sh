@@ -6,12 +6,21 @@ echo "Removing residual files..."
 rm -rf deps/
 rm -rf output/
 
-echo "Building the project..."
-cd ../piejfx || exit
-mvn clean package "-Djar.finalName=pie"
+echo "Building the plugin jar..."
+cd ../plugin || exit
+mvn clean install
 
 if [ $? -ne 0 ]; then
-    echo "mvn clean package failed."
+    echo "mvn clean install failed."
+    exit 1
+fi
+
+echo "Building the project..."
+cd ../piejfx || exit
+mvn clean install
+
+if [ $? -ne 0 ]; then
+    echo "mvn clean install failed."
     exit 1
 fi
 
@@ -29,6 +38,8 @@ if [ $? -ne 0 ]; then
     echo "mvn copy-dependencies failed."
     exit 1
 fi
+
+echo "Removing version from plugin jar..."
 
 echo "Running jpackage command..."
 cd ../build || exit

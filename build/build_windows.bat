@@ -12,12 +12,21 @@ if exist "output\" (
 	rmdir output
 )
 
-echo Building the project...
-cd ../piejfx
-call mvn clean package "-Djar.finalName=pie"
+echo Building the plugin jar...
+cd ../plugin
+call mvn clean install
 
 if %errorlevel% neq 0 (
-    echo mvn clean package failed with error code %errorlevel%.
+    echo mvn clean install failed with error code %errorlevel%.
+    exit /b %errorlevel%
+)
+
+echo Building the project...
+cd ../piejfx
+call mvn clean install
+
+if %errorlevel% neq 0 (
+    echo mvn clean install failed with error code %errorlevel%.
     exit /b %errorlevel%
 )
 

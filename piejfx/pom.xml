@@ -53,8 +53,6 @@
             <groupId>com.bwxor</groupId>
             <artifactId>plugin</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/../plugin/target/plugin-1.0-SNAPSHOT.jar</systemPath>
         </dependency>
 
         <!-- Controls -->
@@ -108,6 +106,7 @@
         </dependency>
     </dependencies>
     <build>
+        <finalName>pie</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
