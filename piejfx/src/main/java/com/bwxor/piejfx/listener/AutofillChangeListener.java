@@ -95,7 +95,14 @@ public class AutofillChangeListener implements ChangeListener<String> {
                                 CodeAreaState.instance.getPopup().hide();
                             } else if (e.getCode().equals(KeyCode.ESCAPE)) {
                                 CodeAreaState.instance.getPopup().hide();
-                            } else {
+                            }
+                            else if (e.getCode().equals(KeyCode.UP)) {
+                                // Do nothing. AutoComplete box should not hide
+                            }
+                            else if (e.getCode().equals(KeyCode.DOWN)) {
+                                // Do nothing. AutoComplete box should not hide
+                            }
+                            else {
                                 CodeAreaState.instance.getPopup().hide();
                                 codeArea.getOnKeyPressed().handle(e);
                             }
