@@ -2,12 +2,8 @@ package com.bwxor.piejfx.utility;
 
 import com.bwxor.piejfx.constants.AppDirConstants;
 import com.bwxor.piejfx.provider.ThemeBasedSettingsProvider;
-import com.bwxor.piejfx.state.MaximizeState;
-import com.bwxor.piejfx.state.StageState;
-import com.bwxor.piejfx.state.TerminalState;
-import com.bwxor.piejfx.state.ThemeState;
+import com.bwxor.piejfx.state.*;
 import com.techsenger.jeditermfx.ui.JediTermFxWidget;
-import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -42,7 +38,9 @@ public class ThemeUtility {
         return themes;
     }
 
-    public static void loadMenuWithThemes(Menu menu, List<ThemeState.Theme> themes) {
+    public static void loadMenuWithThemes(List<ThemeState.Theme> themes) {
+        UIState uiState = UIState.getInstance();
+
         for (ThemeState.Theme t : themes) {
             MenuItem menuItem = new MenuItem();
             menuItem.setText(t.getName());
@@ -81,7 +79,7 @@ public class ThemeUtility {
                     }
             );
 
-            menu.getItems().add(menuItem);
+            uiState.getMenu().getItems().add(menuItem);
         }
     }
 }

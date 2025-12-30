@@ -2,30 +2,29 @@ package com.bwxor.piejfx.utility;
 
 import com.bwxor.piejfx.state.CodeAreaState;
 import com.bwxor.piejfx.state.StageState;
-import javafx.scene.control.Label;
-import javafx.scene.control.SplitPane;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TreeView;
+import com.bwxor.piejfx.state.UIState;
 import javafx.stage.FileChooser;
 
 import java.io.File;
 
 public class OpenFileUtility {
-    public static void openFile(SplitPane horizontalSplitPane, SplitPane verticalSplitPane, TabPane splitTabPane, TreeView folderTreeView, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel) {
+    public static void openFile() {
         FileChooser fileChooser = new FileChooser();
         File selectedFile = fileChooser.showOpenDialog(StageState.instance.getStage());
 
         if (selectedFile != null) {
-            openFile(horizontalSplitPane, verticalSplitPane, splitTabPane, folderTreeView, editorTabPane, terminalTabPane, titleBarLabel, selectedFile);
+            openFile(selectedFile);
         }
     }
 
-    public static void openFile(SplitPane horizontalSplitPane, SplitPane verticalSplitPane, TabPane splitTabPane, TreeView folderTreeView, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel, File file) {
-        EditorTabPaneUtility.addTabToPane(horizontalSplitPane, verticalSplitPane, splitTabPane, folderTreeView, editorTabPane, terminalTabPane, titleBarLabel, file);
+    public static void openFile(File file) {
+        UIState uiState = UIState.getInstance();
 
-        CodeAreaState.IndividualState state = CodeAreaState.instance.getIndividualStates().get(editorTabPane.getSelectionModel().getSelectedIndex());
+        EditorTabPaneUtility.addTabToPane(file);
+
+        CodeAreaState.IndividualState state = CodeAreaState.instance.getIndividualStates().get(uiState.getEditorTabPane().getSelectionModel().getSelectedIndex());
 
         state.setSaved(true);
-        editorTabPane.getSelectionModel().getSelectedItem().setText(state.getOpenedFile().getName());
+        uiState.getEditorTabPane().getSelectionModel().getSelectedItem().setText(state.getOpenedFile().getName());
     }
 }

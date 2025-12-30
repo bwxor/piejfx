@@ -3,6 +3,7 @@ package com.bwxor.piejfx.factory;
 import com.bwxor.piejfx.control.FileTreeItem;
 import com.bwxor.piejfx.dto.NewFileResponse;
 import com.bwxor.piejfx.state.FolderTreeViewState;
+import com.bwxor.piejfx.state.UIState;
 import com.bwxor.piejfx.type.CreationType;
 import com.bwxor.piejfx.type.NewFileOption;
 import com.bwxor.piejfx.type.NotificationYesNoCancelOption;
@@ -37,14 +38,14 @@ public class ContextMenuFactory {
         return contextMenu;
     }
 
-    public static ContextMenu createCodeAreaContextMenu(SplitPane verticalSplitPane, TabPane terminalTabPane) {
+    public static ContextMenu createCodeAreaContextMenu() {
         ContextMenu contextMenu = new ContextMenu();
         contextMenu.setStyle("-fx-font-family: Segoe UI");
 
         MenuItem showTerminalContextMenuItem = new MenuItem();
         showTerminalContextMenuItem.setText("Toggle Terminal Tab");
         showTerminalContextMenuItem.setOnAction(e -> {
-            TerminalTabPaneUtility.toggleTerminalTabPane(verticalSplitPane, terminalTabPane);
+            TerminalTabPaneUtility.toggleTerminalTabPane();
         });
 
         contextMenu.getItems().add(showTerminalContextMenuItem);
@@ -52,20 +53,22 @@ public class ContextMenuFactory {
         return contextMenu;
     }
 
-    public static ContextMenu createTerminalTabPaneContextMenu(TabPane tabPane) {
+    public static ContextMenu createTerminalTabPaneContextMenu() {
+        UIState uiState = UIState.getInstance();
+
         ContextMenu contextMenu = new ContextMenu();
 
         MenuItem newTerminalTabMenuItem = new MenuItem();
         newTerminalTabMenuItem.setText("New Terminal Tab");
         newTerminalTabMenuItem.setOnAction(e -> {
-            TerminalTabPaneUtility.addTabToPane(tabPane, null);
+            TerminalTabPaneUtility.addTabToPane(null);
         });
         contextMenu.getItems().add(newTerminalTabMenuItem);
 
         MenuItem closeTerminalTabMenuItem = new MenuItem();
         closeTerminalTabMenuItem.setText("Close Terminal Tab");
         closeTerminalTabMenuItem.setOnAction(e -> {
-            TerminalTabPaneUtility.removeSelectedTabFromPane(tabPane);
+            TerminalTabPaneUtility.removeSelectedTabFromPane(uiState.getTerminalTabPane());
         });
         contextMenu.getItems().add(closeTerminalTabMenuItem);
 

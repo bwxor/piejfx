@@ -3,6 +3,7 @@ package com.bwxor.piejfx.utility;
 import com.bwxor.piejfx.factory.TabFactory;
 import com.bwxor.piejfx.state.CodeAreaState;
 import com.bwxor.piejfx.state.TerminalState;
+import com.bwxor.piejfx.state.UIState;
 import com.bwxor.piejfx.type.NotificationYesNoCancelOption;
 import com.bwxor.piejfx.type.RemoveSelectedTabFromPaneResponse;
 import javafx.scene.control.SplitPane;
@@ -18,16 +19,18 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 public class TerminalTabPaneUtility {
-    public static void addTabToPane(TabPane tabPane, String process) {
+    public static void addTabToPane(String process) {
+        UIState uiState = UIState.getInstance();
+
         Tab tab = TabFactory.createTerminalTab(process);
         tab.setOnCloseRequest(e -> {
-            removeSelectedTabFromPane(tabPane);
+            removeSelectedTabFromPane(uiState.getTerminalTabPane());
             e.consume();
         });
 
 
-        tabPane.getTabs().add(tab);
-        tabPane.getSelectionModel().select(tab);
+        uiState.getTerminalTabPane().getTabs().add(tab);
+        uiState.getTerminalTabPane().getSelectionModel().select(tab);
     }
 
     public static void removeSelectedTabFromPane(TabPane tabPane) {
@@ -35,20 +38,17 @@ public class TerminalTabPaneUtility {
         tabPane.getTabs().remove(tabPane.getSelectionModel().getSelectedItem());
 
         if (tabPane.getTabs().isEmpty()) {
-            addTabToPane(tabPane, null);
+            addTabToPane(null);
         }
     }
 
-    /**
-     *
-     * @param verticalSplitPane
-     * @param terminalTabPane
-     */
-    public static void toggleTerminalTabPane(SplitPane verticalSplitPane, TabPane terminalTabPane) {
-        if (verticalSplitPane.getItems().contains(terminalTabPane)) {
-            verticalSplitPane.getItems().remove(terminalTabPane);
+    public static void toggleTerminalTabPane() {
+        UIState uiState = UIState.getInstance();
+
+        if (uiState.getVerticalSplitPane().getItems().contains(uiState.getTerminalTabPane())) {
+            uiState.getVerticalSplitPane().getItems().remove(uiState.getTerminalTabPane());
         } else {
-            verticalSplitPane.getItems().add(terminalTabPane);
+            uiState.getVerticalSplitPane().getItems().add(uiState.getTerminalTabPane());
         }
     }
 }

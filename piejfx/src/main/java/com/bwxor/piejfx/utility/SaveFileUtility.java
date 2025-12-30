@@ -2,6 +2,7 @@ package com.bwxor.piejfx.utility;
 
 import com.bwxor.piejfx.state.CodeAreaState;
 import com.bwxor.piejfx.state.StageState;
+import com.bwxor.piejfx.state.UIState;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TabPane;
@@ -24,29 +25,30 @@ public class SaveFileUtility {
      *
      * @return true if file has been saved successfully and false otherwise
      */
-    public static boolean saveFile(SplitPane horizontalSplitPane, TabPane splitTabPane, TreeView folderTreeView, SplitPane verticalSplitPane, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel) {
-        CodeAreaState.IndividualState state = CodeAreaState.instance.getIndividualStates().get(editorTabPane.getSelectionModel().getSelectedIndex());
+    public static boolean saveFile() {
+        UIState uiState = UIState.getInstance();
+        CodeAreaState.IndividualState codeAreaState = CodeAreaState.instance.getIndividualStates().get(uiState.getEditorTabPane().getSelectionModel().getSelectedIndex());
 
-        if (state.getOpenedFile() == null) {
-            return saveFileAs(horizontalSplitPane, splitTabPane, folderTreeView, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
+        if (codeAreaState.getOpenedFile() == null) {
+            return saveFileAs();
         } else {
-            try (BufferedWriter br = Files.newBufferedWriter(state.getOpenedFile().toPath(), StandardCharsets.UTF_8)) {
-                br.write(state.getContent());
+            try (BufferedWriter br = Files.newBufferedWriter(codeAreaState.getOpenedFile().toPath(), StandardCharsets.UTF_8)) {
+                br.write(codeAreaState.getContent());
             } catch (IOException e) {
                 NotificationUtility.showNotificationOk("Error while trying to save the file.");
                 throw new RuntimeException(e);
             }
 
-            if (editorTabPane.getSelectionModel().getSelectedItem().getContent() instanceof CodeArea c) {
-                GrammarUtility.setGrammarToCodeArea(c, state.getOpenedFile());
-                GrammarUtility.resetCodeAreaStyle(c, state);
+            if (uiState.getEditorTabPane().getSelectionModel().getSelectedItem().getContent() instanceof CodeArea c) {
+                GrammarUtility.setGrammarToCodeArea(c, codeAreaState.getOpenedFile());
+                GrammarUtility.resetCodeAreaStyle(c, codeAreaState);
             }
 
-            state.setSaved(true);
-            editorTabPane.getSelectionModel().getSelectedItem().setText(state.getOpenedFile().getName());
-            titleBarLabel.setText(state.getOpenedFile().getName());
+            codeAreaState.setSaved(true);
+            uiState.getEditorTabPane().getSelectionModel().getSelectedItem().setText(codeAreaState.getOpenedFile().getName());
+            uiState.getTitleBarLabel().setText(codeAreaState.getOpenedFile().getName());
 
-            FolderTreeViewUtility.showFolderTreeView(horizontalSplitPane, splitTabPane, folderTreeView, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
+            FolderTreeViewUtility.showFolderTreeView();
         }
         return true;
     }
@@ -56,8 +58,9 @@ public class SaveFileUtility {
      *
      * @return true if a file has been chosen and false otherwise
      */
-    public static boolean saveFileAs(SplitPane horizontalSplitPane, TabPane splitTabPane, TreeView folderTreeView, SplitPane verticalSplitPane, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel) {
-        CodeAreaState.IndividualState state = CodeAreaState.instance.getIndividualStates().get(editorTabPane.getSelectionModel().getSelectedIndex());
+    public static boolean saveFileAs() {
+        UIState uiState = UIState.getInstance();
+        CodeAreaState.IndividualState codeAreaState = CodeAreaState.instance.getIndividualStates().get(uiState.getEditorTabPane().getSelectionModel().getSelectedIndex());
 
         String filters;
 
@@ -80,8 +83,8 @@ public class SaveFileUtility {
             File selectedFile = fileChooser.showSaveDialog(StageState.instance.getStage());
 
             if (selectedFile != null) {
-                state.setOpenedFile(selectedFile);
-                return saveFile(horizontalSplitPane, splitTabPane, folderTreeView, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
+                codeAreaState.setOpenedFile(selectedFile);
+                return saveFile();
             }
 
             return false;

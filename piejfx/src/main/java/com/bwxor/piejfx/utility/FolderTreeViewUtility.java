@@ -3,6 +3,7 @@ package com.bwxor.piejfx.utility;
 import com.bwxor.piejfx.control.FileTreeItem;
 import com.bwxor.piejfx.dto.TreeViewStructure;
 import com.bwxor.piejfx.state.FolderTreeViewState;
+import com.bwxor.piejfx.state.UIState;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -15,15 +16,17 @@ import java.util.ArrayList;
 public class FolderTreeViewUtility {
     private static boolean firstLaunch = true;
 
-    public static void showFolderTreeView(SplitPane horizontalSplitPane, TabPane splitTabPane, TreeView folderTreeView, SplitPane verticalSplitPane, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel) {
+    public static void showFolderTreeView() {
+        UIState uiState = UIState.getInstance();
+
         if (firstLaunch) {
-            folderTreeView.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-                if (folderTreeView.getSelectionModel().getSelectedIndex() > 0) {
+            uiState.getFolderTreeView().addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+                if (uiState.getFolderTreeView().getSelectionModel().getSelectedIndex() > 0) {
                     if (e.getClickCount() == 2) {
-                        File file = ((FileTreeItem) folderTreeView.getSelectionModel().getSelectedItem()).getFile();
+                        File file = ((FileTreeItem) uiState.getFolderTreeView().getSelectionModel().getSelectedItem()).getFile();
 
                         if (!file.isDirectory()) {
-                            OpenFileUtility.openFile(horizontalSplitPane, verticalSplitPane, splitTabPane, folderTreeView, editorTabPane, terminalTabPane, titleBarLabel, file);
+                            OpenFileUtility.openFile(file);
                         }
                     }
                 }
@@ -32,54 +35,56 @@ public class FolderTreeViewUtility {
         }
 
         FolderTreeViewState.instance.setTreeViewStructure(new TreeViewStructure());
-        fillExpansionState(FolderTreeViewState.instance.getTreeViewStructure(), folderTreeView.getRoot());
+        fillExpansionState(FolderTreeViewState.instance.getTreeViewStructure(), uiState.getFolderTreeView().getRoot());
 
-        TreeItem treeItem = createTreeItem(verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
+        TreeItem treeItem = createTreeItem();
 
         if (treeItem != null) {
-            folderTreeView.setRoot(treeItem);
+            uiState.getFolderTreeView().setRoot(treeItem);
 
-            if (!horizontalSplitPane.getItems().contains(splitTabPane)) {
-                horizontalSplitPane.getItems().addFirst(splitTabPane);
-                horizontalSplitPane.setDividerPosition(0, 0.25);
+            if (!uiState.getHorizontalSplitPane().getItems().contains(uiState.getSplitTabPane())) {
+                uiState.getHorizontalSplitPane().getItems().addFirst(uiState.getSplitTabPane());
+                uiState.getHorizontalSplitPane().setDividerPosition(0, 0.25);
             }
 
             if (FolderTreeViewState.instance.getTreeViewStructure() != null) {
-                fillTreeViewWithExpansionState(FolderTreeViewState.instance.getTreeViewStructure(), folderTreeView.getRoot());
+                fillTreeViewWithExpansionState(FolderTreeViewState.instance.getTreeViewStructure(), uiState.getFolderTreeView().getRoot());
             }
-            folderTreeView.getRoot().setExpanded(true);
+            uiState.getFolderTreeView().getRoot().setExpanded(true);
         }
     }
 
-    public static void toggleFolderTreeView(SplitPane horizontalSplitPane, TabPane splitTabPane, TreeView folderTreeView, SplitPane verticalSplitPane, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel) {
-        if (horizontalSplitPane.getItems().contains(splitTabPane)) {
+    public static void toggleFolderTreeView() {
+        UIState uiState = UIState.getInstance();
+
+        if (uiState.getHorizontalSplitPane().getItems().contains(uiState.getSplitTabPane())) {
             FolderTreeViewState.instance.setTreeViewStructure(new TreeViewStructure());
-            fillExpansionState(FolderTreeViewState.instance.getTreeViewStructure(), folderTreeView.getRoot());
-            horizontalSplitPane.getItems().remove(splitTabPane);
+            fillExpansionState(FolderTreeViewState.instance.getTreeViewStructure(), uiState.getFolderTreeView().getRoot());
+            uiState.getHorizontalSplitPane().getItems().remove(uiState.getSplitTabPane());
         } else {
-            folderTreeView.setRoot(createTreeItem(verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel));
-            horizontalSplitPane.getItems().addFirst(splitTabPane);
-            horizontalSplitPane.setDividerPosition(0, 0.25);
+            uiState.getFolderTreeView().setRoot(createTreeItem());
+            uiState.getHorizontalSplitPane().getItems().addFirst(uiState.getSplitTabPane());
+            uiState.getHorizontalSplitPane().setDividerPosition(0, 0.25);
 
             if (FolderTreeViewState.instance.getTreeViewStructure() != null) {
-                fillTreeViewWithExpansionState(FolderTreeViewState.instance.getTreeViewStructure(), folderTreeView.getRoot());
+                fillTreeViewWithExpansionState(FolderTreeViewState.instance.getTreeViewStructure(), uiState.getFolderTreeView().getRoot());
             }
         }
     }
 
-    public static TreeItem createTreeItem(SplitPane verticalSplitPane, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel) {
+    public static TreeItem createTreeItem() {
         File rootFile = FolderTreeViewState.instance.getOpenedFolder();
 
         if (rootFile != null) {
             FileTreeItem parent = new FileTreeItem();
-            createTreeItem(rootFile, parent, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
+            createTreeItem(rootFile, parent);
             return parent.getChildren().getFirst();
         }
 
         return null;
     }
 
-    private static void createTreeItem(File rootFile, TreeItem parent, SplitPane verticalSplitPane, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel) {
+    private static void createTreeItem(File rootFile, TreeItem parent) {
         if (rootFile.isDirectory()) {
             TreeItem node = new FileTreeItem("\uD83D\uDCC1 " + rootFile.getName(), rootFile);
             parent.getChildren().add(node);
@@ -90,7 +95,7 @@ public class FolderTreeViewUtility {
                 node.addEventHandler(TreeItem.branchExpandedEvent(), new EventHandler() {
                     @Override
                     public void handle(Event event) {
-                        createTreeItem(f, node, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
+                        createTreeItem(f, node);
                         node.getChildren().remove(placeholder);
                         node.removeEventHandler(TreeItem.branchExpandedEvent(), this);
 

@@ -11,13 +11,13 @@ import javafx.stage.DirectoryChooser;
 import java.io.File;
 
 public class OpenFolderUtility {
-    public static void openFolder(SplitPane horizontalSplitPane, TreeView folderTreeView, TabPane splitTabPane, SplitPane verticalSplitPane, TabPane editorTabPane, TabPane terminalTabPane, Label titleBarLabel) {
+    public static void openFolder() {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         File selectedFile = directoryChooser.showDialog(StageState.instance.getStage());
 
         if (selectedFile != null) {
             FolderTreeViewState.instance.setOpenedFolder(selectedFile);
-            FolderTreeViewUtility.showFolderTreeView(horizontalSplitPane,splitTabPane, folderTreeView, verticalSplitPane, editorTabPane, terminalTabPane, titleBarLabel);
+            FolderTreeViewUtility.showFolderTreeView();
         }
     }
 }
