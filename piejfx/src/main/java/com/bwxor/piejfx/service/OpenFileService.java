@@ -1,14 +1,15 @@
-package com.bwxor.piejfx.utility;
+package com.bwxor.piejfx.service;
 
 import com.bwxor.piejfx.state.CodeAreaState;
+import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.StageState;
 import com.bwxor.piejfx.state.UIState;
 import javafx.stage.FileChooser;
 
 import java.io.File;
 
-public class OpenFileUtility {
-    public static void openFile() {
+public class OpenFileService {
+    public void openFile() {
         FileChooser fileChooser = new FileChooser();
         File selectedFile = fileChooser.showOpenDialog(StageState.instance.getStage());
 
@@ -17,10 +18,12 @@ public class OpenFileUtility {
         }
     }
 
-    public static void openFile(File file) {
+    public void openFile(File file) {
+        ServiceState serviceState = ServiceState.getInstance();
+        
         UIState uiState = UIState.getInstance();
 
-        EditorTabPaneUtility.addTabToPane(file);
+        serviceState.getEditorTabPaneService().addTabToPane(file);
 
         CodeAreaState.IndividualState state = CodeAreaState.instance.getIndividualStates().get(uiState.getEditorTabPane().getSelectionModel().getSelectedIndex());
 

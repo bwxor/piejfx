@@ -2,10 +2,10 @@ package com.bwxor.piejfx;
 
 import com.bwxor.piejfx.constants.AppDirConstants;
 import com.bwxor.piejfx.controller.EditorController;
+import com.bwxor.piejfx.service.*;
+import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.StageState;
 import com.bwxor.piejfx.state.ThemeState;
-import com.bwxor.piejfx.utility.*;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -20,17 +20,19 @@ import java.util.Objects;
 public class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws IOException {
-        Font.loadFont(ResourceUtility.getResourceByName("config/fonts/JetBrainsMono-Regular.ttf").toExternalForm(), 10);
-        Font.loadFont(ResourceUtility.getResourceByName("config/fonts/SegoeUISymbol.ttf").toExternalForm(), 10);
-        Font.loadFont(ResourceUtility.getResourceByName("config/fonts/SegoeUI.ttf").toExternalForm(), 10);
-        Font.loadFont(ResourceUtility.getResourceByName("config/fonts/SegoeUIBold.ttf").toExternalForm(), 10);
+        ServiceState serviceState = ServiceState.getInstance();
+        
+        Font.loadFont(serviceState.getResourceService().getResourceByName("config/fonts/JetBrainsMono-Regular.ttf").toExternalForm(), 10);
+        Font.loadFont(serviceState.getResourceService().getResourceByName("config/fonts/SegoeUISymbol.ttf").toExternalForm(), 10);
+        Font.loadFont(serviceState.getResourceService().getResourceByName("config/fonts/SegoeUI.ttf").toExternalForm(), 10);
+        Font.loadFont(serviceState.getResourceService().getResourceByName("config/fonts/SegoeUIBold.ttf").toExternalForm(), 10);
         StageState.instance.setStage(stage);
 
-        ConfigUtility.createConfigDirectoryStructure();
-        ThemeState.instance.setThemes(ThemeUtility.getThemes());
-        ConfigUtility.loadConfig();
+        serviceState.getConfigurationService().createConfigDirectoryStructure();
+        ThemeState.instance.setThemes(serviceState.getThemeService().getThemes());
+        serviceState.getConfigurationService().loadConfig();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(ResourceUtility.getResourceByName("views/editor-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(serviceState.getResourceService().getResourceByName("views/editor-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 800, 550);
         EditorController controller = fxmlLoader.getController();
         controller.setParameters(getParameters().getRaw());
@@ -38,12 +40,12 @@ public class Application extends javafx.application.Application {
         scene.getStylesheets().add(AppDirConstants.DEFAULT_STYLES_FILE.toUri().toURL().toExternalForm());
         scene.getStylesheets().add(ThemeState.instance.getCurrentTheme().getUrl().toExternalForm());
         stage.setTitle("piejfx");
-        stage.getIcons().add(new Image(Objects.requireNonNull(ResourceUtility.getResourceByNameAsStream("img/icons/icon.png"))));
+        stage.getIcons().add(new Image(Objects.requireNonNull(serviceState.getResourceService().getResourceByNameAsStream("img/icons/icon.png"))));
         stage.setScene(scene);
-        stage.setOnCloseRequest(e -> CloseUtility.close());
+        stage.setOnCloseRequest(e -> serviceState.getCloseService().close());
         stage.initStyle(StageStyle.TRANSPARENT);
         scene.setFill(Color.TRANSPARENT);
-        ResizeUtility.addResizeListener(stage);
+        serviceState.getResizeService().addResizeListener(stage);
 
         stage.show();
     }

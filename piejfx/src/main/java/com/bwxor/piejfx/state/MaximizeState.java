@@ -1,7 +1,6 @@
 package com.bwxor.piejfx.state;
 
 import com.bwxor.piejfx.constants.AppDirConstants;
-import com.bwxor.piejfx.utility.NotificationUtility;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Button;
 import javafx.stage.Screen;
@@ -23,12 +22,14 @@ public final class MaximizeState {
     }
 
     public void toggleMaximize(Stage stage, Button maximizeButton) {
+        ServiceState serviceState = ServiceState.getInstance();
+
         if (!maximized) {
             try {
                 StageState.instance.getStage().getScene().getStylesheets().remove(AppDirConstants.DEFAULT_STYLES_FILE.toUri().toURL().toExternalForm());
                 StageState.instance.getStage().getScene().getStylesheets().add(AppDirConstants.DEFAULT_MAXIMIZED_STYLES_FILE.toUri().toURL().toExternalForm());
             } catch (MalformedURLException e) {
-                NotificationUtility.showNotificationOk("Error while trying to maximize the window.");
+                serviceState.getNotificationService().showNotificationOk("Error while trying to maximize the window.");
             }
 
             Screen screen = Screen.getPrimary();
@@ -52,7 +53,7 @@ public final class MaximizeState {
                 StageState.instance.getStage().getScene().getStylesheets().remove(AppDirConstants.DEFAULT_MAXIMIZED_STYLES_FILE.toUri().toURL().toExternalForm());
                 StageState.instance.getStage().getScene().getStylesheets().add(AppDirConstants.DEFAULT_STYLES_FILE.toUri().toURL().toExternalForm());
             } catch (MalformedURLException e) {
-                NotificationUtility.showNotificationOk("Error while trying to restore the window from its maximized state.");
+                serviceState.getNotificationService().showNotificationOk("Error while trying to restore the window from its maximized state.");
             }
 
             stage.setWidth(oldWidth);

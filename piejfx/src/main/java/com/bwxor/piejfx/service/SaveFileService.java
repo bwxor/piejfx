@@ -1,32 +1,28 @@
-package com.bwxor.piejfx.utility;
+package com.bwxor.piejfx.service;
 
 import com.bwxor.piejfx.state.CodeAreaState;
+import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.StageState;
 import com.bwxor.piejfx.state.UIState;
-import javafx.scene.control.Label;
-import javafx.scene.control.SplitPane;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TreeView;
 import javafx.stage.FileChooser;
 import org.fxmisc.richtext.CodeArea;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.*;
-import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 
-public class SaveFileUtility {
+public class SaveFileService {
     /**
      * Saves the content of the CodeArea present at the selected tab. If no file is associated with it, a saveFileAs
      * is triggered.
      *
      * @return true if file has been saved successfully and false otherwise
      */
-    public static boolean saveFile() {
+    public boolean saveFile() {
         UIState uiState = UIState.getInstance();
+        ServiceState serviceState = ServiceState.getInstance();
         CodeAreaState.IndividualState codeAreaState = CodeAreaState.instance.getIndividualStates().get(uiState.getEditorTabPane().getSelectionModel().getSelectedIndex());
 
         if (codeAreaState.getOpenedFile() == null) {
@@ -35,20 +31,20 @@ public class SaveFileUtility {
             try (BufferedWriter br = Files.newBufferedWriter(codeAreaState.getOpenedFile().toPath(), StandardCharsets.UTF_8)) {
                 br.write(codeAreaState.getContent());
             } catch (IOException e) {
-                NotificationUtility.showNotificationOk("Error while trying to save the file.");
+                serviceState.getNotificationService().showNotificationOk("Error while trying to save the file.");
                 throw new RuntimeException(e);
             }
 
             if (uiState.getEditorTabPane().getSelectionModel().getSelectedItem().getContent() instanceof CodeArea c) {
-                GrammarUtility.setGrammarToCodeArea(c, codeAreaState.getOpenedFile());
-                GrammarUtility.resetCodeAreaStyle(c, codeAreaState);
+                serviceState.getGrammarService().setGrammarToCodeArea(c, codeAreaState.getOpenedFile());
+                serviceState.getGrammarService().resetCodeAreaStyle(c, codeAreaState);
             }
 
             codeAreaState.setSaved(true);
             uiState.getEditorTabPane().getSelectionModel().getSelectedItem().setText(codeAreaState.getOpenedFile().getName());
             uiState.getTitleBarLabel().setText(codeAreaState.getOpenedFile().getName());
 
-            FolderTreeViewUtility.showFolderTreeView();
+            serviceState.getFolderTreeViewService().showFolderTreeView();
         }
         return true;
     }
@@ -58,14 +54,16 @@ public class SaveFileUtility {
      *
      * @return true if a file has been chosen and false otherwise
      */
-    public static boolean saveFileAs() {
+    public boolean saveFileAs() {
         UIState uiState = UIState.getInstance();
+        ServiceState serviceState = ServiceState.getInstance();
+
         CodeAreaState.IndividualState codeAreaState = CodeAreaState.instance.getIndividualStates().get(uiState.getEditorTabPane().getSelectionModel().getSelectedIndex());
 
         String filters;
 
         try (BufferedReader bufferedReader = new BufferedReader(
-                new InputStreamReader(ResourceUtility.getResourceByNameAsStream("config/extension-filters.json")))) {
+                new InputStreamReader(serviceState.getResourceService().getResourceByNameAsStream("config/extension-filters.json")))) {
 
             filters = bufferedReader.readAllAsString();
 
@@ -89,7 +87,7 @@ public class SaveFileUtility {
 
             return false;
         } catch (IOException e) {
-            NotificationUtility.showNotificationOk("Error while trying to save the file.");
+            serviceState.getNotificationService().showNotificationOk("Error while trying to save the file.");
             throw new RuntimeException(e);
         }
     }

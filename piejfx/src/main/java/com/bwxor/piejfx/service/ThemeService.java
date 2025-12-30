@@ -1,4 +1,4 @@
-package com.bwxor.piejfx.utility;
+package com.bwxor.piejfx.service;
 
 import com.bwxor.piejfx.constants.AppDirConstants;
 import com.bwxor.piejfx.provider.ThemeBasedSettingsProvider;
@@ -14,8 +14,10 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ThemeUtility {
-    public static List<ThemeState.Theme> getThemes() {
+public class ThemeService {
+    public List<ThemeState.Theme> getThemes() {
+        ServiceState serviceState = ServiceState.getInstance();
+
         List<ThemeState.Theme> themes = new ArrayList<>();
 
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(AppDirConstants.THEMES_FILE.toFile()))) {
@@ -30,7 +32,7 @@ public class ThemeUtility {
                 themes.add(new ThemeState.Theme(name, Paths.get(String.valueOf(AppDirConstants.THEMES_DIR), file).toUri().toURL()));
             }
         } catch (IOException e) {
-            NotificationUtility.showNotificationOk("Error while trying to load the themes.");
+            serviceState.getNotificationService().showNotificationOk("Error while trying to load the themes.");
             throw new RuntimeException(e);
         }
 
@@ -38,8 +40,9 @@ public class ThemeUtility {
         return themes;
     }
 
-    public static void loadMenuWithThemes(List<ThemeState.Theme> themes) {
+    public void loadMenuWithThemes(List<ThemeState.Theme> themes) {
         UIState uiState = UIState.getInstance();
+        ServiceState serviceState = ServiceState.getInstance();
 
         for (ThemeState.Theme t : themes) {
             MenuItem menuItem = new MenuItem();
@@ -63,11 +66,11 @@ public class ThemeUtility {
                                             StageState.instance.getStage().getScene().getStylesheets().add(AppDirConstants.DEFAULT_STYLES_FILE.toUri().toURL().toExternalForm());
                                         }
                                     } catch (MalformedURLException ex) {
-                                        NotificationUtility.showNotificationOk("Error while trying to load the themes inside the menu.");
+                                        serviceState.getNotificationService().showNotificationOk("Error while trying to load the themes inside the menu.");
                                         throw new RuntimeException(ex);
                                     }
 
-                                    ConfigUtility.rewriteConfig();
+                                    serviceState.getConfigurationService().rewriteConfig();
 
                                     for (JediTermFxWidget terminal : TerminalState.instance.getTerminals()) {
                                         terminal.getTerminalPanel().repaint();

@@ -3,13 +3,14 @@ package com.bwxor.piejfx.factory;
 import com.bwxor.piejfx.control.FileTreeItem;
 import com.bwxor.piejfx.dto.NewFileResponse;
 import com.bwxor.piejfx.state.FolderTreeViewState;
+import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.UIState;
 import com.bwxor.piejfx.type.CreationType;
 import com.bwxor.piejfx.type.NewFileOption;
 import com.bwxor.piejfx.type.NotificationYesNoCancelOption;
-import com.bwxor.piejfx.utility.FileOperationsUtility;
-import com.bwxor.piejfx.utility.NotificationUtility;
-import com.bwxor.piejfx.utility.TerminalTabPaneUtility;
+import com.bwxor.piejfx.service.FileOperationsService;
+import com.bwxor.piejfx.service.NotificationService;
+import com.bwxor.piejfx.service.TerminalTabPaneService;
 import javafx.scene.control.*;
 
 import java.io.File;
@@ -39,13 +40,15 @@ public class ContextMenuFactory {
     }
 
     public static ContextMenu createCodeAreaContextMenu() {
+        ServiceState serviceState = ServiceState.getInstance();
+        
         ContextMenu contextMenu = new ContextMenu();
         contextMenu.setStyle("-fx-font-family: Segoe UI");
 
         MenuItem showTerminalContextMenuItem = new MenuItem();
         showTerminalContextMenuItem.setText("Toggle Terminal Tab");
         showTerminalContextMenuItem.setOnAction(e -> {
-            TerminalTabPaneUtility.toggleTerminalTabPane();
+            serviceState.getTerminalTabPaneService().toggleTerminalTabPane();
         });
 
         contextMenu.getItems().add(showTerminalContextMenuItem);
@@ -55,20 +58,21 @@ public class ContextMenuFactory {
 
     public static ContextMenu createTerminalTabPaneContextMenu() {
         UIState uiState = UIState.getInstance();
+        ServiceState serviceState = ServiceState.getInstance();
 
         ContextMenu contextMenu = new ContextMenu();
 
         MenuItem newTerminalTabMenuItem = new MenuItem();
         newTerminalTabMenuItem.setText("New Terminal Tab");
         newTerminalTabMenuItem.setOnAction(e -> {
-            TerminalTabPaneUtility.addTabToPane(null);
+            serviceState.getTerminalTabPaneService().addTabToPane(null);
         });
         contextMenu.getItems().add(newTerminalTabMenuItem);
 
         MenuItem closeTerminalTabMenuItem = new MenuItem();
         closeTerminalTabMenuItem.setText("Close Terminal Tab");
         closeTerminalTabMenuItem.setOnAction(e -> {
-            TerminalTabPaneUtility.removeSelectedTabFromPane(uiState.getTerminalTabPane());
+            serviceState.getTerminalTabPaneService().removeSelectedTabFromPane(uiState.getTerminalTabPane());
         });
         contextMenu.getItems().add(closeTerminalTabMenuItem);
 
@@ -76,6 +80,8 @@ public class ContextMenuFactory {
     }
 
     private static void createFile(CreationType creationType, TreeView folderTreeView) {
+        ServiceState serviceState = ServiceState.getInstance();
+
         String windowTitle;
         String itemViewPrefix;
 
@@ -87,7 +93,7 @@ public class ContextMenuFactory {
             itemViewPrefix = "\uD83D\uDCC1";
         }
 
-        NewFileResponse response = FileOperationsUtility.showNewFileWindow(windowTitle);
+        NewFileResponse response = serviceState.getFileOperationsService().showNewFileWindow(windowTitle);
 
         try {
             File fileToCreate;
@@ -114,7 +120,7 @@ public class ContextMenuFactory {
                         }
                     }
                     else {
-                        NotificationUtility.showNotificationOk("File already exists.");
+                        serviceState.getNotificationService().showNotificationOk("File already exists.");
                     }
                 } else {
                     fileToCreate = new File(Paths.get(FolderTreeViewState.instance.getOpenedFolder().toString(), response.fileName()).toUri());
@@ -129,29 +135,31 @@ public class ContextMenuFactory {
 
                         ((FileTreeItem) folderTreeView.getRoot()).getChildren().add(new FileTreeItem(itemViewPrefix + " " + fileToCreate.getName(), fileToCreate));
                     } else {
-                        NotificationUtility.showNotificationOk("File already exists.");
+                        serviceState.getNotificationService().showNotificationOk("File already exists.");
                     }
                 }
             }
         } catch (IOException ex) {
-            NotificationUtility.showNotificationOk("Error while trying to create the file.");
+            serviceState.getNotificationService().showNotificationOk("Error while trying to create the file.");
         }
     }
 
     private static void deleteFile(TreeView folderTreeView) {
+        ServiceState serviceState = ServiceState.getInstance();
+
         if (folderTreeView.getSelectionModel().getSelectedIndex() > 0) {
             if (folderTreeView.getSelectionModel().getSelectedItem().equals(folderTreeView.getRoot())) {
                 return;
             }
 
-            NotificationYesNoCancelOption response = NotificationUtility.showNotificationYesNoCancel("Are you sure you want to delete the file?");
+            NotificationYesNoCancelOption response = serviceState.getNotificationService().showNotificationYesNoCancel("Are you sure you want to delete the file?");
 
             if (response.equals(NotificationYesNoCancelOption.YES)) {
                 FileTreeItem treeItem = (FileTreeItem) folderTreeView.getSelectionModel().getSelectedItem();
 
                 if (treeItem.getFile().isDirectory()) {
-                    if (!FileOperationsUtility.deleteFolder(treeItem.getFile())) {
-                        NotificationUtility.showNotificationOk("Could not delete file.");
+                    if (!serviceState.getFileOperationsService().deleteFolder(treeItem.getFile())) {
+                        serviceState.getNotificationService().showNotificationOk("Could not delete file.");
                     }
                     else {
                         treeItem.getParent().getChildren().remove(treeItem);
@@ -161,7 +169,7 @@ public class ContextMenuFactory {
                     boolean deletionStatus = treeItem.getFile().delete();
 
                     if (!deletionStatus) {
-                        NotificationUtility.showNotificationOk("Could not delete file.");
+                        serviceState.getNotificationService().showNotificationOk("Could not delete file.");
                     } else {
                         treeItem.getParent().getChildren().remove(treeItem);
                     }

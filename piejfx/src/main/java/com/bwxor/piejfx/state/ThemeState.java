@@ -1,7 +1,5 @@
 package com.bwxor.piejfx.state;
 
-import com.bwxor.piejfx.utility.ResourceUtility;
-
 import java.net.URL;
 import java.util.List;
 
@@ -26,7 +24,7 @@ public final class ThemeState {
 
     public static ThemeState instance = new ThemeState();
 
-    private Theme currentTheme = new Theme("light.css", ResourceUtility.getResourceByName("config/themes/light.css"));
+    private Theme currentTheme = new Theme("light.css", ServiceState.getInstance().getResourceService().getResourceByName("config/themes/light.css"));
     private List<Theme> themes;
 
     private ThemeState() {}

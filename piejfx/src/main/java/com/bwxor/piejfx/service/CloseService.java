@@ -1,9 +1,9 @@
-package com.bwxor.piejfx.utility;
+package com.bwxor.piejfx.service;
 
 import javafx.application.Platform;
 
-public class CloseUtility {
-    public static void close() {
+public class CloseService {
+    public void close() {
         Platform.exit();
         System.exit(0);
     }

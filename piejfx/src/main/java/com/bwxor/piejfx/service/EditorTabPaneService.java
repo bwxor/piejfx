@@ -1,7 +1,8 @@
-package com.bwxor.piejfx.utility;
+package com.bwxor.piejfx.service;
 
 import com.bwxor.piejfx.factory.TabFactory;
 import com.bwxor.piejfx.state.CodeAreaState;
+import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.UIState;
 import com.bwxor.piejfx.type.NotificationYesNoCancelOption;
 import com.bwxor.piejfx.type.RemoveSelectedTabFromPaneResponse;
@@ -14,8 +15,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
-public class EditorTabPaneUtility {
-    private static void resyncCodeAreaIds() {
+public class EditorTabPaneService {
+    private void resyncCodeAreaIds() {
         UIState uiState = UIState.getInstance();
 
         for (int i = 0; i < uiState.getEditorTabPane().getTabs().size(); i++) {
@@ -25,8 +26,9 @@ public class EditorTabPaneUtility {
         }
     }
 
-    public static void addTabToPane(File file) {
+    public void addTabToPane(File file) {
         UIState uiState = UIState.getInstance();
+        ServiceState serviceState = ServiceState.getInstance();
 
         Tab tab = TabFactory.createEditorTab(file.getName());
         tab.setOnCloseRequest(e -> {
@@ -38,7 +40,7 @@ public class EditorTabPaneUtility {
         resyncCodeAreaIds();
 
         if (tab.getContent() instanceof CodeArea c) {
-            GrammarUtility.setGrammarToCodeArea(c, file);
+            serviceState.getGrammarService().setGrammarToCodeArea(c, file);
 
             CodeAreaState.IndividualState individualState = CodeAreaState.instance.getIndividualStates().get(Integer.parseInt(c.getId()));
             individualState.setOpenedFile(file);
@@ -49,7 +51,7 @@ public class EditorTabPaneUtility {
                 tab.setText(tab.getText());
             } catch (IOException e) {
                 uiState.getEditorTabPane().getTabs().removeLast();
-                NotificationUtility.showNotificationOk("Could not open specified file.");
+                serviceState.getNotificationService().showNotificationOk("Could not open specified file.");
                 throw new RuntimeException();
             }
         }
@@ -58,7 +60,7 @@ public class EditorTabPaneUtility {
 
     }
 
-    public static void addTabToPane(String tabTitle) {
+    public void addTabToPane(String tabTitle) {
         UIState uiState = UIState.getInstance();
 
         Tab tab = TabFactory.createEditorTab(tabTitle);
@@ -78,8 +80,9 @@ public class EditorTabPaneUtility {
      *
      * @return a negative response only if the user was prompted for a save and cancelled it.
      */
-    public static RemoveSelectedTabFromPaneResponse removeSelectedTabFromPane() {
+    public RemoveSelectedTabFromPaneResponse removeSelectedTabFromPane() {
         UIState uiState = UIState.getInstance();
+        ServiceState serviceState = ServiceState.getInstance();
 
         CodeAreaState.IndividualState individualState = CodeAreaState.instance.getIndividualStates().get(uiState.getEditorTabPane().getSelectionModel().getSelectedIndex());
 
@@ -89,12 +92,12 @@ public class EditorTabPaneUtility {
             do {
                 repeatPrompt = false;
 
-                var pickedOption = NotificationUtility.showNotificationYesNoCancel("Save file before closing?");
+                var pickedOption = serviceState.getNotificationService().showNotificationYesNoCancel("Save file before closing?");
 
                 if (pickedOption.equals(NotificationYesNoCancelOption.CANCEL)) {
                     return RemoveSelectedTabFromPaneResponse.CANCELLED;
                 } else if (pickedOption.equals(NotificationYesNoCancelOption.YES)) {
-                    if (!SaveFileUtility.saveFile()) {
+                    if (!serviceState.getSaveFileService().saveFile()) {
                         repeatPrompt = true;
                     }
                 }

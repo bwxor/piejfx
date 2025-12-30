@@ -1,9 +1,9 @@
 package com.bwxor.piejfx.controller;
 
 import com.bwxor.piejfx.factory.ContextMenuFactory;
+import com.bwxor.piejfx.service.*;
 import com.bwxor.piejfx.state.*;
 import com.bwxor.piejfx.type.RemoveSelectedTabFromPaneResponse;
-import com.bwxor.piejfx.utility.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -50,16 +50,16 @@ public class EditorController {
 
     public void handleParameters() {
         if (!parameters.isEmpty()) {
-            OpenFileUtility.openFile(new File(parameters.getFirst()));
+            ServiceState.getInstance().getOpenFileService().openFile(new File(parameters.getFirst()));
         } else {
-            EditorTabPaneUtility.addTabToPane("Untitled");
+            ServiceState.getInstance().getEditorTabPaneService().addTabToPane("Untitled");
         }
 
         titleBarLabel.setText(editorTabPane.getSelectionModel().getSelectedItem().getText());
 
         verticalSplitPane.getItems().remove(terminalTabPane);
         horizontalSplitPane.getItems().remove(splitTabPane);
-        TerminalTabPaneUtility.addTabToPane(null);
+        ServiceState.getInstance().getTerminalTabPaneService().addTabToPane(null);
         terminalTabPane.setContextMenu(ContextMenuFactory.createTerminalTabPaneContextMenu());
 
         editorTabPane.getSelectionModel().selectedItemProperty().addListener(
@@ -88,7 +88,7 @@ public class EditorController {
         UIState.getInstance().setTitleBarLabel(titleBarLabel);
         UIState.getInstance().setMenu(themesMenu);
 
-        ThemeUtility.loadMenuWithThemes(ThemeState.instance.getThemes());
+        ServiceState.getInstance().getThemeService().loadMenuWithThemes(ThemeState.instance.getThemes());
     }
 
     @FXML
@@ -97,7 +97,7 @@ public class EditorController {
         editorTabPane.getSelectionModel().select(size - 1);
 
         for (int i = 0; i < size; i++) {
-            var saveResponse = EditorTabPaneUtility.removeSelectedTabFromPane();
+            var saveResponse = ServiceState.getInstance().getEditorTabPaneService().removeSelectedTabFromPane();
             if (saveResponse.equals(RemoveSelectedTabFromPaneResponse.CANCELLED)) {
                 return;
             }
@@ -105,7 +105,7 @@ public class EditorController {
 
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
-        CloseUtility.close();
+        ServiceState.getInstance().getCloseService().close();
     }
 
     @FXML
@@ -147,50 +147,50 @@ public class EditorController {
 
     @FXML
     public void onNewButtonClickEvent() {
-        EditorTabPaneUtility.addTabToPane("Untitled");
+        ServiceState.getInstance().getEditorTabPaneService().addTabToPane("Untitled");
     }
 
     @FXML
     public void onOpenButtonClickEvent() {
-        OpenFileUtility.openFile();
+        ServiceState.getInstance().getOpenFileService().openFile();
     }
 
     @FXML
     public void onOpenFolderButtonClickEvent() {
-        OpenFolderUtility.openFolder();
+        ServiceState.getInstance().getOpenFolderService().openFolder();
     }
 
     @FXML
     public void onSaveButtonClickEvent() {
-        SaveFileUtility.saveFile();
+        ServiceState.getInstance().getSaveFileService().saveFile();
     }
 
     @FXML
     public void onSaveAsButtonClickEvent() {
-        SaveFileUtility.saveFileAs();
+        ServiceState.getInstance().getSaveFileService().saveFileAs();
     }
 
     @FXML
     public void onAboutButtonClickEvent() {
-        AboutUtility.showAboutPage();
+        ServiceState.getInstance().getAboutService().showAboutPage();
     }
 
     @FXML
     public void onKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.isControlDown()) { // Modifiers will be handled
             if (keyEvent.getCode().equals(KeyCode.T)) {
-                EditorTabPaneUtility.addTabToPane("Untitled");
+                ServiceState.getInstance().getEditorTabPaneService().addTabToPane("Untitled");
             } else if (keyEvent.getCode().equals(KeyCode.W)) {
-                EditorTabPaneUtility.removeSelectedTabFromPane();
+                ServiceState.getInstance().getEditorTabPaneService().removeSelectedTabFromPane();
             } else if (keyEvent.getCode().equals(KeyCode.S)) {
-                SaveFileUtility.saveFile();
+                ServiceState.getInstance().getSaveFileService().saveFile();
             } else if (keyEvent.getCode().equals(KeyCode.B)) {
-                TerminalTabPaneUtility.toggleTerminalTabPane();
+                ServiceState.getInstance().getTerminalTabPaneService().toggleTerminalTabPane();
             } else if (keyEvent.getCode().equals(KeyCode.G)) {
                 if (FolderTreeViewState.instance.getOpenedFolder() != null) {
-                    FolderTreeViewUtility.toggleFolderTreeView();
+                    ServiceState.getInstance().getFolderTreeViewService().toggleFolderTreeView();
                 } else {
-                    OpenFolderUtility.openFolder();
+                    ServiceState.getInstance().getOpenFolderService().openFolder();
                 }
             }
         }

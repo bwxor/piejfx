@@ -1,4 +1,4 @@
-package com.bwxor.piejfx.utility;
+package com.bwxor.piejfx.service;
 
 import com.bwxor.piejfx.state.MaximizeState;
 import javafx.collections.ObservableList;
@@ -11,9 +11,9 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-public class ResizeUtility {
+public class ResizeService {
 
-    public static void addResizeListener(Stage stage) {
+    public void addResizeListener(Stage stage) {
         ResizeListener resizeListener = new ResizeListener(stage);
         stage.getScene().addEventHandler(MouseEvent.MOUSE_MOVED, resizeListener);
         stage.getScene().addEventHandler(MouseEvent.MOUSE_PRESSED, resizeListener);
@@ -26,7 +26,7 @@ public class ResizeUtility {
         }
     }
 
-    public static void addListenerDeeply(Node node, EventHandler<MouseEvent> listener) {
+    public void addListenerDeeply(Node node, EventHandler<MouseEvent> listener) {
         node.addEventHandler(MouseEvent.MOUSE_MOVED, listener);
         node.addEventHandler(MouseEvent.MOUSE_PRESSED, listener);
         node.addEventHandler(MouseEvent.MOUSE_DRAGGED, listener);

@@ -1,6 +1,7 @@
-package com.bwxor.piejfx.utility;
+package com.bwxor.piejfx.service;
 
 import com.bwxor.piejfx.constants.AppDirConstants;
+import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.ThemeState;
 import org.json.JSONObject;
 
@@ -9,14 +10,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class ConfigUtility {
-    public static void createConfigDirectoryStructure() {
+public class ConfigurationService {
+    public void createConfigDirectoryStructure() {
         if (!new File(AppDirConstants.CONFIG_DIR.toUri()).exists()) {
             copyResourceFilesIntoAppdata();
         }
     }
 
-    public static void loadConfig() {
+    public void loadConfig() {
         try (BufferedReader bufferedReader =
                      new BufferedReader(new FileReader(AppDirConstants.CONFIG_FILE.toFile()))) {
             String configContent = bufferedReader.readAllAsString();
@@ -34,7 +35,9 @@ public class ConfigUtility {
         }
     }
 
-    public static void rewriteConfig() {
+    public void rewriteConfig() {
+        ServiceState serviceState = ServiceState.getInstance();
+
         JSONObject root = new JSONObject();
         JSONObject config = new JSONObject();
         root.put("config", config);
@@ -47,14 +50,16 @@ public class ConfigUtility {
             bufferedWriter.write(root.toString());
             bufferedWriter.flush();
         } catch (IOException e) {
-            NotificationUtility.showNotificationOk("Error while trying to rewrite the configuration.");
+            serviceState.getNotificationService().showNotificationOk("Error while trying to rewrite the configuration.");
             throw new RuntimeException(e);
         }
     }
 
-    private static void copyResourceFilesIntoAppdata() {
+    private void copyResourceFilesIntoAppdata() {
+        ServiceState serviceState = ServiceState.getInstance();
+
         try (BufferedReader bufferedReader = new BufferedReader(
-                new InputStreamReader(ResourceUtility.getResourceByNameAsStream("internal/indexes"))
+                new InputStreamReader(serviceState.getResourceService().getResourceByNameAsStream("internal/indexes"))
         )){
             File file = new File(AppDirConstants.USER_DATA_DIR);
             file.mkdirs();
@@ -67,10 +72,10 @@ public class ConfigUtility {
                 Path target = Paths.get(AppDirConstants.USER_DATA_DIR, s);
                 File fileToCreate = new File(target.toUri());
                 fileToCreate.getParentFile().mkdirs();
-                Files.copy(ResourceUtility.getResourceByNameAsStream(s), target);
+                Files.copy(serviceState.getResourceService().getResourceByNameAsStream(s), target);
             }
         } catch (IOException e) {
-            NotificationUtility.showNotificationOk("Error while trying to write the config folder to the local disk.");
+            serviceState.getNotificationService().showNotificationOk("Error while trying to write the config folder to the local disk.");
             throw new RuntimeException(e);
         }
     }

@@ -1,8 +1,9 @@
-package com.bwxor.piejfx.utility;
+package com.bwxor.piejfx.service;
 
 import com.bwxor.piejfx.constants.AppDirConstants;
 import com.bwxor.piejfx.controller.NewFileController;
 import com.bwxor.piejfx.dto.NewFileResponse;
+import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.ThemeState;
 import com.bwxor.piejfx.type.NewFileOption;
 import javafx.fxml.FXMLLoader;
@@ -19,9 +20,11 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.util.Objects;
 
-public class FileOperationsUtility {
-    public static NewFileResponse showNewFileWindow(String title) {
-        FXMLLoader loader = new FXMLLoader(ResourceUtility.getResourceByName("views/newfile-view.fxml"));
+public class FileOperationsService {
+    public NewFileResponse showNewFileWindow(String title) {
+        ServiceState serviceState = ServiceState.getInstance();
+
+        FXMLLoader loader = new FXMLLoader(serviceState.getResourceService().getResourceByName("views/newfile-view.fxml"));
         Parent root;
 
         try {
@@ -36,13 +39,13 @@ public class FileOperationsUtility {
             stage.setOnCloseRequest(e -> {
                 controller.setNewFileResponse(new NewFileResponse(NewFileOption.CANCEL, null));
             });
-            stage.getIcons().add(new Image(Objects.requireNonNull(ResourceUtility.getResourceByNameAsStream("img/icons/icon.png"))));
+            stage.getIcons().add(new Image(Objects.requireNonNull(serviceState.getResourceService().getResourceByNameAsStream("img/icons/icon.png"))));
             stage.initStyle(StageStyle.TRANSPARENT);
             scene.setFill(Color.TRANSPARENT);
             try {
                 scene.getStylesheets().add(AppDirConstants.DEFAULT_STYLES_FILE.toUri().toURL().toExternalForm());
             } catch (MalformedURLException e) {
-                NotificationUtility.showNotificationOk("Error while trying to load the default styles.");
+                serviceState.getNotificationService().showNotificationOk("Error while trying to load the default styles.");
                 throw new RuntimeException(e);
             }
             controller.setWindowTitle(title);
@@ -51,12 +54,12 @@ public class FileOperationsUtility {
             return controller.getNewFileResponse();
 
         } catch (IOException e) {
-            NotificationUtility.showNotificationOk("Error while trying to load the window.");
+            serviceState.getNotificationService().showNotificationOk("Error while trying to load the window.");
             return null;
         }
     }
 
-    public static boolean deleteFolder(File file) {
+    public boolean deleteFolder(File file) {
         File[] contents = file.listFiles();
         if (contents != null) {
             for (File f : contents) {

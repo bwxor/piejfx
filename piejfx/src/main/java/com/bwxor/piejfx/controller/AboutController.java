@@ -1,13 +1,10 @@
 package com.bwxor.piejfx.controller;
 
-import com.bwxor.piejfx.utility.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
-import java.util.List;
 
 public class AboutController {
     @FXML

@@ -1,10 +1,11 @@
-package com.bwxor.piejfx.utility;
+package com.bwxor.piejfx.service;
 
 import com.bwxor.piejfx.constants.AppDirConstants;
 import com.bwxor.piejfx.entity.Grammar;
 import com.bwxor.piejfx.entity.GrammarMatch;
 import com.bwxor.piejfx.entity.GrammarRule;
 import com.bwxor.piejfx.state.CodeAreaState;
+import com.bwxor.piejfx.state.ServiceState;
 import javafx.application.Platform;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.model.StyleSpans;
@@ -17,10 +18,12 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class GrammarUtility {
+public class GrammarService {
     private static final short DEBOUNCE_DELAY = 200;
 
-    public static Grammar loadGrammar(String extension) {
+    public Grammar loadGrammar(String extension) {
+        ServiceState serviceState = ServiceState.getInstance();
+       
         Grammar grammar = new Grammar();
 
         File grammarDir = new File(AppDirConstants.GRAMMARS_DIR.toUri());
@@ -37,7 +40,7 @@ public class GrammarUtility {
                         grammar.setRules(loadGrammarRules(grammarJsonObject));
                         grammar.setAutocompleteWords(loadAutocompleteWords(grammarJsonObject));
                     } catch (IOException e) {
-                        NotificationUtility.showNotificationOk("Error while trying to read the grammar file.");
+                        serviceState.getNotificationService().showNotificationOk("Error while trying to read the grammar file.");
                         throw new RuntimeException();
                     }
                 }
@@ -47,7 +50,7 @@ public class GrammarUtility {
         return grammar;
     }
 
-    private static List<GrammarRule> loadGrammarRules(JSONObject grammarJsonObject) {
+    private List<GrammarRule> loadGrammarRules(JSONObject grammarJsonObject) {
         List<GrammarRule> grammarRules = new ArrayList<>();
 
         JSONArray rulesJsonArray = grammarJsonObject.getJSONArray("rules");
@@ -62,7 +65,7 @@ public class GrammarUtility {
         return grammarRules;
     }
 
-    private static List<String> loadAutocompleteWords(JSONObject grammarJsonObject) {
+    private List<String> loadAutocompleteWords(JSONObject grammarJsonObject) {
 
         if (grammarJsonObject.has("autocomplete")) {
             List<String> autocompleteWords = new ArrayList<>();
@@ -80,7 +83,7 @@ public class GrammarUtility {
         return null;
     }
 
-    public static StyleSpans<Collection<String>> computeHighlighting(CodeArea codeArea, CodeAreaState.IndividualState state) {
+    public StyleSpans<Collection<String>> computeHighlighting(CodeArea codeArea, CodeAreaState.IndividualState state) {
         List<GrammarRule> grammarRules = state.getGrammar().getRules();
 
         StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();
@@ -122,7 +125,9 @@ public class GrammarUtility {
         return spansBuilder.create();
     }
 
-    private static boolean hasExtension(File file, String extension) {
+    private boolean hasExtension(File file, String extension) {
+        ServiceState serviceState = ServiceState.getInstance();
+
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
             JSONObject jsonObject = new JSONObject(bufferedReader.readAllAsString());
             JSONArray arr = jsonObject.getJSONArray("extensions");
@@ -135,15 +140,15 @@ public class GrammarUtility {
 
             return false;
         } catch (IOException e) {
-            NotificationUtility.showNotificationOk("Error while trying to read the grammar file.");
+            serviceState.getNotificationService().showNotificationOk("Error while trying to read the grammar file.");
             throw new RuntimeException(e);
         }
     }
 
-    public static void setGrammarToCodeArea(CodeArea codeArea, File file) {
+    public void setGrammarToCodeArea(CodeArea codeArea, File file) {
         CodeAreaState.IndividualState individualState = CodeAreaState.instance.getIndividualStates().get(Integer.parseInt(codeArea.getId()));
 
-        individualState.setGrammar(GrammarUtility.loadGrammar(file.getName().substring(file.getName().lastIndexOf(".") + 1)));
+        individualState.setGrammar(loadGrammar(file.getName().substring(file.getName().lastIndexOf(".") + 1)));
 
         codeArea.textProperty().addListener((obs, oldText, newText) -> {
             Timer existingTimer = individualState.getDebounceTimer();
@@ -164,7 +169,7 @@ public class GrammarUtility {
         });
     }
 
-    public static void resetCodeAreaStyle(CodeArea codeArea, CodeAreaState.IndividualState individualState) {
-        codeArea.setStyleSpans(0, GrammarUtility.computeHighlighting(codeArea, individualState));
+    public void resetCodeAreaStyle(CodeArea codeArea, CodeAreaState.IndividualState individualState) {
+        codeArea.setStyleSpans(0, computeHighlighting(codeArea, individualState));
     }
 }

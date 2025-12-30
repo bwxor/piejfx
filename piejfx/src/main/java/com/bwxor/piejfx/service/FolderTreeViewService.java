@@ -1,8 +1,9 @@
-package com.bwxor.piejfx.utility;
+package com.bwxor.piejfx.service;
 
 import com.bwxor.piejfx.control.FileTreeItem;
 import com.bwxor.piejfx.dto.TreeViewStructure;
 import com.bwxor.piejfx.state.FolderTreeViewState;
+import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.UIState;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -13,11 +14,12 @@ import javafx.scene.input.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
 
-public class FolderTreeViewUtility {
-    private static boolean firstLaunch = true;
+public class FolderTreeViewService {
+    private boolean firstLaunch = true;
 
-    public static void showFolderTreeView() {
+    public void showFolderTreeView() {
         UIState uiState = UIState.getInstance();
+        ServiceState serviceState = ServiceState.getInstance();
 
         if (firstLaunch) {
             uiState.getFolderTreeView().addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
@@ -26,7 +28,7 @@ public class FolderTreeViewUtility {
                         File file = ((FileTreeItem) uiState.getFolderTreeView().getSelectionModel().getSelectedItem()).getFile();
 
                         if (!file.isDirectory()) {
-                            OpenFileUtility.openFile(file);
+                            serviceState.getOpenFileService().openFile(file);
                         }
                     }
                 }
@@ -54,7 +56,7 @@ public class FolderTreeViewUtility {
         }
     }
 
-    public static void toggleFolderTreeView() {
+    public void toggleFolderTreeView() {
         UIState uiState = UIState.getInstance();
 
         if (uiState.getHorizontalSplitPane().getItems().contains(uiState.getSplitTabPane())) {
@@ -72,7 +74,7 @@ public class FolderTreeViewUtility {
         }
     }
 
-    public static TreeItem createTreeItem() {
+    public TreeItem createTreeItem() {
         File rootFile = FolderTreeViewState.instance.getOpenedFolder();
 
         if (rootFile != null) {
@@ -84,7 +86,7 @@ public class FolderTreeViewUtility {
         return null;
     }
 
-    private static void createTreeItem(File rootFile, TreeItem parent) {
+    private void createTreeItem(File rootFile, TreeItem parent) {
         if (rootFile.isDirectory()) {
             TreeItem node = new FileTreeItem("\uD83D\uDCC1 " + rootFile.getName(), rootFile);
             parent.getChildren().add(node);
@@ -117,7 +119,7 @@ public class FolderTreeViewUtility {
         }
     }
 
-    private static void fillExpansionState(TreeViewStructure treeViewStructure, TreeItem treeItem) {
+    private void fillExpansionState(TreeViewStructure treeViewStructure, TreeItem treeItem) {
         if (treeItem == null) {
             return;
         }
@@ -136,7 +138,7 @@ public class FolderTreeViewUtility {
         }
     }
 
-    private static void fillTreeViewWithExpansionState(TreeViewStructure treeViewStructure, TreeItem treeItem) {
+    private void fillTreeViewWithExpansionState(TreeViewStructure treeViewStructure, TreeItem treeItem) {
         ObservableList<TreeItem> children = treeItem.getChildren();
 
         if (treeViewStructure.getChildren() != null) {

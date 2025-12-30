@@ -1,8 +1,8 @@
 package com.bwxor.piejfx.provider;
 
 import com.bwxor.piejfx.dto.RGB;
+import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.ThemeState;
-import com.bwxor.piejfx.utility.NotificationUtility;
 import com.helger.collection.commons.ICommonsList;
 import com.helger.css.decl.CSSDeclaration;
 import com.helger.css.decl.CSSStyleRule;
@@ -24,6 +24,8 @@ public class ThemeBasedSettingsProvider extends DefaultSettingsProvider {
     private static RGB selectionBackgroundColor;
 
     private RGB getColorFromTheme(String color) {
+        ServiceState serviceState = ServiceState.getInstance();
+
         try {
             CascadingStyleSheet declaration = CSSReader.readFromFile(
                     new File(ThemeState.instance.getCurrentTheme().getUrl().toURI()));
@@ -55,7 +57,7 @@ public class ThemeBasedSettingsProvider extends DefaultSettingsProvider {
 
 
         } catch (URISyntaxException e) {
-            NotificationUtility.showNotificationOk("Error while trying to read a terminal color.");
+            serviceState.getNotificationService().showNotificationOk("Error while trying to read a terminal color.");
             throw new RuntimeException(e);
         }
 
