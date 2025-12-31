@@ -4,6 +4,7 @@ import com.bwxor.piejfx.connector.LocalPtyProcessTtyConnector;
 import com.bwxor.piejfx.listener.AutofillChangeListener;
 import com.bwxor.piejfx.provider.ThemeBasedSettingsProvider;
 import com.bwxor.piejfx.state.CodeAreaState;
+import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.TerminalState;
 import com.pty4j.PtyProcess;
 import com.pty4j.PtyProcessBuilder;
@@ -25,6 +26,8 @@ import java.util.Map;
 
 public class TabFactory {
     public static Tab createEditorTab(String title) {
+        ServiceState serviceState = ServiceState.getInstance();
+
         Tab tab = new Tab();
 
         CodeArea codeArea = new CodeArea();
@@ -49,6 +52,8 @@ public class TabFactory {
         );
 
         codeArea.setOnKeyPressed(e -> {
+            serviceState.getPluginService().invokeOnKeyPress(e);
+
             if (e.isControlDown()) {
                 CodeAreaState.IndividualState individualState = CodeAreaState.instance.getIndividualStates().get(Integer.parseInt(codeArea.getId()));
 

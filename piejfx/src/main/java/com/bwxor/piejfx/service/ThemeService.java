@@ -82,7 +82,7 @@ public class ThemeService {
                     }
             );
 
-            uiState.getMenu().getItems().add(menuItem);
+            uiState.getThemesMenu().getItems().add(menuItem);
         }
     }
 }

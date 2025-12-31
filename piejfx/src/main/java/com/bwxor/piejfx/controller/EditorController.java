@@ -1,6 +1,7 @@
 package com.bwxor.piejfx.controller;
 
 import com.bwxor.piejfx.factory.ContextMenuFactory;
+import com.bwxor.piejfx.service.PluginService;
 import com.bwxor.piejfx.state.*;
 import com.bwxor.plugin.type.RemoveSelectedTabFromPaneOption;
 import javafx.fxml.FXML;
@@ -37,11 +38,14 @@ public class EditorController {
     private TreeView folderTreeView;
     @FXML
     private TabPane terminalTabPane;
+    @FXML
+    private Menu themesMenu;
+    @FXML
+    private Menu toolsMenu;
+
     private double xOffset = 0;
     private double yOffset = 0;
 
-    @FXML
-    private Menu themesMenu;
 
     public void setParameters(List<String> parameters) {
         this.parameters = parameters;
@@ -76,6 +80,7 @@ public class EditorController {
         folderTreeView.setContextMenu(ContextMenuFactory.createFolderTreeViewContextMenu(folderTreeView));
 
         PluginState.getInstance().setPlugins(ServiceState.getInstance().getPluginService().getPlugins());
+        ServiceState.getInstance().getPluginService().invokeOnLoad();
     }
 
     @FXML
@@ -87,7 +92,8 @@ public class EditorController {
         UIState.getInstance().setEditorTabPane(editorTabPane);
         UIState.getInstance().setTerminalTabPane(terminalTabPane);
         UIState.getInstance().setTitleBarLabel(titleBarLabel);
-        UIState.getInstance().setMenu(themesMenu);
+        UIState.getInstance().setThemesMenu(themesMenu);
+        UIState.getInstance().setToolsMenu(toolsMenu);
 
         ServiceState.getInstance().getThemeService().loadMenuWithThemes(ThemeState.instance.getThemes());
     }
@@ -163,12 +169,12 @@ public class EditorController {
 
     @FXML
     public void onSaveButtonClickEvent() {
-        ServiceState.getInstance().getSaveFileService().saveFile();
+        ServiceState.getInstance().getFileService().saveFile();
     }
 
     @FXML
     public void onSaveAsButtonClickEvent() {
-        ServiceState.getInstance().getSaveFileService().saveFileAs();
+        ServiceState.getInstance().getFileService().saveFileAs();
     }
 
     @FXML
@@ -178,13 +184,15 @@ public class EditorController {
 
     @FXML
     public void onKeyPressed(KeyEvent keyEvent) {
+        ServiceState.getInstance().getPluginService().invokeOnKeyPress(keyEvent);
+
         if (keyEvent.isControlDown()) { // Modifiers will be handled
             if (keyEvent.getCode().equals(KeyCode.T)) {
                 ServiceState.getInstance().getEditorTabPaneService().addTabToPane("Untitled");
             } else if (keyEvent.getCode().equals(KeyCode.W)) {
                 ServiceState.getInstance().getEditorTabPaneService().removeSelectedTabFromPane();
             } else if (keyEvent.getCode().equals(KeyCode.S)) {
-                ServiceState.getInstance().getSaveFileService().saveFile();
+                ServiceState.getInstance().getFileService().saveFile();
             } else if (keyEvent.getCode().equals(KeyCode.B)) {
                 ServiceState.getInstance().getTerminalTabPaneService().toggleTerminalTabPane();
             } else if (keyEvent.getCode().equals(KeyCode.G)) {

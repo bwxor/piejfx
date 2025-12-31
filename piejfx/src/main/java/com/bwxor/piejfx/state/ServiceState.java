@@ -13,7 +13,6 @@ public class ServiceState {
     private FileService fileService = new FileService();
     private ResizeService resizeService = new ResizeService();
     private ResourceService resourceService = new ResourceService();
-    private SaveFileService saveFileService = new SaveFileService();
     private TerminalTabPaneService terminalTabPaneService = new TerminalTabPaneService();
     private ThemeService themeService = new ThemeService();
     private PluginService pluginService = new PluginService();
@@ -60,10 +59,6 @@ public class ServiceState {
 
     public ResourceService getResourceService() {
         return resourceService;
-    }
-
-    public SaveFileService getSaveFileService() {
-        return saveFileService;
     }
 
     public TerminalTabPaneService getTerminalTabPaneService() {

@@ -2,8 +2,13 @@ package com.bwxor.piejfx.service;
 
 import com.bwxor.piejfx.constants.AppDirConstants;
 import com.bwxor.piejfx.dto.LoadedPlugin;
+import com.bwxor.piejfx.state.PluginState;
 import com.bwxor.piejfx.state.ServiceState;
+import com.bwxor.piejfx.state.UIState;
 import com.bwxor.plugin.Plugin;
+import com.bwxor.plugin.input.ApplicationWindow;
+import com.bwxor.plugin.input.PluginContext;
+import javafx.scene.input.KeyEvent;
 import org.json.JSONObject;
 
 import java.io.*;
@@ -108,5 +113,69 @@ public class PluginService {
         }
 
         return classes;
+    }
+
+    public void invokeOnLoad() {
+        ApplicationWindow applicationWindow = new ApplicationWindow();
+        applicationWindow.setSidebarTabPane(UIState.getInstance().getSplitTabPane());
+        applicationWindow.setEditorTabPane(UIState.getInstance().getEditorTabPane());
+        applicationWindow.setMenu(UIState.getInstance().getToolsMenu());
+
+        PluginContext pluginContext = new PluginContext(
+                applicationWindow,
+                ServiceState.getInstance().getCloseService(),
+                ServiceState.getInstance().getEditorTabPaneService(),
+                ServiceState.getInstance().getFolderTreeViewService(),
+                ServiceState.getInstance().getNotificationService(),
+                ServiceState.getInstance().getFileService(),
+                ServiceState.getInstance().getTerminalTabPaneService()
+        );
+
+        PluginState.getInstance().getPlugins()
+                .forEach(
+                        e -> e.getHook().onLoad(pluginContext)
+                );
+    }
+
+    public void invokeOnKeyPress(KeyEvent k) {
+        PluginState.getInstance().getPlugins()
+                .forEach(
+                        e -> e.getHook().onKeyPress(k)
+                );
+    }
+
+    public void invokeOnSaveFile(File file) {
+        PluginState.getInstance().getPlugins()
+                .forEach(
+                        e -> e.getHook().onSaveFile(file)
+                );
+    }
+
+    public void invokeOnOpenFile(File file) {
+        PluginState.getInstance().getPlugins()
+                .forEach(
+                        e -> e.getHook().onOpenFile(file)
+                );
+    }
+
+    public void invokeOnCreateFile(File file) {
+        PluginState.getInstance().getPlugins()
+                .forEach(
+                        e -> e.getHook().onCreateFile(file)
+                );
+    }
+
+    public void invokeOnCreateFolder(File file) {
+        PluginState.getInstance().getPlugins()
+                .forEach(
+                        e -> e.getHook().onCreateFolder(file)
+                );
+    }
+
+    public void invokeOnDeleteFile(File file) {
+        PluginState.getInstance().getPlugins()
+                .forEach(
+                        e -> e.getHook().onDeleteFile(file)
+                );
     }
 }

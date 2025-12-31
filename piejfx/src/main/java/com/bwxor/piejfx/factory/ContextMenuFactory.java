@@ -105,8 +105,10 @@ public class ContextMenuFactory {
                     if (!fileToCreate.exists()) {
                         if (creationType.equals(CreationType.FILE)) {
                             fileToCreate.createNewFile();
+                            serviceState.getPluginService().invokeOnCreateFile(fileToCreate);
                         } else {
                             fileToCreate.mkdir();
+                            serviceState.getPluginService().invokeOnCreateFolder(fileToCreate);
                         }
 
                         FileTreeItem fileTreeItem = new FileTreeItem(itemViewPrefix + " " + fileToCreate.getName(), fileToCreate);
@@ -169,6 +171,7 @@ public class ContextMenuFactory {
                         serviceState.getNotificationService().showNotificationOk("Could not delete file.");
                     } else {
                         treeItem.getParent().getChildren().remove(treeItem);
+                        serviceState.getPluginService().invokeOnDeleteFile(treeItem.getFile());
                     }
                 }
             }

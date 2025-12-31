@@ -9,17 +9,15 @@ public class PluginContext {
     private PluginFolderTreeViewService folderTreeViewService;
     private PluginNotificationService notificationService;
     private PluginFileService fileService;
-    private PluginSaveFileService saveFileService;
     private PluginTerminalTabPaneService pluginTerminalTabPaneService;
 
-    public PluginContext(ApplicationWindow applicationWindow, PluginCloseService closeService, PluginEditorTabPaneService editorTabPaneService, PluginFolderTreeViewService folderTreeViewService, PluginNotificationService notificationService, PluginFileService fileService, PluginSaveFileService saveFileService, PluginTerminalTabPaneService pluginTerminalTabPaneService) {
+    public PluginContext(ApplicationWindow applicationWindow, PluginCloseService closeService, PluginEditorTabPaneService editorTabPaneService, PluginFolderTreeViewService folderTreeViewService, PluginNotificationService notificationService, PluginFileService fileService, PluginTerminalTabPaneService pluginTerminalTabPaneService) {
         this.applicationWindow = applicationWindow;
         this.closeService = closeService;
         this.editorTabPaneService = editorTabPaneService;
         this.folderTreeViewService = folderTreeViewService;
         this.notificationService = notificationService;
         this.fileService = fileService;
-        this.saveFileService = saveFileService;
         this.pluginTerminalTabPaneService = pluginTerminalTabPaneService;
     }
 
@@ -45,10 +43,6 @@ public class PluginContext {
 
     public PluginFileService getOpenFolderService() {
         return fileService;
-    }
-
-    public PluginSaveFileService getSaveFileService() {
-        return saveFileService;
     }
 
     public PluginTerminalTabPaneService getPluginTerminalTabPaneService() {

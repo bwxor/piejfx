@@ -10,7 +10,8 @@ public class UIState {
     private TabPane editorTabPane;
     private TabPane terminalTabPane;
     private Label titleBarLabel;
-    private Menu menu;
+    private Menu themesMenu;
+    private Menu toolsMenu;
     public static UIState instance = new UIState();
 
     private UIState() {
@@ -72,12 +73,20 @@ public class UIState {
         this.titleBarLabel = titleBarLabel;
     }
 
-    public Menu getMenu() {
-        return menu;
+    public Menu getThemesMenu() {
+        return themesMenu;
     }
 
-    public void setMenu(Menu menu) {
-        this.menu = menu;
+    public void setThemesMenu(Menu themesMenu) {
+        this.themesMenu = themesMenu;
+    }
+
+    public Menu getToolsMenu() {
+        return toolsMenu;
+    }
+
+    public void setToolsMenu(Menu toolsMenu) {
+        this.toolsMenu = toolsMenu;
     }
 
     public static UIState getInstance() {

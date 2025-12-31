@@ -98,7 +98,7 @@ public class EditorTabPaneService implements PluginEditorTabPaneService {
                 if (pickedOption.equals(NotificationYesNoCancelOption.CANCEL)) {
                     return RemoveSelectedTabFromPaneOption.CANCELLED;
                 } else if (pickedOption.equals(NotificationYesNoCancelOption.YES)) {
-                    if (!serviceState.getSaveFileService().saveFile()) {
+                    if (!serviceState.getFileService().saveFile()) {
                         repeatPrompt = true;
                     }
                 }
