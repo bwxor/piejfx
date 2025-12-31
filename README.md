@@ -7,12 +7,12 @@ The project's build process implies generating a jar file through the Maven buil
 There are two ways of building Pie locally. The first one is the fastest, and requires a single command. The command will automatically create the needed temporary files and the output directory, together with the artifact. You can also build Pie manually, by following the steps from the second subsection.
 
 ### Variant 1: Building using the provided scripts
-Pie can be built easily by simply running the OS-specific script from the `/build` folder.
+Pie can be built easily by simply running the OS-specific script from the `build/` folder.
 
 ### Variant 2: Building manually
 
 #### Step 1: Build the `plugin` project first, then add it to the local Maven repository
-This can be done by running the `mvn install` inside the `/plugin` folder.
+This can be done by running the `mvn install` inside the `plugin/` folder.
 
 #### Step 2: Build the `piejfx` project
 You can do this through the `mvn package` command (or directly from IntelliJ's Maven interface).
@@ -37,4 +37,7 @@ jpackage --type deb --input <CREATED_FOLDER> --name Pie --main-jar <GENERATED_JA
 ```
 The Linux icon file is located under `piejfx/src/main/resources/com/bwxor/piejfx/img/icons/icon.png`. Linux doesn't support `.ico` icons.
 
+## Plugin Development
+
+The plugin development will be done using the `piejfx-sdk`, which is a pre-made Maven project containing JavaFX and a reference to the `plugin/` dependency. 
 
