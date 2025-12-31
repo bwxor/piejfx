@@ -45,9 +45,10 @@ jpackage --type deb --input <CREATED_FOLDER> --name Pie --main-jar <GENERATED_JA
 ```
 The Linux icon file is located under `piejfx/src/main/resources/com/bwxor/piejfx/img/icons/icon.png`. Linux doesn't support `.ico` icons.
 
-## Plugin Development
+## Extending functionality by developing custom plugins
 
 The plugin development will be done using the `piejfx-plugin-sdk`, which is a pre-made Maven project containing JavaFX and a reference to the `plugin/` dependency.
 
 > **Note:** Make sure you run `mvn install` on the `piejfx-plugin-core` first, as it is a dependency of the sdk. Installing it will put in inside your local repository. This needs to be done, because piejfx is not part of any public Maven repository yet.
+
 
