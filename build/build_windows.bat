@@ -13,7 +13,7 @@ if exist "output\" (
 )
 
 echo Building the plugin jar...
-cd ../plugin
+cd ../piejfx-plugin-core
 call mvn clean install
 
 if %errorlevel% neq 0 (

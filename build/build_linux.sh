@@ -7,7 +7,7 @@ rm -rf deps/
 rm -rf output/
 
 echo "Building the plugin jar..."
-cd ../plugin || exit
+cd ../piejfx-plugin-core || exit
 mvn clean install
 
 if [ $? -ne 0 ]; then
