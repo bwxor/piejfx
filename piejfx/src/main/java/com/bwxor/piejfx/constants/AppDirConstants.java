@@ -14,6 +14,7 @@ public interface AppDirConstants {
     String APP_AUTHOR = "bwxor";
     String USER_DATA_DIR = AppDirsFactory.getInstance().getUserDataDir(APP_NAME, APP_VERSION, APP_AUTHOR);
     Path CONFIG_DIR = Paths.get(USER_DATA_DIR, "config");
+    Path PLUGINS_DIR = Paths.get(USER_DATA_DIR, "plugins");
     Path GRAMMARS_DIR = Paths.get(CONFIG_DIR.toString(), "grammars");
     Path THEMES_DIR = Paths.get(CONFIG_DIR.toString(), "themes");
     Path STYLES_DIR = Paths.get(CONFIG_DIR.toString(), "styles");

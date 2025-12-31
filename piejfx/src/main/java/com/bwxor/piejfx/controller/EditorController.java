@@ -74,6 +74,8 @@ public class EditorController {
         );
 
         folderTreeView.setContextMenu(ContextMenuFactory.createFolderTreeViewContextMenu(folderTreeView));
+
+        PluginState.getInstance().setPlugins(ServiceState.getInstance().getPluginService().getPlugins());
     }
 
     @FXML

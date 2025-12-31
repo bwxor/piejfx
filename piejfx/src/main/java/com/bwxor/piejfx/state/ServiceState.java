@@ -16,6 +16,7 @@ public class ServiceState {
     private SaveFileService saveFileService = new SaveFileService();
     private TerminalTabPaneService terminalTabPaneService = new TerminalTabPaneService();
     private ThemeService themeService = new ThemeService();
+    private PluginService pluginService = new PluginService();
     public static ServiceState instance = new ServiceState();
 
     private ServiceState() {}
@@ -67,6 +68,9 @@ public class ServiceState {
 
     public TerminalTabPaneService getTerminalTabPaneService() {
         return terminalTabPaneService;
+    }
+    public PluginService getPluginService() {
+        return pluginService;
     }
 
     public ThemeService getThemeService() {

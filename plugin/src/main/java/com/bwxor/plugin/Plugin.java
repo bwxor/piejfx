@@ -10,4 +10,7 @@ public interface Plugin {
     void onOpenFile(File file);
     void onSaveFile();
     void onKeyPress(KeyCode c);
+    void onCreateFile(File file);
+    void onDeleteFile(File file);
+    void onCreateFolder(File file);
 }
