@@ -162,7 +162,7 @@
 }
 
 /* --- Buttons --- */
-.main-content .button {
+.button {
     -fx-background-color: #E9E9E9;
     -fx-border-color: #DEDEDE;
     -fx-text-fill: #000000;
@@ -174,15 +174,15 @@
     -fx-cursor: hand;
 }
 
-.main-content .button:hover {
+.button:hover {
     -fx-background-color: #F0F0F0;
 }
 
-.main-content .button:focused {
+.button:focused {
     -fx-border-color: #0090eb;
 }
 
-.main-content .button:disabled {
+.button:disabled {
     -fx-opacity: 0.5;
     -fx-cursor: default;
 }
@@ -191,6 +191,7 @@
     -fx-background-color: transparent;
     -fx-text-fill: #000000;
     -fx-font-family: "Segoe UI Symbol";
+    -fx-border-width: 0px;
 }
 
 .button-close:hover {
@@ -202,6 +203,7 @@
     -fx-background-color: transparent;
     -fx-text-fill: #000000;
     -fx-font-family: "Segoe UI Symbol";
+    -fx-border-width: 0px;
 }
 
 .button-maximize:hover {
@@ -212,6 +214,7 @@
     -fx-background-color: transparent;
     -fx-text-fill: #000000;
     -fx-font-family: "Segoe UI Symbol";
+    -fx-border-width: 0px;
 }
 
 .button-minimize:hover {
