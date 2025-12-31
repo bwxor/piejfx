@@ -2,9 +2,8 @@ package com.bwxor.piejfx.service;
 
 import com.bwxor.piejfx.control.FileTreeItem;
 import com.bwxor.piejfx.dto.TreeViewStructure;
-import com.bwxor.piejfx.state.FolderTreeViewState;
-import com.bwxor.piejfx.state.ServiceState;
-import com.bwxor.piejfx.state.UIState;
+import com.bwxor.piejfx.state.*;
+import com.bwxor.plugin.service.PluginFolderTreeViewService;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -14,7 +13,7 @@ import javafx.scene.input.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
 
-public class FolderTreeViewService {
+public class FolderTreeViewService implements PluginFolderTreeViewService {
     private boolean firstLaunch = true;
 
     public void showFolderTreeView() {
@@ -28,7 +27,7 @@ public class FolderTreeViewService {
                         File file = ((FileTreeItem) uiState.getFolderTreeView().getSelectionModel().getSelectedItem()).getFile();
 
                         if (!file.isDirectory()) {
-                            serviceState.getOpenFileService().openFile(file);
+                            serviceState.getFileService().openFile(file);
                         }
                     }
                 }

@@ -7,12 +7,10 @@ public class ServiceState {
     private CloseService closeService = new CloseService();
     private ConfigurationService configurationService = new ConfigurationService();
     private EditorTabPaneService editorTabPaneService = new EditorTabPaneService();
-    private FileOperationsService fileOperationsService = new FileOperationsService();
     private FolderTreeViewService folderTreeViewService = new FolderTreeViewService();
     private GrammarService grammarService = new GrammarService();
     private NotificationService notificationService = new NotificationService();
-    private OpenFileService openFileService = new OpenFileService();
-    private OpenFolderService openFolderService = new OpenFolderService();
+    private FileService fileService = new FileService();
     private ResizeService resizeService = new ResizeService();
     private ResourceService resourceService = new ResourceService();
     private SaveFileService saveFileService = new SaveFileService();
@@ -38,9 +36,6 @@ public class ServiceState {
         return editorTabPaneService;
     }
 
-    public FileOperationsService getFileOperationsService() {
-        return fileOperationsService;
-    }
 
     public FolderTreeViewService getFolderTreeViewService() {
         return folderTreeViewService;
@@ -54,12 +49,8 @@ public class ServiceState {
         return notificationService;
     }
 
-    public OpenFileService getOpenFileService() {
-        return openFileService;
-    }
-
-    public OpenFolderService getOpenFolderService() {
-        return openFolderService;
+    public FileService getFileService() {
+        return fileService;
     }
 
     public ResizeService getResizeService() {

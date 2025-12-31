@@ -3,10 +3,11 @@ package com.bwxor.piejfx.service;
 import com.bwxor.piejfx.factory.TabFactory;
 import com.bwxor.piejfx.state.TerminalState;
 import com.bwxor.piejfx.state.UIState;
+import com.bwxor.plugin.service.PluginTerminalTabPaneService;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
-public class TerminalTabPaneService {
+public class TerminalTabPaneService implements PluginTerminalTabPaneService {
     public void addTabToPane(String process) {
         UIState uiState = UIState.getInstance();
 

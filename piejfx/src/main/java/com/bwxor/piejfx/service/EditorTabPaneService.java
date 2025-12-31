@@ -4,6 +4,7 @@ import com.bwxor.piejfx.factory.TabFactory;
 import com.bwxor.piejfx.state.CodeAreaState;
 import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.UIState;
+import com.bwxor.plugin.service.PluginEditorTabPaneService;
 import com.bwxor.plugin.type.NotificationYesNoCancelOption;
 import com.bwxor.plugin.type.RemoveSelectedTabFromPaneOption;
 import javafx.scene.control.*;
@@ -15,7 +16,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
-public class EditorTabPaneService {
+public class EditorTabPaneService implements PluginEditorTabPaneService {
     private void resyncCodeAreaIds() {
         UIState uiState = UIState.getInstance();
 

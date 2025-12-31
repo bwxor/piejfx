@@ -90,7 +90,7 @@ public class ContextMenuFactory {
             itemViewPrefix = "\uD83D\uDCC1";
         }
 
-        NewFileResponse response = serviceState.getFileOperationsService().showNewFileWindow(windowTitle);
+        NewFileResponse response = serviceState.getFileService().showNewFileWindow(windowTitle);
 
         try {
             File fileToCreate;
@@ -155,7 +155,7 @@ public class ContextMenuFactory {
                 FileTreeItem treeItem = (FileTreeItem) folderTreeView.getSelectionModel().getSelectedItem();
 
                 if (treeItem.getFile().isDirectory()) {
-                    if (!serviceState.getFileOperationsService().deleteFolder(treeItem.getFile())) {
+                    if (!serviceState.getFileService().deleteFolder(treeItem.getFile())) {
                         serviceState.getNotificationService().showNotificationOk("Could not delete file.");
                     }
                     else {

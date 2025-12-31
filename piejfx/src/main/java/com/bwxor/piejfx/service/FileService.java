@@ -2,15 +2,17 @@ package com.bwxor.piejfx.service;
 
 import com.bwxor.piejfx.constants.AppDirConstants;
 import com.bwxor.piejfx.controller.NewFileController;
-import com.bwxor.piejfx.state.ServiceState;
-import com.bwxor.piejfx.state.ThemeState;
+import com.bwxor.piejfx.state.*;
 import com.bwxor.plugin.dto.NewFileResponse;
+import com.bwxor.plugin.service.PluginFileService;
 import com.bwxor.plugin.type.NewFileOption;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -20,7 +22,29 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.util.Objects;
 
-public class FileOperationsService {
+public class FileService implements PluginFileService {
+    public void openFile() {
+        FileChooser fileChooser = new FileChooser();
+        File selectedFile = fileChooser.showOpenDialog(StageState.instance.getStage());
+
+        if (selectedFile != null) {
+            openFile(selectedFile);
+        }
+    }
+
+    public void openFile(File file) {
+        ServiceState serviceState = ServiceState.getInstance();
+
+        UIState uiState = UIState.getInstance();
+
+        serviceState.getEditorTabPaneService().addTabToPane(file);
+
+        CodeAreaState.IndividualState state = CodeAreaState.instance.getIndividualStates().get(uiState.getEditorTabPane().getSelectionModel().getSelectedIndex());
+
+        state.setSaved(true);
+        uiState.getEditorTabPane().getSelectionModel().getSelectedItem().setText(state.getOpenedFile().getName());
+    }
+
     public NewFileResponse showNewFileWindow(String title) {
         ServiceState serviceState = ServiceState.getInstance();
 
@@ -71,5 +95,17 @@ public class FileOperationsService {
             }
         }
         return file.delete();
+    }
+
+    public void openFolder() {
+        ServiceState serviceState = ServiceState.getInstance();
+
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        File selectedFile = directoryChooser.showDialog(StageState.instance.getStage());
+
+        if (selectedFile != null) {
+            FolderTreeViewState.instance.setOpenedFolder(selectedFile);
+            serviceState.getFolderTreeViewService().showFolderTreeView();
+        }
     }
 }

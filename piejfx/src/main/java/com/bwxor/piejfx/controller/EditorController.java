@@ -49,7 +49,7 @@ public class EditorController {
 
     public void handleParameters() {
         if (!parameters.isEmpty()) {
-            ServiceState.getInstance().getOpenFileService().openFile(new File(parameters.getFirst()));
+            ServiceState.getInstance().getFileService().openFile(new File(parameters.getFirst()));
         } else {
             ServiceState.getInstance().getEditorTabPaneService().addTabToPane("Untitled");
         }
@@ -151,12 +151,12 @@ public class EditorController {
 
     @FXML
     public void onOpenButtonClickEvent() {
-        ServiceState.getInstance().getOpenFileService().openFile();
+        ServiceState.getInstance().getFileService().openFile();
     }
 
     @FXML
     public void onOpenFolderButtonClickEvent() {
-        ServiceState.getInstance().getOpenFolderService().openFolder();
+        ServiceState.getInstance().getFileService().openFolder();
     }
 
     @FXML
@@ -189,7 +189,7 @@ public class EditorController {
                 if (FolderTreeViewState.instance.getOpenedFolder() != null) {
                     ServiceState.getInstance().getFolderTreeViewService().toggleFolderTreeView();
                 } else {
-                    ServiceState.getInstance().getOpenFolderService().openFolder();
+                    ServiceState.getInstance().getFileService().openFolder();
                 }
             }
         }

@@ -4,7 +4,10 @@ import com.bwxor.plugin.dto.NewFileResponse;
 
 import java.io.File;
 
-public interface PluginFileOperationsService {
+public interface PluginFileService {
+    void openFile();
+    void openFile(File file);
     NewFileResponse showNewFileWindow(String title);
     boolean deleteFolder(File file);
+    void openFolder();
 }

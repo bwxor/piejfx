@@ -4,6 +4,7 @@ import com.bwxor.piejfx.state.CodeAreaState;
 import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.StageState;
 import com.bwxor.piejfx.state.UIState;
+import com.bwxor.plugin.service.PluginSaveFileService;
 import javafx.stage.FileChooser;
 import org.fxmisc.richtext.CodeArea;
 import org.json.JSONArray;
@@ -13,7 +14,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
-public class SaveFileService {
+public class SaveFileService implements PluginSaveFileService {
     /**
      * Saves the content of the CodeArea present at the selected tab. If no file is associated with it, a saveFileAs
      * is triggered.

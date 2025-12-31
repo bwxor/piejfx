@@ -5,6 +5,7 @@ import com.bwxor.piejfx.controller.NotificationOkController;
 import com.bwxor.piejfx.controller.NotificationYesNoCancelController;
 import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.ThemeState;
+import com.bwxor.plugin.service.PluginNotificationService;
 import com.bwxor.plugin.type.NotificationYesNoCancelOption;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,7 +19,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Objects;
 
-public class NotificationService {
+public class NotificationService implements PluginNotificationService {
     public void showNotificationOk(String notificationText) {
         ServiceState serviceState = ServiceState.getInstance();
 

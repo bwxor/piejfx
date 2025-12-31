@@ -6,23 +6,19 @@ public class PluginContext {
     private ApplicationWindow applicationWindow;
     private PluginCloseService closeService;
     private PluginEditorTabPaneService editorTabPaneService;
-    private PluginFileOperationsService fileOperationsService;
     private PluginFolderTreeViewService folderTreeViewService;
     private PluginNotificationService notificationService;
-    private PluginOpenFileService openFileService;
-    private PluginOpenFolderService openFolderService;
+    private PluginFileService fileService;
     private PluginSaveFileService saveFileService;
     private PluginTerminalTabPaneService pluginTerminalTabPaneService;
 
-    public PluginContext(ApplicationWindow applicationWindow, PluginCloseService closeService, PluginEditorTabPaneService editorTabPaneService, PluginFileOperationsService fileOperationsService, PluginFolderTreeViewService folderTreeViewService, PluginNotificationService notificationService, PluginOpenFileService openFileService, PluginOpenFolderService openFolderService, PluginSaveFileService saveFileService, PluginTerminalTabPaneService pluginTerminalTabPaneService) {
+    public PluginContext(ApplicationWindow applicationWindow, PluginCloseService closeService, PluginEditorTabPaneService editorTabPaneService, PluginFolderTreeViewService folderTreeViewService, PluginNotificationService notificationService, PluginFileService fileService, PluginSaveFileService saveFileService, PluginTerminalTabPaneService pluginTerminalTabPaneService) {
         this.applicationWindow = applicationWindow;
         this.closeService = closeService;
         this.editorTabPaneService = editorTabPaneService;
-        this.fileOperationsService = fileOperationsService;
         this.folderTreeViewService = folderTreeViewService;
         this.notificationService = notificationService;
-        this.openFileService = openFileService;
-        this.openFolderService = openFolderService;
+        this.fileService = fileService;
         this.saveFileService = saveFileService;
         this.pluginTerminalTabPaneService = pluginTerminalTabPaneService;
     }
@@ -39,10 +35,6 @@ public class PluginContext {
         return editorTabPaneService;
     }
 
-    public PluginFileOperationsService getFileOperationsService() {
-        return fileOperationsService;
-    }
-
     public PluginFolderTreeViewService getFolderTreeViewService() {
         return folderTreeViewService;
     }
@@ -51,12 +43,8 @@ public class PluginContext {
         return notificationService;
     }
 
-    public PluginOpenFileService getOpenFileService() {
-        return openFileService;
-    }
-
-    public PluginOpenFolderService getOpenFolderService() {
-        return openFolderService;
+    public PluginFileService getOpenFolderService() {
+        return fileService;
     }
 
     public PluginSaveFileService getSaveFileService() {
