@@ -1,18 +1,26 @@
 # piejfx - A cross-platform, Java-FX version of pie
 
+## Structure
+The repository contains the following projects:
+1. `piejfx`: The application itself;
+2. `piejfx-plugin-core`: The interface used for establishing communication between piejfx and its plugins;
+3. `piejfx-plugin-sdk`: A ready-to-use example plugin *for those who want to contribute with their own ideas*.
+
 ## Building binaries
 
-The project's build process implies generating a jar file through the Maven build tool and storing it, together with the project's dependency jars, in a separate folder. `jpackage` will be then used on that folder to generate the artifact.
+> **Note:** Building piejfx requires building both the base application `piejfx` and the `piejfx-plugin-core` project, as the latter is a (mandatory) dependency of the application and the interface defined inside it is used throughout the code.
+
+In order to build the project, the required jar files will be first generated using Maven, and then `jpackage` will generate the desired artifacts.
 
 There are two ways of building Pie locally. The first one is the fastest, and requires a single command. The command will automatically create the needed temporary files and the output directory, together with the artifact. You can also build Pie manually, by following the steps from the second subsection.
 
 ### Variant 1: Building using the provided scripts
-Pie can be built easily by simply running the OS-specific script from the `build/` folder.
+Pie can be built easily by simply running the OS-specific script from the `build/` folder. This will first compile the project stored inside `piejfx-plugin-core/`, install it to the local repository, then it will build the contents of `piejfx/` and, in the end, will run `jpackage` on the generated artifact and its dependencies.
 
 ### Variant 2: Building manually
 
-#### Step 1: Build the `plugin` project first, then add it to the local Maven repository
-This can be done by running the `mvn install` inside the `plugin/` folder.
+#### Step 1: Build the `piejfx-plugin-core` project first, then add it to the local Maven repository
+This can be done by running the `mvn install` inside the `piejfx-plugin-core/` folder.
 
 #### Step 2: Build the `piejfx` project
 You can do this through the `mvn package` command (or directly from IntelliJ's Maven interface).
@@ -39,5 +47,7 @@ The Linux icon file is located under `piejfx/src/main/resources/com/bwxor/piejfx
 
 ## Plugin Development
 
-The plugin development will be done using the `piejfx-sdk`, which is a pre-made Maven project containing JavaFX and a reference to the `plugin/` dependency. 
+The plugin development will be done using the `piejfx-plugin-sdk`, which is a pre-made Maven project containing JavaFX and a reference to the `plugin/` dependency.
+
+> **Note:** Make sure you run `mvn install` on the `piejfx-plugin-core` first, as it is a dependency of the sdk. Installing it will put in inside your local repository. This needs to be done, because piejfx is not part of any public Maven repository yet.
 
