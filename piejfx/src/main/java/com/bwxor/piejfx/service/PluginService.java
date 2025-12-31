@@ -100,9 +100,11 @@ public class PluginService {
     private Set<Class> getClasses(JarFile jarFile, Set<String> classNames) throws ClassNotFoundException, MalformedURLException {
         Set<Class> classes = new HashSet<>();
 
-        var cl = URLClassLoader.newInstance(new URL[]{new URL("jar:file:" + jarFile + "!/")});
+        var cl = URLClassLoader.newInstance(new URL[]{new File(jarFile.getName()).toURI().toURL()});
         for (String name : classNames) {
-            classes.add(cl.loadClass(name));
+            if (!name.equals("module-info")) {
+                classes.add(cl.loadClass(name));
+            }
         }
 
         return classes;
