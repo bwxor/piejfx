@@ -1,6 +1,7 @@
 package com.bwxor.piejfx.service;
 
 import com.bwxor.piejfx.state.MaximizeState;
+import com.bwxor.piejfx.state.UIState;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
@@ -54,6 +55,9 @@ public class ResizeService {
 
         @Override
         public void handle(MouseEvent mouseEvent) {
+            UIState uiState = UIState.getInstance();
+            uiState.getHorizontalSplitPane().setDividerPosition(0, 0.25);
+
             if (!MaximizeState.instance.isMaximized()) {
 
                 EventType<? extends MouseEvent> mouseEventType = mouseEvent.getEventType();
