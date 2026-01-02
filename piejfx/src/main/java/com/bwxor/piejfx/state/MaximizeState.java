@@ -22,6 +22,7 @@ public final class MaximizeState {
     }
 
     public void toggleMaximize(Stage stage, Button maximizeButton) {
+        UIState uiState = UIState.getInstance();
         ServiceState serviceState = ServiceState.getInstance();
 
         if (!maximized) {
@@ -64,6 +65,12 @@ public final class MaximizeState {
             maximizeButton.setText("⬜");
 
             maximized = false;
+        }
+
+        if (uiState.getHorizontalSplitPane().getItems().contains(uiState.getSplitTabPane())) {
+            uiState.getHorizontalSplitPane().getItems().removeFirst();
+            uiState.getHorizontalSplitPane().getItems().addFirst(uiState.getSplitTabPane());
+            uiState.getHorizontalSplitPane().setDividerPosition(0, 0.25);
         }
     }
 }

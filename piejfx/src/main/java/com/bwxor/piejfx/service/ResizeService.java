@@ -56,7 +56,6 @@ public class ResizeService {
         @Override
         public void handle(MouseEvent mouseEvent) {
             UIState uiState = UIState.getInstance();
-            uiState.getHorizontalSplitPane().setDividerPosition(0, 0.25);
 
             if (!MaximizeState.instance.isMaximized()) {
 
@@ -124,6 +123,7 @@ public class ResizeService {
                             }
                         }
                     }
+
                 }
             }
         }
