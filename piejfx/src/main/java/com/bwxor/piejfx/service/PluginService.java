@@ -8,6 +8,7 @@ import com.bwxor.piejfx.state.UIState;
 import com.bwxor.plugin.Plugin;
 import com.bwxor.plugin.input.ApplicationWindow;
 import com.bwxor.plugin.input.PluginContext;
+import com.bwxor.plugin.input.ServiceContainer;
 import javafx.scene.input.KeyEvent;
 import org.json.JSONObject;
 
@@ -16,6 +17,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.jar.JarEntry;
@@ -33,19 +35,19 @@ public class PluginService {
                     .filter(file -> file.isDirectory())
                     .toList();
 
-            for (File file : individualPlugins) {
-                var pluginJars = Arrays.stream(file.listFiles()).filter(f -> !f.isDirectory() && f.getName().endsWith(".jar")).findFirst();
+            for (File directory : individualPlugins) {
+                var pluginJars = Arrays.stream(directory.listFiles()).filter(f -> !f.isDirectory() && f.getName().endsWith(".jar")).findFirst();
 
                 if (pluginJars.isEmpty()) {
-                    ServiceState.instance.getNotificationService().showNotificationOk("Couldn't find any jar file inside " + file.getName() + ".");
+                    ServiceState.instance.getNotificationService().showNotificationOk("Couldn't find any jar file inside " + directory.getName() + ".");
                 } else {
                     var jar = pluginJars.get();
 
                     try {
-                        var depsClassLoader = loadPluginDependencies(file);
+                        var depsClassLoader = loadPluginDependencies(directory);
                         var pluginClassLoader = new URLClassLoader(new URL[]{jar.toURI().toURL()}, depsClassLoader);
 
-                        var plugin = toPlugin(jar, pluginClassLoader);
+                        var plugin = toPlugin(directory, jar, pluginClassLoader);
                         if (plugin != null) {
                             loadedPlugins.add(plugin);
                         }
@@ -79,7 +81,7 @@ public class PluginService {
         return new URLClassLoader(urls, this.getClass().getClassLoader());
     }
 
-    private LoadedPlugin toPlugin(File f, URLClassLoader classLoader) {
+    private LoadedPlugin toPlugin(File pluginDirectory, File f, URLClassLoader classLoader) {
         try (JarFile jarFile = new JarFile(f)) {
             String pluginName = getPluginName(jarFile);
             Set<String> classNames = getClassNames(jarFile);
@@ -97,7 +99,7 @@ public class PluginService {
             Class<? extends Plugin> pluginClass = classesThatImplementPlugin.getFirst().asSubclass(Plugin.class);
             Plugin p = pluginClass.getDeclaredConstructor().newInstance();
 
-            return new LoadedPlugin(pluginName, p);
+            return new LoadedPlugin(pluginName, pluginDirectory.toPath(), p);
         } catch (IOException | ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
                  InstantiationException | IllegalAccessException ex) {
             ServiceState.instance.getNotificationService().showNotificationOk("Problem encountered while reading the plugin files. Some bad configuration may cause this.");
@@ -155,8 +157,7 @@ public class PluginService {
         applicationWindow.setEditorTabPane(UIState.instance.getEditorTabPane());
         applicationWindow.setMenu(UIState.instance.getToolsMenu());
 
-        PluginContext pluginContext = new PluginContext(
-                applicationWindow,
+        ServiceContainer serviceContainer = new ServiceContainer(
                 ServiceState.instance.getCloseService(),
                 ServiceState.instance.getEditorTabPaneService(),
                 ServiceState.instance.getFolderTreeViewService(),
@@ -165,10 +166,15 @@ public class PluginService {
                 ServiceState.instance.getTerminalTabPaneService()
         );
 
-        PluginState.instance.getPlugins()
-                .forEach(
-                        e -> e.getHook().onLoad(pluginContext)
-                );
+        for(LoadedPlugin p : PluginState.instance.getPlugins()) {
+            Path configurationDirectoryPath = Paths.get(AppDirConstants.PLUGINS_DIR.toString(), p.getDirectory().getFileName().toString(), "config");
+            PluginContext pluginContext = new PluginContext(
+                    applicationWindow,
+                    serviceContainer,
+                    configurationDirectoryPath
+            );
+            p.getHook().onLoad(pluginContext);
+        }
     }
 
     public void invokeOnKeyPress(KeyEvent k) {
