@@ -36,7 +36,7 @@ public class ConfigurationService {
     }
 
     public void rewriteConfig() {
-        ServiceState serviceState = ServiceState.getInstance();
+        ServiceState serviceState = ServiceState.instance;
 
         JSONObject root = new JSONObject();
         JSONObject config = new JSONObject();
@@ -56,7 +56,7 @@ public class ConfigurationService {
     }
 
     private void copyResourceFilesIntoAppdata() {
-        ServiceState serviceState = ServiceState.getInstance();
+        ServiceState serviceState = ServiceState.instance;
 
         try (BufferedReader bufferedReader = new BufferedReader(
                 new InputStreamReader(serviceState.getResourceService().getResourceByNameAsStream("internal/indexes"))

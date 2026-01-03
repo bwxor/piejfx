@@ -72,7 +72,7 @@ public final class CodeAreaState {
         }
     }
 
-    public static CodeAreaState instance = new CodeAreaState();
+    public static final CodeAreaState instance = new CodeAreaState();
 
     private List<IndividualState> individualStates = new ArrayList<>();
 

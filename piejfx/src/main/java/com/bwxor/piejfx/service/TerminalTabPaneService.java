@@ -9,7 +9,7 @@ import javafx.scene.control.TabPane;
 
 public class TerminalTabPaneService implements PluginTerminalTabPaneService {
     public void addTabToPane(String process) {
-        UIState uiState = UIState.getInstance();
+        UIState uiState = UIState.instance;
 
         Tab tab = TabFactory.createTerminalTab(process);
         tab.setOnCloseRequest(e -> {
@@ -32,7 +32,7 @@ public class TerminalTabPaneService implements PluginTerminalTabPaneService {
     }
 
     public void toggleTerminalTabPane() {
-        UIState uiState = UIState.getInstance();
+        UIState uiState = UIState.instance;
 
         if (uiState.getVerticalSplitPane().getItems().contains(uiState.getTerminalTabPane())) {
             uiState.getVerticalSplitPane().getItems().remove(uiState.getTerminalTabPane());

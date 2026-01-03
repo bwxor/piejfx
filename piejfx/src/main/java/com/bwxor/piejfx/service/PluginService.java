@@ -16,6 +16,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -28,15 +29,29 @@ public class PluginService {
         File[] pluginDir = new File(AppDirConstants.PLUGINS_DIR.toUri()).listFiles();
 
         if (pluginDir != null) {
-            var files = Stream.of(pluginDir)
-                    .filter(file -> !file.isDirectory())
-                    .filter(file -> file.getName().endsWith(".jar"))
+            var individualPlugins = Stream.of(pluginDir)
+                    .filter(file -> file.isDirectory())
                     .toList();
 
-            for (File f : files) {
-                var plugin = toPlugin(f);
-                if (plugin != null) {
-                    loadedPlugins.add(toPlugin(f));
+            for (File file : individualPlugins) {
+                var pluginJars = Arrays.stream(file.listFiles()).filter(f -> !f.isDirectory() && f.getName().endsWith(".jar")).findFirst();
+
+                if (pluginJars.isEmpty()) {
+                    ServiceState.instance.getNotificationService().showNotificationOk("Couldn't find any jar file inside " + file.getName() + ".");
+                } else {
+                    var jar = pluginJars.get();
+
+                    try {
+                        var depsClassLoader = loadPluginDependencies(file);
+                        var pluginClassLoader = new URLClassLoader(new URL[]{jar.toURI().toURL()}, depsClassLoader);
+
+                        var plugin = toPlugin(jar, pluginClassLoader);
+                        if (plugin != null) {
+                            loadedPlugins.add(plugin);
+                        }
+                    } catch (MalformedURLException e) {
+                        ServiceState.instance.getNotificationService().showNotificationOk("Couldn't load plugin " + jar.getName() + ".");
+                    }
                 }
             }
         }
@@ -45,18 +60,37 @@ public class PluginService {
         return loadedPlugins;
     }
 
-    private LoadedPlugin toPlugin(File f) {
+    public URLClassLoader loadPluginDependencies(File pluginDirectory) {
+        File depsDirectory = new File(Paths.get(pluginDirectory.getPath(), "deps").toUri());
+
+        List<File> depFiles = Arrays.stream(Objects.requireNonNull(depsDirectory.listFiles()))
+                .filter(e -> e.getName().endsWith(".jar")).toList();
+
+        URL[] urls = depFiles.stream().map(
+                        f -> {
+                            try {
+                                return f.toURI().toURL();
+                            } catch (MalformedURLException ex) {
+                                return null;
+                            }
+                        }).filter(Objects::nonNull)
+                .toArray(URL[]::new);
+
+        return new URLClassLoader(urls, this.getClass().getClassLoader());
+    }
+
+    private LoadedPlugin toPlugin(File f, URLClassLoader classLoader) {
         try (JarFile jarFile = new JarFile(f)) {
             String pluginName = getPluginName(jarFile);
             Set<String> classNames = getClassNames(jarFile);
-            Set<Class> classes = getClasses(jarFile, classNames);
+            Set<Class> classes = getClasses(jarFile, classNames, classLoader);
 
             var classesThatImplementPlugin = classes.stream().filter(
                     Plugin.class::isAssignableFrom
             ).toList();
 
             if (classesThatImplementPlugin.size() != 1) {
-                ServiceState.getInstance().getNotificationService().showNotificationOk("Plugins should have exactly one class that implements the Plugin interface.");
+                ServiceState.instance.getNotificationService().showNotificationOk("Plugins should have exactly one class that implements the Plugin interface.");
                 return null;
             }
 
@@ -66,7 +100,7 @@ public class PluginService {
             return new LoadedPlugin(pluginName, p);
         } catch (IOException | ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
                  InstantiationException | IllegalAccessException ex) {
-            ServiceState.getInstance().getNotificationService().showNotificationOk("Problem encountered while reading the plugin files. Some bad configuration may cause this.");
+            ServiceState.instance.getNotificationService().showNotificationOk("Problem encountered while reading the plugin files. Some bad configuration may cause this.");
             return null;
         }
     }
@@ -102,10 +136,10 @@ public class PluginService {
         return classNames;
     }
 
-    private Set<Class> getClasses(JarFile jarFile, Set<String> classNames) throws ClassNotFoundException, MalformedURLException {
+    private Set<Class> getClasses(JarFile jarFile, Set<String> classNames, URLClassLoader classLoader) throws ClassNotFoundException, MalformedURLException {
         Set<Class> classes = new HashSet<>();
 
-        var cl = URLClassLoader.newInstance(new URL[]{new File(jarFile.getName()).toURI().toURL()});
+        var cl = new URLClassLoader(new URL[]{new File(jarFile.getName()).toURI().toURL()}, classLoader);
         for (String name : classNames) {
             if (!name.equals("module-info")) {
                 classes.add(cl.loadClass(name));
@@ -117,63 +151,63 @@ public class PluginService {
 
     public void invokeOnLoad() {
         ApplicationWindow applicationWindow = new ApplicationWindow();
-        applicationWindow.setSidebarTabPane(UIState.getInstance().getSplitTabPane());
-        applicationWindow.setEditorTabPane(UIState.getInstance().getEditorTabPane());
-        applicationWindow.setMenu(UIState.getInstance().getToolsMenu());
+        applicationWindow.setSidebarTabPane(UIState.instance.getSplitTabPane());
+        applicationWindow.setEditorTabPane(UIState.instance.getEditorTabPane());
+        applicationWindow.setMenu(UIState.instance.getToolsMenu());
 
         PluginContext pluginContext = new PluginContext(
                 applicationWindow,
-                ServiceState.getInstance().getCloseService(),
-                ServiceState.getInstance().getEditorTabPaneService(),
-                ServiceState.getInstance().getFolderTreeViewService(),
-                ServiceState.getInstance().getNotificationService(),
-                ServiceState.getInstance().getFileService(),
-                ServiceState.getInstance().getTerminalTabPaneService()
+                ServiceState.instance.getCloseService(),
+                ServiceState.instance.getEditorTabPaneService(),
+                ServiceState.instance.getFolderTreeViewService(),
+                ServiceState.instance.getNotificationService(),
+                ServiceState.instance.getFileService(),
+                ServiceState.instance.getTerminalTabPaneService()
         );
 
-        PluginState.getInstance().getPlugins()
+        PluginState.instance.getPlugins()
                 .forEach(
                         e -> e.getHook().onLoad(pluginContext)
                 );
     }
 
     public void invokeOnKeyPress(KeyEvent k) {
-        PluginState.getInstance().getPlugins()
+        PluginState.instance.getPlugins()
                 .forEach(
                         e -> e.getHook().onKeyPress(k)
                 );
     }
 
     public void invokeOnSaveFile(File file) {
-        PluginState.getInstance().getPlugins()
+        PluginState.instance.getPlugins()
                 .forEach(
                         e -> e.getHook().onSaveFile(file)
                 );
     }
 
     public void invokeOnOpenFile(File file) {
-        PluginState.getInstance().getPlugins()
+        PluginState.instance.getPlugins()
                 .forEach(
                         e -> e.getHook().onOpenFile(file)
                 );
     }
 
     public void invokeOnCreateFile(File file) {
-        PluginState.getInstance().getPlugins()
+        PluginState.instance.getPlugins()
                 .forEach(
                         e -> e.getHook().onCreateFile(file)
                 );
     }
 
     public void invokeOnCreateFolder(File file) {
-        PluginState.getInstance().getPlugins()
+        PluginState.instance.getPlugins()
                 .forEach(
                         e -> e.getHook().onCreateFolder(file)
                 );
     }
 
     public void invokeOnDeleteFile(File file) {
-        PluginState.getInstance().getPlugins()
+        PluginState.instance.getPlugins()
                 .forEach(
                         e -> e.getHook().onDeleteFile(file)
                 );

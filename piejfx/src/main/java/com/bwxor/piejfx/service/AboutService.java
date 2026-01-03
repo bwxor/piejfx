@@ -17,7 +17,7 @@ import java.util.Objects;
 
 public class AboutService {
     public void showAboutPage() {
-        ServiceState serviceState = ServiceState.getInstance();
+        ServiceState serviceState = ServiceState.instance;
         
         FXMLLoader loader = new FXMLLoader(serviceState.getResourceService().getResourceByName("views/about-view.fxml"));
         Parent root;

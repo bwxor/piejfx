@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 import java.net.MalformedURLException;
 
 public final class MaximizeState {
-    public static MaximizeState instance = new MaximizeState();
+    public static final MaximizeState instance = new MaximizeState();
 
     private boolean maximized;
     private double oldX, oldY, oldWidth, oldHeight;
@@ -22,8 +22,8 @@ public final class MaximizeState {
     }
 
     public void toggleMaximize(Stage stage, Button maximizeButton) {
-        UIState uiState = UIState.getInstance();
-        ServiceState serviceState = ServiceState.getInstance();
+        UIState uiState = UIState.instance;
+        ServiceState serviceState = ServiceState.instance;
 
         if (!maximized) {
             try {

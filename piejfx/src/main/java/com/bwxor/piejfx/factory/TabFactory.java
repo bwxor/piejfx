@@ -26,7 +26,7 @@ import java.util.Map;
 
 public class TabFactory {
     public static Tab createEditorTab(String title) {
-        ServiceState serviceState = ServiceState.getInstance();
+        ServiceState serviceState = ServiceState.instance;
 
         Tab tab = new Tab();
 

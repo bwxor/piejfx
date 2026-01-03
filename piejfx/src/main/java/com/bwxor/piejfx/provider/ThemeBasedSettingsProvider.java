@@ -24,7 +24,7 @@ public class ThemeBasedSettingsProvider extends DefaultSettingsProvider {
     private static RGB selectionBackgroundColor;
 
     private RGB getColorFromTheme(String color) {
-        ServiceState serviceState = ServiceState.getInstance();
+        ServiceState serviceState = ServiceState.instance;
 
         try {
             CascadingStyleSheet declaration = CSSReader.readFromFile(

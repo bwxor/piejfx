@@ -3,7 +3,7 @@ package com.bwxor.piejfx.state;
 import javafx.stage.Stage;
 
 public final class StageState {
-    public static StageState instance = new StageState();
+    public static final StageState instance = new StageState();
 
     private Stage stage;
 

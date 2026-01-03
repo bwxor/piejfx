@@ -18,7 +18,7 @@ import java.nio.file.Files;
 
 public class EditorTabPaneService implements PluginEditorTabPaneService {
     private void resyncCodeAreaIds() {
-        UIState uiState = UIState.getInstance();
+        UIState uiState = UIState.instance;
 
         for (int i = 0; i < uiState.getEditorTabPane().getTabs().size(); i++) {
             if (uiState.getEditorTabPane().getTabs().get(i).getContent() instanceof CodeArea c) {
@@ -28,8 +28,8 @@ public class EditorTabPaneService implements PluginEditorTabPaneService {
     }
 
     public void addTabToPane(File file) {
-        UIState uiState = UIState.getInstance();
-        ServiceState serviceState = ServiceState.getInstance();
+        UIState uiState = UIState.instance;
+        ServiceState serviceState = ServiceState.instance;
 
         Tab tab = TabFactory.createEditorTab(file.getName());
         tab.setOnCloseRequest(e -> {
@@ -62,7 +62,7 @@ public class EditorTabPaneService implements PluginEditorTabPaneService {
     }
 
     public void addTabToPane(String tabTitle) {
-        UIState uiState = UIState.getInstance();
+        UIState uiState = UIState.instance;
 
         Tab tab = TabFactory.createEditorTab(tabTitle);
         tab.setOnCloseRequest(e -> {
@@ -82,8 +82,8 @@ public class EditorTabPaneService implements PluginEditorTabPaneService {
      * @return a negative response only if the user was prompted for a save and cancelled it.
      */
     public RemoveSelectedTabFromPaneOption removeSelectedTabFromPane() {
-        UIState uiState = UIState.getInstance();
-        ServiceState serviceState = ServiceState.getInstance();
+        UIState uiState = UIState.instance;
+        ServiceState serviceState = ServiceState.instance;
 
         CodeAreaState.IndividualState individualState = CodeAreaState.instance.getIndividualStates().get(uiState.getEditorTabPane().getSelectionModel().getSelectedIndex());
 

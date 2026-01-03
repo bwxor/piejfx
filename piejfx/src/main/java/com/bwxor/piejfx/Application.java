@@ -20,7 +20,7 @@ import java.util.Objects;
 public class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws IOException {
-        ServiceState serviceState = ServiceState.getInstance();
+        ServiceState serviceState = ServiceState.instance;
         
         Font.loadFont(serviceState.getResourceService().getResourceByName("config/fonts/JetBrainsMono-Regular.ttf").toExternalForm(), 10);
         Font.loadFont(serviceState.getResourceService().getResourceByName("config/fonts/SegoeUISymbol.ttf").toExternalForm(), 10);

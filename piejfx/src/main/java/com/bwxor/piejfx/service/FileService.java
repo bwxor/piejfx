@@ -27,7 +27,7 @@ import java.util.Objects;
 
 public class FileService implements PluginFileService {
     public void openFile() {
-        ServiceState serviceState = ServiceState.getInstance();
+        ServiceState serviceState = ServiceState.instance;
 
         FileChooser fileChooser = new FileChooser();
         File selectedFile = fileChooser.showOpenDialog(StageState.instance.getStage());
@@ -39,9 +39,9 @@ public class FileService implements PluginFileService {
     }
 
     public void openFile(File file) {
-        ServiceState serviceState = ServiceState.getInstance();
+        ServiceState serviceState = ServiceState.instance;
 
-        UIState uiState = UIState.getInstance();
+        UIState uiState = UIState.instance;
 
         serviceState.getEditorTabPaneService().addTabToPane(file);
 
@@ -53,7 +53,7 @@ public class FileService implements PluginFileService {
     }
 
     public NewFileResponse showNewFileWindow(String title) {
-        ServiceState serviceState = ServiceState.getInstance();
+        ServiceState serviceState = ServiceState.instance;
 
         FXMLLoader loader = new FXMLLoader(serviceState.getResourceService().getResourceByName("views/newfile-view.fxml"));
         Parent root;
@@ -105,7 +105,7 @@ public class FileService implements PluginFileService {
     }
 
     public void openFolder() {
-        ServiceState serviceState = ServiceState.getInstance();
+        ServiceState serviceState = ServiceState.instance;
 
         DirectoryChooser directoryChooser = new DirectoryChooser();
         File selectedFile = directoryChooser.showDialog(StageState.instance.getStage());
@@ -123,8 +123,8 @@ public class FileService implements PluginFileService {
      * @return true if file has been saved successfully and false otherwise
      */
     public boolean saveFile() {
-        UIState uiState = UIState.getInstance();
-        ServiceState serviceState = ServiceState.getInstance();
+        UIState uiState = UIState.instance;
+        ServiceState serviceState = ServiceState.instance;
         CodeAreaState.IndividualState codeAreaState = CodeAreaState.instance.getIndividualStates().get(uiState.getEditorTabPane().getSelectionModel().getSelectedIndex());
 
         if (codeAreaState.getOpenedFile() == null) {
@@ -160,8 +160,8 @@ public class FileService implements PluginFileService {
      * @return true if a file has been chosen and false otherwise
      */
     public boolean saveFileAs() {
-        UIState uiState = UIState.getInstance();
-        ServiceState serviceState = ServiceState.getInstance();
+        UIState uiState = UIState.instance;
+        ServiceState serviceState = ServiceState.instance;
 
         CodeAreaState.IndividualState codeAreaState = CodeAreaState.instance.getIndividualStates().get(uiState.getEditorTabPane().getSelectionModel().getSelectedIndex());
 

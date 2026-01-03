@@ -21,7 +21,7 @@ import java.util.Objects;
 
 public class NotificationService implements PluginNotificationService {
     public void showNotificationOk(String notificationText) {
-        ServiceState serviceState = ServiceState.getInstance();
+        ServiceState serviceState = ServiceState.instance;
 
         FXMLLoader loader = new FXMLLoader(serviceState.getResourceService().getResourceByName("views/notification-ok-view.fxml"));
         Parent root;
@@ -54,7 +54,7 @@ public class NotificationService implements PluginNotificationService {
     }
 
     public NotificationYesNoCancelOption showNotificationYesNoCancel(String notificationText) {
-        ServiceState serviceState = ServiceState.getInstance();
+        ServiceState serviceState = ServiceState.instance;
 
         FXMLLoader loader = new FXMLLoader(serviceState.getResourceService().getResourceByName("views/notification-yesnocancel-view.fxml"));
         Parent root;

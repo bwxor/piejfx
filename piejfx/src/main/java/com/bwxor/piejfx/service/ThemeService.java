@@ -16,7 +16,7 @@ import java.util.List;
 
 public class ThemeService {
     public List<ThemeState.Theme> getThemes() {
-        ServiceState serviceState = ServiceState.getInstance();
+        ServiceState serviceState = ServiceState.instance;
 
         List<ThemeState.Theme> themes = new ArrayList<>();
 
@@ -41,8 +41,8 @@ public class ThemeService {
     }
 
     public void loadMenuWithThemes(List<ThemeState.Theme> themes) {
-        UIState uiState = UIState.getInstance();
-        ServiceState serviceState = ServiceState.getInstance();
+        UIState uiState = UIState.instance;
+        ServiceState serviceState = ServiceState.instance;
 
         for (ThemeState.Theme t : themes) {
             MenuItem menuItem = new MenuItem();

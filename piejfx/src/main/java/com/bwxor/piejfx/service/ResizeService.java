@@ -55,7 +55,7 @@ public class ResizeService {
 
         @Override
         public void handle(MouseEvent mouseEvent) {
-            UIState uiState = UIState.getInstance();
+            UIState uiState = UIState.instance;
 
             if (!MaximizeState.instance.isMaximized()) {
 

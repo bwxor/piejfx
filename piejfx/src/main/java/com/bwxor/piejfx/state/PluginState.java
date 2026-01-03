@@ -8,7 +8,7 @@ import java.util.List;
 
 public class PluginState {
     private List<LoadedPlugin> plugins = new ArrayList<>();
-    public static PluginState instance = new PluginState();
+    public static final PluginState instance = new PluginState();
 
     private PluginState() {
     }
@@ -19,9 +19,5 @@ public class PluginState {
 
     public void setPlugins(List<LoadedPlugin> plugins) {
         this.plugins = plugins;
-    }
-
-    public static PluginState getInstance() {
-        return instance;
     }
 }

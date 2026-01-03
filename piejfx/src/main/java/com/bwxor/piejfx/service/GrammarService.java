@@ -22,7 +22,7 @@ public class GrammarService {
     private static final short DEBOUNCE_DELAY = 200;
 
     public Grammar loadGrammar(String extension) {
-        ServiceState serviceState = ServiceState.getInstance();
+        ServiceState serviceState = ServiceState.instance;
        
         Grammar grammar = new Grammar();
 
@@ -126,7 +126,7 @@ public class GrammarService {
     }
 
     private boolean hasExtension(File file, String extension) {
-        ServiceState serviceState = ServiceState.getInstance();
+        ServiceState serviceState = ServiceState.instance;
 
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
             JSONObject jsonObject = new JSONObject(bufferedReader.readAllAsString());

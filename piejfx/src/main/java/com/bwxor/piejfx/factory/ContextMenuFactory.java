@@ -37,7 +37,7 @@ public class ContextMenuFactory {
     }
 
     public static ContextMenu createCodeAreaContextMenu() {
-        ServiceState serviceState = ServiceState.getInstance();
+        ServiceState serviceState = ServiceState.instance;
         
         ContextMenu contextMenu = new ContextMenu();
         contextMenu.setStyle("-fx-font-family: Segoe UI");
@@ -54,8 +54,8 @@ public class ContextMenuFactory {
     }
 
     public static ContextMenu createTerminalTabPaneContextMenu() {
-        UIState uiState = UIState.getInstance();
-        ServiceState serviceState = ServiceState.getInstance();
+        UIState uiState = UIState.instance;
+        ServiceState serviceState = ServiceState.instance;
 
         ContextMenu contextMenu = new ContextMenu();
 
@@ -77,7 +77,7 @@ public class ContextMenuFactory {
     }
 
     private static void createFile(CreationType creationType, TreeView folderTreeView) {
-        ServiceState serviceState = ServiceState.getInstance();
+        ServiceState serviceState = ServiceState.instance;
 
         String windowTitle;
         String itemViewPrefix;
@@ -144,7 +144,7 @@ public class ContextMenuFactory {
     }
 
     private static void deleteFile(TreeView folderTreeView) {
-        ServiceState serviceState = ServiceState.getInstance();
+        ServiceState serviceState = ServiceState.instance;
 
         if (folderTreeView.getSelectionModel().getSelectedIndex() > 0) {
             if (folderTreeView.getSelectionModel().getSelectedItem().equals(folderTreeView.getRoot())) {

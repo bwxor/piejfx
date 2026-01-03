@@ -8,11 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class TerminalState {
-    public static TerminalState instance = new TerminalState();
+    public static final TerminalState instance = new TerminalState();
 
     private List<JediTermFxWidget> terminals = new ArrayList<>();
 
-    private TerminalState() {}
+    private TerminalState() {
+    }
 
     public List<JediTermFxWidget> getTerminals() {
         return terminals;

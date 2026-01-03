@@ -17,8 +17,8 @@ public class FolderTreeViewService implements PluginFolderTreeViewService {
     private boolean firstLaunch = true;
 
     public void showFolderTreeView() {
-        UIState uiState = UIState.getInstance();
-        ServiceState serviceState = ServiceState.getInstance();
+        UIState uiState = UIState.instance;
+        ServiceState serviceState = ServiceState.instance;
 
         if (firstLaunch) {
             uiState.getFolderTreeView().addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
@@ -56,7 +56,7 @@ public class FolderTreeViewService implements PluginFolderTreeViewService {
     }
 
     public void toggleFolderTreeView() {
-        UIState uiState = UIState.getInstance();
+        UIState uiState = UIState.instance;
 
         if (uiState.getHorizontalSplitPane().getItems().contains(uiState.getSplitTabPane())) {
             FolderTreeViewState.instance.setTreeViewStructure(new TreeViewStructure());

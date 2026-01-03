@@ -12,7 +12,7 @@ public class UIState {
     private Label titleBarLabel;
     private Menu themesMenu;
     private Menu toolsMenu;
-    public static UIState instance = new UIState();
+    public static final UIState instance = new UIState();
 
     private UIState() {
     }
@@ -87,9 +87,5 @@ public class UIState {
 
     public void setToolsMenu(Menu toolsMenu) {
         this.toolsMenu = toolsMenu;
-    }
-
-    public static UIState getInstance() {
-        return instance;
     }
 }
