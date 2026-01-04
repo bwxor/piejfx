@@ -1,5 +1,6 @@
 package com.bwxor.piejfx.controller;
 
+import com.bwxor.piejfx.state.HostServicesState;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
@@ -46,19 +47,15 @@ public class AboutController {
 
     @FXML
     public void onProjectWebsiteButtonClick(MouseEvent mouseEvent) {
-        try {
-            new ProcessBuilder("x-www-browser", "https://bwxor.com/projects/pie").start();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        HostServicesState hostServicesState = HostServicesState.instance;
+
+        hostServicesState.getHostServices().showDocument("https://bwxor.com/projects/piejfx");
     }
 
     @FXML
     public void onGitHubRepositoryButtonClick(MouseEvent mouseEvent) {
-        try {
-            new ProcessBuilder("x-www-browser", "https://github.com/bwxor/piejfx").start();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        HostServicesState hostServicesState = HostServicesState.instance;
+
+        hostServicesState.getHostServices().showDocument("https://github.com/bwxor/piejfx");
     }
 }
