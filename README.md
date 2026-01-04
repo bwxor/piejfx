@@ -89,7 +89,7 @@ It is common for plugins to persist their state in configuration files. `PluginC
 Plugins could be sent through `zip` archives, containing a single folder with (recommended) the plugin name. Inside that folder should reside the plugin jar file, togetheer with the `config/` and `deps/` directories. 
 
 ##### Quick example
-For a plugin called `sample-plugin`, it can be stored under `plugins\sample-plugin\sample-plugin.jar`. Its dependencies (also jar files) will be stored under `plugins\sample-plugin\deps\`.
+For a plugin called `sample-plugin`, it can be stored under `plugins/sample-plugin/sample-plugin.jar`. Its dependencies (also jar files) will be stored under `plugins/sample-plugin/deps/`. Configuration data will be stored under `plugins/sample-plugin/config/`.
 
 ```
 sample-plugin/
@@ -100,6 +100,7 @@ sample-plugin/
 │   └── user-data.json
 └── sample-plugin.jar
 ``` 
+
 
 
 
