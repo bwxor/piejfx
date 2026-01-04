@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="315.0" prefWidth="303.0"
+            styleClass="window-root" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.bwxor.piejfx.controller.CheatsheetController">
+    <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
+        <children>
+            <AnchorPane fx:id="titleBarAnchorPane" onMouseDragged="#handleMovementAction"
+                        onMousePressed="#handleClickAction" prefHeight="40.0" prefWidth="475.0">
+                <children>
+                    <Label alignment="CENTER" layoutY="12.0" prefHeight="17.0" prefWidth="475.0"
+                           styleClass="window-title" text="Cheatsheet" AnchorPane.bottomAnchor="0.0"
+                           AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+                    <Button fx:id="closeButton" layoutX="439.0" layoutY="5.0" mnemonicParsing="false"
+                            onAction="#onCloseButtonClick" prefHeight="30.0" prefWidth="46.0" styleClass="button-close"
+                            text="✕" AnchorPane.rightAnchor="6.0">
+                    </Button>
+                    <Button fx:id="minimizeButton" layoutX="404.0" layoutY="5.0" mnemonicParsing="false"
+                            onAction="#onMinimizeButtonClick" prefHeight="30.0" prefWidth="46.0"
+                            styleClass="button-minimize" text="─" AnchorPane.rightAnchor="58.0">
+                    </Button>
+                </children>
+            </AnchorPane>
+            <AnchorPane styleClass="main-content">
+                <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                      prefHeight="450.0" prefWidth="261.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0"
+                      AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" VBox.vgrow="ALWAYS">
+                    <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+                        <GridPane hgap="20" vgap="8">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="ALWAYS" minWidth="150.0" />
+                                <ColumnConstraints hgrow="NEVER" halignment="LEFT" />
+                            </columnConstraints>
+
+                            <children>
+                                <Label text="Save File" styleClass="cheatsheet-item" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                                <HBox spacing="7" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                    <Label text="Ctrl" styleClass="cheatsheet-key" />
+                                    <Label text="S" styleClass="cheatsheet-key" />
+                                </HBox>
+
+                                <Label text="Save as..." styleClass="cheatsheet-item" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                                <HBox spacing="7" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                    <Label text="Ctrl" styleClass="cheatsheet-key" />
+                                    <Label text="S" styleClass="cheatsheet-key" />
+                                </HBox>
+
+                                <Label text="Toggle Terminal" styleClass="cheatsheet-item" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                                <HBox spacing="7" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                    <Label text="Ctrl" styleClass="cheatsheet-key" />
+                                    <Label text="B" styleClass="cheatsheet-key" />
+                                </HBox>
+
+                                <Label text="Toggle Sidebar" styleClass="cheatsheet-item" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                                <HBox spacing="7" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                    <Label text="Ctrl" styleClass="cheatsheet-key" />
+                                    <Label text="G" styleClass="cheatsheet-key" />
+                                </HBox>
+
+                                <Label text="Duplicate Line" styleClass="cheatsheet-item" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                                <HBox spacing="7" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                    <Label text="Ctrl" styleClass="cheatsheet-key" />
+                                    <Label text="D" styleClass="cheatsheet-key" />
+                                </HBox>
+
+                                <Label text="Cut entire line" styleClass="cheatsheet-item" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+                                <HBox spacing="7" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                    <Label text="Ctrl" styleClass="cheatsheet-key" />
+                                    <Label text="X" styleClass="cheatsheet-key" />
+                                </HBox>
+
+                                <Label text="Copy entire line" styleClass="cheatsheet-item" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+                                <HBox spacing="7" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                                    <Label text="Ctrl" styleClass="cheatsheet-key" />
+                                    <Label text="C" styleClass="cheatsheet-key" />
+                                </HBox>
+                            </children>
+                        </GridPane>
+                    </ScrollPane>
+                </VBox>
+            </AnchorPane>
+        </children>
+    </VBox>
+    <padding>
+        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+    </padding>
+</AnchorPane>

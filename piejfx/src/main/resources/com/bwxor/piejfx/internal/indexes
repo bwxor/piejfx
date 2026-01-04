@@ -39,4 +39,3 @@ config/themes.json
 config/styles/default.css
 config/styles/default-maximized.css
 plugins/README
-plugins/deps/README

@@ -65,18 +65,23 @@ public class PluginService {
     public URLClassLoader loadPluginDependencies(File pluginDirectory) {
         File depsDirectory = new File(Paths.get(pluginDirectory.getPath(), "deps").toUri());
 
-        List<File> depFiles = Arrays.stream(Objects.requireNonNull(depsDirectory.listFiles()))
-                .filter(e -> e.getName().endsWith(".jar")).toList();
+        URL[] urls = new URL[0];
 
-        URL[] urls = depFiles.stream().map(
-                        f -> {
-                            try {
-                                return f.toURI().toURL();
-                            } catch (MalformedURLException ex) {
-                                return null;
-                            }
-                        }).filter(Objects::nonNull)
-                .toArray(URL[]::new);
+        if (depsDirectory.exists()) {
+
+            List<File> depFiles = Arrays.stream(Objects.requireNonNull(depsDirectory.listFiles()))
+                    .filter(e -> e.getName().endsWith(".jar")).toList();
+
+            urls = depFiles.stream().map(
+                            f -> {
+                                try {
+                                    return f.toURI().toURL();
+                                } catch (MalformedURLException ex) {
+                                    return null;
+                                }
+                            }).filter(Objects::nonNull)
+                    .toArray(URL[]::new);
+        }
 
         return new URLClassLoader(urls, this.getClass().getClassLoader());
     }

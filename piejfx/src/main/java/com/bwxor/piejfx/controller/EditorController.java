@@ -183,6 +183,11 @@ public class EditorController {
     }
 
     @FXML
+    public void onCheatsheetButtonClickEvent() {
+        ServiceState.instance.getCheatsheetService().showCheatsheetPage();
+    }
+
+    @FXML
     public void onKeyPressed(KeyEvent keyEvent) {
         ServiceState.instance.getPluginService().invokeOnKeyPress(keyEvent);
 

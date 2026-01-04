@@ -4,6 +4,7 @@ import com.bwxor.piejfx.service.*;
 
 public class ServiceState {
     private AboutService aboutService = new AboutService();
+    private CheatsheetService cheatsheetService = new CheatsheetService();
     private CloseService closeService = new CloseService();
     private ConfigurationService configurationService = new ConfigurationService();
     private EditorTabPaneService editorTabPaneService = new EditorTabPaneService();
@@ -23,6 +24,10 @@ public class ServiceState {
 
     public AboutService getAboutService() {
         return aboutService;
+    }
+
+    public CheatsheetService getCheatsheetService() {
+        return cheatsheetService;
     }
 
     public CloseService getCloseService() {

@@ -105,6 +105,15 @@ public class TabFactory {
                         codeArea.deleteNextChar();
                     }
                 }
+                else if (e.getCode().equals(KeyCode.C)) {
+                    IndexRange indexRange = codeArea.getSelection();
+                    if (indexRange.getLength() == 0) {
+                        e.consume();
+
+                        codeArea.selectLine();
+                        codeArea.copy();
+                    }
+                }
                 else if (e.getCode().equals(KeyCode.D)) {
                     codeArea.selectLine();
                     String text = codeArea.getSelectedText();
