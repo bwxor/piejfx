@@ -22,6 +22,7 @@
     - [Additional configuration files](#additional-configuration-files)
     - [How does the final artifact need to look like?](#how-does-the-final-artifact-need-to-look-like)
       - [Quick example](#quick-example)
+- [Official Plugins](#official-plugins)
 
 ## Structure
 The repository contains the following projects:
@@ -124,8 +125,7 @@ sample-plugin/
 └── sample-plugin.jar
 ``` 
 
+## Official plugins
+piejfx is built like Eclipse: it provides proper extensibility support, but without any plugins, it is raw. Currently, several official plugins are maintained.
 
-
-
-
-
+1. [piejfx-ai-plugin](https://github.com/bwxor/piejfx-ai-plugin)
