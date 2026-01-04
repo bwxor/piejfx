@@ -39,7 +39,7 @@
                                     </Menu>
                                 </items>
                             </Menu>
-                            <Menu fx:id="toolsMenu" mnemonicParsing="false" text="Tools">
+                            <Menu fx:id="pluginsMenu" mnemonicParsing="false" text="Plugins">
                                 <items>
                                 </items>
                             </Menu>

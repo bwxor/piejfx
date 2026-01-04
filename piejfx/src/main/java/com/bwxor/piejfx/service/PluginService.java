@@ -163,7 +163,7 @@ public class PluginService {
         ApplicationWindow applicationWindow = new ApplicationWindow();
         applicationWindow.setSidebarTabPane(UIState.instance.getSplitTabPane());
         applicationWindow.setEditorTabPane(UIState.instance.getEditorTabPane());
-        applicationWindow.setMenu(UIState.instance.getToolsMenu());
+        applicationWindow.setMenu(UIState.instance.getPluginsMenu());
 
         ServiceContainer serviceContainer = new ServiceContainer(
                 ServiceState.instance.getCloseService(),

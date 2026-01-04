@@ -1,7 +1,6 @@
 package com.bwxor.piejfx.controller;
 
 import com.bwxor.piejfx.factory.ContextMenuFactory;
-import com.bwxor.piejfx.service.PluginService;
 import com.bwxor.piejfx.state.*;
 import com.bwxor.plugin.type.RemoveSelectedTabFromPaneOption;
 import javafx.fxml.FXML;
@@ -41,7 +40,7 @@ public class EditorController {
     @FXML
     private Menu themesMenu;
     @FXML
-    private Menu toolsMenu;
+    private Menu pluginsMenu;
 
     private double xOffset = 0;
     private double yOffset = 0;
@@ -93,7 +92,7 @@ public class EditorController {
         UIState.instance.setTerminalTabPane(terminalTabPane);
         UIState.instance.setTitleBarLabel(titleBarLabel);
         UIState.instance.setThemesMenu(themesMenu);
-        UIState.instance.setToolsMenu(toolsMenu);
+        UIState.instance.setPluginsMenu(pluginsMenu);
 
         ServiceState.instance.getThemeService().loadMenuWithThemes(ThemeState.instance.getThemes());
     }

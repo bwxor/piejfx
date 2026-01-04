@@ -11,7 +11,7 @@ public class UIState {
     private TabPane terminalTabPane;
     private Label titleBarLabel;
     private Menu themesMenu;
-    private Menu toolsMenu;
+    private Menu pluginsMenu;
     public static final UIState instance = new UIState();
 
     private UIState() {
@@ -81,11 +81,11 @@ public class UIState {
         this.themesMenu = themesMenu;
     }
 
-    public Menu getToolsMenu() {
-        return toolsMenu;
+    public Menu getPluginsMenu() {
+        return pluginsMenu;
     }
 
-    public void setToolsMenu(Menu toolsMenu) {
-        this.toolsMenu = toolsMenu;
+    public void setPluginsMenu(Menu pluginsMenu) {
+        this.pluginsMenu = pluginsMenu;
     }
 }
