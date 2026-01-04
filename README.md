@@ -53,6 +53,19 @@ Plugin development is done by using the `piejfx-plugin-sdk`, which is a pre-made
 > **Note:** Make sure you run `mvn install` on the `piejfx-plugin-core` first, as it is a dependency of the sdk. Installing it will put in inside your local repository. This needs to be done, because piejfx is not part of any public Maven repository yet.
 
 ### Hooks and the `Plugin` interface
+
+```java
+public interface Plugin {
+    void onLoad(PluginContext var1);
+    void onKeyPress(KeyEvent var1);
+    void onSaveFile(File var1);
+    void onOpenFile(File var1);
+    void onCreateFile(File var1);
+    void onCreateFolder(File var1);
+    void onDeleteFile(File var1);
+}
+```
+
 Every plugin will implement the `Plugin` interface, as shown in the example from the pre-made plugin SDK. This interface has certain methods (called "hooks") that are triggered whenever an action happens inside piejfx. Some examples include `onKeyPress` (which calls the plugin's handler whenever a key is pressed, together with a reference to the JavaFX `KeyEvent`), `onCreateFile` (which sends an object reference to the file that was created) and, the most important one, `onLoad`, which sends a reference to piejfx's accessible user interface components and some useful services.
 
 #### The `onLoad` hook
@@ -77,6 +90,16 @@ Plugins could be sent through `zip` archives, containing a single folder with (r
 
 ##### Quick example
 For a plugin called `sample-plugin`, it can be stored under `plugins\sample-plugin\sample-plugin.jar`. Its dependencies (also jar files) will be stored under `plugins\sample-plugin\deps\`.
+
+```
+sample-plugin/
+├── deps/
+│   ├── javafx-base-21.0.6.jar
+│   ├── javafx-controls-21.0.6.jar
+├── config/
+│   └── user-data.json
+└── sample-plugin.jar
+``` 
 
 
 
