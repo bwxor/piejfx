@@ -33,51 +33,58 @@
                     <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
                         <GridPane hgap="20" vgap="8">
                             <columnConstraints>
-                                <ColumnConstraints hgrow="ALWAYS" minWidth="150.0" />
-                                <ColumnConstraints hgrow="NEVER" halignment="LEFT" />
+                                <ColumnConstraints hgrow="ALWAYS" minWidth="150.0"/>
+                                <ColumnConstraints hgrow="NEVER" halignment="LEFT"/>
                             </columnConstraints>
 
                             <children>
-                                <Label text="Save File" styleClass="cheatsheet-item" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                                <HBox spacing="7" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                                    <Label text="Ctrl" styleClass="cheatsheet-key" />
-                                    <Label text="S" styleClass="cheatsheet-key" />
+                                <Label text="Save File" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                                <HBox spacing="7" alignment="CENTER_LEFT" GridPane.columnIndex="1"
+                                      GridPane.rowIndex="0">
+                                    <Label text="Ctrl" styleClass="cheatsheet-key"/>
+                                    <Label text="S" styleClass="cheatsheet-key"/>
                                 </HBox>
 
-                                <Label text="Save as..." styleClass="cheatsheet-item" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                                <HBox spacing="7" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                    <Label text="Ctrl" styleClass="cheatsheet-key" />
-                                    <Label text="S" styleClass="cheatsheet-key" />
+                                <Label text="Save as..." GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                                <HBox spacing="7" alignment="CENTER_LEFT" GridPane.columnIndex="1"
+                                      GridPane.rowIndex="1">
+                                    <Label text="Ctrl" styleClass="cheatsheet-key"/>
+                                    <Label text="S" styleClass="cheatsheet-key"/>
                                 </HBox>
 
-                                <Label text="Toggle Terminal" styleClass="cheatsheet-item" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-                                <HBox spacing="7" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                    <Label text="Ctrl" styleClass="cheatsheet-key" />
-                                    <Label text="B" styleClass="cheatsheet-key" />
+                                <Label text="Toggle Terminal" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                                <HBox spacing="7" alignment="CENTER_LEFT" GridPane.columnIndex="1"
+                                      GridPane.rowIndex="2">
+                                    <Label text="Ctrl" styleClass="cheatsheet-key"/>
+                                    <Label text="B" styleClass="cheatsheet-key"/>
                                 </HBox>
 
-                                <Label text="Toggle Sidebar" styleClass="cheatsheet-item" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-                                <HBox spacing="7" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                                    <Label text="Ctrl" styleClass="cheatsheet-key" />
-                                    <Label text="G" styleClass="cheatsheet-key" />
+                                <Label text="Toggle Sidebar" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                                <HBox spacing="7" alignment="CENTER_LEFT" GridPane.columnIndex="1"
+                                      GridPane.rowIndex="3">
+                                    <Label text="Ctrl" styleClass="cheatsheet-key"/>
+                                    <Label text="G" styleClass="cheatsheet-key"/>
                                 </HBox>
 
-                                <Label text="Duplicate Line" styleClass="cheatsheet-item" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-                                <HBox spacing="7" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                                    <Label text="Ctrl" styleClass="cheatsheet-key" />
-                                    <Label text="D" styleClass="cheatsheet-key" />
+                                <Label text="Duplicate Line" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                                <HBox spacing="7" alignment="CENTER_LEFT" GridPane.columnIndex="1"
+                                      GridPane.rowIndex="4">
+                                    <Label text="Ctrl" styleClass="cheatsheet-key"/>
+                                    <Label text="D" styleClass="cheatsheet-key"/>
                                 </HBox>
 
-                                <Label text="Cut entire line" styleClass="cheatsheet-item" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
-                                <HBox spacing="7" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                                    <Label text="Ctrl" styleClass="cheatsheet-key" />
-                                    <Label text="X" styleClass="cheatsheet-key" />
+                                <Label text="Cut entire line" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+                                <HBox spacing="7" alignment="CENTER_LEFT" GridPane.columnIndex="1"
+                                      GridPane.rowIndex="5">
+                                    <Label text="Ctrl" styleClass="cheatsheet-key"/>
+                                    <Label text="X" styleClass="cheatsheet-key"/>
                                 </HBox>
 
-                                <Label text="Copy entire line" styleClass="cheatsheet-item" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
-                                <HBox spacing="7" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="6">
-                                    <Label text="Ctrl" styleClass="cheatsheet-key" />
-                                    <Label text="C" styleClass="cheatsheet-key" />
+                                <Label text="Copy entire line" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+                                <HBox spacing="7" alignment="CENTER_LEFT" GridPane.columnIndex="1"
+                                      GridPane.rowIndex="6">
+                                    <Label text="Ctrl" styleClass="cheatsheet-key"/>
+                                    <Label text="C" styleClass="cheatsheet-key"/>
                                 </HBox>
                             </children>
                         </GridPane>

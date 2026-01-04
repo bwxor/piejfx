@@ -5,9 +5,6 @@
 }
 
 /* --- Cheatsheet --- */
-.cheatsheet-item {
-}
-
 .cheatsheet-key {
     -fx-border-color: -fx-text-fill;
     -fx-padding: 2px 7px 2px 7px;
