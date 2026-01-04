@@ -52,16 +52,24 @@ Plugin development is done by using the `piejfx-plugin-sdk`, which is a pre-made
 
 > **Note:** Make sure you run `mvn install` on the `piejfx-plugin-core` first, as it is a dependency of the sdk. Installing it will put in inside your local repository. This needs to be done, because piejfx is not part of any public Maven repository yet.
 
-### Where do I store the plugin?
+### The `Plugin` interface
+Every plugin will implement the `Plugin` interface, as s
 
-### Storing the plugin artifact
+### Creating a User Intefac
+The pre-made plugin SDK depends on JavaFX, meaning that anyone with little to no JavaFX knowledge is able to add their custom interface to it.
+
+### Where do I store the plugin data?
+
+#### Storing the plugin artifact
 Plugins will be stored inside the user's application data folder (e.g. for Windows `AppData\Local\bwxor\piejfx\<VERSION>\plugins`). Inside the plugins directory, a new directory will be created (name doesn't matter), containing the plugin artifact (`.jar` file).
 
-### Storing the dependencies
+#### Storing the dependencies
 Dependencies should be stored in a separate `deps` folder, which is located under the same level as the plugin jar.
 
-### Example
-For a plugin called `sample-plugin`, it can be stored under `plugins\sample-plugin\sample-plugin.jar`. Its dependencies (also jar files) will be stored under `plugins\sample-plugin\deps\`.
+#### Additional configuration files
+It is common for plugins to persist their state in configuration files.
 
+#### Example
+For a plugin called `sample-plugin`, it can be stored under `plugins\sample-plugin\sample-plugin.jar`. Its dependencies (also jar files) will be stored under `plugins\sample-plugin\deps\`.
 
 
