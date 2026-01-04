@@ -3,6 +3,7 @@ package com.bwxor.piejfx;
 import com.bwxor.piejfx.constants.AppDirConstants;
 import com.bwxor.piejfx.controller.EditorController;
 import com.bwxor.piejfx.service.*;
+import com.bwxor.piejfx.state.HostServicesState;
 import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.StageState;
 import com.bwxor.piejfx.state.ThemeState;
@@ -21,6 +22,7 @@ public class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws IOException {
         ServiceState serviceState = ServiceState.instance;
+        HostServicesState.instance.setHostServices(getHostServices());
         
         Font.loadFont(serviceState.getResourceService().getResourceByName("config/fonts/JetBrainsMono-Regular.ttf").toExternalForm(), 10);
         Font.loadFont(serviceState.getResourceService().getResourceByName("config/fonts/SegoeUISymbol.ttf").toExternalForm(), 10);

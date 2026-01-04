@@ -2,6 +2,7 @@ package com.bwxor.piejfx.service;
 
 import com.bwxor.piejfx.constants.AppDirConstants;
 import com.bwxor.piejfx.dto.LoadedPlugin;
+import com.bwxor.piejfx.state.HostServicesState;
 import com.bwxor.piejfx.state.PluginState;
 import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.UIState;
@@ -157,6 +158,8 @@ public class PluginService {
     }
 
     public void invokeOnLoad() {
+        HostServicesState hostServicesState = HostServicesState.instance;
+
         ApplicationWindow applicationWindow = new ApplicationWindow();
         applicationWindow.setSidebarTabPane(UIState.instance.getSplitTabPane());
         applicationWindow.setEditorTabPane(UIState.instance.getEditorTabPane());
@@ -176,7 +179,8 @@ public class PluginService {
             PluginContext pluginContext = new PluginContext(
                     applicationWindow,
                     serviceContainer,
-                    configurationDirectoryPath
+                    configurationDirectoryPath,
+                    hostServicesState.getHostServices()
             );
             p.getHook().onLoad(pluginContext);
         }

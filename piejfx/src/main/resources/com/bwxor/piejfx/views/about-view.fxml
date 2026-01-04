@@ -60,8 +60,8 @@
                 </Label>
                 <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
                     <children>
-                        <Button mnemonicParsing="false" text="Project Website" />
-                        <Button mnemonicParsing="false" text="GitHub Repository" />
+                        <Button mnemonicParsing="false" onMouseClicked="#onProjectWebsiteButtonClick" text="Project Website" />
+                        <Button mnemonicParsing="false" onMouseClicked="#onGitHubRepositoryButtonClick" text="GitHub Repository" />
                     </children>
                 </HBox>
                 </VBox>

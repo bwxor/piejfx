@@ -6,6 +6,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class AboutController {
     @FXML
     private AnchorPane titleBarAnchorPane;
@@ -40,5 +42,23 @@ public class AboutController {
         Stage stage = (Stage) titleBarAnchorPane.getScene().getWindow();
         stage.setX(mouseEvent.getScreenX() - xOffset);
         stage.setY(mouseEvent.getScreenY() - yOffset);
+    }
+
+    @FXML
+    public void onProjectWebsiteButtonClick(MouseEvent mouseEvent) {
+        try {
+            new ProcessBuilder("x-www-browser", "https://bwxor.com/projects/pie").start();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @FXML
+    public void onGitHubRepositoryButtonClick(MouseEvent mouseEvent) {
+        try {
+            new ProcessBuilder("x-www-browser", "https://github.com/bwxor/piejfx").start();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
