@@ -53,7 +53,7 @@ jpackage --type app-image \
   --main-jar pie.jar \
   --main-class com.bwxor.piejfx.Launcher \
   --dest output \
-  --icon ../piejfx/src/main/resources/com/bwxor/piejfx/img/icons/icon.png
+  --icon ../piejfx/src/main/resources/com/bwxor/piejfx/img/icons/icon.ico
 
 if [ $? -ne 0 ]; then
     echo "jpackage failed."
