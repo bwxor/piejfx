@@ -45,7 +45,7 @@ public class FolderTreeViewService implements PluginFolderTreeViewService {
 
             if (!uiState.getHorizontalSplitPane().getItems().contains(uiState.getSplitTabPane())) {
                 uiState.getHorizontalSplitPane().getItems().addFirst(uiState.getSplitTabPane());
-                uiState.getHorizontalSplitPane().setDividerPosition(0, 0.25);
+                uiState.getHorizontalSplitPane().setDividerPosition(0, 0.35);
             }
 
             if (FolderTreeViewState.instance.getTreeViewStructure() != null) {
@@ -65,7 +65,7 @@ public class FolderTreeViewService implements PluginFolderTreeViewService {
         } else {
             uiState.getFolderTreeView().setRoot(createTreeItem());
             uiState.getHorizontalSplitPane().getItems().addFirst(uiState.getSplitTabPane());
-            uiState.getHorizontalSplitPane().setDividerPosition(0, 0.25);
+            uiState.getHorizontalSplitPane().setDividerPosition(0, 0.35);
 
             if (FolderTreeViewState.instance.getTreeViewStructure() != null) {
                 fillTreeViewWithExpansionState(FolderTreeViewState.instance.getTreeViewStructure(), uiState.getFolderTreeView().getRoot());

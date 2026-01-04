@@ -35,7 +35,7 @@ public class ExamplePlugin implements Plugin {
         // Example: Adding a custom plugin hook
         if (keyEvent.isControlDown()) {
             if (keyEvent.getCode().equals(KeyCode.J)) {
-                pluginContext.getNotificationService().showNotificationOk("Default hook for the CTRL + J hotkey");
+                pluginContext.getServiceContainer().getNotificationService().showNotificationOk("Default hook for the CTRL + J hotkey");
             }
         }
     }

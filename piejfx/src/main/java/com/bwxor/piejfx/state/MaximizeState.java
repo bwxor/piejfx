@@ -70,7 +70,7 @@ public final class MaximizeState {
         if (uiState.getHorizontalSplitPane().getItems().contains(uiState.getSplitTabPane())) {
             uiState.getHorizontalSplitPane().getItems().removeFirst();
             uiState.getHorizontalSplitPane().getItems().addFirst(uiState.getSplitTabPane());
-            uiState.getHorizontalSplitPane().setDividerPosition(0, 0.25);
+            uiState.getHorizontalSplitPane().setDividerPosition(0, 0.35);
         }
     }
 }
