@@ -100,30 +100,43 @@ public class ResizeService {
         }
 
         private void handleResize(MouseEvent mouseEvent) {
-            double deltaX = mouseEvent.getScreenX() - startX;
-            double deltaY = mouseEvent.getScreenY() - startY;
+            double mouseScreenX = mouseEvent.getScreenX();
+            double mouseScreenY = mouseEvent.getScreenY();
+
             double minWidth = Math.max(stage.getMinWidth(), border * 2);
             double minHeight = Math.max(stage.getMinHeight(), border * 2);
 
             if (cursorEvent == Cursor.E_RESIZE || cursorEvent == Cursor.NE_RESIZE || cursorEvent == Cursor.SE_RESIZE) {
-                stage.setWidth(Math.max(startStageW + deltaX, minWidth));
-            } else if (cursorEvent == Cursor.W_RESIZE || cursorEvent == Cursor.NW_RESIZE || cursorEvent == Cursor.SW_RESIZE) {
-                double newWidth = startStageW - deltaX;
+                double newWidth = mouseScreenX - stage.getX();
                 if (newWidth > minWidth) {
-                    stage.setX(startStageX + deltaX);
                     stage.setWidth(newWidth);
+                }
+            }
+            else if (cursorEvent == Cursor.W_RESIZE || cursorEvent == Cursor.NW_RESIZE || cursorEvent == Cursor.SW_RESIZE) {
+                double fixedRightX = startStageX + startStageW;
+                double newWidth = fixedRightX - mouseScreenX;
+                if (newWidth > minWidth) {
+                    stage.setWidth(newWidth);
+                    stage.setX(mouseScreenX);
                 }
             }
 
             if (cursorEvent == Cursor.S_RESIZE || cursorEvent == Cursor.SW_RESIZE || cursorEvent == Cursor.SE_RESIZE) {
-                stage.setHeight(Math.max(startStageH + deltaY, minHeight));
-            } else if (cursorEvent == Cursor.N_RESIZE || cursorEvent == Cursor.NW_RESIZE || cursorEvent == Cursor.NE_RESIZE) {
-                double newHeight = startStageH - deltaY;
+                double newHeight = mouseScreenY - stage.getY();
                 if (newHeight > minHeight) {
-                    stage.setY(startStageY + deltaY);
                     stage.setHeight(newHeight);
                 }
             }
+            else if (cursorEvent == Cursor.N_RESIZE || cursorEvent == Cursor.NW_RESIZE || cursorEvent == Cursor.NE_RESIZE) {
+                double fixedBottomY = startStageY + startStageH;
+                double newHeight = fixedBottomY - mouseScreenY;
+                if (newHeight > minHeight) {
+                    stage.setHeight(newHeight);
+                    stage.setY(mouseScreenY);
+                }
+            }
+
+            stage.getScene().getRoot().requestLayout();
         }
     }
 }
