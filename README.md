@@ -38,6 +38,8 @@ In order to build the project, the required jar files will be first generated us
 
 There are two ways of building Pie locally. The first one is the fastest, and requires a single command. The command will automatically create the needed temporary files and the output directory, together with the artifact. You can also build Pie manually, by following the steps from the second subsection.
 
+> **Note:** Both approaches require [Java 25](https://www.oracle.com/java/technologies/downloads/) and [WiX Toolset v3](https://github.com/wixtoolset/wix3/releases). Make sure you also add the `bin/` directories from the two required installations to PATH.
+
 ### Building using the provided scripts
 Pie can be built easily by simply running the OS-specific script from the `build/` folder. This will first compile the project stored inside `piejfx-plugin-core/`, install it to the local repository, then it will build the contents of `piejfx/` and, in the end, will run `jpackage` on the generated artifact and its dependencies.
 
@@ -129,3 +131,4 @@ sample-plugin/
 piejfx is built like Eclipse: it provides proper extensibility support, but without any plugins, it is raw. Currently, several official plugins are maintained.
 
 1. [piejfx-ai-plugin](https://github.com/bwxor/piejfx-ai-plugin)
+
