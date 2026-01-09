@@ -163,7 +163,7 @@ public class PluginService {
         ApplicationWindow applicationWindow = new ApplicationWindow();
         applicationWindow.setSidebarTabPane(UIState.instance.getSplitTabPane());
         applicationWindow.setEditorTabPane(UIState.instance.getEditorTabPane());
-        applicationWindow.setMenu(UIState.instance.getPluginsMenu());
+        applicationWindow.setMenuBar(UIState.instance.getMenuBar());
 
         ServiceContainer serviceContainer = new ServiceContainer(
                 ServiceState.instance.getCloseService(),
@@ -204,6 +204,13 @@ public class PluginService {
         PluginState.instance.getPlugins()
                 .forEach(
                         e -> e.getHook().onOpenFile(file)
+                );
+    }
+
+    public void invokeOnOpenFolder(File file) {
+        PluginState.instance.getPlugins()
+                .forEach(
+                        e -> e.getHook().onOpenFolder(file)
                 );
     }
 

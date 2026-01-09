@@ -20,7 +20,7 @@
             </AnchorPane>
             <AnchorPane prefHeight="23.0" prefWidth="475.0" styleClass="main-content">
                 <children>
-                    <MenuBar layoutX="14.0" layoutY="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                    <MenuBar fx:id="menuBar" layoutX="14.0" layoutY="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                         <menus>
                             <Menu mnemonicParsing="false" text="File">
                                 <items>
@@ -37,10 +37,6 @@
                                         <items>
                                         </items>
                                     </Menu>
-                                </items>
-                            </Menu>
-                            <Menu fx:id="pluginsMenu" mnemonicParsing="false" text="Plugins">
-                                <items>
                                 </items>
                             </Menu>
                             <Menu mnemonicParsing="false" text="Help">

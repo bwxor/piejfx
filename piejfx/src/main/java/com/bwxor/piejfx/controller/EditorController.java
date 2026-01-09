@@ -40,7 +40,7 @@ public class EditorController {
     @FXML
     private Menu themesMenu;
     @FXML
-    private Menu pluginsMenu;
+    private MenuBar menuBar;
 
     private double xOffset = 0;
     private double yOffset = 0;
@@ -92,7 +92,7 @@ public class EditorController {
         UIState.instance.setTerminalTabPane(terminalTabPane);
         UIState.instance.setTitleBarLabel(titleBarLabel);
         UIState.instance.setThemesMenu(themesMenu);
-        UIState.instance.setPluginsMenu(pluginsMenu);
+        UIState.instance.setMenuBar(menuBar);
 
         ServiceState.instance.getThemeService().loadMenuWithThemes(ThemeState.instance.getThemes());
     }

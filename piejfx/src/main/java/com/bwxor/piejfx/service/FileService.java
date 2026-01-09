@@ -43,13 +43,32 @@ public class FileService implements PluginFileService {
 
         UIState uiState = UIState.instance;
 
-        serviceState.getEditorTabPaneService().addTabToPane(file);
+        int indexOfOpenedFile = getIndexOfOpenedFileInTabPane(file);
 
-        CodeAreaState.IndividualState state = CodeAreaState.instance.getIndividualStates().get(uiState.getEditorTabPane().getSelectionModel().getSelectedIndex());
+        if (indexOfOpenedFile >= 0) {
+            uiState.getEditorTabPane().getSelectionModel().select(indexOfOpenedFile);
+        }
+        else {
+            serviceState.getEditorTabPaneService().addTabToPane(file);
+            CodeAreaState.IndividualState state = CodeAreaState.instance.getIndividualStates().get(uiState.getEditorTabPane().getSelectionModel().getSelectedIndex());
+            state.setSaved(true);
+            uiState.getEditorTabPane().getSelectionModel().getSelectedItem().setText(state.getOpenedFile().getName());
+        }
 
-        state.setSaved(true);
-        uiState.getEditorTabPane().getSelectionModel().getSelectedItem().setText(state.getOpenedFile().getName());
-        serviceState.getPluginService().invokeOnSaveFile(file);
+        serviceState.getPluginService().invokeOnOpenFile(file);
+    }
+
+    private int getIndexOfOpenedFileInTabPane(File file) {
+        UIState uiState = UIState.instance;
+
+        for (int i = 0; i<uiState.getEditorTabPane().getTabs().size(); i++) {
+            CodeAreaState.IndividualState state = CodeAreaState.instance.getIndividualStates().get(i);
+            if (state.getOpenedFile() != null && state.getOpenedFile().equals(file)) {
+                return i;
+            }
+        }
+
+        return -1;
     }
 
     public NewFileResponse showNewFileWindow(String title) {
@@ -114,6 +133,8 @@ public class FileService implements PluginFileService {
             FolderTreeViewState.instance.setOpenedFolder(selectedFile);
             serviceState.getFolderTreeViewService().showFolderTreeView();
         }
+
+        serviceState.getPluginService().invokeOnOpenFolder(selectedFile);
     }
 
     /**

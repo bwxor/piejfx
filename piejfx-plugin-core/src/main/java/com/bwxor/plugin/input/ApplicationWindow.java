@@ -1,12 +1,12 @@
 package com.bwxor.plugin.input;
 
-import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.TabPane;
 
 public class ApplicationWindow {
     private TabPane sidebarTabPane;
     private TabPane editorTabPane;
-    private Menu menu;
+    private MenuBar menuBar;
 
 
     public TabPane getSidebarTabPane() {
@@ -25,11 +25,11 @@ public class ApplicationWindow {
         this.editorTabPane = editorTabPane;
     }
 
-    public Menu getMenu() {
-        return menu;
+    public MenuBar getMenuBar() {
+        return menuBar;
     }
 
-    public void setMenu(Menu menu) {
-        this.menu = menu;
+    public void setMenuBar(MenuBar menuBar) {
+        this.menuBar = menuBar;
     }
 }

@@ -10,6 +10,7 @@ public interface Plugin {
     void onKeyPress(KeyEvent keyEvent);
     void onSaveFile(File file);
     void onOpenFile(File file);
+    void onOpenFolder(File file);
     void onCreateFile(File file);
     void onCreateFolder(File file);
     void onDeleteFile(File file);
