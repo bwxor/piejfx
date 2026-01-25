@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
@@ -158,7 +159,7 @@ public class FileService implements PluginFileService {
                 throw new RuntimeException(e);
             }
 
-            if (uiState.getEditorTabPane().getSelectionModel().getSelectedItem().getContent() instanceof CodeArea c) {
+            if (((VBox)uiState.getEditorTabPane().getSelectionModel().getSelectedItem().getContent()).getChildren().getLast() instanceof CodeArea c) {
                 serviceState.getGrammarService().setGrammarToCodeArea(c, codeAreaState.getOpenedFile());
                 serviceState.getGrammarService().resetCodeAreaStyle(c, codeAreaState);
             }

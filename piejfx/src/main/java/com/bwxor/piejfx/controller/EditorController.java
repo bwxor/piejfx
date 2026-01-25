@@ -1,6 +1,7 @@
 package com.bwxor.piejfx.controller;
 
 import com.bwxor.piejfx.factory.ContextMenuFactory;
+import com.bwxor.piejfx.factory.FindReplaceHBoxFactory;
 import com.bwxor.piejfx.state.*;
 import com.bwxor.plugin.type.RemoveSelectedTabFromPaneOption;
 import javafx.fxml.FXML;
@@ -10,6 +11,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -188,6 +191,8 @@ public class EditorController {
 
     @FXML
     public void onKeyPressed(KeyEvent keyEvent) {
+        UIState uiState = UIState.instance;
+
         ServiceState.instance.getPluginService().invokeOnKeyPress(keyEvent);
 
         if (keyEvent.isControlDown()) { // Modifiers will be handled
@@ -204,6 +209,16 @@ public class EditorController {
                     ServiceState.instance.getFolderTreeViewService().toggleFolderTreeView();
                 } else {
                     ServiceState.instance.getFileService().openFolder();
+                }
+            } else if (keyEvent.getCode().equals(KeyCode.F)) {
+                VBox vBox = (VBox)uiState.getEditorTabPane().getSelectionModel().getSelectedItem().getContent();
+
+                if (vBox.getChildren().size() == 1) {
+                    vBox.getChildren().add(0, FindReplaceHBoxFactory.createFindReplaceHBox());
+                    ((HBox)vBox.getChildren().getFirst()).getChildren().getFirst().requestFocus();
+                }
+                else {
+                    vBox.getChildren().removeFirst();
                 }
             }
         }

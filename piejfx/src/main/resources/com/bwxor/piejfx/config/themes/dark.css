@@ -330,6 +330,7 @@
     -fx-padding-right: 4px;
     -fx-border-color: #3d3d41;
     -fx-text-fill: #EDEDED;
+    -fx-prompt-text-fill: #858585;
 }
 
 .text-field .content {
@@ -441,6 +442,12 @@ AnchorPane {
 /* --- Label --- */
 .label {
     -fx-text-fill: #EDEDED;
+}
+
+/* --- Find and Replace --- */
+.find-replace-box {
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #3d3d41;
 }
 
 /* --- Grammars --- */

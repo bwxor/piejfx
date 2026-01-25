@@ -17,6 +17,8 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 
@@ -136,7 +138,10 @@ public class TabFactory {
 
         codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
         tab.setText(title);
-        tab.setContent(codeArea);
+        VBox vBox = new VBox();
+        vBox.getChildren().add(codeArea);
+        VBox.setVgrow(codeArea, Priority.ALWAYS);
+        tab.setContent(vBox);
         return tab;
     }
 

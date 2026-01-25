@@ -8,6 +8,7 @@ import com.bwxor.plugin.service.PluginEditorTabPaneService;
 import com.bwxor.plugin.type.NotificationYesNoCancelOption;
 import com.bwxor.plugin.type.RemoveSelectedTabFromPaneOption;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import org.fxmisc.richtext.CodeArea;
 
 import java.io.BufferedReader;
@@ -21,7 +22,7 @@ public class EditorTabPaneService implements PluginEditorTabPaneService {
         UIState uiState = UIState.instance;
 
         for (int i = 0; i < uiState.getEditorTabPane().getTabs().size(); i++) {
-            if (uiState.getEditorTabPane().getTabs().get(i).getContent() instanceof CodeArea c) {
+            if (((VBox)uiState.getEditorTabPane().getTabs().get(i).getContent()).getChildren().getLast() instanceof CodeArea c) {
                 c.setId(String.valueOf(i));
             }
         }
@@ -31,16 +32,11 @@ public class EditorTabPaneService implements PluginEditorTabPaneService {
         UIState uiState = UIState.instance;
         ServiceState serviceState = ServiceState.instance;
 
-        Tab tab = TabFactory.createEditorTab(file.getName());
-        tab.setOnCloseRequest(e -> {
-            removeSelectedTabFromPane();
-            e.consume();
-        });
-        uiState.getEditorTabPane().getTabs().add(tab);
+        addTabToPane(file.getName());
 
-        resyncCodeAreaIds();
+        Tab tab = uiState.getEditorTabPane().getSelectionModel().getSelectedItem();
 
-        if (tab.getContent() instanceof CodeArea c) {
+        if (((VBox)tab.getContent()).getChildren().getLast() instanceof CodeArea c) {
             serviceState.getGrammarService().setGrammarToCodeArea(c, file);
 
             CodeAreaState.IndividualState individualState = CodeAreaState.instance.getIndividualStates().get(Integer.parseInt(c.getId()));
@@ -56,9 +52,6 @@ public class EditorTabPaneService implements PluginEditorTabPaneService {
                 throw new RuntimeException();
             }
         }
-
-        uiState.getEditorTabPane().getSelectionModel().select(tab);
-
     }
 
     public void addTabToPane(String tabTitle) {
