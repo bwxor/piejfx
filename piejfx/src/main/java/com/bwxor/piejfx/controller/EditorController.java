@@ -220,6 +220,16 @@ public class EditorController {
                 else {
                     vBox.getChildren().removeFirst();
                 }
+            } else if (keyEvent.getCode().equals(KeyCode.R)) {
+                VBox vBox = (VBox)uiState.getEditorTabPane().getSelectionModel().getSelectedItem().getContent();
+
+                if (vBox.getChildren().size() == 1) {
+                    vBox.getChildren().add(0, FindReplaceHBoxFactory.createFindReplaceHBox());
+                    ((HBox)vBox.getChildren().getFirst()).getChildren().get(1).requestFocus();
+                }
+                else {
+                    vBox.getChildren().removeFirst();
+                }
             }
         }
     }
