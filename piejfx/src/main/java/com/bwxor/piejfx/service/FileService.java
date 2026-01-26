@@ -168,7 +168,9 @@ public class FileService implements PluginFileService {
             uiState.getEditorTabPane().getSelectionModel().getSelectedItem().setText(codeAreaState.getOpenedFile().getName());
             uiState.getTitleBarLabel().setText(codeAreaState.getOpenedFile().getName());
 
-            serviceState.getFolderTreeViewService().showFolderTreeView();
+            if (uiState.getHorizontalSplitPane().getItems().contains(uiState.getSplitTabPane())) {
+                serviceState.getFolderTreeViewService().showFolderTreeView();
+            }
         }
 
         serviceState.getPluginService().invokeOnSaveFile(codeAreaState.getOpenedFile());
