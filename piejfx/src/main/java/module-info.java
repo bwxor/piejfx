@@ -27,4 +27,6 @@ module com.bwxor.piejfx {
     exports com.bwxor.piejfx;
     exports com.bwxor.piejfx.controller;
     exports com.bwxor.piejfx.state;
+    exports com.bwxor.piejfx.controller.impl;
+    opens com.bwxor.piejfx.controller.impl;
 }

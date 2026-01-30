@@ -1,11 +1,9 @@
 package com.bwxor.piejfx.state;
 
 import com.bwxor.piejfx.service.*;
-import javafx.application.HostServices;
 
 public class ServiceState {
-    private AboutService aboutService = new AboutService();
-    private CheatsheetService cheatsheetService = new CheatsheetService();
+    private ViewService viewService = new ViewService();
     private CloseService closeService = new CloseService();
     private ConfigurationService configurationService = new ConfigurationService();
     private EditorTabPaneService editorTabPaneService = new EditorTabPaneService();
@@ -23,12 +21,8 @@ public class ServiceState {
     private ServiceState() {
     }
 
-    public AboutService getAboutService() {
-        return aboutService;
-    }
-
-    public CheatsheetService getCheatsheetService() {
-        return cheatsheetService;
+    public ViewService getViewService() {
+        return viewService;
     }
 
     public CloseService getCloseService() {

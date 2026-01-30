@@ -1,7 +1,7 @@
 package com.bwxor.piejfx.service;
 
 import com.bwxor.piejfx.constants.AppDirConstants;
-import com.bwxor.piejfx.controller.NewFileController;
+import com.bwxor.piejfx.controller.impl.NewFileViewController;
 import com.bwxor.piejfx.state.*;
 import com.bwxor.plugin.dto.NewFileResponse;
 import com.bwxor.plugin.service.PluginFileService;
@@ -81,7 +81,7 @@ public class FileService implements PluginFileService {
         try {
             root = loader.load();
 
-            NewFileController controller = loader.getController();
+            NewFileViewController controller = loader.getController();
             Scene scene = new Scene(root);
             scene.getStylesheets().add(ThemeState.instance.getCurrentTheme().getUrl().toExternalForm());
             Stage stage = new Stage();

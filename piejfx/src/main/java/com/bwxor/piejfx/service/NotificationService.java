@@ -1,8 +1,8 @@
 package com.bwxor.piejfx.service;
 
 import com.bwxor.piejfx.constants.AppDirConstants;
-import com.bwxor.piejfx.controller.NotificationOkController;
-import com.bwxor.piejfx.controller.NotificationYesNoCancelController;
+import com.bwxor.piejfx.controller.impl.NotificationOkViewController;
+import com.bwxor.piejfx.controller.impl.NotificationYesNoCancelViewController;
 import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.ThemeState;
 import com.bwxor.plugin.service.PluginNotificationService;
@@ -33,7 +33,7 @@ public class NotificationService implements PluginNotificationService {
             throw new RuntimeException(e);
         }
 
-        NotificationOkController controller = loader.getController();
+        NotificationOkViewController controller = loader.getController();
         controller.setNotificationText(notificationText);
         Scene scene = new Scene(root);
         scene.getStylesheets().add(ThemeState.instance.getCurrentTheme().getUrl().toExternalForm());
@@ -66,7 +66,7 @@ public class NotificationService implements PluginNotificationService {
             throw new RuntimeException(e);
         }
 
-        NotificationYesNoCancelController controller = loader.getController();
+        NotificationYesNoCancelViewController controller = loader.getController();
         controller.setNotificationText(notificationText);
         Scene scene = new Scene(root);
         scene.getStylesheets().add(ThemeState.instance.getCurrentTheme().getUrl().toExternalForm());

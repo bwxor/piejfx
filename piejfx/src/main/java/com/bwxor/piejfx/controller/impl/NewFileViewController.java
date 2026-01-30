@@ -1,5 +1,6 @@
-package com.bwxor.piejfx.controller;
+package com.bwxor.piejfx.controller.impl;
 
+import com.bwxor.piejfx.controller.MovableViewController;
 import com.bwxor.plugin.dto.NewFileResponse;
 import com.bwxor.plugin.type.NewFileOption;
 import javafx.application.Platform;
@@ -9,28 +10,17 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class NewFileController {
-    @FXML
-    private AnchorPane titleBarAnchorPane;
-    @FXML
-    private Button closeButton;
-    @FXML
-    private Button minimizeButton;
+public class NewFileViewController extends MovableViewController {
     @FXML
     private Label windowTitle;
     @FXML
     private TextField fileNameTextArea;
     @FXML
     private Button buttonCreate;
-    @FXML
-    private Button buttonCancel;
+
     private NewFileResponse newFileResponse;
-    private double xOffset = 0;
-    private double yOffset = 0;
 
     public void setWindowTitle(String windowTitle) {
         this.windowTitle.setText(windowTitle);
@@ -53,25 +43,6 @@ public class NewFileController {
     public void onCloseButtonClick() {
         newFileResponse = new NewFileResponse(NewFileOption.CANCEL, null);
         ((Stage) fileNameTextArea.getScene().getWindow()).close();
-    }
-
-    @FXML
-    public void onMinimizeButtonClick() {
-        Stage stage = (Stage) closeButton.getScene().getWindow();
-        stage.setIconified(true);
-    }
-
-    @FXML
-    public void handleClickAction(MouseEvent mouseEvent) {
-        xOffset = mouseEvent.getSceneX();
-        yOffset = mouseEvent.getSceneY();
-    }
-
-    @FXML
-    public void handleMovementAction(MouseEvent mouseEvent) {
-        Stage stage = (Stage) titleBarAnchorPane.getScene().getWindow();
-        stage.setX(mouseEvent.getScreenX() - xOffset);
-        stage.setY(mouseEvent.getScreenY() - yOffset);
     }
 
     @FXML

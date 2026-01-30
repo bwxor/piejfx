@@ -1,8 +1,7 @@
 package com.bwxor.piejfx;
 
 import com.bwxor.piejfx.constants.AppDirConstants;
-import com.bwxor.piejfx.controller.EditorController;
-import com.bwxor.piejfx.service.*;
+import com.bwxor.piejfx.controller.impl.EditorViewController;
 import com.bwxor.piejfx.state.HostServicesState;
 import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.StageState;
@@ -36,7 +35,7 @@ public class Application extends javafx.application.Application {
 
         FXMLLoader fxmlLoader = new FXMLLoader(serviceState.getResourceService().getResourceByName("views/editor-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 800, 550);
-        EditorController controller = fxmlLoader.getController();
+        EditorViewController controller = fxmlLoader.getController();
         controller.setParameters(getParameters().getRaw());
         controller.handleParameters();
         scene.getStylesheets().add(AppDirConstants.DEFAULT_STYLES_FILE.toUri().toURL().toExternalForm());

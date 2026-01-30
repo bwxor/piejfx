@@ -19,7 +19,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class GrammarService {
-    private static final short DEBOUNCE_DELAY = 200;
+    private static final short DEBOUNCE_DELAY = 300;
 
     public Grammar loadGrammar(String extension) {
         ServiceState serviceState = ServiceState.instance;

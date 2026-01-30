@@ -6,16 +6,16 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class CheatsheetController {
+public abstract class MovableViewController {
     @FXML
-    private AnchorPane titleBarAnchorPane;
+    protected AnchorPane titleBarAnchorPane;
     @FXML
-    private Button closeButton;
+    protected Button closeButton;
     @FXML
-    private Button minimizeButton;
+    protected Button minimizeButton;
 
-    private double xOffset = 0;
-    private double yOffset = 0;
+    protected double xOffset = 0;
+    protected double yOffset = 0;
 
     @FXML
     public void onCloseButtonClick() {

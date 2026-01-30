@@ -1,5 +1,6 @@
-package com.bwxor.piejfx.controller;
+package com.bwxor.piejfx.controller.impl;
 
+import com.bwxor.piejfx.controller.MaximizableViewController;
 import com.bwxor.piejfx.factory.ContextMenuFactory;
 import com.bwxor.piejfx.factory.FindReplaceHBoxFactory;
 import com.bwxor.piejfx.state.*;
@@ -8,9 +9,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -18,16 +16,10 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.util.List;
 
-public class EditorController {
+public class EditorViewController extends MaximizableViewController {
     private List<String> parameters;
     @FXML
-    private AnchorPane titleBarAnchorPane;
-    @FXML
     private Label titleBarLabel;
-    @FXML
-    private Button closeButton;
-    @FXML
-    private Button maximizeButton;
     @FXML
     private SplitPane verticalSplitPane;
     @FXML
@@ -44,9 +36,6 @@ public class EditorController {
     private Menu themesMenu;
     @FXML
     private MenuBar menuBar;
-
-    private double xOffset = 0;
-    private double yOffset = 0;
 
 
     public void setParameters(List<String> parameters) {
@@ -118,43 +107,6 @@ public class EditorController {
     }
 
     @FXML
-    public void onMaximizeButtonClick() {
-        MaximizeState.instance.toggleMaximize(StageState.instance.getStage(), maximizeButton);
-    }
-
-    @FXML
-    public void onMinimizeButtonClick() {
-        Stage stage = (Stage) closeButton.getScene().getWindow();
-        stage.setIconified(true);
-    }
-
-    @FXML
-    public void handleDoubleClickAction(MouseEvent mouseEvent) {
-        if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
-            if (mouseEvent.getClickCount() == 2) {
-                MaximizeState.instance.toggleMaximize(StageState.instance.getStage(), maximizeButton);
-            }
-        }
-    }
-
-    @FXML
-    public void handleClickAction(MouseEvent mouseEvent) {
-        if (!MaximizeState.instance.isMaximized()) {
-            xOffset = mouseEvent.getSceneX();
-            yOffset = mouseEvent.getSceneY();
-        }
-    }
-
-    @FXML
-    public void handleMovementAction(MouseEvent mouseEvent) {
-        if (!MaximizeState.instance.isMaximized()) {
-            Stage stage = (Stage) titleBarAnchorPane.getScene().getWindow();
-            stage.setX(mouseEvent.getScreenX() - xOffset);
-            stage.setY(mouseEvent.getScreenY() - yOffset);
-        }
-    }
-
-    @FXML
     public void onNewButtonClickEvent() {
         ServiceState.instance.getEditorTabPaneService().addTabToPane("Untitled");
     }
@@ -180,13 +132,18 @@ public class EditorController {
     }
 
     @FXML
+    public void onPluginStoreButtonClickEvent() {
+        ServiceState.instance.getViewService().displayView("get-plugins-view.fxml");
+    }
+
+    @FXML
     public void onAboutButtonClickEvent() {
-        ServiceState.instance.getAboutService().showAboutPage();
+        ServiceState.instance.getViewService().displayView("about-view.fxml");
     }
 
     @FXML
     public void onCheatsheetButtonClickEvent() {
-        ServiceState.instance.getCheatsheetService().showCheatsheetPage();
+        ServiceState.instance.getViewService().displayView("cheatsheet-view.fxml");;
     }
 
     @FXML
