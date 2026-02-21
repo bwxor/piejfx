@@ -131,11 +131,17 @@ public class FileService implements PluginFileService {
         File selectedFile = directoryChooser.showDialog(StageState.instance.getStage());
 
         if (selectedFile != null) {
-            FolderTreeViewState.instance.setOpenedFolder(selectedFile);
-            serviceState.getFolderTreeViewService().showFolderTreeView();
+            openFolder(selectedFile);
         }
+    }
 
-        serviceState.getPluginService().invokeOnOpenFolder(selectedFile);
+    public void openFolder(File folder) {
+        ServiceState serviceState = ServiceState.instance;
+
+        FolderTreeViewState.instance.setOpenedFolder(folder);
+        serviceState.getFolderTreeViewService().showFolderTreeView();
+
+        serviceState.getPluginService().invokeOnOpenFolder(folder);
     }
 
     /**

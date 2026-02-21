@@ -9,5 +9,5 @@ public interface PluginFileService {
     void openFile(File file);
     NewFileResponse showNewFileWindow(String title);
     boolean deleteFolder(File file);
-    void openFolder();
+    void openFolder(File file);
 }

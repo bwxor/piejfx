@@ -128,8 +128,10 @@ public class ContextMenuFactory {
 
                         if (creationType.equals(CreationType.FILE)) {
                             fileToCreate.createNewFile();
+                            serviceState.getPluginService().invokeOnCreateFile(fileToCreate);
                         } else {
                             fileToCreate.mkdir();
+                            serviceState.getPluginService().invokeOnCreateFolder(fileToCreate);
                         }
 
                         ((FileTreeItem) folderTreeView.getRoot()).getChildren().add(new FileTreeItem(itemViewPrefix + " " + fileToCreate.getName(), fileToCreate));
