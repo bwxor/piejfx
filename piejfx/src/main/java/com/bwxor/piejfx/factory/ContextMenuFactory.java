@@ -164,6 +164,7 @@ public class ContextMenuFactory {
                     }
                     else {
                         treeItem.getParent().getChildren().remove(treeItem);
+                        serviceState.getPluginService().invokeOnDeleteFile(treeItem.getFile());
                     }
                 }
                 else {

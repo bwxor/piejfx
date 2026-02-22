@@ -371,6 +371,10 @@
     -fx-text-fill: #ffffff;
 }
 
+.list-view .corner {
+    -fx-background-color: #2d2d30;
+}
+
 /* --- Terminal --- */
 .terminal {
     -fx-background-color: #1e1e1e;
