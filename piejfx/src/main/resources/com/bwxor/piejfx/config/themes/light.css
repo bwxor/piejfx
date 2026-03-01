@@ -400,10 +400,10 @@
 
 /* --- Terminal --- */
 .terminal {
-    -fx-background-color: bg-deep;
-    -fx-foreground-color: text-dark;
-    -fx-selection-foreground-color: text-white;
-    -fx-selection-background-color: accent;
+    -fx-background-color: #FFFFFF;
+    -fx-foreground-color: #000000;
+    -fx-selection-foreground-color: #FFFFFF;
+    -fx-selection-background-color: #0090eb;
 }
 
 /* --- AnchorPane --- */

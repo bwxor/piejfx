@@ -422,10 +422,10 @@
 
 /* --- Terminal --- */
 .terminal {
-    -fx-background-color: bg-deep;
-    -fx-foreground-color: text-white;
-    -fx-selection-foreground-color: text-white;
-    -fx-selection-background-color: accent;
+    -fx-background-color: #1e1e1e;
+    -fx-foreground-color: #FFFFFF;
+    -fx-selection-foreground-color: #FFFFFF;
+    -fx-selection-background-color: #0090eb;
 }
 
 /* --- AnchorPane --- */
