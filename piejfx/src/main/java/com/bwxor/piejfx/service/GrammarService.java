@@ -15,11 +15,15 @@ import org.json.JSONObject;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class GrammarService {
-    private static final short DEBOUNCE_DELAY = 300;
+    private static final short DEBOUNCE_DELAY = 100;
 
     public Grammar loadGrammar(String extension) {
         ServiceState serviceState = ServiceState.instance;
@@ -83,43 +87,50 @@ public class GrammarService {
         return null;
     }
 
-    public StyleSpans<Collection<String>> computeHighlighting(CodeArea codeArea, CodeAreaState.IndividualState state) {
-        List<GrammarRule> grammarRules = state.getGrammar().getRules();
+    public StyleSpans<Collection<String>> computeHighlighting(
+            String text,
+            CodeAreaState.IndividualState state) {
 
+        List<GrammarRule> grammarRules = state.getGrammar().getRules();
         StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();
 
-        List<GrammarMatch> matches = new ArrayList<>();
+        if (grammarRules == null || text.isEmpty()) {
+            spansBuilder.add(Collections.emptyList(), Math.max(text.length(), 1));
+            return spansBuilder.create();
+        }
 
-        if (grammarRules != null) {
-            for (var rule : grammarRules) {
-                Matcher matcher = rule.getRegexPattern().matcher(codeArea.getText());
+        TreeMap<Integer, GrammarMatch> matchMap = new TreeMap<>();
 
-                while (matcher.find()) {
-                    var grammarMatch = new GrammarMatch(matcher.start(), matcher.end(), rule.getType());
-                    if (matches.stream().noneMatch((e -> grammarMatch.getStart() < e.getEnd() && e.getStart() < grammarMatch.getEnd()))) {
-                        matches.add(grammarMatch);
-                    }
+        for (GrammarRule rule : grammarRules) {
+            Matcher matcher = rule.getRegexPattern().matcher(text);
+            while (matcher.find()) {
+                int start = matcher.start();
+                int end   = matcher.end();
+
+                Map.Entry<Integer, GrammarMatch> floor = matchMap.floorEntry(start);
+                Map.Entry<Integer, GrammarMatch> ceil  = matchMap.ceilingEntry(start);
+
+                boolean overlaps =
+                        (floor != null && floor.getValue().getEnd() > start) ||
+                                (ceil  != null && ceil.getKey() < end);
+
+                if (!overlaps) {
+                    matchMap.put(start, new GrammarMatch(start, end, rule.getType()));
                 }
             }
         }
 
-        matches.sort(Comparator.comparingInt(GrammarMatch::getStart));
-
         int lastEnd = 0;
-
-        for (var match : matches) {
+        for (GrammarMatch match : matchMap.values()) {
             if (match.getStart() > lastEnd) {
                 spansBuilder.add(Collections.emptyList(), match.getStart() - lastEnd);
             }
-
-            int length = match.getEnd() - match.getStart();
-            spansBuilder.add(List.of(match.getStyleClass()), length);
-
+            spansBuilder.add(List.of(match.getStyleClass()), match.getEnd() - match.getStart());
             lastEnd = match.getEnd();
         }
 
-        if (lastEnd <= codeArea.getText().length()) {
-            spansBuilder.add(Collections.emptyList(), codeArea.getText().length() - lastEnd);
+        if (lastEnd < text.length()) {
+            spansBuilder.add(Collections.emptyList(), text.length() - lastEnd);
         }
 
         return spansBuilder.create();
@@ -150,26 +161,48 @@ public class GrammarService {
 
         individualState.setGrammar(loadGrammar(file.getName().substring(file.getName().lastIndexOf(".") + 1)));
 
-        codeArea.textProperty().addListener((obs, oldText, newText) -> {
-            Timer existingTimer = individualState.getDebounceTimer();
+        ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor(r -> {
+            Thread t = new Thread(r, "highlight-debounce");
+            t.setDaemon(true);
+            return t;
+        });
+        individualState.setDebounceScheduler(scheduler);
 
-            if (existingTimer != null) {
-                existingTimer.cancel();
+        codeArea.textProperty().addListener((_, _, newText) -> {
+            ScheduledFuture<?> existing = individualState.getPendingHighlight();
+            if (existing != null) {
+                existing.cancel(false);
             }
 
-            Timer timer = new Timer();
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    Platform.runLater(() -> resetCodeAreaStyle(codeArea, individualState));
-                }
-            }, DEBOUNCE_DELAY);
+            ScheduledFuture<?> future = scheduler.schedule(
+                    () -> {
+                        StyleSpans<Collection<String>> spans = computeHighlighting(newText, individualState);
+                        Platform.runLater(() -> resetCodeAreaStyle(codeArea, spans));
+                    },
+                    DEBOUNCE_DELAY,
+                    TimeUnit.MILLISECONDS
+            );
 
-            individualState.setDebounceTimer(timer);
+            individualState.setPendingHighlight(future);
         });
     }
 
+    /**
+     * Compute the style spans and reset the style of the code area.
+     * @param codeArea
+     * @param individualState
+     */
     public void resetCodeAreaStyle(CodeArea codeArea, CodeAreaState.IndividualState individualState) {
-        codeArea.setStyleSpans(0, computeHighlighting(codeArea, individualState));
+        codeArea.setStyleSpans(0, computeHighlighting(codeArea.getText(), individualState));
+    }
+
+    /**
+     * Reset style of code area, given the pre-computed style spans.
+     * Used for heavy workloads, where another thread needs to pre-compute the styles.
+     * @param codeArea
+     * @param styleSpans
+     */
+    public void resetCodeAreaStyle(CodeArea codeArea, StyleSpans<Collection<String>> styleSpans) {
+        codeArea.setStyleSpans(0, styleSpans);
     }
 }

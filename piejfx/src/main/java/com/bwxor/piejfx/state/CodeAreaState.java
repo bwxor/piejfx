@@ -6,7 +6,8 @@ import javafx.stage.Popup;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 
 public final class CodeAreaState {
     private Popup popup;
@@ -19,7 +20,8 @@ public final class CodeAreaState {
         private String content;
         private boolean saved;
         private Grammar grammar;
-        private Timer debounceTimer;
+        private ScheduledExecutorService debounceScheduler;
+        private ScheduledFuture<?> pendingHighlight;
 
         public int getFontSize() {
             return fontSize;
@@ -63,12 +65,20 @@ public final class CodeAreaState {
             this.grammar = grammar;
         }
 
-        public Timer getDebounceTimer() {
-            return debounceTimer;
+        public ScheduledExecutorService getDebounceScheduler() {
+            return debounceScheduler;
         }
 
-        public void setDebounceTimer(Timer debounceTimer) {
-            this.debounceTimer = debounceTimer;
+        public void setDebounceScheduler(ScheduledExecutorService debounceScheduler) {
+            this.debounceScheduler = debounceScheduler;
+        }
+
+        public ScheduledFuture<?> getPendingHighlight() {
+            return pendingHighlight;
+        }
+
+        public void setPendingHighlight(ScheduledFuture<?> pendingHighlight) {
+            this.pendingHighlight = pendingHighlight;
         }
     }
 

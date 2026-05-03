@@ -12,10 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+import javafx.stage.*;
 import org.fxmisc.richtext.CodeArea;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -74,6 +71,7 @@ public class FileService implements PluginFileService {
 
     public NewFileResponse showNewFileWindow(String title) {
         ServiceState serviceState = ServiceState.instance;
+        StageState stageState = StageState.instance;
 
         FXMLLoader loader = new FXMLLoader(serviceState.getResourceService().getResourceByName("views/newfile-view.fxml"));
         Parent root;
@@ -92,6 +90,9 @@ public class FileService implements PluginFileService {
             });
             stage.getIcons().add(new Image(Objects.requireNonNull(serviceState.getResourceService().getResourceByNameAsStream("img/icons/icon.png"))));
             stage.initStyle(StageStyle.TRANSPARENT);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.initOwner(stageState.getStage());
             scene.setFill(Color.TRANSPARENT);
             try {
                 scene.getStylesheets().add(AppDirConstants.DEFAULT_STYLES_FILE.toUri().toURL().toExternalForm());
@@ -183,6 +184,7 @@ public class FileService implements PluginFileService {
 
         return true;
     }
+
 
     /**
      * Opens a @ref FileChooser and saves the content of the selected tab into the chosen file.
