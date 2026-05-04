@@ -3,6 +3,7 @@ package com.bwxor.piejfx.factory;
 import com.bwxor.piejfx.connector.LocalPtyProcessTtyConnector;
 import com.bwxor.piejfx.listener.AutofillChangeListener;
 import com.bwxor.piejfx.provider.ThemeBasedSettingsProvider;
+import com.bwxor.piejfx.service.ParsingService;
 import com.bwxor.piejfx.state.CodeAreaState;
 import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.TerminalState;
@@ -23,7 +24,9 @@ import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TabFactory {
@@ -102,34 +105,34 @@ public class TabFactory {
             int caretPosition = codeArea.getCaretPosition();
 
             if (e.getCode().equals(KeyCode.TAB)) {
-                codeArea.insertText(caretPosition, TAB_REPLACEMENT);
+                if (e.isShiftDown() && caretPosition > 0) {
+                    // ToDo fix error when tab + 2 spaces before text
+                    var trailingWhitespaceStats = serviceState.getParsingService().getTrailingWhitespaceStatisticsForRemoval(text, caretPosition);
+
+                    codeArea.moveTo(trailingWhitespaceStats.firstIndexAfterConsecutiveWhitespaces());
+
+                    if (trailingWhitespaceStats.tab()) {
+                        codeArea.deleteText(codeArea.getCaretPosition()-1, codeArea.getCaretPosition());
+                    }
+                    else if (trailingWhitespaceStats.consecutiveSpaces() % 4 > 0) {
+                        codeArea.deleteText(codeArea.getCaretPosition() - trailingWhitespaceStats.consecutiveSpaces() % 4, codeArea.getCaretPosition());
+                    }
+                    else {
+                        codeArea.deleteText(codeArea.getCaretPosition() - 4, codeArea.getCaretPosition());
+                    }
+                }
+                else {
+                    codeArea.insertText(caretPosition, TAB_REPLACEMENT);
+                }
                 e.consume();
             } else if (e.getCode().equals(KeyCode.ENTER)) {
-                StringBuilder spacesToAppend = new StringBuilder("\n");
-
-                int noWhitespaces = countWhitespacesOnCurrentLineAfterCaret(text, caretPosition);
+                int noWhitespaces = serviceState.getParsingService().countWhitespacesOnCurrentLineAfterCaret(text, caretPosition);
 
                 if (caretPosition > 0 && (caretPosition == text.length() || noWhitespaces >= 0)) {
-                    // Find previous row start
-                    int pos;
-                    for (pos = caretPosition; pos > 0 && text.charAt(pos - 1) != '\n'; pos--) ;
-
-                    // Find how many spaces it has
-                    while (true) {
-                        if (pos == text.length() || pos == caretPosition) {
-                            break;
-                        }
-
-                        if (text.charAt(pos) == '\t' || text.charAt(pos) == ' ') {
-                            spacesToAppend.append(text.charAt(pos));
-                            pos++;
-                        } else {
-                            break;
-                        }
-                    }
+                    String spacesToAppend = serviceState.getParsingService().getSpacesToAppendForNewLineIndentation(text, caretPosition);
 
                     int insertAt = caretPosition + noWhitespaces;
-                    codeArea.replaceText(insertAt, insertAt, spacesToAppend.toString());
+                    codeArea.replaceText(insertAt, insertAt, spacesToAppend);
                     codeArea.moveTo(insertAt + spacesToAppend.length());
                     e.consume();
                 }
@@ -183,29 +186,6 @@ public class TabFactory {
         VBox.setVgrow(codeArea, Priority.ALWAYS);
         tab.setContent(vBox);
         return tab;
-    }
-
-    /**
-     * Returns the number of whitespaces on a CodeArea row, starting from the current caret position.
-     * @param text
-     * @param caretPosition
-     * @return the number of whitespaces until the end of the row, or -1 if any non-whitespace character is encountered
-     */
-    private static int countWhitespacesOnCurrentLineAfterCaret(String text, int caretPosition) {
-        int noWhitespaces = 0;
-
-        int pos = caretPosition;
-
-        while (pos != text.length() && text.charAt(pos) != '\n') {
-            if (text.charAt(pos) != ' ' && text.charAt(pos) != '\t') {
-                return -1;
-            }
-
-            pos++;
-            noWhitespaces++;
-        }
-
-        return noWhitespaces;
     }
 
     public static Tab createTerminalTab(String cmdToRun) {

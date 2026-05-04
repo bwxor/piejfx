@@ -16,6 +16,7 @@ public class ServiceState {
     private TerminalTabPaneService terminalTabPaneService = new TerminalTabPaneService();
     private ThemeService themeService = new ThemeService();
     private PluginService pluginService = new PluginService();
+    private ParsingService parsingService = new ParsingService();
     public static final ServiceState instance = new ServiceState();
 
     private ServiceState() {
@@ -72,5 +73,9 @@ public class ServiceState {
 
     public ThemeService getThemeService() {
         return themeService;
+    }
+
+    public ParsingService getParsingService() {
+        return parsingService;
     }
 }
