@@ -20,6 +20,8 @@ module com.bwxor.piejfx {
     requires javafx.base;
     requires com.helger.base;
     requires com.bwxor.plugin;
+    requires java.net.http;
+    requires kotlin.stdlib;
 
     opens com.bwxor.piejfx to javafx.fxml;
     opens com.bwxor.piejfx.controller;

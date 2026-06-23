@@ -17,6 +17,8 @@ public class ServiceState {
     private ThemeService themeService = new ThemeService();
     private PluginService pluginService = new PluginService();
     private ParsingService parsingService = new ParsingService();
+    private GetPluginsViewService getPluginsViewService = new GetPluginsViewService();
+    private FetchPluginsService fetchPluginsService = new FetchPluginsService();
     public static final ServiceState instance = new ServiceState();
 
     private ServiceState() {
@@ -77,5 +79,13 @@ public class ServiceState {
 
     public ParsingService getParsingService() {
         return parsingService;
+    }
+
+    public GetPluginsViewService getGetPluginsViewService() {
+        return getPluginsViewService;
+    }
+
+    public FetchPluginsService getFetchPluginsService() {
+        return fetchPluginsService;
     }
 }
