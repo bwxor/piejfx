@@ -55,6 +55,7 @@ public class ParsingService {
 
     public TrailingWhitespaceStatisticsForRemoval getTrailingWhitespaceStatisticsForRemoval(String text, int caretPosition) {
         List<Character> charsEncountered = new ArrayList<>();
+        int originalCaretPosition = caretPosition;
 
         while(caretPosition > 0 && text.charAt(caretPosition-1) != '\n') {
             charsEncountered.add(text.charAt(caretPosition-1));
@@ -63,32 +64,30 @@ public class ParsingService {
 
         charsEncountered = charsEncountered.reversed();
 
-        while(charsEncountered.getFirst() != '\t' && charsEncountered.getFirst() != ' ') {
+        while(!charsEncountered.isEmpty() && charsEncountered.getFirst() != '\t' && charsEncountered.getFirst() != ' ') {
             charsEncountered.removeFirst();
         }
 
         int consecutiveSpaces = 0;
         boolean isTab = false;
-        int tempIndex = 0;
-        int firstIndexAfterConsecutiveWhitespaces = 0;
+        int whitespaceStartIndex = caretPosition + (originalCaretPosition - caretPosition - charsEncountered.size());
 
-        for (char c : charsEncountered) {
-            tempIndex++;
-
+        for (int i = charsEncountered.size() - 1; i >= 0; i--) {
+            char c = charsEncountered.get(i);
+            
             if (c == ' ') {
                 consecutiveSpaces++;
-                isTab = false;
             }
             else if (c == '\t') {
-                consecutiveSpaces = 0;
                 isTab = true;
+                consecutiveSpaces = 0;
+                break;
             }
             else {
-                firstIndexAfterConsecutiveWhitespaces = tempIndex-1;
                 break;
             }
         }
 
-        return new TrailingWhitespaceStatisticsForRemoval(consecutiveSpaces, isTab, firstIndexAfterConsecutiveWhitespaces);
+        return new TrailingWhitespaceStatisticsForRemoval(consecutiveSpaces, isTab, whitespaceStartIndex + charsEncountered.size());
     }
 }

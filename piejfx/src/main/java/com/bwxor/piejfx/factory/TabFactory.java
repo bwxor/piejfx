@@ -106,19 +106,20 @@ public class TabFactory {
 
             if (e.getCode().equals(KeyCode.TAB)) {
                 if (e.isShiftDown() && caretPosition > 0) {
-                    // ToDo fix error when tab + 2 spaces before text
                     var trailingWhitespaceStats = serviceState.getParsingService().getTrailingWhitespaceStatisticsForRemoval(text, caretPosition);
 
                     codeArea.moveTo(trailingWhitespaceStats.firstIndexAfterConsecutiveWhitespaces());
+                    int currentPos = codeArea.getCaretPosition();
 
                     if (trailingWhitespaceStats.tab()) {
-                        codeArea.deleteText(codeArea.getCaretPosition()-1, codeArea.getCaretPosition());
+                        codeArea.deleteText(currentPos - 1, currentPos);
                     }
-                    else if (trailingWhitespaceStats.consecutiveSpaces() % 4 > 0) {
-                        codeArea.deleteText(codeArea.getCaretPosition() - trailingWhitespaceStats.consecutiveSpaces() % 4, codeArea.getCaretPosition());
-                    }
-                    else {
-                        codeArea.deleteText(codeArea.getCaretPosition() - 4, codeArea.getCaretPosition());
+                    else if (trailingWhitespaceStats.consecutiveSpaces() > 0) {
+                        int spacesToDelete = trailingWhitespaceStats.consecutiveSpaces() % 4;
+                        if (spacesToDelete == 0) {
+                            spacesToDelete = Math.min(4, trailingWhitespaceStats.consecutiveSpaces());
+                        }
+                        codeArea.deleteText(currentPos - spacesToDelete, currentPos);
                     }
                 }
                 else {
