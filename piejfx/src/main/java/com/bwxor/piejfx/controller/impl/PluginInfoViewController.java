@@ -137,11 +137,18 @@ public class PluginInfoViewController extends MovableViewController {
     }
 
     private void uninstallPlugin() {
+        LoadedPluginsState loadedPluginsState = LoadedPluginsState.instance;
+
         pluginOperationButton.setDisable(true);
         pluginOperationButton.setText("Uninstalling...");
-        
+
         CompletableFuture.runAsync(() -> {
             try {
+                var opt = loadedPluginsState.getPlugins().stream().filter(e -> e.getName().equals(fetchedPlugin.name())).findFirst();
+                if (opt.isPresent()) {
+                    opt.get().getClassLoader().close();
+                }
+
                 Path pluginDir = AppDirConstants.PLUGINS_DIR.resolve(fetchedPlugin.name());
                 
                 if (Files.exists(pluginDir)) {
@@ -178,7 +185,9 @@ public class PluginInfoViewController extends MovableViewController {
                 .forEach(path -> {
                     try {
                         Files.delete(path);
+                        System.out.println("DELETED");
                     } catch (IOException e) {
+                        System.out.println(e);
                     }
                 });
         }

@@ -105,7 +105,7 @@ public class PluginService {
             Class<? extends Plugin> pluginClass = classesThatImplementPlugin.getFirst().asSubclass(Plugin.class);
             Plugin p = pluginClass.getDeclaredConstructor().newInstance();
 
-            return new LoadedPlugin(pluginName, pluginDirectory.toPath(), p);
+            return new LoadedPlugin(pluginName, pluginDirectory.toPath(), p, classLoader);
         } catch (IOException | ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
                  InstantiationException | IllegalAccessException ex) {
             ServiceState.instance.getNotificationService().showNotificationOk("Problem encountered while reading the plugin files. Some bad configuration may cause this.");
