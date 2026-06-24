@@ -45,8 +45,8 @@ public class PluginService {
                     var jar = pluginJars.get();
 
                     try {
-                        var depsClassLoader = loadPluginDependencies(directory);
-                        var pluginClassLoader = new URLClassLoader(new URL[]{jar.toURI().toURL()}, depsClassLoader);
+                        var urls = loadPluginDependencies(directory);
+                        var pluginClassLoader = new URLClassLoader(Stream.concat(Arrays.stream(urls), Arrays.stream(new URL[]{jar.toURI().toURL()})).toArray(URL[]::new), getClass().getClassLoader());
 
                         var plugin = toPlugin(directory, jar, pluginClassLoader);
                         if (plugin != null) {
@@ -63,7 +63,7 @@ public class PluginService {
         return loadedPlugins;
     }
 
-    public URLClassLoader loadPluginDependencies(File pluginDirectory) {
+    public URL[] loadPluginDependencies(File pluginDirectory) {
         File depsDirectory = new File(Paths.get(pluginDirectory.getPath(), "deps").toUri());
 
         URL[] urls = new URL[0];
@@ -84,7 +84,7 @@ public class PluginService {
                     .toArray(URL[]::new);
         }
 
-        return new URLClassLoader(urls, this.getClass().getClassLoader());
+        return urls;
     }
 
     private LoadedPlugin toPlugin(File pluginDirectory, File f, URLClassLoader classLoader) {

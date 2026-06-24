@@ -185,9 +185,7 @@ public class PluginInfoViewController extends MovableViewController {
                 .forEach(path -> {
                     try {
                         Files.delete(path);
-                        System.out.println("DELETED");
                     } catch (IOException e) {
-                        System.out.println(e);
                     }
                 });
         }
