@@ -43,7 +43,7 @@ public class Application extends javafx.application.Application {
         stage.setTitle("piejfx");
         stage.getIcons().add(new Image(Objects.requireNonNull(serviceState.getResourceService().getResourceByNameAsStream("img/icons/icon.png"))));
         stage.setScene(scene);
-        stage.setOnCloseRequest(e -> serviceState.getCloseService().close());
+        stage.setOnCloseRequest(e -> serviceState.getStartStopService().close());
         stage.initStyle(StageStyle.TRANSPARENT);
         scene.setFill(Color.TRANSPARENT);
         serviceState.getResizeService().addResizeListener(stage);

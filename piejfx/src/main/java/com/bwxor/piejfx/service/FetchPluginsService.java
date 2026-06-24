@@ -45,7 +45,7 @@ public class FetchPluginsService {
                     obj.optString("name"),
                     obj.optString("description"),
                     obj.optString("author"),
-                    obj.optString("url")
+                    obj.optString("downloadUrl")
             ));
         }
 

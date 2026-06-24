@@ -158,6 +158,12 @@ public class PluginService {
     }
 
     public void invokeOnLoad() {
+        for (LoadedPlugin p : LoadedPluginsState.instance.getPlugins()) {
+            invokeOnLoadIndividually(p);
+        }
+    }
+
+    public void invokeOnLoadIndividually(LoadedPlugin p) {
         HostServicesState hostServicesState = HostServicesState.instance;
 
         ApplicationWindow applicationWindow = new ApplicationWindow();
@@ -166,7 +172,7 @@ public class PluginService {
         applicationWindow.setMenuBar(UIState.instance.getMenuBar());
 
         ServiceContainer serviceContainer = new ServiceContainer(
-                ServiceState.instance.getCloseService(),
+                ServiceState.instance.getStartStopService(),
                 ServiceState.instance.getEditorTabPaneService(),
                 ServiceState.instance.getFolderTreeViewService(),
                 ServiceState.instance.getNotificationService(),
@@ -174,16 +180,14 @@ public class PluginService {
                 ServiceState.instance.getTerminalTabPaneService()
         );
 
-        for(LoadedPlugin p : LoadedPluginsState.instance.getPlugins()) {
-            Path configurationDirectoryPath = Paths.get(AppDirConstants.PLUGINS_DIR.toString(), p.getDirectory().getFileName().toString(), "config");
-            PluginContext pluginContext = new PluginContext(
-                    applicationWindow,
-                    serviceContainer,
-                    configurationDirectoryPath,
-                    hostServicesState.getHostServices()
-            );
-            p.getHook().onLoad(pluginContext);
-        }
+        Path configurationDirectoryPath = Paths.get(AppDirConstants.PLUGINS_DIR.toString(), p.getDirectory().getFileName().toString(), "config");
+        PluginContext pluginContext = new PluginContext(
+                applicationWindow,
+                serviceContainer,
+                configurationDirectoryPath,
+                hostServicesState.getHostServices()
+        );
+        p.getHook().onLoad(pluginContext);
     }
 
     public void invokeOnKeyPress(KeyEvent k) {

@@ -4,7 +4,7 @@ import com.bwxor.piejfx.service.*;
 
 public class ServiceState {
     private ViewService viewService = new ViewService();
-    private CloseService closeService = new CloseService();
+    private StartStopService startStopService = new StartStopService();
     private ConfigurationService configurationService = new ConfigurationService();
     private EditorTabPaneService editorTabPaneService = new EditorTabPaneService();
     private FolderTreeViewService folderTreeViewService = new FolderTreeViewService();
@@ -29,8 +29,8 @@ public class ServiceState {
         return viewService;
     }
 
-    public CloseService getCloseService() {
-        return closeService;
+    public StartStopService getStartStopService() {
+        return startStopService;
     }
 
     public ConfigurationService getConfigurationService() {

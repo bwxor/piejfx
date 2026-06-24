@@ -103,7 +103,7 @@ public class EditorViewController extends MaximizableViewController {
 
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
-        ServiceState.instance.getCloseService().close();
+        ServiceState.instance.getStartStopService().close();
     }
 
     @FXML

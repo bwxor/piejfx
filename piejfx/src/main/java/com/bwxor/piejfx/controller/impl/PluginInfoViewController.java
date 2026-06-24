@@ -8,6 +8,7 @@ import com.bwxor.piejfx.state.HostServicesState;
 import com.bwxor.piejfx.state.LoadedPluginsState;
 import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.type.PluginOperation;
+import com.bwxor.plugin.type.NotificationYesNoCancelOption;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -16,6 +17,7 @@ import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -75,18 +77,27 @@ public class PluginInfoViewController extends MovableViewController {
             try {
                 Path pluginsDir = AppDirConstants.PLUGINS_DIR;
                 Files.createDirectories(pluginsDir);
-                
+
                 URL url = new URL(fetchedPlugin.url());
                 Path tempFile = Files.createTempFile("plugin-", ".zip");
-                
-                try (InputStream in = url.openStream()) {
+
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+                conn.setRequestProperty(
+                        "User-Agent",
+                        "Mozilla/5.0"
+                );
+
+                int code = conn.getResponseCode();
+                System.out.println("Response code: " + code);
+
+                System.out.println("URL = " + fetchedPlugin.url());
+
+                try (InputStream in = conn.getInputStream()) {
                     Files.copy(in, tempFile, StandardCopyOption.REPLACE_EXISTING);
                 }
                 
-                Path pluginDir = pluginsDir.resolve(fetchedPlugin.name());
-                Files.createDirectories(pluginDir);
-                
-                extractZip(tempFile, pluginDir);
+                extractZip(tempFile, pluginsDir);
                 
                 Files.delete(tempFile);
                 
@@ -95,6 +106,9 @@ public class PluginInfoViewController extends MovableViewController {
                     LoadedPluginsState.instance.setPlugins(
                         ServiceState.instance.getPluginService().getPlugins()
                     );
+
+                    var loadedPlugin = LoadedPluginsState.instance.getPlugins().stream().filter(e -> e.getName().equals(fetchedPlugin.name())).findFirst();
+                    loadedPlugin.ifPresent(plugin -> ServiceState.instance.getPluginService().invokeOnLoadIndividually(plugin));
                     
                     pluginOperation = PluginOperation.UNINSTALL;
                     pluginOperationButton.setText("Uninstall");
@@ -163,8 +177,12 @@ public class PluginInfoViewController extends MovableViewController {
                         pluginOperationButton.setText("Install");
                         pluginOperationButton.setDisable(false);
                         
-                        ServiceState.instance.getNotificationService()
-                            .showNotificationOk("Plugin '" + fetchedPlugin.name() + "' uninstalled successfully!");
+                        var response = ServiceState.instance.getNotificationService()
+                            .showNotificationYesNoCancel("Do you want to restart piejfx to properly reflect plugin changes?");
+
+                        if (response.equals(NotificationYesNoCancelOption.YES)) {
+                            ServiceState.instance.getStartStopService().restart();
+                        }
                     });
                 }
             } catch (IOException e) {
