@@ -7,6 +7,7 @@ import com.bwxor.piejfx.dto.LoadedPlugin;
 import com.bwxor.piejfx.state.HostServicesState;
 import com.bwxor.piejfx.state.LoadedPluginsState;
 import com.bwxor.piejfx.state.ServiceState;
+import com.bwxor.piejfx.state.UIState;
 import com.bwxor.piejfx.type.PluginOperation;
 import com.bwxor.plugin.type.NotificationYesNoCancelOption;
 import javafx.application.Platform;
@@ -152,6 +153,8 @@ public class PluginInfoViewController extends MovableViewController {
 
     private void uninstallPlugin() {
         LoadedPluginsState loadedPluginsState = LoadedPluginsState.instance;
+        UIState uiState = UIState.instance;
+        ServiceState serviceState = ServiceState.instance;
 
         pluginOperationButton.setDisable(true);
         pluginOperationButton.setText("Uninstalling...");
@@ -176,13 +179,19 @@ public class PluginInfoViewController extends MovableViewController {
                         pluginOperation = PluginOperation.INSTALL;
                         pluginOperationButton.setText("Install");
                         pluginOperationButton.setDisable(false);
-                        
-                        var response = ServiceState.instance.getNotificationService()
-                            .showNotificationYesNoCancel("Do you want to restart piejfx to properly reflect plugin changes?");
 
-                        if (response.equals(NotificationYesNoCancelOption.YES)) {
-                            ServiceState.instance.getStartStopService().restart();
+                        while (uiState.getMenuBar().getMenus().size() > 3) {
+                            uiState.getMenuBar().getMenus().removeLast();
                         }
+
+                        while(uiState.getSplitTabPane().getTabs().size() > 1) {
+                            uiState.getSplitTabPane().getTabs().removeLast();
+                        }
+
+                        serviceState.getPluginService().invokeOnLoad();
+
+                        ServiceState.instance.getNotificationService()
+                                .showNotificationOk("Plugin '" + fetchedPlugin.name() + "' uninstalled successfully!");
                     });
                 }
             } catch (IOException e) {
