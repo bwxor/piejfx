@@ -25,8 +25,9 @@ public class ExamplePlugin implements Plugin {
 
         // ToDo: Edit or remove
         // Example: Adding a new menu item
-        Menu menu = pluginContext.getApplicationWindow().getMenu();
-        menu.getItems().add(new MenuItem("Example Plugin"));
+        Menu menu = new Menu("Example Plugin");
+        menu.getItems().add(new MenuItem("Example Action"));
+        pluginContext.getApplicationWindow().getMenuBar().getMenus().add(menu);
     }
 
     @Override
@@ -51,12 +52,22 @@ public class ExamplePlugin implements Plugin {
     }
 
     @Override
+    public void onOpenFolder(java.io.File file) {
+        // ToDo: Handle hook
+    }
+
+    @Override
     public void onCreateFile(File file) {
         // ToDo: Handle hook
     }
 
     @Override
     public void onCreateFolder(File file) {
+        // ToDo: Handle hook
+    }
+
+    @java.lang.Override
+    public void onRenameFile(java.io.File file) {
         // ToDo: Handle hook
     }
 
