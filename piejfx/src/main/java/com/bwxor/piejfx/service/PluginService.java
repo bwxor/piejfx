@@ -228,6 +228,13 @@ public class PluginService {
                 );
     }
 
+    public void invokeOnRenameFile(File file) {
+        LoadedPluginsState.instance.getPlugins()
+                .forEach(
+                        e -> e.getHook().onRenameFile(file)
+                );
+    }
+
     public void invokeOnDeleteFile(File file) {
         LoadedPluginsState.instance.getPlugins()
                 .forEach(

@@ -87,28 +87,44 @@ public class FolderTreeViewService implements PluginFolderTreeViewService {
 
     private void createTreeItem(File rootFile, TreeItem parent) {
         if (rootFile.isDirectory()) {
-            TreeItem node = new FileTreeItem("\uD83D\uDCC1 " + rootFile.getName(), rootFile);
+            FileTreeItem node = new FileTreeItem("\uD83D\uDCC1 " + rootFile.getName(), rootFile);
             parent.getChildren().add(node);
-            for (File f : rootFile.listFiles()) {
+            
+            File[] files = rootFile.listFiles();
+            if (files != null && files.length > 0) {
+                // Add a single placeholder to indicate the folder has children
                 TreeItem placeholder = new FileTreeItem();
                 node.getChildren().add(placeholder);
 
                 node.addEventHandler(TreeItem.branchExpandedEvent(), new EventHandler() {
                     @Override
                     public void handle(Event event) {
-                        createTreeItem(f, node);
-                        node.getChildren().remove(placeholder);
-                        node.removeEventHandler(TreeItem.branchExpandedEvent(), this);
-
-                        node.getChildren().sort(
-                                (Object t1, Object t2) -> {
-                                    if (((TreeItem) t1).getChildren().size() > 0) {
-                                        return -1;
-                                    } else {
-                                        return 1;
+                        // Get the current File from the node (in case it was renamed)
+                        File currentDir = ((FileTreeItem) node).getFile();
+                        File[] currentFiles = currentDir.listFiles();
+                        
+                        if (currentFiles != null) {
+                            // Clear placeholder
+                            node.getChildren().clear();
+                            
+                            // Create tree items for all children
+                            for (File f : currentFiles) {
+                                createTreeItem(f, node);
+                            }
+                            
+                            // Sort children
+                            node.getChildren().sort(
+                                    (Object t1, Object t2) -> {
+                                        if (((TreeItem) t1).getChildren().size() > 0) {
+                                            return -1;
+                                        } else {
+                                            return 1;
+                                        }
                                     }
-                                }
-                        );
+                            );
+                        }
+                        
+                        node.removeEventHandler(TreeItem.branchExpandedEvent(), this);
                     }
                 });
             }

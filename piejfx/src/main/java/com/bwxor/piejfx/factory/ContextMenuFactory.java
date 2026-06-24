@@ -1,6 +1,7 @@
 package com.bwxor.piejfx.factory;
 
 import com.bwxor.piejfx.control.FileTreeItem;
+import com.bwxor.piejfx.dto.TreeViewStructure;
 import com.bwxor.piejfx.state.CodeAreaState;
 import com.bwxor.piejfx.state.FolderTreeViewState;
 import com.bwxor.piejfx.state.ServiceState;
@@ -45,7 +46,7 @@ public class ContextMenuFactory {
 
     public static ContextMenu createCodeAreaContextMenu() {
         ServiceState serviceState = ServiceState.instance;
-        
+
         ContextMenu contextMenu = new ContextMenu();
         contextMenu.setStyle("-fx-font-family: Segoe UI");
 
@@ -124,8 +125,7 @@ public class ContextMenuFactory {
                         } else {
                             ((FileTreeItem) folderTreeView.getSelectionModel().getSelectedItem()).getParent().getChildren().add(fileTreeItem);
                         }
-                    }
-                    else {
+                    } else {
                         serviceState.getNotificationService().showNotificationOk("File already exists.");
                     }
                 } else {
@@ -172,18 +172,17 @@ public class ContextMenuFactory {
         File fileWithPotentialNewName;
 
         if (response != null && response.option().equals(RenameFileOption.RENAME)) {
-
             if (folderTreeView.getSelectionModel().getSelectedIndex() > 0) {
                 fileWithPotentialNewName = new File(Paths.get(file.getParentFile().toString(), response.newName()).toUri());
 
                 if (!fileWithPotentialNewName.exists()) {
-                    var treeItemToRename = (FileTreeItem)folderTreeView.getSelectionModel().getSelectedItem();
+                    var treeItemToRename = (FileTreeItem) folderTreeView.getSelectionModel().getSelectedItem();
                     treeItemToRename.setValue(itemViewPrefix + " " + fileWithPotentialNewName.getName());
                     treeItemToRename.setFile(fileWithPotentialNewName);
 
                     // If a file, update it in the TabPane and title bar view
                     if (!file.isDirectory()) {
-                        for (int i = 0; i<codeAreaState.getIndividualStates().size(); i++) {
+                        for (int i = 0; i < codeAreaState.getIndividualStates().size(); i++) {
                             var state = codeAreaState.getIndividualStates().get(i);
 
                             if (state.getOpenedFile() != null && state.getOpenedFile().equals(file)) {
@@ -197,24 +196,31 @@ public class ContextMenuFactory {
                     } else {
                         // If directory, recursively update all child TreeItems
                         updateTreeItemPathsRecursively(treeItemToRename, file.getAbsolutePath(), fileWithPotentialNewName.getAbsolutePath());
-                        
+
+                        // Update TreeViewStructure to maintain expansion state
+                        FolderTreeViewState folderTreeViewState = FolderTreeViewState.instance;
+                        if (folderTreeViewState.getTreeViewStructure() != null) {
+                            updateTreeViewStructurePathsRecursively(folderTreeViewState.getTreeViewStructure(),
+                                    file.getAbsolutePath(), fileWithPotentialNewName.getAbsolutePath());
+                        }
+
                         String oldDirPath = file.getAbsolutePath();
                         String newDirPath = fileWithPotentialNewName.getAbsolutePath();
-                        
+
                         for (int i = 0; i < codeAreaState.getIndividualStates().size(); i++) {
                             var state = codeAreaState.getIndividualStates().get(i);
-                            
+
                             if (state.getOpenedFile() != null) {
                                 String openedFilePath = state.getOpenedFile().getAbsolutePath();
-                                
+
                                 if (openedFilePath.startsWith(oldDirPath + File.separator) || openedFilePath.equals(oldDirPath)) {
                                     String relativePath = openedFilePath.substring(oldDirPath.length());
                                     File newFile = new File(newDirPath + relativePath);
-                                    
+
                                     state.setOpenedFile(newFile);
-                                    
+
                                     uiState.getEditorTabPane().getTabs().get(i).setText(newFile.getName());
-                                    
+
                                     if (uiState.getEditorTabPane().getSelectionModel().getSelectedIndex() == i) {
                                         uiState.getTitleBarLabel().setText(newFile.getName());
                                     }
@@ -224,8 +230,9 @@ public class ContextMenuFactory {
                     }
 
                     file.renameTo(fileWithPotentialNewName);
-                }
-                else {
+
+                    serviceState.getPluginService().invokeOnRenameFile(file);
+                } else {
                     serviceState.getNotificationService().showNotificationOk("File already exists.");
                 }
             } else {
@@ -236,25 +243,45 @@ public class ContextMenuFactory {
 
     /**
      * Recursively updates the file paths of all child TreeItems when a directory is renamed.
+     * For unexpanded directories, clears children and collapses them so they'll be properly
+     * reloaded with the new path when expanded again.
      *
      * @param treeItem The TreeItem representing the renamed directory
-     * @param oldPath The old absolute path of the directory
-     * @param newPath The new absolute path of the directory
+     * @param oldPath  The old absolute path of the directory
+     * @param newPath  The new absolute path of the directory
      */
     private static void updateTreeItemPathsRecursively(FileTreeItem treeItem, String oldPath, String newPath) {
         for (var child : treeItem.getChildren()) {
             if (child instanceof FileTreeItem) {
                 FileTreeItem fileTreeItem = (FileTreeItem) child;
                 File oldFile = fileTreeItem.getFile();
-                String oldFilePath = oldFile.getAbsolutePath();
-                
-                String relativePath = oldFilePath.substring(oldPath.length());
-                File newFile = new File(newPath + relativePath);
-                
-                fileTreeItem.setFile(newFile);
-                
-                if (oldFile.isDirectory() && fileTreeItem.getChildren().size() > 0) {
-                    updateTreeItemPathsRecursively(fileTreeItem, oldFilePath, newFile.getAbsolutePath());
+
+                if (oldFile != null) {
+                    String oldFilePath = oldFile.getAbsolutePath();
+
+                    String relativePath = oldFilePath.substring(oldPath.length());
+                    File newFile = new File(newPath + relativePath);
+
+                    fileTreeItem.setFile(newFile);
+
+                    if (oldFile.isDirectory()) {
+                        if (fileTreeItem.isExpanded() && fileTreeItem.getChildren().size() > 0) {
+                            // Directory is expanded, recursively update all children
+                            updateTreeItemPathsRecursively(fileTreeItem, oldFilePath, newFile.getAbsolutePath());
+                        } else if (fileTreeItem.getChildren().size() > 0) {
+                            // Directory is not expanded but has placeholder children
+                            // Clear them and collapse so they'll be reloaded with correct paths on next expansion
+                            fileTreeItem.getChildren().clear();
+                            fileTreeItem.setExpanded(false);
+                            
+                            // Add new placeholders based on the new directory path
+                            File[] files = newFile.listFiles();
+                            if (files != null && files.length > 0) {
+                                // Add a single placeholder to indicate the folder has children
+                                fileTreeItem.getChildren().add(new FileTreeItem());
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -276,13 +303,11 @@ public class ContextMenuFactory {
                 if (treeItem.getFile().isDirectory()) {
                     if (!serviceState.getFileService().deleteFolder(treeItem.getFile())) {
                         serviceState.getNotificationService().showNotificationOk("Could not delete file.");
-                    }
-                    else {
+                    } else {
                         treeItem.getParent().getChildren().remove(treeItem);
                         serviceState.getPluginService().invokeOnDeleteFile(treeItem.getFile());
                     }
-                }
-                else {
+                } else {
                     boolean deletionStatus = treeItem.getFile().delete();
 
                     if (!deletionStatus) {
@@ -292,6 +317,38 @@ public class ContextMenuFactory {
                         serviceState.getPluginService().invokeOnDeleteFile(treeItem.getFile());
                     }
                 }
+            }
+        }
+    }
+
+    /**
+     * Recursively updates the file paths in TreeViewStructure when a directory is renamed.
+     * This ensures that the expansion state is preserved correctly when the tree is refreshed.
+     *
+     * @param treeViewStructure The TreeViewStructure to update
+     * @param oldPath           The old absolute path of the directory
+     * @param newPath           The new absolute path of the directory
+     */
+    private static void updateTreeViewStructurePathsRecursively(TreeViewStructure treeViewStructure, String oldPath, String newPath) {
+        if (treeViewStructure == null) {
+            return;
+        }
+
+        // Update the file reference if it matches the old path or is within it
+        if (treeViewStructure.getFile() != null) {
+            String filePath = treeViewStructure.getFile().getAbsolutePath();
+
+            if (filePath.equals(oldPath) || filePath.startsWith(oldPath + File.separator)) {
+                String relativePath = filePath.substring(oldPath.length());
+                File newFile = new File(newPath + relativePath);
+                treeViewStructure.setFile(newFile);
+            }
+        }
+
+        // Recursively update all children
+        if (treeViewStructure.getChildren() != null) {
+            for (TreeViewStructure child : treeViewStructure.getChildren()) {
+                updateTreeViewStructurePathsRecursively(child, oldPath, newPath);
             }
         }
     }

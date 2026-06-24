@@ -13,5 +13,6 @@ public interface Plugin {
     void onOpenFolder(File file);
     void onCreateFile(File file);
     void onCreateFolder(File file);
+    void onRenameFile(File file);
     void onDeleteFile(File file);
 }
