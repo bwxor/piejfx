@@ -1,16 +1,15 @@
 package com.bwxor.piejfx.state;
 
 import com.bwxor.piejfx.dto.LoadedPlugin;
-import com.bwxor.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PluginState {
+public class LoadedPluginsState {
     private List<LoadedPlugin> plugins = new ArrayList<>();
-    public static final PluginState instance = new PluginState();
+    public static final LoadedPluginsState instance = new LoadedPluginsState();
 
-    private PluginState() {
+    private LoadedPluginsState() {
     }
 
     public List<LoadedPlugin> getPlugins() {

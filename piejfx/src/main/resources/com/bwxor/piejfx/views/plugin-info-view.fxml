@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="348.0" prefWidth="405.0"
+            styleClass="window-root" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.bwxor.piejfx.controller.impl.PluginInfoViewController">
+    <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
+        <children>
+            <AnchorPane fx:id="titleBarAnchorPane" onMouseDragged="#handleMovementAction"
+                        onMousePressed="#handleClickAction" prefHeight="40.0" prefWidth="475.0">
+                <children>
+                    <Label alignment="CENTER" layoutY="12.0" prefHeight="17.0" prefWidth="475.0"
+                           styleClass="window-title" text="Plugin Information" AnchorPane.bottomAnchor="0.0"
+                           AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+                    <Button fx:id="closeButton" layoutX="439.0" layoutY="5.0" mnemonicParsing="false"
+                            onAction="#onCloseButtonClick" prefHeight="30.0" prefWidth="46.0" styleClass="button-close"
+                            text="✕" AnchorPane.rightAnchor="6.0">
+                    </Button>
+                    <Button fx:id="minimizeButton" layoutX="404.0" layoutY="5.0" mnemonicParsing="false"
+                            onAction="#onMinimizeButtonClick" prefHeight="30.0" prefWidth="46.0"
+                            styleClass="button-minimize" text="─" AnchorPane.rightAnchor="58.0">
+                    </Button>
+                </children>
+            </AnchorPane>
+            <AnchorPane styleClass="main-content">
+                <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                      prefHeight="450.0" prefWidth="261.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0"
+                      AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" VBox.vgrow="ALWAYS">
+                    <Label fx:id="pluginNameLabel" text="Unknown plugin">
+                        <font>
+                            <Font size="20.0"/>
+                        </font>
+                        <VBox.margin>
+                            <Insets bottom="5.0"/>
+                        </VBox.margin>
+                    </Label>
+                    <Label fx:id="pluginAuthorLabel" layoutX="10.0" layoutY="10.0" text="Unknown author">
+                        <VBox.margin>
+                                <Insets bottom="10.0"  top="10.0" />
+                        </VBox.margin>
+                    </Label>
+                    <ScrollPane fitToWidth="true"
+                                VBox.vgrow="ALWAYS">
+                        <content>
+                            <Label fx:id="pluginDescriptionLabel" layoutX="10.0" layoutY="10.0"
+                                   text="Unknown description" wrapText="true">
+                                <VBox.margin>
+                                    <Insets/>
+                                </VBox.margin>
+                            </Label>
+                        </content>
+                    </ScrollPane>
+                    <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+                        <children>
+                            <Button fx:id="pluginOperationButton" mnemonicParsing="false"
+                                    onMouseClicked="#onPluginOperationButtonClick" text="Unknown operation"/>
+                            <Button mnemonicParsing="false"
+                                    onMouseClicked="#onDownloadPageButtonClick" text="View download page"/>
+                        </children>
+                    </HBox>
+                </VBox>
+            </AnchorPane>
+        </children>
+    </VBox>
+    <padding>
+        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+    </padding>
+</AnchorPane>

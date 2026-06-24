@@ -2,7 +2,6 @@ package com.bwxor.piejfx.service;
 
 import com.bwxor.piejfx.dto.FetchedPlugin;
 import com.bwxor.piejfx.exception.FetchPluginsServiceException;
-import kotlin.jvm.internal.TypeReference;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

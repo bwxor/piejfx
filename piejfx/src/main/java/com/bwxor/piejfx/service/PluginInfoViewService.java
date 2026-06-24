@@ -2,6 +2,8 @@ package com.bwxor.piejfx.service;
 
 import com.bwxor.piejfx.constants.AppDirConstants;
 import com.bwxor.piejfx.controller.impl.GetPluginsViewController;
+import com.bwxor.piejfx.controller.impl.PluginInfoViewController;
+import com.bwxor.piejfx.dto.FetchedPlugin;
 import com.bwxor.piejfx.exception.FetchPluginsServiceException;
 import com.bwxor.piejfx.state.FetchedPluginsState;
 import com.bwxor.piejfx.state.ServiceState;
@@ -18,11 +20,11 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Objects;
 
-public class GetPluginsViewService {
-    public void showGetPluginsView() {
+public class PluginInfoViewService {
+    public void showGetPluginsView(FetchedPlugin fetchedPlugin) {
         ServiceState serviceState = ServiceState.instance;
 
-        FXMLLoader loader = new FXMLLoader(serviceState.getResourceService().getResourceByName("views/get-plugins-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(serviceState.getResourceService().getResourceByName("views/plugin-info-view.fxml"));
         Parent root;
 
         try {
@@ -48,11 +50,11 @@ public class GetPluginsViewService {
         }
 
         try {
+            PluginInfoViewController controller = loader.getController();
             FetchedPluginsState.instance.setPlugins(serviceState.getFetchPluginsService().fetchPlugins());
-            GetPluginsViewController controller = loader.getController();
-            controller.loadVBox();
+            controller.loadPluginInformation(fetchedPlugin);
         } catch (FetchPluginsServiceException e) {
-            serviceState.getNotificationService().showNotificationOk("Error while trying to fetch plugins.");
+            serviceState.getNotificationService().showNotificationOk("Error while trying to fetch plugin information.");
             throw new RuntimeException(e);
         }
         stage.showAndWait();

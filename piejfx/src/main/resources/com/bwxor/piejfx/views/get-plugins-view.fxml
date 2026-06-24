@@ -48,7 +48,7 @@
                                 AnchorPane.leftAnchor="0.0"
                                 AnchorPane.rightAnchor="0.0"
                                 AnchorPane.topAnchor="0.0">
-                        <ListView fx:id="pluginListView">
+                        <ListView fx:id="pluginListView"  onMouseClicked="#handlePluginListViewClick">
                         </ListView>
                     </ScrollPane>
                 </VBox>

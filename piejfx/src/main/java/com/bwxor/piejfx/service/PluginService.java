@@ -3,7 +3,7 @@ package com.bwxor.piejfx.service;
 import com.bwxor.piejfx.constants.AppDirConstants;
 import com.bwxor.piejfx.dto.LoadedPlugin;
 import com.bwxor.piejfx.state.HostServicesState;
-import com.bwxor.piejfx.state.PluginState;
+import com.bwxor.piejfx.state.LoadedPluginsState;
 import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.UIState;
 import com.bwxor.plugin.Plugin;
@@ -174,7 +174,7 @@ public class PluginService {
                 ServiceState.instance.getTerminalTabPaneService()
         );
 
-        for(LoadedPlugin p : PluginState.instance.getPlugins()) {
+        for(LoadedPlugin p : LoadedPluginsState.instance.getPlugins()) {
             Path configurationDirectoryPath = Paths.get(AppDirConstants.PLUGINS_DIR.toString(), p.getDirectory().getFileName().toString(), "config");
             PluginContext pluginContext = new PluginContext(
                     applicationWindow,
@@ -187,49 +187,49 @@ public class PluginService {
     }
 
     public void invokeOnKeyPress(KeyEvent k) {
-        PluginState.instance.getPlugins()
+        LoadedPluginsState.instance.getPlugins()
                 .forEach(
                         e -> e.getHook().onKeyPress(k)
                 );
     }
 
     public void invokeOnSaveFile(File file) {
-        PluginState.instance.getPlugins()
+        LoadedPluginsState.instance.getPlugins()
                 .forEach(
                         e -> e.getHook().onSaveFile(file)
                 );
     }
 
     public void invokeOnOpenFile(File file) {
-        PluginState.instance.getPlugins()
+        LoadedPluginsState.instance.getPlugins()
                 .forEach(
                         e -> e.getHook().onOpenFile(file)
                 );
     }
 
     public void invokeOnOpenFolder(File file) {
-        PluginState.instance.getPlugins()
+        LoadedPluginsState.instance.getPlugins()
                 .forEach(
                         e -> e.getHook().onOpenFolder(file)
                 );
     }
 
     public void invokeOnCreateFile(File file) {
-        PluginState.instance.getPlugins()
+        LoadedPluginsState.instance.getPlugins()
                 .forEach(
                         e -> e.getHook().onCreateFile(file)
                 );
     }
 
     public void invokeOnCreateFolder(File file) {
-        PluginState.instance.getPlugins()
+        LoadedPluginsState.instance.getPlugins()
                 .forEach(
                         e -> e.getHook().onCreateFolder(file)
                 );
     }
 
     public void invokeOnDeleteFile(File file) {
-        PluginState.instance.getPlugins()
+        LoadedPluginsState.instance.getPlugins()
                 .forEach(
                         e -> e.getHook().onDeleteFile(file)
                 );

@@ -1,7 +1,6 @@
 package com.bwxor.piejfx.state;
 
 import com.bwxor.piejfx.dto.FetchedPlugin;
-import com.bwxor.piejfx.dto.LoadedPlugin;
 
 import java.util.ArrayList;
 import java.util.List;

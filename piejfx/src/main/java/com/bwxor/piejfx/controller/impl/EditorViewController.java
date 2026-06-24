@@ -70,7 +70,7 @@ public class EditorViewController extends MaximizableViewController {
 
         folderTreeView.setContextMenu(ContextMenuFactory.createFolderTreeViewContextMenu(folderTreeView));
 
-        PluginState.instance.setPlugins(ServiceState.instance.getPluginService().getPlugins());
+        LoadedPluginsState.instance.setPlugins(ServiceState.instance.getPluginService().getPlugins());
         ServiceState.instance.getPluginService().invokeOnLoad();
     }
 
