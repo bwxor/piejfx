@@ -2,10 +2,13 @@ package com.bwxor.piejfx.service;
 
 import com.bwxor.piejfx.constants.AppDirConstants;
 import com.bwxor.piejfx.controller.impl.NewFileViewController;
+import com.bwxor.piejfx.controller.impl.RenameFileViewController;
 import com.bwxor.piejfx.state.*;
 import com.bwxor.plugin.dto.NewFileResponse;
+import com.bwxor.plugin.dto.RenameFileResponse;
 import com.bwxor.plugin.service.PluginFileService;
 import com.bwxor.plugin.type.NewFileOption;
+import com.bwxor.plugin.type.RenameFileOption;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -104,6 +107,47 @@ public class FileService implements PluginFileService {
             stage.showAndWait();
 
             return controller.getNewFileResponse();
+
+        } catch (IOException e) {
+            serviceState.getNotificationService().showNotificationOk("Error while trying to load the window.");
+            return null;
+        }
+    }
+
+    public RenameFileResponse showRenameFileWindow(String oldName) {
+        ServiceState serviceState = ServiceState.instance;
+        StageState stageState = StageState.instance;
+
+        FXMLLoader loader = new FXMLLoader(serviceState.getResourceService().getResourceByName("views/renamefile-view.fxml"));
+        Parent root;
+
+        try {
+            root = loader.load();
+
+            RenameFileViewController controller = loader.getController();
+            controller.setOldName(oldName);
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(ThemeState.instance.getCurrentTheme().getUrl().toExternalForm());
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setOnCloseRequest(e -> {
+                controller.setRenameFileResponse(new RenameFileResponse(RenameFileOption.CANCEL, null, null));
+            });
+            stage.getIcons().add(new Image(Objects.requireNonNull(serviceState.getResourceService().getResourceByNameAsStream("img/icons/icon.png"))));
+            stage.initStyle(StageStyle.TRANSPARENT);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.initOwner(stageState.getStage());
+            scene.setFill(Color.TRANSPARENT);
+            try {
+                scene.getStylesheets().add(AppDirConstants.DEFAULT_STYLES_FILE.toUri().toURL().toExternalForm());
+            } catch (MalformedURLException e) {
+                serviceState.getNotificationService().showNotificationOk("Error while trying to load the default styles.");
+                throw new RuntimeException(e);
+            }
+            stage.showAndWait();
+
+            return controller.getRenameFileResponse();
 
         } catch (IOException e) {
             serviceState.getNotificationService().showNotificationOk("Error while trying to load the window.");
