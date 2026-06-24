@@ -6,6 +6,7 @@ import com.bwxor.piejfx.exception.FetchPluginsServiceException;
 import com.bwxor.piejfx.state.FetchedPluginsState;
 import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.ThemeState;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -17,6 +18,7 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 
 public class GetPluginsViewService {
     public void showGetPluginsView() {
@@ -47,15 +49,25 @@ public class GetPluginsViewService {
             throw new RuntimeException(e);
         }
 
-        try {
-            FetchedPluginsState.instance.setPlugins(serviceState.getFetchPluginsService().fetchPlugins());
-            GetPluginsViewController controller = loader.getController();
-            controller.loadVBox();
-        } catch (FetchPluginsServiceException e) {
-            serviceState.getNotificationService().showNotificationOk("Error while trying to fetch plugins.");
-            throw new RuntimeException(e);
-        }
-        stage.showAndWait();
+        GetPluginsViewController controller = loader.getController();
+        
+        stage.show();
+        
+        CompletableFuture.supplyAsync(() -> {
+            try {
+                return serviceState.getFetchPluginsService().fetchPlugins();
+            } catch (FetchPluginsServiceException e) {
+                Platform.runLater(() -> {
+                    serviceState.getNotificationService().showNotificationOk("Error while trying to fetch plugins.");
+                });
+                throw new RuntimeException(e);
+            }
+        }).thenAccept(plugins -> {
+            Platform.runLater(() -> {
+                FetchedPluginsState.instance.setPlugins(plugins);
+                controller.loadVBox();
+            });
+        });
     }
 
 }
