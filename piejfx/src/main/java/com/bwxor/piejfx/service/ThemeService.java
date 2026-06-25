@@ -58,6 +58,7 @@ public class ThemeService {
                                     ThemeState.instance.setCurrentTheme(f);
                                     StageState.instance.getStage().getScene().getStylesheets().clear();
                                     StageState.instance.getStage().getScene().getStylesheets().add(f.getUrl().toExternalForm());
+                                    serviceState.getPluginService().invokeOnThemeChange(f.getUrl());
 
                                     try {
                                         if (MaximizeState.instance.isMaximized()) {

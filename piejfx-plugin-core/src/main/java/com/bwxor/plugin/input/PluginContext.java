@@ -9,12 +9,14 @@ public class PluginContext {
     private ServiceContainer serviceContainer;
     private Path configurationDirectoryPath;
     private HostServices hostServices;
+    private Stylesheets stylesheets;
 
-    public PluginContext(ApplicationWindow applicationWindow, ServiceContainer serviceContainer, Path configurationDirectoryPath, HostServices hostServices) {
+    public PluginContext(ApplicationWindow applicationWindow, ServiceContainer serviceContainer, Path configurationDirectoryPath, HostServices hostServices, Stylesheets stylesheets) {
         this.applicationWindow = applicationWindow;
         this.serviceContainer = serviceContainer;
         this.configurationDirectoryPath = configurationDirectoryPath;
         this.hostServices = hostServices;
+        this.stylesheets = stylesheets;
     }
 
     public ApplicationWindow getApplicationWindow() {
@@ -31,5 +33,9 @@ public class PluginContext {
 
     public HostServices getHostServices() {
         return hostServices;
+    }
+
+    public Stylesheets getStylesheets() {
+        return stylesheets;
     }
 }

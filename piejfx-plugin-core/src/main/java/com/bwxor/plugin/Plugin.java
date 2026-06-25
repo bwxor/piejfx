@@ -4,6 +4,7 @@ import com.bwxor.plugin.input.PluginContext;
 import javafx.scene.input.KeyEvent;
 
 import java.io.File;
+import java.net.URL;
 
 public interface Plugin {
     void onLoad(PluginContext pluginContext);
@@ -15,4 +16,5 @@ public interface Plugin {
     void onCreateFolder(File file);
     void onRenameFile(File file);
     void onDeleteFile(File file);
+    void onThemeChange(URL themeURL);
 }

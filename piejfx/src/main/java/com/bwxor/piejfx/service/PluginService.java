@@ -2,14 +2,12 @@ package com.bwxor.piejfx.service;
 
 import com.bwxor.piejfx.constants.AppDirConstants;
 import com.bwxor.piejfx.dto.LoadedPlugin;
-import com.bwxor.piejfx.state.HostServicesState;
-import com.bwxor.piejfx.state.LoadedPluginsState;
-import com.bwxor.piejfx.state.ServiceState;
-import com.bwxor.piejfx.state.UIState;
+import com.bwxor.piejfx.state.*;
 import com.bwxor.plugin.Plugin;
 import com.bwxor.plugin.input.ApplicationWindow;
 import com.bwxor.plugin.input.PluginContext;
 import com.bwxor.plugin.input.ServiceContainer;
+import com.bwxor.plugin.input.Stylesheets;
 import javafx.scene.input.KeyEvent;
 import org.json.JSONObject;
 
@@ -181,11 +179,25 @@ public class PluginService {
         );
 
         Path configurationDirectoryPath = Paths.get(AppDirConstants.PLUGINS_DIR.toString(), p.getDirectory().getFileName().toString(), "config");
+
+        URL defaultStylesheet, defaultMaximizedStylesheet;
+        try {
+            defaultStylesheet = AppDirConstants.DEFAULT_STYLES_FILE.toUri().toURL();
+            defaultMaximizedStylesheet = AppDirConstants.DEFAULT_MAXIMIZED_STYLES_FILE.toUri().toURL();
+        } catch(MalformedURLException ex) {
+            defaultStylesheet = defaultMaximizedStylesheet = null;
+        }
+
         PluginContext pluginContext = new PluginContext(
                 applicationWindow,
                 serviceContainer,
                 configurationDirectoryPath,
-                hostServicesState.getHostServices()
+                hostServicesState.getHostServices(),
+                new Stylesheets(
+                        ThemeState.instance.getCurrentTheme().getUrl(),
+                        defaultStylesheet,
+                        defaultMaximizedStylesheet
+                )
         );
         p.getHook().onLoad(pluginContext);
     }
@@ -243,6 +255,13 @@ public class PluginService {
         LoadedPluginsState.instance.getPlugins()
                 .forEach(
                         e -> e.getHook().onDeleteFile(file)
+                );
+    }
+
+    public void invokeOnThemeChange(URL url) {
+        LoadedPluginsState.instance.getPlugins()
+                .forEach(
+                        e -> e.getHook().onThemeChange(url)
                 );
     }
 }
