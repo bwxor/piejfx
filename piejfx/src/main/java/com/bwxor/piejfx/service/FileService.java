@@ -170,8 +170,6 @@ public class FileService implements PluginFileService {
     }
 
     public void openFolder() {
-        ServiceState serviceState = ServiceState.instance;
-
         DirectoryChooser directoryChooser = new DirectoryChooser();
         File selectedFile = directoryChooser.showDialog(StageState.instance.getStage());
 
