@@ -1,7 +1,6 @@
 package com.bwxor.piejfx.service;
 
 import com.bwxor.piejfx.constants.AppDirConstants;
-import com.bwxor.piejfx.controller.impl.GetPluginsViewController;
 import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.ThemeState;
 import javafx.fxml.FXMLLoader;

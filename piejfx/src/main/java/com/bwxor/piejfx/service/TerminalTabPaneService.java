@@ -11,12 +11,17 @@ public class TerminalTabPaneService implements PluginTerminalTabPaneService {
     public void addTabToPane(String process) {
         UIState uiState = UIState.instance;
 
+        if (process != null) {
+            if (!uiState.getVerticalSplitPane().getItems().contains(uiState.getTerminalTabPane())) {
+                uiState.getVerticalSplitPane().getItems().add(uiState.getTerminalTabPane());
+            }
+        }
+
         Tab tab = TabFactory.createTerminalTab(process);
         tab.setOnCloseRequest(e -> {
             removeSelectedTabFromPane(uiState.getTerminalTabPane());
             e.consume();
         });
-
 
         uiState.getTerminalTabPane().getTabs().add(tab);
         uiState.getTerminalTabPane().getSelectionModel().select(tab);
@@ -29,6 +34,13 @@ public class TerminalTabPaneService implements PluginTerminalTabPaneService {
         if (tabPane.getTabs().isEmpty()) {
             addTabToPane(null);
         }
+    }
+
+    public void removeAllTabsFromPane(TabPane tabPane) {
+        TerminalState.instance.getTerminals().clear();
+        tabPane.getTabs().clear();
+
+        addTabToPane(null);
     }
 
     public void toggleTerminalTabPane() {

@@ -1,13 +1,10 @@
 package com.bwxor.piejfx.service;
 
 import com.bwxor.piejfx.constants.AppDirConstants;
-import com.bwxor.piejfx.controller.impl.GetPluginsViewController;
 import com.bwxor.piejfx.controller.impl.PluginInfoViewController;
 import com.bwxor.piejfx.dto.FetchedPlugin;
 import com.bwxor.piejfx.exception.FetchPluginsServiceException;
-import com.bwxor.piejfx.state.FetchedPluginsState;
-import com.bwxor.piejfx.state.ServiceState;
-import com.bwxor.piejfx.state.ThemeState;
+import com.bwxor.piejfx.state.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -23,6 +20,7 @@ import java.util.Objects;
 public class PluginInfoViewService {
     public void showGetPluginsView(FetchedPlugin fetchedPlugin) {
         ServiceState serviceState = ServiceState.instance;
+        StageState stageState = StageState.instance;
 
         FXMLLoader loader = new FXMLLoader(serviceState.getResourceService().getResourceByName("views/plugin-info-view.fxml"));
         Parent root;
@@ -37,6 +35,8 @@ public class PluginInfoViewService {
         Scene scene = new Scene(root);
         scene.getStylesheets().add(ThemeState.instance.getCurrentTheme().getUrl().toExternalForm());
         Stage stage = new Stage();
+
+        stageState.setPluginInfoStage(stage);
 
         stage.setScene(scene);
         stage.getIcons().add(new Image(Objects.requireNonNull(serviceState.getResourceService().getResourceByNameAsStream("img/icons/icon.png"))));

@@ -3,7 +3,6 @@ package com.bwxor.piejfx.factory;
 import com.bwxor.piejfx.connector.LocalPtyProcessTtyConnector;
 import com.bwxor.piejfx.listener.AutofillChangeListener;
 import com.bwxor.piejfx.provider.ThemeBasedSettingsProvider;
-import com.bwxor.piejfx.service.ParsingService;
 import com.bwxor.piejfx.state.CodeAreaState;
 import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.TerminalState;
@@ -24,9 +23,7 @@ import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class TabFactory {
@@ -169,7 +166,7 @@ public class TabFactory {
         });
 
         codeArea.plainTextChanges().subscribe(
-                e -> {
+                _ -> {
                     CodeAreaState.IndividualState individualState = CodeAreaState.instance.getIndividualStates().get(Integer.parseInt(codeArea.getId()));
                     individualState.setContent(codeArea.getText());
 
@@ -222,7 +219,7 @@ public class TabFactory {
                     envs.put("TERM", "xterm-256color");
                 }
             } else {
-                command = new String[]{cmdToRun};
+                command = cmdToRun.split("\u0000");
             }
 
             PtyProcess process = new PtyProcessBuilder().setCommand(command).setEnvironment(envs).start();

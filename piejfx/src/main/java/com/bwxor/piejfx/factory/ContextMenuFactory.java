@@ -68,18 +68,25 @@ public class ContextMenuFactory {
         ContextMenu contextMenu = new ContextMenu();
 
         MenuItem newTerminalTabMenuItem = new MenuItem();
-        newTerminalTabMenuItem.setText("New Terminal Tab");
+        newTerminalTabMenuItem.setText("New Terminal");
         newTerminalTabMenuItem.setOnAction(e -> {
             serviceState.getTerminalTabPaneService().addTabToPane(null);
         });
         contextMenu.getItems().add(newTerminalTabMenuItem);
 
         MenuItem closeTerminalTabMenuItem = new MenuItem();
-        closeTerminalTabMenuItem.setText("Close Terminal Tab");
+        closeTerminalTabMenuItem.setText("Close Current Terminal");
         closeTerminalTabMenuItem.setOnAction(e -> {
             serviceState.getTerminalTabPaneService().removeSelectedTabFromPane(uiState.getTerminalTabPane());
         });
         contextMenu.getItems().add(closeTerminalTabMenuItem);
+
+        MenuItem closeAllTerminalsTab = new MenuItem();
+        closeAllTerminalsTab.setText("Close All Terminals");
+        closeAllTerminalsTab.setOnAction(e -> {
+            serviceState.getTerminalTabPaneService().removeAllTabsFromPane(uiState.getTerminalTabPane());
+        });
+        contextMenu.getItems().add(closeAllTerminalsTab);
 
         return contextMenu;
     }

@@ -57,8 +57,6 @@
                     </ScrollPane>
                     <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
                         <children>
-                            <Button fx:id="pluginOperationButton" mnemonicParsing="false"
-                                    onMouseClicked="#onPluginOperationButtonClick" text="Unknown operation"/>
                             <Button mnemonicParsing="false"
                                     onMouseClicked="#onDownloadPageButtonClick" text="View download page"/>
                         </children>

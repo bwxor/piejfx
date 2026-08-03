@@ -29,6 +29,7 @@
 
     /* Text */
     text-primary:   #212529;   /* main readable text              */
+    text-secondary: #4D4D4D;
     text-muted:     #555555;   /* unselected tab labels           */
     text-dark:      #000000;   /* black text / buttons            */
     text-white:     #ffffff;

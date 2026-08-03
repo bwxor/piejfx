@@ -23,8 +23,12 @@ import java.util.Objects;
 
 public class NotificationService implements PluginNotificationService {
     public void showNotificationOk(String notificationText) {
-        ServiceState serviceState = ServiceState.instance;
         StageState stageState = StageState.instance;
+        showNotificationOk(notificationText, stageState.getStage());
+    }
+
+    public void showNotificationOk(String notificationText, Stage owner) {
+        ServiceState serviceState = ServiceState.instance;
 
         FXMLLoader loader = new FXMLLoader(serviceState.getResourceService().getResourceByName("views/notification-ok-view.fxml"));
         Parent root;
@@ -48,7 +52,7 @@ public class NotificationService implements PluginNotificationService {
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setResizable(false);
-        stage.initOwner(stageState.getStage());
+        stage.initOwner(owner);
         scene.setFill(Color.TRANSPARENT);
         try {
             scene.getStylesheets().add(AppDirConstants.DEFAULT_STYLES_FILE.toUri().toURL().toExternalForm());
@@ -60,8 +64,12 @@ public class NotificationService implements PluginNotificationService {
     }
 
     public NotificationYesNoCancelOption showNotificationYesNoCancel(String notificationText) {
-        ServiceState serviceState = ServiceState.instance;
         StageState stageState = StageState.instance;
+        return showNotificationYesNoCancel(notificationText, stageState.getStage());
+    }
+
+    public NotificationYesNoCancelOption showNotificationYesNoCancel(String notificationText, Stage owner) {
+        ServiceState serviceState = ServiceState.instance;
 
         FXMLLoader loader = new FXMLLoader(serviceState.getResourceService().getResourceByName("views/notification-yesnocancel-view.fxml"));
         Parent root;
@@ -87,7 +95,7 @@ public class NotificationService implements PluginNotificationService {
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setResizable(false);
-        stage.initOwner(stageState.getStage());
+        stage.initOwner(owner);
         scene.setFill(Color.TRANSPARENT);
         try {
             scene.getStylesheets().add(AppDirConstants.DEFAULT_STYLES_FILE.toUri().toURL().toExternalForm());

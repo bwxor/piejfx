@@ -17,9 +17,10 @@ public class ServiceState {
     private ThemeService themeService = new ThemeService();
     private PluginService pluginService = new PluginService();
     private ParsingService parsingService = new ParsingService();
-    private GetPluginsViewService getPluginsViewService = new GetPluginsViewService();
+    private ManagePluginsViewService managePluginsViewService = new ManagePluginsViewService();
     private FetchPluginsService fetchPluginsService = new FetchPluginsService();
     private PluginInfoViewService pluginInfoViewService = new PluginInfoViewService();
+    private PluginManagementService pluginManagementService = new PluginManagementService();
     public static final ServiceState instance = new ServiceState();
 
     private ServiceState() {
@@ -82,8 +83,8 @@ public class ServiceState {
         return parsingService;
     }
 
-    public GetPluginsViewService getGetPluginsViewService() {
-        return getPluginsViewService;
+    public ManagePluginsViewService getGetPluginsViewService() {
+        return managePluginsViewService;
     }
 
     public FetchPluginsService getFetchPluginsService() {
@@ -92,5 +93,9 @@ public class ServiceState {
 
     public PluginInfoViewService getPluginInfoViewService() {
         return pluginInfoViewService;
+    }
+
+    public PluginManagementService getPluginManagementService() {
+        return pluginManagementService;
     }
 }

@@ -1,10 +1,11 @@
 package com.bwxor.piejfx.service;
 
 import com.bwxor.piejfx.constants.AppDirConstants;
-import com.bwxor.piejfx.controller.impl.GetPluginsViewController;
+import com.bwxor.piejfx.controller.impl.ManagePluginsViewController;
 import com.bwxor.piejfx.exception.FetchPluginsServiceException;
 import com.bwxor.piejfx.state.FetchedPluginsState;
 import com.bwxor.piejfx.state.ServiceState;
+import com.bwxor.piejfx.state.StageState;
 import com.bwxor.piejfx.state.ThemeState;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -20,11 +21,12 @@ import java.net.MalformedURLException;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
-public class GetPluginsViewService {
-    public void showGetPluginsView() {
+public class ManagePluginsViewService {
+    public void showManagePluginsView() {
         ServiceState serviceState = ServiceState.instance;
+        StageState stageState = StageState.instance;
 
-        FXMLLoader loader = new FXMLLoader(serviceState.getResourceService().getResourceByName("views/get-plugins-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(serviceState.getResourceService().getResourceByName("views/manage-plugins-view.fxml"));
         Parent root;
 
         try {
@@ -49,7 +51,9 @@ public class GetPluginsViewService {
             throw new RuntimeException(e);
         }
 
-        GetPluginsViewController controller = loader.getController();
+        stageState.setManagePluginsStage(stage);
+
+        ManagePluginsViewController controller = loader.getController();
         
         stage.show();
         

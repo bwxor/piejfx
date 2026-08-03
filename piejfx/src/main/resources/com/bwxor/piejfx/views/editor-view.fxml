@@ -41,7 +41,7 @@
                             </Menu>
                             <Menu mnemonicParsing="false" text="Help">
                                 <items>
-                                    <MenuItem mnemonicParsing="false" onAction="#onGetPluginsButtonClickEvent" text="Get Plugins" />
+                                    <MenuItem mnemonicParsing="false" onAction="#onManagePluginsButtonClickEvent" text="Manage Plugins" />
                                     <MenuItem mnemonicParsing="false" onAction="#onCheatsheetButtonClickEvent" text="Cheatsheet" />
                                     <MenuItem mnemonicParsing="false" onAction="#onAboutButtonClickEvent" text="About" />
                                 </items>

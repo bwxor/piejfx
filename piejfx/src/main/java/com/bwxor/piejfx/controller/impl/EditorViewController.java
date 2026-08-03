@@ -132,8 +132,8 @@ public class EditorViewController extends MaximizableViewController {
     }
 
     @FXML
-    public void onGetPluginsButtonClickEvent() {
-        ServiceState.instance.getGetPluginsViewService().showGetPluginsView();
+    public void onManagePluginsButtonClickEvent() {
+        ServiceState.instance.getGetPluginsViewService().showManagePluginsView();
     }
 
     @FXML

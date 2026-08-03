@@ -155,6 +155,23 @@ public class PluginService {
         return classes;
     }
 
+    /**
+     * Runs a plugin callback with the thread context classloader set to the
+     * plugin's own classloader. This is required so that ServiceLoader-based
+     * discovery inside plugin dependencies (e.g. Maven's XmlService, SLF4J
+     * providers, JDBC drivers) can find implementations bundled with the plugin.
+     */
+    private void invokeWithPluginClassLoader(LoadedPlugin p, Runnable callback) {
+        Thread currentThread = Thread.currentThread();
+        ClassLoader original = currentThread.getContextClassLoader();
+        try {
+            currentThread.setContextClassLoader(p.getHook().getClass().getClassLoader());
+            callback.run();
+        } finally {
+            currentThread.setContextClassLoader(original);
+        }
+    }
+
     public void invokeOnLoad() {
         for (LoadedPlugin p : LoadedPluginsState.instance.getPlugins()) {
             invokeOnLoadIndividually(p);
@@ -199,69 +216,69 @@ public class PluginService {
                         defaultMaximizedStylesheet
                 )
         );
-        p.getHook().onLoad(pluginContext);
+        invokeWithPluginClassLoader(p, () -> p.getHook().onLoad(pluginContext));
     }
 
     public void invokeOnKeyPress(KeyEvent k) {
         LoadedPluginsState.instance.getPlugins()
                 .forEach(
-                        e -> e.getHook().onKeyPress(k)
+                        e -> invokeWithPluginClassLoader(e, () -> e.getHook().onKeyPress(k))
                 );
     }
 
     public void invokeOnSaveFile(File file) {
         LoadedPluginsState.instance.getPlugins()
                 .forEach(
-                        e -> e.getHook().onSaveFile(file)
+                        e -> invokeWithPluginClassLoader(e, () -> e.getHook().onSaveFile(file))
                 );
     }
 
     public void invokeOnOpenFile(File file) {
         LoadedPluginsState.instance.getPlugins()
                 .forEach(
-                        e -> e.getHook().onOpenFile(file)
+                        e -> invokeWithPluginClassLoader(e, () -> e.getHook().onOpenFile(file))
                 );
     }
 
     public void invokeOnOpenFolder(File file) {
         LoadedPluginsState.instance.getPlugins()
                 .forEach(
-                        e -> e.getHook().onOpenFolder(file)
+                        e -> invokeWithPluginClassLoader(e, () -> e.getHook().onOpenFolder(file))
                 );
     }
 
     public void invokeOnCreateFile(File file) {
         LoadedPluginsState.instance.getPlugins()
                 .forEach(
-                        e -> e.getHook().onCreateFile(file)
+                        e -> invokeWithPluginClassLoader(e, () -> e.getHook().onCreateFile(file))
                 );
     }
 
     public void invokeOnCreateFolder(File file) {
         LoadedPluginsState.instance.getPlugins()
                 .forEach(
-                        e -> e.getHook().onCreateFolder(file)
+                        e -> invokeWithPluginClassLoader(e, () -> e.getHook().onCreateFolder(file))
                 );
     }
 
     public void invokeOnRenameFile(File file) {
         LoadedPluginsState.instance.getPlugins()
                 .forEach(
-                        e -> e.getHook().onRenameFile(file)
+                        e -> invokeWithPluginClassLoader(e, () -> e.getHook().onRenameFile(file))
                 );
     }
 
     public void invokeOnDeleteFile(File file) {
         LoadedPluginsState.instance.getPlugins()
                 .forEach(
-                        e -> e.getHook().onDeleteFile(file)
+                        e -> invokeWithPluginClassLoader(e, () -> e.getHook().onDeleteFile(file))
                 );
     }
 
     public void invokeOnThemeChange(URL url) {
         LoadedPluginsState.instance.getPlugins()
                 .forEach(
-                        e -> e.getHook().onThemeChange(url)
+                        e -> invokeWithPluginClassLoader(e, () -> e.getHook().onThemeChange(url))
                 );
     }
 }
