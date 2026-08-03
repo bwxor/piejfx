@@ -131,4 +131,5 @@ sample-plugin/
 piejfx is built like Eclipse: it provides proper extensibility support, but without any plugins, it is raw. Currently, several official plugins are maintained.
 
 1. [piejfx-ai-plugin](https://github.com/bwxor/piejfx-ai-plugin)
+2. [piejfx-git-plugin](https://github.com/bwxor/piejfx-git-plugin)
 
