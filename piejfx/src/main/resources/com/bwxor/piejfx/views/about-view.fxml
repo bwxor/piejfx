@@ -28,7 +28,7 @@
                         <Insets bottom="10.0" />
                     </VBox.margin>
                 </ImageView>
-                <Label text="PieJFX Pre-Alpha 2025.1">
+                <Label text="PieJFX Pre-Alpha 2026.1">
                     <font>
                         <Font size="20.0" />
                     </font>
@@ -53,7 +53,7 @@
                     </VBox.margin>
                 </Label>
                 <Label layoutX="10.0" layoutY="10.0" text="Report any bugs and leave your feedback" />
-                <Label layoutX="10.0" layoutY="10.0" text="via e-mail on mario@mail.bwxor.com.">
+                <Label layoutX="10.0" layoutY="10.0" text="via e-mail on mario@bwxor.com.">
                     <VBox.margin>
                         <Insets bottom="30.0" />
                     </VBox.margin>
