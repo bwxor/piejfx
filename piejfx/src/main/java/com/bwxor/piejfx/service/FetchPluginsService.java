@@ -43,9 +43,12 @@ public class FetchPluginsService {
 
             plugins.add(new FetchedPlugin(
                     obj.optString("name"),
+                    obj.optString("slug"),
                     obj.optString("description"),
                     obj.optString("author"),
-                    obj.optString("downloadUrl")
+                    obj.optBoolean("verified", false),
+                    obj.optString("downloadUrl"),
+                    obj.optString("homepageUrl")
             ));
         }
 

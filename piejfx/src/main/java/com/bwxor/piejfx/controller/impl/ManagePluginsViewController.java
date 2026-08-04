@@ -31,11 +31,25 @@ public class ManagePluginsViewController extends MaximizableViewController {
     public void onTextChanged(KeyEvent keyEvent) {
         pluginVBox.getChildren().clear();
 
-        String trimmedText = pluginsTextField.getText().trim();
-        for (var p : FetchedPluginsState.instance.getPlugins().stream().filter(e -> e.name().contains(trimmedText)).toList()) {
+        String trimmedText = pluginsTextField.getText().trim().toLowerCase();
+        final java.util.List<FetchedPlugin> filtered;
+        if (trimmedText.startsWith("slug:")) {
+            String slugQuery = trimmedText.substring(5);
+            filtered = FetchedPluginsState.instance.getPlugins().stream()
+                    .filter(e -> e.slug() != null && e.slug().toLowerCase().contains(slugQuery))
+                    .toList();
+        } else {
+            filtered = FetchedPluginsState.instance.getPlugins().stream()
+                    .filter(e -> e.name().toLowerCase().contains(trimmedText)
+                            || (e.slug() != null && e.slug().toLowerCase().contains(trimmedText)))
+                    .toList();
+        }
+        for (var p : filtered) {
             pluginVBox.getChildren().add(createVBox(p));
         }
     }
+
+    private static final int DESCRIPTION_MAX_CHARS = 150;
 
     private VBox createVBox(FetchedPlugin plugin) {
         ServiceState serviceState = ServiceState.instance;
@@ -45,11 +59,33 @@ public class ManagePluginsViewController extends MaximizableViewController {
         var vBox = new VBox();
         vBox.setSpacing(5);
 
+        var nameRow = new javafx.scene.layout.HBox();
+        nameRow.setSpacing(6);
+        nameRow.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+
         var titleLabel = new Label(plugin.name());
         titleLabel.setStyle("-fx-font-size: 18px;");
-        vBox.getChildren().add(titleLabel);
+        nameRow.getChildren().add(titleLabel);
 
-        var descriptionLabel = new Label(plugin.description());
+        if (plugin.verified()) {
+            var verifiedLabel = new Label("\u2713 Verified");
+            verifiedLabel.setStyle("-fx-font-size: 11px; -fx-text-fill: #4caf50; -fx-font-weight: bold;");
+            nameRow.getChildren().add(verifiedLabel);
+        }
+
+        vBox.getChildren().add(nameRow);
+
+        if (plugin.slug() != null && !plugin.slug().isBlank()) {
+            var slugLabel = new Label(plugin.slug());
+            slugLabel.setStyle("-fx-font-size: 11px; -fx-text-fill: text-secondary;");
+            vBox.getChildren().add(slugLabel);
+        }
+
+        String rawDesc = plugin.description() != null ? plugin.description() : "";
+        String cappedDesc = rawDesc.length() > DESCRIPTION_MAX_CHARS
+                ? rawDesc.substring(0, DESCRIPTION_MAX_CHARS) + "..."
+                : rawDesc;
+        var descriptionLabel = new Label(cappedDesc);
         descriptionLabel.setStyle("-fx-text-fill: text-secondary;");
         descriptionLabel.setWrapText(true);
         vBox.getChildren().add(descriptionLabel);
@@ -58,7 +94,7 @@ public class ManagePluginsViewController extends MaximizableViewController {
         hBox.setSpacing(3);
 
         var operationButton = new Button();
-        if (loadedPluginsState.getPlugins().stream().anyMatch(p -> p.getName().equals(plugin.name()))) {
+        if (loadedPluginsState.getPlugins().stream().anyMatch(p -> p.getName().equals(plugin.slug()))) {
             operationButton.setText("Uninstall");
         } else {
             operationButton.setText("Install");

@@ -25,7 +25,7 @@ public class PluginManagementService {
             Path pluginsDir = AppDirConstants.PLUGINS_DIR;
             Files.createDirectories(pluginsDir);
 
-            URL url = new URL(fetchedPlugin.url());
+            URL url = new URL(fetchedPlugin.downloadUrl());
             Path tempFile = Files.createTempFile("plugin-", ".zip");
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -38,7 +38,7 @@ public class PluginManagementService {
             int code = conn.getResponseCode();
             System.out.println("Response code: " + code);
 
-            System.out.println("URL = " + fetchedPlugin.url());
+            System.out.println("URL = " + fetchedPlugin.downloadUrl());
 
             try (InputStream in = conn.getInputStream()) {
                 Files.copy(in, tempFile, StandardCopyOption.REPLACE_EXISTING);
@@ -54,7 +54,7 @@ public class PluginManagementService {
                         ServiceState.instance.getPluginService().getPlugins()
                 );
 
-                var loadedPlugin = LoadedPluginsState.instance.getPlugins().stream().filter(e -> e.getName().equals(fetchedPlugin.name())).findFirst();
+                var loadedPlugin = LoadedPluginsState.instance.getPlugins().stream().filter(e -> e.getName().equals(fetchedPlugin.slug())).findFirst();
                 loadedPlugin.ifPresent(plugin -> ServiceState.instance.getPluginService().invokeOnLoadIndividually(plugin));
             });
 
@@ -90,12 +90,12 @@ public class PluginManagementService {
         ServiceState serviceState = ServiceState.instance;
 
         try {
-            var opt = loadedPluginsState.getPlugins().stream().filter(e -> e.getName().equals(fetchedPlugin.name())).findFirst();
+            var opt = loadedPluginsState.getPlugins().stream().filter(e -> e.getName().equals(fetchedPlugin.slug())).findFirst();
             if (opt.isPresent()) {
                 opt.get().getClassLoader().close();
             }
 
-            Path pluginDir = AppDirConstants.PLUGINS_DIR.resolve(fetchedPlugin.name());
+            Path pluginDir = AppDirConstants.PLUGINS_DIR.resolve(fetchedPlugin.slug());
 
             if (Files.exists(pluginDir)) {
                 deleteDirectory(pluginDir);

@@ -76,9 +76,7 @@ public class ContextMenuFactory {
 
         MenuItem closeTerminalTabMenuItem = new MenuItem();
         closeTerminalTabMenuItem.setText("Close Current Terminal");
-        closeTerminalTabMenuItem.setOnAction(e -> {
-            serviceState.getTerminalTabPaneService().removeSelectedTabFromPane(uiState.getTerminalTabPane());
-        });
+        closeTerminalTabMenuItem.setOnAction(_ -> serviceState.getTerminalTabPaneService().removeSelectedTabFromPane(uiState.getTerminalTabPane()));
         contextMenu.getItems().add(closeTerminalTabMenuItem);
 
         MenuItem closeAllTerminalsTab = new MenuItem();

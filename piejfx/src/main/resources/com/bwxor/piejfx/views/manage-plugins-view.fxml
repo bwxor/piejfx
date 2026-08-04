@@ -36,7 +36,7 @@
                       AnchorPane.bottomAnchor="0.0"
                       AnchorPane.leftAnchor="0.0"
                       AnchorPane.rightAnchor="0.0">
-                    <TextField fx:id="pluginsTextField" promptText="Search for plugins..." AnchorPane.leftAnchor="10.0"
+                    <TextField fx:id="pluginsTextField" promptText="Search by name or slug  ·  use slug: to search by slug only" AnchorPane.leftAnchor="10.0"
                                AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" onKeyReleased="#onTextChanged">
                         <VBox.margin>
                             <Insets top="10"/>
