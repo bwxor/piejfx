@@ -29,7 +29,7 @@ public class ConfigurationService {
             ThemeState.instance.getThemes().stream()
                     .filter(t -> t.getName().equals(theme))
                     .findFirst()
-                    .ifPresent(t -> ThemeState.instance.setCurrentTheme(t));
+                    .ifPresent(ThemeState.instance::setCurrentTheme);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

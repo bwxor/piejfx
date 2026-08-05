@@ -5,6 +5,7 @@ import com.bwxor.piejfx.factory.ContextMenuFactory;
 import com.bwxor.piejfx.factory.FindReplaceHBoxFactory;
 import com.bwxor.piejfx.state.*;
 import com.bwxor.plugin.type.RemoveSelectedTabFromPaneOption;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -15,6 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class EditorViewController extends MaximizableViewController {
     private List<String> parameters;
@@ -70,8 +72,14 @@ public class EditorViewController extends MaximizableViewController {
 
         folderTreeView.setContextMenu(ContextMenuFactory.createFolderTreeViewContextMenu(folderTreeView));
 
-        LoadedPluginsState.instance.setPlugins(ServiceState.instance.getPluginService().getPlugins());
-        ServiceState.instance.getPluginService().invokeOnLoad();
+        CompletableFuture.runAsync(() ->
+                LoadedPluginsState.instance.setPlugins(ServiceState.instance.getPluginService().getPlugins())
+        ).thenRun(() ->
+                Platform.runLater(() -> {
+                    ServiceState.instance.getPluginService().invokeOnLoad();
+
+                })
+        );
     }
 
     @FXML
@@ -143,7 +151,8 @@ public class EditorViewController extends MaximizableViewController {
 
     @FXML
     public void onCheatsheetButtonClickEvent() {
-        ServiceState.instance.getViewService().displayView("cheatsheet-view.fxml");;
+        ServiceState.instance.getViewService().displayView("cheatsheet-view.fxml");
+        ;
     }
 
     @FXML
@@ -168,23 +177,21 @@ public class EditorViewController extends MaximizableViewController {
                     ServiceState.instance.getFileService().openFolder();
                 }
             } else if (keyEvent.getCode().equals(KeyCode.F)) {
-                VBox vBox = (VBox)uiState.getEditorTabPane().getSelectionModel().getSelectedItem().getContent();
+                VBox vBox = (VBox) uiState.getEditorTabPane().getSelectionModel().getSelectedItem().getContent();
 
                 if (vBox.getChildren().size() == 1) {
                     vBox.getChildren().add(0, FindReplaceHBoxFactory.createFindReplaceHBox());
-                    ((HBox)vBox.getChildren().getFirst()).getChildren().getFirst().requestFocus();
-                }
-                else {
+                    ((HBox) vBox.getChildren().getFirst()).getChildren().getFirst().requestFocus();
+                } else {
                     vBox.getChildren().removeFirst();
                 }
             } else if (keyEvent.getCode().equals(KeyCode.R)) {
-                VBox vBox = (VBox)uiState.getEditorTabPane().getSelectionModel().getSelectedItem().getContent();
+                VBox vBox = (VBox) uiState.getEditorTabPane().getSelectionModel().getSelectedItem().getContent();
 
                 if (vBox.getChildren().size() == 1) {
                     vBox.getChildren().add(0, FindReplaceHBoxFactory.createFindReplaceHBox());
-                    ((HBox)vBox.getChildren().getFirst()).getChildren().get(1).requestFocus();
-                }
-                else {
+                    ((HBox) vBox.getChildren().getFirst()).getChildren().get(1).requestFocus();
+                } else {
                     vBox.getChildren().removeFirst();
                 }
             }
