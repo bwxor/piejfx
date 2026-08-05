@@ -10,6 +10,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 import java.io.File;
+import java.net.URL;
 
 public class ExamplePlugin implements Plugin {
     private PluginContext pluginContext;
@@ -73,6 +74,11 @@ public class ExamplePlugin implements Plugin {
 
     @Override
     public void onDeleteFile(File file) {
+        // ToDo: Handle hook
+    }
+
+    @Override
+    public void onThemeChange(URL url) {
         // ToDo: Handle hook
     }
 }
