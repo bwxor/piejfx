@@ -75,10 +75,7 @@ public class EditorViewController extends MaximizableViewController {
         CompletableFuture.runAsync(() ->
                 LoadedPluginsState.instance.setPlugins(ServiceState.instance.getPluginService().getPlugins())
         ).thenRun(() ->
-                Platform.runLater(() -> {
-                    ServiceState.instance.getPluginService().invokeOnLoad();
-
-                })
+                Platform.runLater(() -> ServiceState.instance.getPluginService().invokeOnLoad())
         );
     }
 
@@ -152,7 +149,6 @@ public class EditorViewController extends MaximizableViewController {
     @FXML
     public void onCheatsheetButtonClickEvent() {
         ServiceState.instance.getViewService().displayView("cheatsheet-view.fxml");
-        ;
     }
 
     @FXML

@@ -51,9 +51,6 @@ public class FileService implements PluginFileService {
         }
         else {
             serviceState.getEditorTabPaneService().addTabToPane(file);
-            CodeAreaState.IndividualState state = CodeAreaState.instance.getIndividualStates().get(uiState.getEditorTabPane().getSelectionModel().getSelectedIndex());
-            state.setSaved(true);
-            uiState.getEditorTabPane().getSelectionModel().getSelectedItem().setText(state.getOpenedFile().getName());
         }
 
         serviceState.getPluginService().invokeOnOpenFile(file);

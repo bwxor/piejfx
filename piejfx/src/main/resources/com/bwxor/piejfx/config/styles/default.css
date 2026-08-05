@@ -4,6 +4,41 @@
     -fx-border-radius: 8px;
 }
 
+/* --- Plugin filter button group --- */
+.filter-btn-left {
+    -fx-background-radius: 4px 0 0 4px;
+    -fx-border-radius: 4px 0 0 4px;
+    -fx-border-width: 1px;
+    -fx-border-color: -fx-outer-border;
+    -fx-cursor: hand;
+}
+.filter-btn-mid {
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-border-width: 1px 1px 1px 0;
+    -fx-border-color: -fx-outer-border;
+    -fx-cursor: hand;
+}
+.filter-btn-right {
+    -fx-background-radius: 0 4px 4px 0;
+    -fx-border-radius: 0 4px 4px 0;
+    -fx-border-width: 1px 1px 1px 0;
+    -fx-border-color: -fx-outer-border;
+    -fx-cursor: hand;
+}
+.filter-btn-active {
+    -fx-background-color: #3b82d4;
+    -fx-text-fill: white;
+    -fx-border-color: #2563b0;
+}
+/* Keep the active look intact even when the button is disabled */
+.filter-btn-active:disabled {
+    -fx-opacity: 1.0;
+    -fx-background-color: #3b82d4;
+    -fx-text-fill: white;
+    -fx-border-color: #2563b0;
+}
+
 /* --- Cheatsheet --- */
 .cheatsheet-key {
     -fx-border-color: -fx-text-fill;

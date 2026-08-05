@@ -3,6 +3,7 @@ package com.bwxor.piejfx.service;
 import com.bwxor.piejfx.constants.AppDirConstants;
 import com.bwxor.piejfx.dto.LoadedPlugin;
 import com.bwxor.piejfx.state.*;
+import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.plugin.Plugin;
 import com.bwxor.plugin.input.ApplicationWindow;
 import com.bwxor.plugin.input.PluginContext;
@@ -16,8 +17,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -62,27 +65,33 @@ public class PluginService {
     }
 
     public URL[] loadPluginDependencies(File pluginDirectory) {
-        File depsDirectory = new File(Paths.get(pluginDirectory.getPath(), "deps").toUri());
+        Path depsDirectory = pluginDirectory.toPath().resolve("deps");
+        List<URL> urls = new ArrayList<>();
 
-        URL[] urls = new URL[0];
+        if (Files.exists(depsDirectory) && Files.isDirectory(depsDirectory)) {
+            try (var stream = Files.list(depsDirectory)) {
+                List<Path> depFiles = stream
+                        .filter(path -> path.toString().toLowerCase().endsWith(".jar"))
+                        .toList();
 
-        if (depsDirectory.exists()) {
+                for (Path depFile : depFiles) {
+                    try {
+                        Path tempDep = Files.createTempFile("plugin-dep-", ".jar");
+                        tempDep.toFile().deleteOnExit(); // Clean up on JVM exit
 
-            List<File> depFiles = Arrays.stream(Objects.requireNonNull(depsDirectory.listFiles()))
-                    .filter(e -> e.getName().endsWith(".jar")).toList();
+                        Files.copy(depFile, tempDep, StandardCopyOption.REPLACE_EXISTING);
 
-            urls = depFiles.stream().map(
-                            f -> {
-                                try {
-                                    return f.toURI().toURL();
-                                } catch (MalformedURLException ex) {
-                                    return null;
-                                }
-                            }).filter(Objects::nonNull)
-                    .toArray(URL[]::new);
+                        urls.add(tempDep.toUri().toURL());
+                    } catch (IOException e) {
+                        System.err.println("Failed to shadow-copy dependency: " + depFile.getFileName() + " - " + e.getMessage());
+                    }
+                }
+            } catch (IOException e) {
+                System.err.println("Failed to read deps directory: " + e.getMessage());
+            }
         }
 
-        return urls;
+        return urls.toArray(new URL[0]);
     }
 
     private LoadedPlugin toPlugin(File pluginDirectory, File f, URLClassLoader classLoader) {
@@ -103,7 +112,10 @@ public class PluginService {
             Class<? extends Plugin> pluginClass = classesThatImplementPlugin.getFirst().asSubclass(Plugin.class);
             Plugin p = pluginClass.getDeclaredConstructor().newInstance();
 
-            return new LoadedPlugin(pluginName, pluginDirectory.toPath(), p, classLoader);
+            String slug = pluginDirectory.getName();
+            boolean enabled = ServiceState.instance.getPluginEnabledConfigService().isEnabled(slug);
+
+            return new LoadedPlugin(pluginName, pluginDirectory.toPath(), p, classLoader, enabled);
         } catch (IOException | ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
                  InstantiationException | IllegalAccessException ex) {
             ServiceState.instance.getNotificationService().showNotificationOk("Problem encountered while reading the plugin files. Some bad configuration may cause this.");
@@ -174,7 +186,9 @@ public class PluginService {
 
     public void invokeOnLoad() {
         for (LoadedPlugin p : LoadedPluginsState.instance.getPlugins()) {
-            invokeOnLoadIndividually(p);
+            if (p.isEnabled()) {
+                invokeOnLoadIndividually(p);
+            }
         }
     }
 
@@ -220,65 +234,56 @@ public class PluginService {
     }
 
     public void invokeOnKeyPress(KeyEvent k) {
-        LoadedPluginsState.instance.getPlugins()
-                .forEach(
-                        e -> invokeWithPluginClassLoader(e, () -> e.getHook().onKeyPress(k))
-                );
+        LoadedPluginsState.instance.getPlugins().stream()
+                .filter(LoadedPlugin::isEnabled)
+                .forEach(e -> invokeWithPluginClassLoader(e, () -> e.getHook().onKeyPress(k)));
     }
 
     public void invokeOnSaveFile(File file) {
-        LoadedPluginsState.instance.getPlugins()
-                .forEach(
-                        e -> invokeWithPluginClassLoader(e, () -> e.getHook().onSaveFile(file))
-                );
+        LoadedPluginsState.instance.getPlugins().stream()
+                .filter(LoadedPlugin::isEnabled)
+                .forEach(e -> invokeWithPluginClassLoader(e, () -> e.getHook().onSaveFile(file)));
     }
 
     public void invokeOnOpenFile(File file) {
-        LoadedPluginsState.instance.getPlugins()
-                .forEach(
-                        e -> invokeWithPluginClassLoader(e, () -> e.getHook().onOpenFile(file))
-                );
+        LoadedPluginsState.instance.getPlugins().stream()
+                .filter(LoadedPlugin::isEnabled)
+                .forEach(e -> invokeWithPluginClassLoader(e, () -> e.getHook().onOpenFile(file)));
     }
 
     public void invokeOnOpenFolder(File file) {
-        LoadedPluginsState.instance.getPlugins()
-                .forEach(
-                        e -> invokeWithPluginClassLoader(e, () -> e.getHook().onOpenFolder(file))
-                );
+        LoadedPluginsState.instance.getPlugins().stream()
+                .filter(LoadedPlugin::isEnabled)
+                .forEach(e -> invokeWithPluginClassLoader(e, () -> e.getHook().onOpenFolder(file)));
     }
 
     public void invokeOnCreateFile(File file) {
-        LoadedPluginsState.instance.getPlugins()
-                .forEach(
-                        e -> invokeWithPluginClassLoader(e, () -> e.getHook().onCreateFile(file))
-                );
+        LoadedPluginsState.instance.getPlugins().stream()
+                .filter(LoadedPlugin::isEnabled)
+                .forEach(e -> invokeWithPluginClassLoader(e, () -> e.getHook().onCreateFile(file)));
     }
 
     public void invokeOnCreateFolder(File file) {
-        LoadedPluginsState.instance.getPlugins()
-                .forEach(
-                        e -> invokeWithPluginClassLoader(e, () -> e.getHook().onCreateFolder(file))
-                );
+        LoadedPluginsState.instance.getPlugins().stream()
+                .filter(LoadedPlugin::isEnabled)
+                .forEach(e -> invokeWithPluginClassLoader(e, () -> e.getHook().onCreateFolder(file)));
     }
 
     public void invokeOnRenameFile(File file) {
-        LoadedPluginsState.instance.getPlugins()
-                .forEach(
-                        e -> invokeWithPluginClassLoader(e, () -> e.getHook().onRenameFile(file))
-                );
+        LoadedPluginsState.instance.getPlugins().stream()
+                .filter(LoadedPlugin::isEnabled)
+                .forEach(e -> invokeWithPluginClassLoader(e, () -> e.getHook().onRenameFile(file)));
     }
 
     public void invokeOnDeleteFile(File file) {
-        LoadedPluginsState.instance.getPlugins()
-                .forEach(
-                        e -> invokeWithPluginClassLoader(e, () -> e.getHook().onDeleteFile(file))
-                );
+        LoadedPluginsState.instance.getPlugins().stream()
+                .filter(LoadedPlugin::isEnabled)
+                .forEach(e -> invokeWithPluginClassLoader(e, () -> e.getHook().onDeleteFile(file)));
     }
 
     public void invokeOnThemeChange(URL url) {
-        LoadedPluginsState.instance.getPlugins()
-                .forEach(
-                        e -> invokeWithPluginClassLoader(e, () -> e.getHook().onThemeChange(url))
-                );
+        LoadedPluginsState.instance.getPlugins().stream()
+                .filter(LoadedPlugin::isEnabled)
+                .forEach(e -> invokeWithPluginClassLoader(e, () -> e.getHook().onThemeChange(url)));
     }
 }

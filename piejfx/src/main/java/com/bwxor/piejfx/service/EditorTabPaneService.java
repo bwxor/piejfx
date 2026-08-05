@@ -45,9 +45,10 @@ public class EditorTabPaneService implements PluginEditorTabPaneService {
 
             try (BufferedReader bufferedReader = Files.newBufferedReader(file.toPath(), StandardCharsets.UTF_8)) {
                 c.replaceText(bufferedReader.readAllAsString());
-                tab.setText(tab.getText());
+                tab.setText(file.getName());
             } catch (IOException e) {
                 uiState.getEditorTabPane().getTabs().removeLast();
+                CodeAreaState.instance.getIndividualStates().remove(individualState);
                 serviceState.getNotificationService().showNotificationOk("Could not open specified file.");
                 throw new RuntimeException();
             }

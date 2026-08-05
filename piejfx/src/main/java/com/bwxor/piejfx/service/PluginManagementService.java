@@ -48,14 +48,22 @@ public class PluginManagementService {
 
             Files.delete(tempFile);
 
+            ServiceState.instance.getPluginEnabledConfigService().addIfAbsent(fetchedPlugin.slug());
+
             // Update UI on JavaFX thread
             Platform.runLater(() -> {
                 LoadedPluginsState.instance.setPlugins(
                         ServiceState.instance.getPluginService().getPlugins()
                 );
 
-                var loadedPlugin = LoadedPluginsState.instance.getPlugins().stream().filter(e -> e.getName().equals(fetchedPlugin.slug())).findFirst();
-                loadedPlugin.ifPresent(plugin -> ServiceState.instance.getPluginService().invokeOnLoadIndividually(plugin));
+                var loadedPlugin = LoadedPluginsState.instance.getPlugins().stream()
+                        .filter(e -> e.getSlug().equals(fetchedPlugin.slug()))
+                        .findFirst();
+                loadedPlugin.ifPresent(plugin -> {
+                    if (plugin.isEnabled()) {
+                        ServiceState.instance.getPluginService().invokeOnLoadIndividually(plugin);
+                    }
+                });
             });
 
         } catch (IOException e) {
@@ -90,15 +98,30 @@ public class PluginManagementService {
         ServiceState serviceState = ServiceState.instance;
 
         try {
-            var opt = loadedPluginsState.getPlugins().stream().filter(e -> e.getName().equals(fetchedPlugin.slug())).findFirst();
+            // Match by slug first; fall back to matching by name so that plugins
+            // whose extracted directory name differs from the API slug still uninstall.
+            var opt = loadedPluginsState.getPlugins().stream()
+                    .filter(e -> e.getSlug().equals(fetchedPlugin.slug())
+                            || e.getName().equals(fetchedPlugin.slug())
+                            || e.getName().equals(fetchedPlugin.name()))
+                    .findFirst();
+
             if (opt.isPresent()) {
                 opt.get().getClassLoader().close();
+                System.gc();
             }
 
-            Path pluginDir = AppDirConstants.PLUGINS_DIR.resolve(fetchedPlugin.slug());
+            // Derive the actual directory from the loaded plugin when available;
+            // otherwise fall back to constructing it from the slug.
+            Path pluginDir = opt.isPresent()
+                    ? opt.get().getDirectory()
+                    : AppDirConstants.PLUGINS_DIR.resolve(fetchedPlugin.slug());
 
             if (Files.exists(pluginDir)) {
                 deleteDirectory(pluginDir);
+
+                // Remove by both the slug on disk and the API slug so the cache stays clean.
+                serviceState.getPluginEnabledConfigService().remove(opt.isPresent() ? opt.get().getSlug() : fetchedPlugin.slug());
 
                 Platform.runLater(() -> {
                     LoadedPluginsState.instance.setPlugins(
@@ -123,14 +146,17 @@ public class PluginManagementService {
 
     private void deleteDirectory(Path directory) throws IOException {
         if (Files.exists(directory)) {
-            Files.walk(directory)
-                    .sorted(Comparator.reverseOrder())
-                    .forEach(path -> {
-                        try {
-                            Files.delete(path);
-                        } catch (IOException e) {
-                        }
-                    });
+            try (var files = Files.walk(directory)) {
+                var fileList = files.sorted(Comparator.reverseOrder()).toList();
+
+                for (var f : fileList) {
+                    try {
+                        Files.delete(f);
+                    } catch (IOException e) {
+                        System.out.println("Err");
+                    }
+                }
+            }
         }
     }
 }

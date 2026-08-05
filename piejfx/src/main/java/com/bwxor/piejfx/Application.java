@@ -30,6 +30,7 @@ public class Application extends javafx.application.Application {
         StageState.instance.setStage(stage);
 
         serviceState.getConfigurationService().createConfigDirectoryStructure();
+        serviceState.getPluginEnabledConfigService().ensureFileExists();
         ThemeState.instance.setThemes(serviceState.getThemeService().getThemes());
         serviceState.getConfigurationService().loadConfig();
 

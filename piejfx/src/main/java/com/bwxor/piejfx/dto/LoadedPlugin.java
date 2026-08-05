@@ -10,12 +10,14 @@ public class LoadedPlugin {
     private Path directory;
     private Plugin hook;
     private URLClassLoader classLoader;
+    private boolean enabled;
 
-    public LoadedPlugin(String name, Path directory, Plugin hook, URLClassLoader classLoader) {
+    public LoadedPlugin(String name, Path directory, Plugin hook, URLClassLoader classLoader, boolean enabled) {
         this.name = name;
         this.directory = directory;
         this.hook = hook;
         this.classLoader = classLoader;
+        this.enabled = enabled;
     }
 
     public String getName() {
@@ -48,5 +50,17 @@ public class LoadedPlugin {
 
     public void setClassLoader(URLClassLoader classLoader) {
         this.classLoader = classLoader;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public String getSlug() {
+        return directory.getFileName().toString();
     }
 }

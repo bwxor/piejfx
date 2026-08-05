@@ -36,18 +36,23 @@
                       AnchorPane.bottomAnchor="0.0"
                       AnchorPane.leftAnchor="0.0"
                       AnchorPane.rightAnchor="0.0">
-                    <TextField fx:id="pluginsTextField" promptText="Search by name or slug  ·  use slug: to search by slug only" AnchorPane.leftAnchor="10.0"
-                               AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" onKeyReleased="#onTextChanged">
+                    <TextField fx:id="pluginsTextField" promptText="Search by name or slug  ·  use slug: to search by slug only"
+                               onKeyReleased="#onTextChanged">
                         <VBox.margin>
-                            <Insets top="10"/>
+                            <Insets top="10" left="10" right="10"/>
                         </VBox.margin>
                     </TextField>
 
+                    <HBox spacing="0">
+                        <VBox.margin>
+                            <Insets top="6" left="10"/>
+                        </VBox.margin>
+                        <Button fx:id="filterAllButton"          text="All"           styleClass="filter-btn-left"  onAction="#onFilterAll"/>
+                        <Button fx:id="filterInstalledButton"    text="Installed"     styleClass="filter-btn-mid"   onAction="#onFilterInstalled"/>
+                        <Button fx:id="filterNotInstalledButton" text="Not Installed" styleClass="filter-btn-right" onAction="#onFilterNotInstalled"/>
+                    </HBox>
+
                     <ScrollPane fx:id="pluginScrollPane" fitToWidth="true" fitToHeight="true" style="-fx-background-color: transparent;"
-                                AnchorPane.bottomAnchor="0.0"
-                                AnchorPane.leftAnchor="0.0"
-                                AnchorPane.rightAnchor="0.0"
-                                AnchorPane.topAnchor="0.0"
                                 VBox.vgrow="ALWAYS">
                         <VBox fx:id="pluginVBox" spacing="10">
                             <padding>

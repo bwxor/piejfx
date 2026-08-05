@@ -21,6 +21,7 @@ public class ServiceState {
     private FetchPluginsService fetchPluginsService;
     private PluginInfoViewService pluginInfoViewService;
     private PluginManagementService pluginManagementService;
+    private PluginEnabledConfigService pluginEnabledConfigService;
     public static final ServiceState instance = new ServiceState();
 
     private ServiceState() {
@@ -169,5 +170,13 @@ public class ServiceState {
         }
 
         return pluginManagementService;
+    }
+
+    public PluginEnabledConfigService getPluginEnabledConfigService() {
+        if (pluginEnabledConfigService == null) {
+            pluginEnabledConfigService = new PluginEnabledConfigService();
+        }
+
+        return pluginEnabledConfigService;
     }
 }
