@@ -18,10 +18,11 @@ public final class CodeAreaState {
         private int fontSize = 10;
         private File openedFile;
         private String content;
-        private boolean saved;
+        private boolean saved = true;
         private Grammar grammar;
         private ScheduledExecutorService debounceScheduler;
         private ScheduledFuture<?> pendingHighlight;
+        private boolean justOpened = true;
 
         public int getFontSize() {
             return fontSize;
@@ -79,6 +80,14 @@ public final class CodeAreaState {
 
         public void setPendingHighlight(ScheduledFuture<?> pendingHighlight) {
             this.pendingHighlight = pendingHighlight;
+        }
+
+        public boolean isJustOpened() {
+            return justOpened;
+        }
+
+        public void setJustOpened(boolean justOpened) {
+            this.justOpened = justOpened;
         }
     }
 
