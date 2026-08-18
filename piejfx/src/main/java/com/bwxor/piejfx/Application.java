@@ -45,8 +45,6 @@ public class Application extends javafx.application.Application {
         EditorViewController controller = fxmlLoader.getController();
         controller.setParameters(getParameters().getRaw());
         controller.handleParameters();
-        scene.getStylesheets().add(AppDirConstants.DEFAULT_STYLES_FILE.toUri().toURL().toExternalForm());
-        scene.getStylesheets().add(ThemeState.instance.getCurrentTheme().getUrl().toExternalForm());
         stage.setTitle("piejfx");
         stage.getIcons().add(new Image(Objects.requireNonNull(serviceState.getResourceService().getResourceByNameAsStream("img/icons/icon.png"))));
         stage.setScene(scene);
@@ -56,5 +54,8 @@ public class Application extends javafx.application.Application {
         serviceState.getResizeService().addResizeListener(stage);
 
         stage.show();
+
+        scene.getStylesheets().add(AppDirConstants.DEFAULT_STYLES_FILE.toUri().toURL().toExternalForm());
+        scene.getStylesheets().add(ThemeState.instance.getCurrentTheme().getUrl().toExternalForm());
     }
 }
