@@ -6,6 +6,7 @@ import com.bwxor.piejfx.state.ThemeState;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -74,7 +75,9 @@ public class ConfigurationService {
                 fileToCreate.getParentFile().mkdirs();
                 Files.copy(serviceState.getResourceService().getResourceByNameAsStream(s), target);
             }
-        } catch (IOException e) {
+        } catch (FileAlreadyExistsException _) {
+            // Ignored
+        } catch(IOException e) {
             serviceState.getNotificationService().showNotificationOk("Error while trying to write the config folder to the local disk.");
             throw new RuntimeException(e);
         }

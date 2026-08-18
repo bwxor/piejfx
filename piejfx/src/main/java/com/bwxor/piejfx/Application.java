@@ -19,20 +19,26 @@ import java.util.Objects;
 
 public class Application extends javafx.application.Application {
     @Override
-    public void start(Stage stage) throws IOException {
+    public void init() {
         ServiceState serviceState = ServiceState.instance;
-        HostServicesState.instance.setHostServices(getHostServices());
-        
+
         Font.loadFont(serviceState.getResourceService().getResourceByName("config/fonts/JetBrainsMono-Regular.ttf").toExternalForm(), 10);
         Font.loadFont(serviceState.getResourceService().getResourceByName("config/fonts/SegoeUISymbol.ttf").toExternalForm(), 10);
         Font.loadFont(serviceState.getResourceService().getResourceByName("config/fonts/SegoeUI.ttf").toExternalForm(), 10);
         Font.loadFont(serviceState.getResourceService().getResourceByName("config/fonts/SegoeUIBold.ttf").toExternalForm(), 10);
-        StageState.instance.setStage(stage);
 
         serviceState.getConfigurationService().createConfigDirectoryStructure();
         serviceState.getPluginEnabledConfigService().ensureFileExists();
         ThemeState.instance.setThemes(serviceState.getThemeService().getThemes());
         serviceState.getConfigurationService().loadConfig();
+    }
+
+    @Override
+    public void start(Stage stage) throws IOException {
+        ServiceState serviceState = ServiceState.instance;
+        HostServicesState.instance.setHostServices(getHostServices());
+
+        StageState.instance.setStage(stage);
 
         FXMLLoader fxmlLoader = new FXMLLoader(serviceState.getResourceService().getResourceByName("views/editor-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 800, 550);

@@ -55,7 +55,6 @@ public class EditorViewController extends MaximizableViewController {
 
         verticalSplitPane.getItems().remove(terminalTabPane);
         horizontalSplitPane.getItems().remove(splitTabPane);
-        ServiceState.instance.getTerminalTabPaneService().addTabToPane(null);
         terminalTabPane.setContextMenu(ContextMenuFactory.createTerminalTabPaneContextMenu());
 
         editorTabPane.getSelectionModel().selectedItemProperty().addListener(

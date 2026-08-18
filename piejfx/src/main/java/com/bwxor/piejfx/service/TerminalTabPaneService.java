@@ -1,6 +1,7 @@
 package com.bwxor.piejfx.service;
 
 import com.bwxor.piejfx.factory.TabFactory;
+import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.TerminalState;
 import com.bwxor.piejfx.state.UIState;
 import com.bwxor.plugin.service.PluginTerminalTabPaneService;
@@ -45,10 +46,15 @@ public class TerminalTabPaneService implements PluginTerminalTabPaneService {
 
     public void toggleTerminalTabPane() {
         UIState uiState = UIState.instance;
+        ServiceState serviceState = ServiceState.instance;
 
         if (uiState.getVerticalSplitPane().getItems().contains(uiState.getTerminalTabPane())) {
             uiState.getVerticalSplitPane().getItems().remove(uiState.getTerminalTabPane());
         } else {
+            if (uiState.getTerminalTabPane().getTabs().isEmpty()) {
+                serviceState.getTerminalTabPaneService().addTabToPane(null);
+            }
+
             uiState.getVerticalSplitPane().getItems().add(uiState.getTerminalTabPane());
         }
     }
