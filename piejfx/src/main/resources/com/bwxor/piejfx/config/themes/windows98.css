@@ -1,0 +1,658 @@
+/* ============================================================
+   WINDOWS 98 THEME - COLOR VARIABLES (JavaFX looked-up colors)
+   ============================================================ */
+.root {
+    /* Backgrounds */
+    bg-base:        #c0c0c0;   /* main panels / sidebars (classic grey)   */
+    bg-deep:        #ffffff;   /* editor / text areas                     */
+    bg-dark:        #808080;   /* tab header area / dark surfaces         */
+    bg-tab:         #c0c0c0;   /* unselected tab                          */
+    bg-hover:       #d4d0c8;   /* tab hover                               */
+    bg-hover-dark:  #d4d0c8;   /* list / combo hover                      */
+    bg-btn:         #c0c0c0;   /* button background                       */
+    bg-btn-hover:   #d4d0c8;   /* button hover                            */
+    bg-window-btn:  #c0c0c0;   /* maximize / minimize hover               */
+    bg-line:        #ffffcc;   /* caret / active line (classic yellow)    */
+    bg-lineno:      #c0c0c0;   /* line number gutter                      */
+    bg-menu:        #c0c0c0;   /* context menu background                 */
+
+    /* Borders - classic 3D raised/sunken look */
+    border-main:    #808080;
+    border-panel:   #808080;
+    border-tab:     #808080;
+    border-menu:    #808080;
+    border-btn:     #808080;
+
+    /* Accent */
+    accent:         #000080;   /* Windows classic navy blue                */
+    accent-tab-sel: #000080;   /* selected tab label color                 */
+
+    /* Text */
+    text-primary:   #000000;
+    text-secondary: #000000;
+    text-muted:     #444444;
+    text-dark:      #000000;
+    text-white:     #ffffff;
+    text-prompt:    #444444;
+    text-menu:      #000000;
+    text-title:     #000000;   /* title bar text black                     */
+
+    /* Scrollbar */
+    scroll-thumb:   #c0c0c0;
+
+    /* Syntax - classic dark-on-white code colors */
+    syn-keyword:    #00007f;   /* dark blue keywords                       */
+    syn-string:     #007f00;   /* dark green strings                       */
+    syn-comment:    #808080;   /* grey comments                            */
+    syn-number:     #7f0000;   /* dark red numbers                         */
+    syn-error:      #ff0000;   /* red errors / annotations                 */
+    syn-operator:   #000000;   /* black operators                          */
+}
+
+/* --- Window --- */
+.window-root {
+    -fx-border-color: border-main;
+    -fx-font-family: "Microsoft Sans Serif", "Tahoma", "Arial", sans-serif;
+}
+
+.window-title {
+    -fx-font-weight: bold;
+    -fx-text-fill: text-title;
+    -fx-font-family: "Microsoft Sans Serif", "Tahoma", "Arial", sans-serif;
+}
+
+/* --- TabPane --- */
+.tab-pane {
+    -fx-background-color: bg-base;
+    -fx-border-color: border-panel;
+    -fx-border-width: 2px;
+    -fx-border-radius: 0;
+}
+
+.tab-pane .tab-header-area {
+    -fx-padding: 0 0 0 0;
+    -fx-background-color: bg-dark;
+    -fx-min-height: 35px;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: bg-base;
+}
+
+.tab-pane .tab-header-area .tab {
+    -fx-padding: 2px 10px;
+    -fx-background-color: bg-tab;
+    -fx-border-color: #ffffff #808080 #808080 #ffffff;
+    -fx-border-width: 2px;
+    -fx-border-radius: 0;
+}
+
+.tab-pane .tab-header-area .tab:hover {
+    -fx-background-color: bg-hover;
+}
+
+.tab-pane .tab-header-area .tab:selected {
+    -fx-background-color: bg-deep;
+    -fx-border-color: #ffffff #808080 #ffffff #ffffff;
+    -fx-border-width: 2px;
+    -fx-border-radius: 0;
+    -fx-text-fill: text-dark;
+}
+
+.tab-pane .tab-content-area {
+    -fx-background-color: bg-deep;
+    -fx-border-color: border-panel;
+}
+
+.tab-pane .tab-header-area .tab .tab-label {
+    -fx-text-fill: text-muted;
+    -fx-font-size: 12px;
+    -fx-font-family: "Microsoft Sans Serif", "Tahoma", "Arial", sans-serif;
+}
+
+.tab-pane .tab-header-area .tab:selected .tab-label {
+    -fx-text-fill: accent-tab-sel;
+    -fx-font-weight: bold;
+}
+
+.tab-pane .tab-header-area .tab .tab-close-button:hover {
+    -fx-background-color: #ff0000;
+}
+
+.tab-pane:focused>.tab-header-area>.headers-region>.tab:selected .focus-indicator {
+   -fx-border-width: 0px;
+}
+
+/* --- SplitPane --- */
+.split-pane {
+    -fx-border-width: 0;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.split-pane *.split-pane-divider {
+    -fx-padding: 0 2 0 2;
+    -fx-background-color: bg-base;
+}
+
+/* --- ScrollPane --- */
+.scroll-pane .viewport {
+    -fx-background-color: bg-base;
+}
+
+/* --- MenuBar --- */
+.menu-bar {
+    -fx-background-color: bg-base;
+    -fx-padding-left: 5px;
+    -fx-padding-right: 5px;
+    -fx-border-color: transparent transparent #808080 transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.menu-bar > .container > .menu-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: text-dark;
+}
+
+.menu-bar > .container > .menu-button:hover {
+    -fx-background-color: accent;
+    -fx-text-fill: text-white;
+}
+
+.menu-bar > .container > .menu-button:showing {
+    -fx-background-color: accent;
+    -fx-text-fill: text-white;
+}
+
+.menu-bar > .container > .menu-button > .label {
+    -fx-text-fill: text-dark;
+    -fx-font-family: "Microsoft Sans Serif", "Tahoma", "Arial", sans-serif;
+}
+
+.menu-bar > .container > .menu-button:hover > .label {
+    -fx-text-fill: text-white;
+}
+
+.menu-bar > .container > .menu-button:showing > .label {
+    -fx-text-fill: text-white;
+}
+
+/* --- Menu Dropdown Items --- */
+.context-menu {
+    -fx-background-color: bg-menu;
+    -fx-border-color: #ffffff #808080 #808080 #ffffff;
+    -fx-border-width: 2px;
+    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.4), 4, 0, 2, 2);
+}
+
+.menu-item {
+    -fx-background-color: transparent;
+    -fx-text-fill: text-menu;
+    -fx-padding-left: 5px;
+    -fx-padding-right: 5px;
+}
+
+.menu-item:hover {
+    -fx-background-color: accent;
+    -fx-text-fill: text-white;
+}
+
+.menu-item .label {
+    -fx-text-fill: inherit;
+    -fx-font-size: 13px;
+    -fx-font-family: "Microsoft Sans Serif", "Tahoma", "Arial", sans-serif;
+}
+
+/* --- ScrollPane --- */
+.scroll-pane {
+    -fx-background-color: bg-base;
+    -fx-border-color: bg-base;
+    -fx-control-inner-background: bg-base;
+}
+
+/* --- ComboBox --- */
+.combo-box {
+    -fx-background-color: bg-deep;
+    -fx-border-color: #808080 #ffffff #ffffff #808080;
+    -fx-border-width: 2px;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+}
+
+.combo-box:hover {
+    -fx-background-color: bg-hover-dark;
+}
+
+.combo-box:focused {
+    -fx-border-color: accent;
+}
+
+.combo-box .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: text-primary;
+    -fx-padding: 4px 8px;
+    -fx-font-family: "Microsoft Sans Serif", "Tahoma", "Arial", sans-serif;
+}
+
+.combo-box .arrow-button {
+    -fx-background-color: bg-btn;
+    -fx-border-color: #ffffff #808080 #808080 #ffffff;
+    -fx-border-width: 2px;
+}
+
+.combo-box .arrow {
+    -fx-background-color: text-dark;
+}
+
+.combo-box:hover .arrow {
+    -fx-background-color: text-dark;
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: bg-deep;
+    -fx-border-color: #808080 #ffffff #ffffff #808080;
+    -fx-border-width: 2px;
+    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.4), 4, 0, 2, 2);
+}
+
+.combo-box-popup .list-view .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: text-primary;
+    -fx-padding: 6px 8px;
+    -fx-font-size: 13px;
+    -fx-font-family: "Microsoft Sans Serif", "Tahoma", "Arial", sans-serif;
+}
+
+.combo-box-popup .list-view .list-cell:hover {
+    -fx-background-color: bg-hover-dark;
+}
+
+.combo-box-popup .list-view .list-cell:selected {
+    -fx-background-color: accent;
+    -fx-text-fill: text-white;
+}
+
+/* --- Number Margin --- */
+.lineno {
+    -fx-background-color: bg-lineno;
+    -fx-font-style: normal;
+}
+
+.lineno .text {
+    -fx-fill: text-dark;
+}
+
+/* --- Caret Line --- */
+.styled-text-area .paragraph-box:has-caret {
+    -fx-background-color: bg-line;
+}
+
+/* --- Filter button group (Win98 raised 3D style) --- */
+.filter-btn-left,
+.filter-btn-mid,
+.filter-btn-right {
+    -fx-background-color: #c0c0c0;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-border-width: 2px;
+    -fx-border-color: #ffffff #808080 #808080 #ffffff;
+}
+
+.filter-btn-left:hover,
+.filter-btn-mid:hover,
+.filter-btn-right:hover {
+    -fx-background-color: #d4d0c8;
+}
+
+.filter-btn-left:pressed,
+.filter-btn-mid:pressed,
+.filter-btn-right:pressed {
+    -fx-border-color: #808080 #ffffff #ffffff #808080;
+}
+
+.filter-btn-active {
+    -fx-background-color: #c0c0c0;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-border-width: 2px;
+    -fx-border-color: #808080 #ffffff #ffffff #808080;
+}
+.filter-btn-active:disabled {
+    -fx-background-color: #c0c0c0;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-border-width: 2px;
+    -fx-border-color: #808080 #ffffff #ffffff #808080;
+}
+
+/* --- Buttons --- */
+.button {
+    -fx-background-color: bg-btn;
+    -fx-border-color: #ffffff #808080 #808080 #ffffff;
+    -fx-text-fill: text-dark;
+    -fx-font-size: 12px;
+    -fx-font-weight: normal;
+    -fx-font-family: "Microsoft Sans Serif", "Tahoma", "Arial", sans-serif;
+    -fx-padding: 4px 10px;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-border-width: 2px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: bg-btn-hover;
+}
+
+.button:focused {
+    -fx-border-color: text-dark;
+}
+
+.button:pressed {
+    -fx-border-color: #808080 #ffffff #ffffff #808080;
+}
+
+.button:disabled {
+    -fx-opacity: 0.5;
+    -fx-cursor: default;
+}
+
+.button-close {
+    -fx-background-color: transparent;
+    -fx-text-fill: text-dark;
+    -fx-font-family: "Segoe UI Symbol";
+    -fx-border-width: 0px;
+}
+
+.button-close:hover {
+    -fx-background-color: #C2230E;
+    -fx-text-fill: text-white;
+}
+
+.button-maximize {
+    -fx-background-color: transparent;
+    -fx-text-fill: text-dark;
+    -fx-font-family: "Segoe UI Symbol";
+    -fx-border-width: 0px;
+}
+
+.button-maximize:hover {
+    -fx-background-color: bg-window-btn;
+}
+
+.button-minimize {
+    -fx-background-color: transparent;
+    -fx-text-fill: text-dark;
+    -fx-font-family: "Segoe UI Symbol";
+    -fx-border-width: 0px;
+}
+
+.button-minimize:hover {
+    -fx-background-color: bg-window-btn;
+}
+
+/* --- Notification TextArea --- */
+.text-area {
+    -fx-background-color: bg-base;
+    -fx-border-width: 0px;
+    -fx-padding: 5px;
+    -fx-text-fill: text-dark;
+    -fx-font-family: "Courier New", monospace;
+}
+
+.text-area .content {
+    -fx-background-color: bg-base;
+}
+
+/* --- TextField --- */
+.text-field {
+    -fx-background-color: bg-deep;
+    -fx-padding-top: 2px;
+    -fx-padding-bottom: 2px;
+    -fx-padding-left: 4px;
+    -fx-padding-right: 4px;
+    -fx-border-color: #808080 #ffffff #ffffff #808080;
+    -fx-border-width: 2px;
+    -fx-text-fill: text-dark;
+    -fx-prompt-text-fill: text-prompt;
+    -fx-background-radius: 0;
+    -fx-font-family: "Microsoft Sans Serif", "Tahoma", "Arial", sans-serif;
+}
+
+.text-field .content {
+    -fx-background-color: bg-deep;
+    -fx-background-radius: 0;
+}
+
+/* --- ListView --- */
+.list-view {
+    -fx-background-color: bg-deep;
+    -fx-border-color: #808080 #ffffff #ffffff #808080;
+    -fx-border-width: 2px;
+    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.3), 3, 0, 2, 2);
+    -fx-font-family: 'JetBrains Mono';
+    -fx-background-radius: 0;
+}
+
+.list-view .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: text-primary;
+    -fx-padding: 4px 8px;
+    -fx-font-size: 13px;
+}
+
+.list-view .list-cell:hover {
+    -fx-background-color: bg-hover-dark;
+}
+
+.list-view .list-cell:selected {
+    -fx-background-color: accent;
+    -fx-text-fill: text-white;
+}
+
+.list-view .list-cell:focused {
+    -fx-background-color: accent;
+    -fx-text-fill: text-white;
+}
+
+.list-view .corner {
+    -fx-background-color: bg-base;
+}
+
+/* --- Terminal --- */
+.terminal {
+    -fx-background-color: #000000;
+    -fx-foreground-color: #c0c0c0;
+    -fx-selection-foreground-color: #000000;
+    -fx-selection-background-color: #c0c0c0;
+}
+
+/* --- AnchorPane --- */
+AnchorPane {
+    -fx-background-color: bg-base;
+}
+
+/* --- TreeView --- */
+.tree-view .tree-cell {
+    -fx-text-fill: text-dark;
+    -fx-background-color: bg-base;
+    -fx-font-family: "Microsoft Sans Serif", "Tahoma", "Arial", sans-serif;
+}
+
+.tree-view .tree-cell > .tree-disclosure-node > .arrow {
+    -fx-background-color: text-dark;
+}
+
+.tree-view .tree-cell:selected {
+    -fx-background-color: accent;
+    -fx-text-fill: text-white;
+}
+
+.tree-view .tree-cell:selected > .tree-disclosure-node > .arrow {
+    -fx-background-color: text-white;
+}
+
+.tree-view .corner {
+    -fx-background-color: bg-base;
+}
+
+/* --- ScrollBars (classic raised 3D style) --- */
+.scroll-bar {
+    -fx-background-color: bg-base;
+    -fx-background-radius: 0;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: bg-btn;
+    -fx-padding: 10px;
+    -fx-background-radius: 0;
+    -fx-border-color: #ffffff #808080 #808080 #ffffff;
+    -fx-border-width: 1px;
+}
+
+.scroll-bar .track {
+    -fx-background-color: #a0a0a0;
+    -fx-background-radius: 0;
+}
+
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
+    -fx-background-color: text-dark;
+    -fx-border-color: bg-base;
+    -fx-border-width: 0;
+    -fx-background-insets: 0;
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: bg-btn;
+    -fx-border-color: #ffffff #808080 #808080 #ffffff;
+    -fx-border-width: 2px;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+}
+
+/* --- Find and Replace --- */
+.find-replace-box {
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: border-main;
+}
+
+/* --- VBox --- */
+VBox {
+    -fx-background-color: bg-base;
+}
+
+/* --- HBox --- */
+HBox {
+    -fx-background-color: bg-base;
+}
+
+/* --- Grammars (classic dark-on-white code syntax) --- */
+.keyword {
+    -fx-fill: syn-keyword;
+}
+
+.type {
+    -fx-fill: syn-keyword;
+}
+
+.string {
+    -fx-fill: syn-string;
+}
+
+.char {
+    -fx-fill: syn-string;
+}
+
+.comment {
+    -fx-fill: syn-comment;
+}
+
+.number {
+    -fx-fill: syn-number;
+}
+
+.annotation {
+    -fx-fill: syn-error;
+}
+
+.decorator {
+    -fx-fill: syn-error;
+}
+
+.operator {
+    -fx-fill: syn-operator;
+}
+
+.punctuation {
+    -fx-fill: syn-operator;
+}
+
+.identifier {
+    -fx-fill: syn-operator;
+}
+
+.division {
+    -fx-fill: syn-keyword;
+}
+
+.section {
+    -fx-fill: syn-keyword;
+}
+
+.level {
+    -fx-fill: syn-keyword;
+}
+
+.function {
+    -fx-fill: syn-keyword;
+}
+
+.selector {
+    -fx-fill: syn-keyword;
+}
+
+.variable {
+    -fx-fill: syn-keyword;
+}
+
+.tag {
+    -fx-fill: syn-keyword;
+}
+
+.attribute {
+    -fx-fill: syn-error;
+}
+
+.preprocessor {
+    -fx-fill: syn-keyword;
+}
+
+.boolean {
+    -fx-fill: syn-error;
+}
+
+.header {
+    -fx-fill: syn-string;
+}
+
+.bold {
+    -fx-weight: bold;
+}
+
+.italic {
+    -fx-weight: italic;
+}
+
+.link {
+    -fx-fill: syn-string;
+}
+
+.lifetime {
+    -fx-fill: syn-keyword;
+}
+
+.macro {
+    -fx-fill: syn-error;
+}

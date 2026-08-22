@@ -7,6 +7,10 @@
     {
       "name": "Dark",
       "file": "dark.css"
-    }
+    },
+    {
+      "name": "Windows 98",
+      "file": "windows98.css"
+    },
   ]
 }
