@@ -26,17 +26,9 @@
     -fx-border-color: -fx-outer-border;
     -fx-cursor: hand;
 }
-.filter-btn-active {
-    -fx-background-color: #3b82d4;
-    -fx-text-fill: white;
-    -fx-border-color: #2563b0;
-}
-/* Keep the active look intact even when the button is disabled */
+/* .filter-btn-active colors are defined per-theme in dark.css / light.css */
 .filter-btn-active:disabled {
     -fx-opacity: 1.0;
-    -fx-background-color: #3b82d4;
-    -fx-text-fill: white;
-    -fx-border-color: #2563b0;
 }
 
 /* --- Cheatsheet --- */

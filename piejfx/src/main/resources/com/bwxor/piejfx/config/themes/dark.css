@@ -296,6 +296,14 @@
     -fx-background-color: bg-line;
 }
 
+/* --- Filter button group (active/selected state) --- */
+.filter-btn-active {
+    -fx-background-color: #505054;
+}
+.filter-btn-active:disabled {
+    -fx-background-color: #505054;
+}
+
 /* --- Buttons --- */
 .button {
     -fx-background-color: btn-bg;
