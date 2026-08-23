@@ -22,6 +22,7 @@
     border-tab:     #bbbbbb;
     border-menu:    #dee2e6;
     border-btn:     #DEDEDE;
+    divider:        #e8e8e8;   /* split-pane divider — subtle on bg-base */
 
     /* Accent */
     accent:         #0090eb;
@@ -129,7 +130,7 @@
 
 .split-pane *.split-pane-divider {
     -fx-padding: 0 1 0 1;
-    -fx-background-color: bg-base;
+    -fx-background-color: divider;
 }
 
 /* --- ScrollPane --- */

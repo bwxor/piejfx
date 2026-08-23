@@ -22,6 +22,7 @@
     border-tab:     #808080;
     border-menu:    #808080;
     border-btn:     #808080;
+    divider:        #b0b0b0;   /* split-pane divider — subtle on bg-base */
 
     /* Accent */
     accent:         #000080;   /* Windows classic navy blue                */
@@ -33,7 +34,7 @@
     text-muted:     #444444;
     text-dark:      #000000;
     text-white:     #ffffff;
-    text-prompt:    #444444;
+    text-prompt:    #222222;
     text-menu:      #000000;
     text-title:     #000000;   /* title bar text black                     */
 
@@ -132,7 +133,7 @@
 
 .split-pane *.split-pane-divider {
     -fx-padding: 0 2 0 2;
-    -fx-background-color: bg-base;
+    -fx-background-color: divider;
 }
 
 /* --- ScrollPane --- */
@@ -397,6 +398,7 @@
     -fx-border-width: 0px;
     -fx-padding: 5px;
     -fx-text-fill: text-dark;
+    -fx-prompt-text-fill: text-prompt;
     -fx-font-family: "Courier New", monospace;
 }
 
