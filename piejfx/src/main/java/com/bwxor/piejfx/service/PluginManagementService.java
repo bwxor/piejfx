@@ -21,6 +21,9 @@ import java.util.zip.ZipInputStream;
 
 public class PluginManagementService {
     public void installPlugin(FetchedPlugin fetchedPlugin) throws PluginManagementServiceException {
+        ServiceState serviceState = ServiceState.instance;
+        UIState uiState = UIState.instance;
+
         try {
             Path pluginsDir = AppDirConstants.PLUGINS_DIR;
             Files.createDirectories(pluginsDir);
@@ -56,14 +59,15 @@ public class PluginManagementService {
                         ServiceState.instance.getPluginService().getPlugins()
                 );
 
-                var loadedPlugin = LoadedPluginsState.instance.getPlugins().stream()
-                        .filter(e -> e.getSlug().equals(fetchedPlugin.slug()))
-                        .findFirst();
-                loadedPlugin.ifPresent(plugin -> {
-                    if (plugin.isEnabled()) {
-                        ServiceState.instance.getPluginService().invokeOnLoadIndividually(plugin);
-                    }
-                });
+                while (uiState.getMenuBar().getMenus().size() > 3) {
+                    uiState.getMenuBar().getMenus().removeLast();
+                }
+
+                while (uiState.getSplitTabPane().getTabs().size() > 1) {
+                    uiState.getSplitTabPane().getTabs().removeLast();
+                }
+
+                serviceState.getPluginService().invokeOnLoad();
             });
 
         } catch (IOException e) {
