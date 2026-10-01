@@ -26,6 +26,52 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Stream;
 
+class PluginClassLoader extends URLClassLoader {
+    static { ClassLoader.registerAsParallelCapable(); }
+
+    PluginClassLoader(URL[] urls, ClassLoader parent) {
+        super(urls, parent);
+    }
+
+    @Override
+    protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
+        // These packages must come from the shared parent so that cast checks work
+        // across the host↔plugin boundary.
+        if (name.startsWith("com.bwxor.plugin.")
+                || name.startsWith("java.")
+                || name.startsWith("javax.")
+                || name.startsWith("sun.")
+                || name.startsWith("jdk.")
+                || name.startsWith("javafx.")
+                || name.startsWith("com.sun.javafx.")
+                || name.startsWith("com.sun.glass.")
+                || name.startsWith("com.sun.prism.")
+                || name.startsWith("com.sun.scenario.")) {
+            return super.loadClass(name, resolve);
+        }
+
+        synchronized (getClassLoadingLock(name)) {
+            // Return already-loaded class if present in this loader.
+            Class<?> c = findLoadedClass(name);
+            if (c != null) {
+                if (resolve) resolveClass(c);
+                return c;
+            }
+
+            // Try the plugin's own URLs first (deps + plugin jar).
+            try {
+                c = findClass(name);
+                if (resolve) resolveClass(c);
+                return c;
+            } catch (ClassNotFoundException ignored) {
+                // Not in the plugin — fall through to parent.
+            }
+
+            return super.loadClass(name, resolve);
+        }
+    }
+}
+
 public class PluginService {
     public List<LoadedPlugin> getPlugins() {
         List<LoadedPlugin> loadedPlugins = new ArrayList<>();
@@ -47,7 +93,7 @@ public class PluginService {
 
                     try {
                         var urls = loadPluginDependencies(directory);
-                        var pluginClassLoader = new URLClassLoader(Stream.concat(Arrays.stream(urls), Arrays.stream(new URL[]{jar.toURI().toURL()})).toArray(URL[]::new), getClass().getClassLoader());
+                        var pluginClassLoader = new PluginClassLoader(Stream.concat(Arrays.stream(urls), Arrays.stream(new URL[]{jar.toURI().toURL()})).toArray(URL[]::new), getClass().getClassLoader());
 
                         var plugin = toPlugin(directory, jar, pluginClassLoader);
                         if (plugin != null) {
@@ -94,7 +140,7 @@ public class PluginService {
         return urls.toArray(new URL[0]);
     }
 
-    private LoadedPlugin toPlugin(File pluginDirectory, File f, URLClassLoader classLoader) {
+    private LoadedPlugin toPlugin(File pluginDirectory, File f, PluginClassLoader classLoader) {
         try (JarFile jarFile = new JarFile(f)) {
             String pluginName = getPluginName(jarFile);
             Set<String> classNames = getClassNames(jarFile);
@@ -154,13 +200,14 @@ public class PluginService {
         return classNames;
     }
 
-    private Set<Class> getClasses(JarFile jarFile, Set<String> classNames, URLClassLoader classLoader) throws ClassNotFoundException, MalformedURLException {
+    private Set<Class> getClasses(JarFile jarFile, Set<String> classNames, PluginClassLoader classLoader) throws ClassNotFoundException {
         Set<Class> classes = new HashSet<>();
 
-        var cl = new URLClassLoader(new URL[]{new File(jarFile.getName()).toURI().toURL()}, classLoader);
+        // The plugin jar is already included in classLoader's URLs — no extra
+        // nested URLClassLoader needed here.
         for (String name : classNames) {
             if (!name.equals("module-info")) {
-                classes.add(cl.loadClass(name));
+                classes.add(classLoader.loadClass(name));
             }
         }
 

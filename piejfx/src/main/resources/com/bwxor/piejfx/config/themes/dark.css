@@ -1,51 +1,128 @@
 /* ============================================================
-   DARK THEME — COLOR VARIABLES (JavaFX looked-up colors)
-   ============================================================ */
+ *  DARK THEME
+ * ============================================================
+ *
+ *  The dark and light themes are built from the same template:
+ *  every variable and every rule exists in both files, in the
+ *  same order, under the same name. Only the values in .root
+ *  (plus the few literals noted below) differ between them.
+ *
+ *  Variables are JavaFX looked-up colors. A variable may point
+ *  at another variable (e.g. "bg-tab: bg-base"), so it follows
+ *  that colour if it changes.
+ *
+ *  Literals kept on purpose:
+ *    - drop shadows in -fx-effect
+ *    - the .terminal block (its custom properties are read by
+ *      the terminal component, not by the JavaFX cascade)
+ *
+ *  Section order:
+ *     1. Variables (.root)       12. Window buttons
+ *     2. Label                   13. TextArea
+ *     3. Window                  14. TextField
+ *     4. TabPane                 15. ListView
+ *     5. SplitPane               16. TreeView
+ *     6. ScrollPane              17. ScrollBars
+ *     7. MenuBar                 18. ProgressBar
+ *     8. Context menu            19. Find and Replace
+ *     9. Editor (RichTextFX)     20. Terminal
+ *    10. ComboBox                21. Layout containers
+ *    11. Buttons                 22. Syntax highlighting
+ *
+ *  Cascade notes (rules with equal specificity: the later wins):
+ *    - .label comes before .window-title so the title colour
+ *      is not overridden by the generic label colour.
+ *    - .filter-btn-active comes before .button, as it always has.
+ *    - Syntax rules come last so they override .styled-text-area .text.
+ * ============================================================ */
+
+
+/* ============================================================
+ *  1. VARIABLES
+ * ============================================================ */
 .root {
     /* Backgrounds */
-    bg-base:        #2d2d30;   /* main panels / sidebars         */
-    bg-deep:        #1e1e1e;   /* editor / tab content            */
-    bg-dark:        #252526;   /* header areas / context menus   */
-    bg-hover:       #3e3e42;   /* hover states                    */
-    bg-hover-light: #505054;   /* button hover                    */
-    bg-line:        #2a2a2a;   /* caret / active line             */
-    bg-window-btn:  #39393d;   /* maximize / minimize hover       */
+    bg-base:            #2d2d30;       /* main panels / sidebars / containers */
+    bg-deep:            #1e1e1e;       /* editor / tab content / selected tab */
+    bg-dark:            #252526;       /* tab header area / progress track */
+    bg-tab:             bg-base;       /* unselected tab */
+    bg-hover:           #3e3e42;       /* tab hover */
+    bg-item-hover:      bg-hover;      /* list / combo-popup cell hover */
+    bg-input:           bg-hover;      /* combo box background */
+    bg-input-hover:     #505054;       /* combo box hover */
+    bg-input-editable:  bg-hover;      /* text field inside an editable combo box */
+    bg-list:            bg-dark;       /* list view / combo popup background */
+    bg-menu:            bg-dark;       /* context menu background */
+    bg-btn:             #3e3e42;       /* button background */
+    bg-btn-hover:       #505054;       /* button hover */
+    bg-btn-active:      #505054;       /* active filter button */
+    bg-window-btn:      #39393d;       /* maximize / minimize hover */
+    bg-window-close:    #c2230e;       /* window close button hover */
+    bg-tab-close:       syn-error;     /* tab close button hover */
+    bg-line:            #2a2a2a;       /* caret / active line */
+    bg-lineno:          bg-dark;       /* line number gutter */
 
     /* Borders */
-    border-main:    #3d3d41;
-    border-panel:   #3e3e42;
-    divider:        #383838;   /* split-pane divider — subtle on bg-base */
+    border-main:        #3d3d41;       /* window / text fields / find bar */
+    border-panel:       #3e3e42;       /* tab pane / progress track */
+    border-tab:         border-panel;  /* separators between tabs */
+    border-menu:        border-panel;  /* context menu / list view / combo popup */
+    border-btn:         #5a5a5e;       /* button border */
+    border-input:       border-btn;    /* combo box border */
+    divider:            #383838;       /* split-pane divider, subtle on bg-base */
 
     /* Accent */
-    accent:         #0090eb;
+    accent:             #0090eb;       /* selection / hover / focus highlight */
+    accent-tab-sel:     #4fc3f7;       /* selected tab label */
+    text-on-accent:     #ffffff;       /* text drawn on accent backgrounds */
 
     /* Text */
-    text-primary:   #cccccc;
-    text-secondary: #AFAFAF;
-    text-bright:    #EDEDED;
-    text-muted:     #858585;
-    text-white:     #FFFFFF;
-    text-selected:  #d4d4d4;
-    text-tab:       #BFBFBF;
-    text-tab-sel:   #4fc3f7;
+    text-primary:       #cccccc;       /* list / combo cells, menu items */
+    text-secondary:     #afafaf;       /* secondary text (not used by rules; kept for code) */
+    text-bright:        #ededed;       /* text areas / text fields */
+    text-control:       text-primary;  /* buttons, menu bar, editable combo */
+    text-label:         text-bright;   /* default label text */
+    text-muted:         #858585;       /* unselected tab labels */
+    text-prompt:        text-muted;    /* placeholder / prompt text */
+    text-title:         text-bright;   /* window title */
+    text-selected:      #d4d4d4;       /* selected tab */
+    text-tree:          #ffffff;       /* tree cells and their arrows */
+    text-arrow:         text-primary;  /* combo box arrow */
+    text-arrow-hover:   #ffffff;       /* combo box arrow on hover */
+    text-window-btn:    #ffffff;       /* minimize / maximize / close glyphs */
+    text-window-close:  #ffffff;       /* close glyph on hover */
+    text-editor:        #ffffff;       /* editor default text */
+    text-lineno:        text-muted;    /* line numbers */
+    caret:              #ffffff;       /* editor caret */
 
     /* Scrollbar */
-    scroll-thumb:   #545454;
+    scroll-thumb:       #545454;       /* thumb and arrows */
 
-    /* Buttons */
-    btn-bg:         #3e3e42;
-    btn-border:     #5a5a5e;
+    /* Syntax */
+    syn-keyword:        #4fc3f7;       /* keyword / type / function etc. */
+    syn-string:         #a229ff;       /* string / char / link / header */
+    syn-comment:        #858585;       /* comments */
+    syn-number:         #28b066;       /* numbers */
+    syn-error:          #e74c3c;       /* annotation / decorator / boolean / macro */
+    syn-operator:       #d4d4d4;       /* operator / punctuation / identifier */
 
-    /* Syntax — dark */
-    syn-keyword:    #4fc3f7;   /* keyword / type / function etc.  */
-    syn-string:     #A229FF;   /* string / char / link / header   */
-    syn-comment:    #858585;   /* comments                        */
-    syn-number:     #28B066;   /* numbers                         */
-    syn-error:      #e74c3c;   /* annotation / decorator / bool   */
-    syn-operator:   #d4d4d4;   /* operator / punctuation / ident  */
+    /* JavaFX built-in highlight colors */
+    -fx-accent:              accent;
+    -fx-highlight-text-fill: text-on-accent;
 }
 
-/* --- Window --- */
+
+/* ============================================================
+ *  2. LABEL
+ * ============================================================ */
+.label {
+    -fx-text-fill: text-label;
+}
+
+
+/* ============================================================
+ *  3. WINDOW
+ * ============================================================ */
 .window-root {
     -fx-border-color: border-main;
     -fx-font-family: "Segoe UI";
@@ -53,10 +130,13 @@
 
 .window-title {
     -fx-font-weight: bold;
-    -fx-text-fill: text-tab;
+    -fx-text-fill: text-title;
 }
 
-/* --- TabPane --- */
+
+/* ============================================================
+ *  4. TABPANE
+ * ============================================================ */
 .tab-pane {
     -fx-background-color: bg-base;
     -fx-border-color: border-panel;
@@ -76,8 +156,8 @@
 
 .tab-pane .tab-header-area .tab {
     -fx-padding: 2px 10px;
-    -fx-background-color: bg-base;
-    -fx-border-color: border-panel;
+    -fx-background-color: bg-tab;
+    -fx-border-color: border-tab;
     -fx-border-width: 0 1px 0 0;
     -fx-border-radius: 0;
 }
@@ -89,7 +169,7 @@
 .tab-pane .tab-header-area .tab:selected {
     -fx-background-color: bg-deep;
     -fx-border-width: 0 1px 2px 0;
-    -fx-border-color: transparent border-panel accent transparent;
+    -fx-border-color: transparent border-tab accent transparent;
     -fx-border-radius: 0;
     -fx-text-fill: text-selected;
 }
@@ -105,18 +185,21 @@
 }
 
 .tab-pane .tab-header-area .tab:selected .tab-label {
-    -fx-text-fill: text-tab-sel;
+    -fx-text-fill: accent-tab-sel;
 }
 
 .tab-pane .tab-header-area .tab .tab-close-button:hover {
-    -fx-background-color: syn-error;
+    -fx-background-color: bg-tab-close;
 }
 
-.tab-pane:focused>.tab-header-area>.headers-region>.tab:selected .focus-indicator {
-   -fx-border-width: 0px;
+.tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
+    -fx-border-width: 0px;
 }
 
-/* --- SplitPane --- */
+
+/* ============================================================
+ *  5. SPLITPANE
+ * ============================================================ */
 .split-pane {
     -fx-border-width: 0;
     -fx-background-insets: 0;
@@ -128,12 +211,24 @@
     -fx-background-color: divider;
 }
 
-/* --- ScrollPane --- */
+
+/* ============================================================
+ *  6. SCROLLPANE
+ * ============================================================ */
+.scroll-pane {
+    -fx-background-color: bg-base;
+    -fx-border-color: bg-base;
+    -fx-control-inner-background: bg-base;
+}
+
 .scroll-pane .viewport {
     -fx-background-color: bg-base;
 }
 
-/* --- MenuBar --- */
+
+/* ============================================================
+ *  7. MENUBAR
+ * ============================================================ */
 .menu-bar {
     -fx-background-color: bg-base;
     -fx-padding-left: 5px;
@@ -142,35 +237,38 @@
 
 .menu-bar > .container > .menu-button {
     -fx-background-color: transparent;
-    -fx-text-fill: text-primary;
+    -fx-text-fill: text-control;
 }
 
 .menu-bar > .container > .menu-button:hover {
     -fx-background-color: accent;
-    -fx-text-fill: text-white;
+    -fx-text-fill: text-on-accent;
 }
 
 .menu-bar > .container > .menu-button:showing {
     -fx-background-color: accent;
-    -fx-text-fill: text-white;
+    -fx-text-fill: text-on-accent;
 }
 
 .menu-bar > .container > .menu-button > .label {
-    -fx-text-fill: text-primary;
+    -fx-text-fill: text-control;
 }
 
 .menu-bar > .container > .menu-button:hover > .label {
-    -fx-text-fill: text-white;
+    -fx-text-fill: text-on-accent;
 }
 
 .menu-bar > .container > .menu-button:showing > .label {
-    -fx-text-fill: text-white;
+    -fx-text-fill: text-on-accent;
 }
 
-/* --- Menu Dropdown Items --- */
+
+/* ============================================================
+ *  8. CONTEXT MENU (menu dropdown items)
+ * ============================================================ */
 .context-menu {
-    -fx-background-color: bg-dark;
-    -fx-border-color: border-panel;
+    -fx-background-color: bg-menu;
+    -fx-border-color: border-menu;
     -fx-border-width: 1px;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 10, 0, 0, 2);
 }
@@ -184,7 +282,7 @@
 
 .menu-item:hover {
     -fx-background-color: accent;
-    -fx-text-fill: text-white;
+    -fx-text-fill: text-on-accent;
 }
 
 .menu-item .label {
@@ -192,7 +290,10 @@
     -fx-font-size: 13px;
 }
 
-/* --- RichTextFX Area --- */
+
+/* ============================================================
+ *  9. EDITOR (RichTextFX styled-text-area)
+ * ============================================================ */
 .styled-text-area {
     -fx-background-color: bg-deep;
 }
@@ -202,27 +303,42 @@
 }
 
 .styled-text-area .text {
-    -fx-fill: text-white;
+    -fx-fill: text-editor;
 }
 
-/* --- ScrollPane --- */
-.scroll-pane {
-    -fx-background-color: bg-base;
-    -fx-border-color: bg-base;
-    -fx-control-inner-background: bg-base;
+.styled-text-area .caret {
+    -fx-stroke: caret;
 }
 
-/* --- ComboBox --- */
+/* Current (caret) line */
+.styled-text-area .paragraph-box:has-caret {
+    -fx-background-color: bg-line;
+}
+
+/* Line number gutter — must stay after ".styled-text-area .text" */
+.lineno {
+    -fx-background-color: bg-lineno;
+    -fx-font-style: normal;
+}
+
+.lineno .text {
+    -fx-fill: text-lineno;
+}
+
+
+/* ============================================================
+ *  10. COMBOBOX
+ * ============================================================ */
 .combo-box {
-    -fx-background-color: bg-hover;
-    -fx-border-color: btn-border;
+    -fx-background-color: bg-input;
+    -fx-border-color: border-input;
     -fx-border-width: 1px;
     -fx-border-radius: 4px;
     -fx-background-radius: 4px;
 }
 
 .combo-box:hover {
-    -fx-background-color: bg-hover-light;
+    -fx-background-color: bg-input-hover;
 }
 
 .combo-box:focused {
@@ -242,16 +358,27 @@
 }
 
 .combo-box .arrow {
-    -fx-background-color: text-primary;
+    -fx-background-color: text-arrow;
 }
 
 .combo-box:hover .arrow {
-    -fx-background-color: text-white;
+    -fx-background-color: text-arrow-hover;
 }
 
+.combo-box.editable .text-field {
+    -fx-background-color: bg-input-editable;
+    -fx-text-fill: text-control;
+    -fx-prompt-text-fill: text-prompt;
+}
+
+.combo-box.editable:focused .text-field {
+    -fx-background-color: bg-input-editable;
+}
+
+/* Dropdown popup */
 .combo-box-popup .list-view {
-    -fx-background-color: bg-dark;
-    -fx-border-color: border-panel;
+    -fx-background-color: bg-list;
+    -fx-border-color: border-menu;
     -fx-border-width: 1px;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 10, 0, 0, 2);
 }
@@ -264,52 +391,31 @@
 }
 
 .combo-box-popup .list-view .list-cell:hover {
-    -fx-background-color: bg-hover;
+    -fx-background-color: bg-item-hover;
 }
 
 .combo-box-popup .list-view .list-cell:selected {
     -fx-background-color: accent;
-    -fx-text-fill: text-white;
+    -fx-text-fill: text-on-accent;
 }
 
-.combo-box.editable .text-field {
-    -fx-background-color: bg-hover;
-    -fx-text-fill: text-primary;
-    -fx-prompt-text-fill: text-muted;
-}
 
-.combo-box.editable:focused .text-field {
-    -fx-background-color: bg-hover;
-}
-
-/* --- Number Margin --- */
-.lineno {
-    -fx-background-color: bg-dark;
-    -fx-font-style: normal;
-}
-
-.lineno .text {
-    -fx-text-fill: text-muted;
-}
-
-/* --- Caret Line --- */
-.styled-text-area .paragraph-box:has-caret {
-    -fx-background-color: bg-line;
-}
-
-/* --- Filter button group (active/selected state) --- */
+/* ============================================================
+ *  11. BUTTONS
+ * ============================================================ */
+/* Filter button group (active/selected state) — keep before .button */
 .filter-btn-active {
-    -fx-background-color: #505054;
-}
-.filter-btn-active:disabled {
-    -fx-background-color: #505054;
+    -fx-background-color: bg-btn-active;
 }
 
-/* --- Buttons --- */
+.filter-btn-active:disabled {
+    -fx-background-color: bg-btn-active;
+}
+
 .button {
-    -fx-background-color: btn-bg;
-    -fx-border-color: btn-border;
-    -fx-text-fill: text-primary;
+    -fx-background-color: bg-btn;
+    -fx-border-color: border-btn;
+    -fx-text-fill: text-control;
     -fx-font-size: 12px;
     -fx-font-weight: normal;
     -fx-padding: 4px;
@@ -319,7 +425,7 @@
 }
 
 .button:hover {
-    -fx-background-color: bg-hover-light;
+    -fx-background-color: bg-btn-hover;
 }
 
 .button:focused {
@@ -331,20 +437,25 @@
     -fx-cursor: default;
 }
 
+
+/* ============================================================
+ *  12. WINDOW BUTTONS (close / maximize / minimize)
+ * ============================================================ */
 .button-close {
     -fx-background-color: transparent;
-    -fx-text-fill: text-white;
+    -fx-text-fill: text-window-btn;
     -fx-font-family: "Segoe UI Symbol";
     -fx-border-width: 0px;
 }
 
 .button-close:hover {
-    -fx-background-color: #C2230E;
+    -fx-background-color: bg-window-close;
+    -fx-text-fill: text-window-close;
 }
 
 .button-maximize {
     -fx-background-color: transparent;
-    -fx-text-fill: text-white;
+    -fx-text-fill: text-window-btn;
     -fx-font-family: "Segoe UI Symbol";
     -fx-border-width: 0px;
 }
@@ -355,7 +466,7 @@
 
 .button-minimize {
     -fx-background-color: transparent;
-    -fx-text-fill: text-white;
+    -fx-text-fill: text-window-btn;
     -fx-font-family: "Segoe UI Symbol";
     -fx-border-width: 0px;
 }
@@ -364,10 +475,13 @@
     -fx-background-color: bg-window-btn;
 }
 
-/* --- Notification TextArea --- */
+
+/* ============================================================
+ *  13. TEXTAREA (notifications)
+ * ============================================================ */
 .text-area {
-    -fx-border-width: 0px;
     -fx-background-color: bg-base;
+    -fx-border-width: 0px;
     -fx-padding: 5px;
     -fx-text-fill: text-bright;
 }
@@ -376,7 +490,10 @@
     -fx-background-color: bg-base;
 }
 
-/* --- TextField --- */
+
+/* ============================================================
+ *  14. TEXTFIELD
+ * ============================================================ */
 .text-field {
     -fx-background-color: transparent;
     -fx-padding-top: 2px;
@@ -385,21 +502,20 @@
     -fx-padding-right: 4px;
     -fx-border-color: border-main;
     -fx-text-fill: text-bright;
-    -fx-prompt-text-fill: text-muted;
+    -fx-prompt-text-fill: text-prompt;
 }
 
 .text-field .content {
     -fx-background-color: transparent;
 }
 
-.styled-text-area .caret {
-    -fx-stroke: text-white;
-}
 
-/* --- ListView --- */
+/* ============================================================
+ *  15. LISTVIEW
+ * ============================================================ */
 .list-view {
-    -fx-background-color: bg-dark;
-    -fx-border-color: border-panel;
+    -fx-background-color: bg-list;
+    -fx-border-color: border-menu;
     -fx-border-width: 1px;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 10, 0, 0, 2);
     -fx-font-family: 'JetBrains Mono';
@@ -413,60 +529,53 @@
 }
 
 .list-view .list-cell:hover {
-    -fx-background-color: bg-hover;
+    -fx-background-color: bg-item-hover;
 }
 
 .list-view .list-cell:selected {
     -fx-background-color: accent;
-    -fx-text-fill: text-white;
+    -fx-text-fill: text-on-accent;
 }
 
 .list-view .list-cell:focused {
     -fx-background-color: accent;
-    -fx-text-fill: text-white;
+    -fx-text-fill: text-on-accent;
 }
 
 .list-view .corner {
     -fx-background-color: bg-base;
 }
 
-/* --- Terminal --- */
-.terminal {
-    -fx-background-color: #1e1e1e;
-    -fx-foreground-color: #FFFFFF;
-    -fx-selection-foreground-color: #FFFFFF;
-    -fx-selection-background-color: #0090eb;
-}
 
-/* --- AnchorPane --- */
-AnchorPane {
-    -fx-background-color: bg-base;
-}
-
-/* --- TreeView --- */
+/* ============================================================
+ *  16. TREEVIEW
+ * ============================================================ */
 .tree-view .tree-cell {
-    -fx-text-fill: text-white;
     -fx-background-color: bg-base;
+    -fx-text-fill: text-tree;
 }
 
 .tree-view .tree-cell > .tree-disclosure-node > .arrow {
-    -fx-background-color: text-white;
+    -fx-background-color: text-tree;
 }
 
 .tree-view .tree-cell:selected {
     -fx-background-color: accent;
-    -fx-text-fill: text-white;
+    -fx-text-fill: text-on-accent;
 }
 
 .tree-view .tree-cell:selected > .tree-disclosure-node > .arrow {
-    -fx-background-color: text-white;
+    -fx-background-color: text-on-accent;
 }
 
 .tree-view .corner {
     -fx-background-color: bg-base;
 }
 
-/* --- ScrollBars --- */
+
+/* ============================================================
+ *  17. SCROLLBARS
+ * ============================================================ */
 .scroll-bar {
     -fx-background-color: transparent;
     -fx-background-radius: 0;
@@ -498,28 +607,65 @@ AnchorPane {
     -fx-background-insets: 0;
 }
 
-/* --- Label --- */
-.label {
-    -fx-text-fill: text-bright;
+
+/* ============================================================
+ *  18. PROGRESSBAR
+ * ============================================================ */
+.progress-bar .track {
+    -fx-background-color: bg-dark;
+    -fx-border-color: border-panel;
+    -fx-border-width: 1px;
+    -fx-background-radius: 3px;
+    -fx-border-radius: 3px;
 }
 
-/* --- Find and Replace --- */
+.progress-bar .bar {
+    -fx-background-color: accent;
+    -fx-background-insets: 1px;
+    -fx-background-radius: 2px;
+    -fx-padding: 3px;
+}
+
+
+/* ============================================================
+ *  19. FIND AND REPLACE
+ * ============================================================ */
 .find-replace-box {
     -fx-border-width: 0 0 1 0;
     -fx-border-color: border-main;
 }
 
-/* --- VBox --- */
+
+/* ============================================================
+ *  20. TERMINAL (literal values — read by the terminal component)
+ * ============================================================ */
+.terminal {
+    -fx-background-color: #1e1e1e;
+    -fx-foreground-color: #ffffff;
+    -fx-selection-foreground-color: #ffffff;
+    -fx-selection-background-color: #0090eb;
+}
+
+
+/* ============================================================
+ *  21. LAYOUT CONTAINERS
+ * ============================================================ */
+AnchorPane {
+    -fx-background-color: bg-base;
+}
+
 VBox {
     -fx-background-color: bg-base;
 }
 
-/* --- HBox --- */
 HBox {
     -fx-background-color: bg-base;
 }
 
-/* --- Grammars --- */
+
+/* ============================================================
+ *  22. SYNTAX HIGHLIGHTING (grammars) — keep last
+ * ============================================================ */
 .styled-text-area .keyword {
     -fx-fill: syn-keyword;
 }
