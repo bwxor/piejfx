@@ -76,6 +76,9 @@
     accent-tab-sel:     #4fc3f7;       /* selected tab label */
     text-on-accent:     #ffffff;       /* text drawn on accent backgrounds */
 
+    /* Error */
+    error:              #e04444;       /* error messages / failed states */
+
     /* Text */
     text-primary:       #cccccc;       /* list / combo cells, menu items */
     text-secondary:     #afafaf;       /* secondary text (not used by rules; kept for code) */
