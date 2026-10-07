@@ -77,7 +77,16 @@ public class FileSearchViewController extends MovableViewController {
                 }
             }
         });
-        
+
+        // Down arrow from the text field moves focus into the list
+        searchTextField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.DOWN && !matchingFiles.isEmpty()) {
+                fileListView.requestFocus();
+                fileListView.getSelectionModel().selectFirst();
+                event.consume();
+            }
+        });
+
         Platform.runLater(() -> searchTextField.requestFocus());
     }
 
