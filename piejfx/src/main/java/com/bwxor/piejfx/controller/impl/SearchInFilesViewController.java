@@ -61,7 +61,7 @@ public class SearchInFilesViewController extends MovableViewController {
         lineNumberColumn.setCellValueFactory(cellData -> cellData.getValue().lineNumberProperty().asObject());
         lineTextColumn.setCellValueFactory(cellData -> cellData.getValue().lineTextProperty());
 
-        // Handle row double-click to open file
+        // Handle row double-click or Enter to open file
         resultsTableView.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
                 SearchResult selectedResult = resultsTableView.getSelectionModel().getSelectedItem();
@@ -71,8 +71,24 @@ public class SearchInFilesViewController extends MovableViewController {
             }
         });
 
-        // Handle Enter key in search field
+        resultsTableView.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                SearchResult selectedResult = resultsTableView.getSelectionModel().getSelectedItem();
+                if (selectedResult != null) {
+                    openFileAtLine(selectedResult);
+                }
+            }
+        });
+
+        // Enter in search field triggers search; Down arrow moves focus to table
         searchTextField.setOnAction(event -> performSearch());
+        searchTextField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.DOWN && !searchResults.isEmpty()) {
+                resultsTableView.requestFocus();
+                resultsTableView.getSelectionModel().selectFirst();
+                event.consume();
+            }
+        });
     }
 
     @FXML

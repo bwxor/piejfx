@@ -115,6 +115,16 @@ public class FileSearchViewController extends MovableViewController {
         if (event.getCode() == KeyCode.ESCAPE) {
             selectedFile = null;
             closeWindow();
+        } else if (event.getCode() == KeyCode.ENTER) {
+            // Enter from the search field opens the first (or selected) result
+            File toOpen = fileListView.getSelectionModel().getSelectedItem();
+            if (toOpen == null && !matchingFiles.isEmpty()) {
+                toOpen = matchingFiles.get(0);
+            }
+            if (toOpen != null && toOpen.isFile()) {
+                selectedFile = toOpen;
+                closeWindow();
+            }
         } else if (event.getCode() == KeyCode.DOWN) {
             if (!matchingFiles.isEmpty()) {
                 fileListView.requestFocus();

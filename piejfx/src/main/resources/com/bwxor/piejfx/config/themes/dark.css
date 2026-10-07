@@ -555,9 +555,18 @@
  * ============================================================ */
 .table-view {
     -fx-background-color: bg-list;
+    -fx-control-inner-background: bg-list;
     -fx-border-color: border-menu;
     -fx-border-width: 1px;
     -fx-table-cell-border-color: border-panel;
+}
+
+/* Override the viewport / virtual-flow layers that Modena paints with
+   -fx-control-inner-background — without these the background leaks through. */
+.table-view .virtual-flow,
+.table-view .virtual-flow .clipped-container,
+.table-view .virtual-flow .clipped-container .sheet {
+    -fx-background-color: bg-list;
 }
 
 .table-view .column-header-background {
