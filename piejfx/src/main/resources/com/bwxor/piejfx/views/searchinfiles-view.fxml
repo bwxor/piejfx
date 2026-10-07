@@ -20,25 +20,27 @@
             <AnchorPane minWidth="-Infinity" styleClass="main-content" VBox.vgrow="ALWAYS">
                 <VBox spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                     <HBox spacing="10" alignment="CENTER_LEFT">
-                        <TextField fx:id="searchTextField" 
+                        <TextField fx:id="searchTextField"
                                    promptText="Enter search text..."
                                    HBox.hgrow="ALWAYS"/>
-                        <Button fx:id="searchButton" 
-                                text="Search"/>
+                        <Button fx:id="searchButton"
+                                text="Search"
+                                onAction="#onSearchButtonClick"/>
                     </HBox>
 
-                    <TableView fx:id="resultsTableView" 
-                               VBox.vgrow="ALWAYS">
+                    <TableView fx:id="resultsTableView"
+                               VBox.vgrow="ALWAYS"
+                               columnResizePolicy="$TableView.CONSTRAINED_RESIZE_POLICY">
                         <columns>
-                            <TableColumn fx:id="fileNameColumn" 
-                                        text="File Name" 
-                                        prefWidth="200"/>
-                            <TableColumn fx:id="lineColumn" 
-                                        text="Line" 
-                                        prefWidth="80"/>
-                            <TableColumn fx:id="textColumn" 
-                                        text="Text" 
-                                        prefWidth="400"/>
+                            <TableColumn fx:id="fileNameColumn"
+                                         text="File"
+                                         prefWidth="200"/>
+                            <TableColumn fx:id="lineNumberColumn"
+                                         text="Line"
+                                         prefWidth="60"/>
+                            <TableColumn fx:id="lineTextColumn"
+                                         text="Text"
+                                         prefWidth="440"/>
                         </columns>
                     </TableView>
                 </VBox>

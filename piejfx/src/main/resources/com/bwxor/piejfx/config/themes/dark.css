@@ -551,6 +551,79 @@
 
 
 /* ============================================================
+ *  15.5. TABLEVIEW
+ * ============================================================ */
+.table-view {
+    -fx-background-color: bg-list;
+    -fx-border-color: border-menu;
+    -fx-border-width: 1px;
+    -fx-table-cell-border-color: border-panel;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: bg-dark;
+}
+
+.table-view .column-header,
+.table-view .filler {
+    -fx-background-color: bg-dark;
+    -fx-border-color: transparent border-panel transparent transparent;
+    -fx-border-width: 0 1px 0 0;
+    -fx-size: 28px;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: text-primary;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 0 4px;
+}
+
+.table-view .table-row-cell {
+    -fx-background-color: bg-list;
+    -fx-border-color: transparent transparent border-panel transparent;
+    -fx-border-width: 0 0 1px 0;
+    -fx-cell-size: 24px;
+}
+
+.table-view .table-row-cell:odd {
+    -fx-background-color: bg-dark;
+}
+
+.table-view .table-row-cell:hover {
+    -fx-background-color: bg-item-hover;
+}
+
+.table-view .table-row-cell:selected {
+    -fx-background-color: accent;
+}
+
+.table-view .table-row-cell:selected .table-cell {
+    -fx-text-fill: text-on-accent;
+}
+
+.table-view .table-cell {
+    -fx-text-fill: text-primary;
+    -fx-font-size: 12px;
+    -fx-padding: 3px 6px;
+    -fx-border-color: transparent;
+}
+
+.table-view .table-cell:focused {
+    -fx-border-color: transparent;
+}
+
+.table-view .corner {
+    -fx-background-color: bg-dark;
+}
+
+.table-view:focused .table-row-cell:selected {
+    -fx-background-color: accent;
+}
+
+
+/* ============================================================
  *  16. TREEVIEW
  * ============================================================ */
 .tree-view .tree-cell {
