@@ -29,8 +29,7 @@
                     </HBox>
 
                     <TableView fx:id="resultsTableView"
-                               VBox.vgrow="ALWAYS"
-                               columnResizePolicy="$TableView.CONSTRAINED_RESIZE_POLICY">
+                               VBox.vgrow="ALWAYS">
                         <columns>
                             <TableColumn fx:id="fileNameColumn"
                                          text="File"

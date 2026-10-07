@@ -54,6 +54,7 @@ public class SearchInFilesViewController extends MovableViewController {
     public void initialize() {
         searchResults = FXCollections.observableArrayList();
         resultsTableView.setItems(searchResults);
+        resultsTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
 
         // Set up the table columns
         fileNameColumn.setCellValueFactory(cellData -> cellData.getValue().fileNameProperty());
