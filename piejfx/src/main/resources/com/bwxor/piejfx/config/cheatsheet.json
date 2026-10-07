@@ -1,0 +1,76 @@
+{
+  "shortcuts": [
+    {
+      "key": "Ctrl + N",
+      "description": "New file"
+    },
+    {
+      "key": "Ctrl + O",
+      "description": "Open file"
+    },
+    {
+      "key": "Ctrl + S",
+      "description": "Save file"
+    },
+    {
+      "key": "Ctrl + Shift + S",
+      "description": "Save all files"
+    },
+    {
+      "key": "Ctrl + W",
+      "description": "Close current tab"
+    },
+    {
+      "key": "Ctrl + Shift + N",
+      "description": "Search for a file name"
+    },
+    {
+      "key": "Ctrl + F",
+      "description": "Find in current file"
+    },
+    {
+      "key": "Ctrl + H",
+      "description": "Find and replace"
+    },
+    {
+      "key": "Ctrl + Shift + F",
+      "description": "Find in all files"
+    },
+    {
+      "key": "Ctrl + Z",
+      "description": "Undo"
+    },
+    {
+      "key": "Ctrl + Y",
+      "description": "Redo"
+    },
+    {
+      "key": "Ctrl + C",
+      "description": "Copy"
+    },
+    {
+      "key": "Ctrl + X",
+      "description": "Cut"
+    },
+    {
+      "key": "Ctrl + V",
+      "description": "Paste"
+    },
+    {
+      "key": "Ctrl + A",
+      "description": "Select all"
+    },
+    {
+      "key": "Ctrl + /",
+      "description": "Toggle comment"
+    },
+    {
+      "key": "Tab",
+      "description": "Indent line or selection"
+    },
+    {
+      "key": "Shift + Tab",
+      "description": "Unindent line or selection"
+    }
+  ]
+}

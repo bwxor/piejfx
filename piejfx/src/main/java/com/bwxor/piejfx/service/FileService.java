@@ -1,6 +1,7 @@
 package com.bwxor.piejfx.service;
 
 import com.bwxor.piejfx.constants.AppDirConstants;
+import com.bwxor.piejfx.controller.impl.FileSearchViewController;
 import com.bwxor.piejfx.controller.impl.NewFileViewController;
 import com.bwxor.piejfx.controller.impl.RenameFileViewController;
 import com.bwxor.piejfx.state.*;
@@ -67,6 +68,53 @@ public class FileService implements PluginFileService {
         }
 
         return -1;
+    }
+
+    public void showFileSearchWindow() {
+        ServiceState serviceState = ServiceState.instance;
+        StageState stageState = StageState.instance;
+
+        // Check if a folder is opened
+        if (FolderTreeViewState.instance.getOpenedFolder() == null) {
+            serviceState.getNotificationService().showNotificationOk("No folder is currently opened.");
+            return;
+        }
+
+        FXMLLoader loader = new FXMLLoader(serviceState.getResourceService().getResourceByName("views/filesearch-view.fxml"));
+        Parent root;
+
+        try {
+            root = loader.load();
+
+            FileSearchViewController controller = loader.getController();
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(ThemeState.instance.getCurrentTheme().getUrl().toExternalForm());
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Find File");
+            stage.getIcons().add(new Image(Objects.requireNonNull(serviceState.getResourceService().getResourceByNameAsStream("img/icons/icon.png"))));
+            stage.initStyle(StageStyle.TRANSPARENT);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.initOwner(stageState.getStage());
+            scene.setFill(Color.TRANSPARENT);
+            try {
+                scene.getStylesheets().add(AppDirConstants.DEFAULT_STYLES_FILE.toUri().toURL().toExternalForm());
+            } catch (MalformedURLException e) {
+                serviceState.getNotificationService().showNotificationOk("Error while trying to load the default styles.");
+                throw new RuntimeException(e);
+            }
+            stage.showAndWait();
+
+            // Open the selected file if any
+            File selectedFile = controller.getSelectedFile();
+            if (selectedFile != null) {
+                openFile(selectedFile);
+            }
+
+        } catch (IOException e) {
+            serviceState.getNotificationService().showNotificationOk("Error while trying to load the file search window.");
+        }
     }
 
     public NewFileResponse showNewFileWindow(String title) {

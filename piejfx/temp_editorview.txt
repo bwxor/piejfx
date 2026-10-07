@@ -162,15 +162,11 @@ public class EditorViewController extends MaximizableViewController {
                 ServiceState.instance.getFileService().showFileSearchWindow();
             } else if (keyEvent.getCode().equals(KeyCode.F)) {
                 // Ctrl+Shift+F - Search in files
-                // Check if a folder is opened
-                if (FolderTreeViewState.instance.getOpenedFolder() == null) {
-                    ServiceState.instance.getNotificationService().showNotificationOk("No folder is currently opened.");
-                    return;
-                }
-                
                 SearchInFilesDialogService searchService = SearchInFilesDialogService.getInstance();
                 File openedFolder = FolderTreeViewState.instance.getOpenedFolder();
-                searchService.setWorkspaceRoot(openedFolder);
+                if (openedFolder != null) {
+                    searchService.setWorkspaceRoot(openedFolder);
+                }
                 searchService.showSearchDialog((Stage) editorTabPane.getScene().getWindow());
             }
         } else if (keyEvent.isControlDown()) { // Ctrl modifier only
@@ -210,3 +206,4 @@ public class EditorViewController extends MaximizableViewController {
         }
     }
 }
+
