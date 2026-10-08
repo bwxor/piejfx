@@ -45,7 +45,7 @@ public class FolderTreeViewService implements PluginFolderTreeViewService {
 
             if (!uiState.getHorizontalSplitPane().getItems().contains(uiState.getSplitTabPane())) {
                 uiState.getHorizontalSplitPane().getItems().addFirst(uiState.getSplitTabPane());
-                uiState.getHorizontalSplitPane().setDividerPosition(0, 0.35);
+                addDividerPositionManagement();
             }
 
             if (FolderTreeViewState.instance.getTreeViewStructure() != null) {
@@ -57,6 +57,8 @@ public class FolderTreeViewService implements PluginFolderTreeViewService {
 
     public void toggleFolderTreeView() {
         UIState uiState = UIState.instance;
+        MaximizeState maximizeState = MaximizeState.instance;
+        HorizontalSplitPaneDividerState horizontalSplitPaneDividerState = HorizontalSplitPaneDividerState.instance;
 
         if (uiState.getHorizontalSplitPane().getItems().contains(uiState.getSplitTabPane())) {
             FolderTreeViewState.instance.setTreeViewStructure(new TreeViewStructure());
@@ -65,12 +67,29 @@ public class FolderTreeViewService implements PluginFolderTreeViewService {
         } else {
             uiState.getFolderTreeView().setRoot(createTreeItem());
             uiState.getHorizontalSplitPane().getItems().addFirst(uiState.getSplitTabPane());
-            uiState.getHorizontalSplitPane().setDividerPosition(0, 0.35);
+            addDividerPositionManagement();
 
             if (FolderTreeViewState.instance.getTreeViewStructure() != null) {
                 fillTreeViewWithExpansionState(FolderTreeViewState.instance.getTreeViewStructure(), uiState.getFolderTreeView().getRoot());
             }
         }
+    }
+
+    public void addDividerPositionManagement() {
+        UIState uiState = UIState.instance;
+        MaximizeState maximizeState = MaximizeState.instance;
+        HorizontalSplitPaneDividerState horizontalSplitPaneDividerState = HorizontalSplitPaneDividerState.instance;
+
+        uiState.getHorizontalSplitPane().setDividerPosition(0, maximizeState.isMaximized() ? horizontalSplitPaneDividerState.getMaximizedPos() : horizontalSplitPaneDividerState.getNormalPos());
+
+        uiState.getHorizontalSplitPane().getDividers().getFirst().positionProperty().addListener((obs, oldPos, newPos) -> {
+            if (maximizeState.isMaximized()) {
+                horizontalSplitPaneDividerState.setMaximizedPos(newPos.doubleValue());
+            }
+            else {
+                horizontalSplitPaneDividerState.setNormalPos(newPos.doubleValue());
+            }
+        });
     }
 
     public TreeItem createTreeItem() {

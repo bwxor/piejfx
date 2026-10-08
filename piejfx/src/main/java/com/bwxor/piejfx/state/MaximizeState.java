@@ -24,6 +24,7 @@ public final class MaximizeState {
     public void toggleMaximize(Stage stage, Button maximizeButton) {
         UIState uiState = UIState.instance;
         ServiceState serviceState = ServiceState.instance;
+        HorizontalSplitPaneDividerState horizontalSplitPaneDividerState = HorizontalSplitPaneDividerState.instance;
 
         if (!maximized) {
             try {
@@ -70,7 +71,7 @@ public final class MaximizeState {
         if (uiState.getHorizontalSplitPane().getItems().contains(uiState.getSplitTabPane())) {
             uiState.getHorizontalSplitPane().getItems().removeFirst();
             uiState.getHorizontalSplitPane().getItems().addFirst(uiState.getSplitTabPane());
-            uiState.getHorizontalSplitPane().setDividerPosition(0, 0.35);
+            serviceState.getFolderTreeViewService().addDividerPositionManagement();
         }
     }
 }
