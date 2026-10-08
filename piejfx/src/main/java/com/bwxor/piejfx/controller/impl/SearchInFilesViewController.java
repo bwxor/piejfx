@@ -92,7 +92,7 @@ public class SearchInFilesViewController extends MovableViewController {
     }
 
     @FXML
-    public void onSearchButtonClick() {
+    public void onSearchTextChanged() {
         performSearch();
     }
 
