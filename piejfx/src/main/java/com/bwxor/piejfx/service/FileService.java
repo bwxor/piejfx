@@ -13,6 +13,7 @@ import com.bwxor.plugin.type.RenameFileOption;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Tab;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -54,6 +55,38 @@ public class FileService implements PluginFileService {
         }
 
         serviceState.getPluginService().invokeOnOpenFile(file);
+    }
+
+    /**
+     * Opens the file (see {@link #openFile(File)}) and moves the caret to the given line,
+     * selecting that line and scrolling it into view.
+     *
+     * @param file       the file to open
+     * @param lineNumber the 1-based line number to jump to
+     */
+    public void openFile(File file, int lineNumber) {
+        openFile(file);
+
+        UIState uiState = UIState.instance;
+
+        Tab selectedTab = uiState.getEditorTabPane().getSelectionModel().getSelectedItem();
+        if (selectedTab == null) {
+            return;
+        }
+        if (!(selectedTab.getContent() instanceof VBox box)) {
+            return;
+        }
+        if (!(box.getChildren().getLast() instanceof CodeArea codeArea)) {
+            return;
+        }
+
+        // Line numbers are 1-based for the user, paragraphs are 0-based; keep the target inside the document
+        int lastParagraph = codeArea.getParagraphs().size() - 1;
+        int paragraph = Math.max(0, Math.min(lineNumber - 1, lastParagraph));
+
+        codeArea.moveTo(paragraph, 0);
+        codeArea.selectLine();
+        codeArea.requestFollowCaret();
     }
 
     private int getIndexOfOpenedFileInTabPane(File file) {

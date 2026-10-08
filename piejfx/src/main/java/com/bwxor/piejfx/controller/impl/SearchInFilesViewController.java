@@ -96,9 +96,10 @@ public class SearchInFilesViewController extends MovableViewController {
         resultsTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
 
         // The model keeps the real path (needed to open the file); only the
-        // displayed text is sanitized, because file names can contain odd characters too.
+        // displayed text is shown relative to the opened folder and sanitized,
+        // because file names can contain odd characters too.
         fileNameColumn.setCellValueFactory(cellData ->
-                new ReadOnlyStringWrapper(sanitizeForDisplay(cellData.getValue().getFileName())));
+                new ReadOnlyStringWrapper(sanitizeForDisplay(toDisplayPath(cellData.getValue().getFileName()))));
         lineNumberColumn.setCellValueFactory(cellData -> cellData.getValue().lineNumberProperty().asObject());
         lineTextColumn.setCellValueFactory(cellData -> cellData.getValue().lineTextProperty());
 
@@ -319,6 +320,22 @@ public class SearchInFilesViewController extends MovableViewController {
     }
 
     /**
+     * Returns the path shown in the results table: relative to the opened folder
+     * when the file lives inside it, otherwise the path unchanged.
+     */
+    private String toDisplayPath(String absolutePath) {
+        if (workspaceRoot == null) {
+            return absolutePath;
+        }
+        Path root = workspaceRoot.toPath().toAbsolutePath().normalize();
+        Path file = Path.of(absolutePath).toAbsolutePath().normalize();
+        if (!file.startsWith(root)) {
+            return absolutePath;
+        }
+        return root.relativize(file).toString();
+    }
+
+    /**
      * Makes arbitrary text safe to render in the results table. Replaced with '?':
      * control/format/private-use/unassigned code points, unpaired surrogates, combining
      * marks, U+FFFD, and anything outside the Basic Multilingual Plane (emoji etc.).
@@ -364,13 +381,16 @@ public class SearchInFilesViewController extends MovableViewController {
         return sb.toString();
     }
 
+    /**
+     * Opens the match's file at the match's line and closes the dialog.
+     */
     private void openFileAtLine(SearchResult result) {
         File file = new File(result.getFileName());
         if (file.exists()) {
-            ServiceState.instance.getFileService().openFile(file);
-            // You could add logic here to jump to the specific line number
-            // if you have a method in your FileService to do so
+            ServiceState.instance.getFileService().openFile(file, result.getLineNumber());
         }
+        cancelSearch();
+        SearchInFilesDialogService.getInstance().closeDialog();
     }
 
     public void setSearchFieldText(String text) {
