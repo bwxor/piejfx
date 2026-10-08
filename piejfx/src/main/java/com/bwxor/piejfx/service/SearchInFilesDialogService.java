@@ -4,14 +4,17 @@ import com.bwxor.piejfx.constants.AppDirConstants;
 import com.bwxor.piejfx.controller.impl.SearchInFilesViewController;
 import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.ThemeState;
+import com.bwxor.piejfx.state.UIState;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.fxmisc.richtext.CodeArea;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,6 +42,7 @@ public class SearchInFilesDialogService {
 
     public void showSearchDialog(Stage ownerStage) {
         ServiceState serviceState = ServiceState.instance;
+        UIState uiState = UIState.instance;
 
         FXMLLoader loader = new FXMLLoader(serviceState.getResourceService().getResourceByName("views/searchinfiles-view.fxml"));
         Parent root;
@@ -64,6 +68,9 @@ public class SearchInFilesDialogService {
             throw new RuntimeException(e);
         }
 
+        var editorTabPane = uiState.getEditorTabPane();
+        var codeArea = (CodeArea) ((VBox) editorTabPane.getSelectionModel().getSelectedItem().getContent()).getChildren().getLast();
+
         if (dialogStage == null || !dialogStage.isShowing()) {
             dialogStage = new Stage();
             dialogStage.initStyle(StageStyle.TRANSPARENT);
@@ -72,7 +79,10 @@ public class SearchInFilesDialogService {
             dialogStage.setScene(scene);
             dialogStage.setTitle("Search in Files");
             dialogStage.show();
-            Platform.runLater(() -> controller.focusSearchField());
+            Platform.runLater(() -> {
+                controller.focusSearchField();
+                controller.setSearchFieldText(codeArea.getSelectedText());
+            });
         } else {
             dialogStage.toFront();
             controller.setWorkspaceRoot(workspaceRoot);

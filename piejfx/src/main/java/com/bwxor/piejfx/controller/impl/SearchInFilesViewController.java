@@ -372,4 +372,12 @@ public class SearchInFilesViewController extends MovableViewController {
             // if you have a method in your FileService to do so
         }
     }
+
+    public void setSearchFieldText(String text) {
+        if (text != null && !text.isEmpty()) {
+            searchTextField.setText(text);
+            searchTextField.selectAll();
+            performSearch();
+        }
+    }
 }

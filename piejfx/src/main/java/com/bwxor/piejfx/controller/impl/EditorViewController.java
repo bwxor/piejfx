@@ -14,6 +14,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.fxmisc.richtext.CodeArea;
 
 import java.io.File;
 import java.util.List;
@@ -191,8 +192,10 @@ public class EditorViewController extends MaximizableViewController {
             } else if (keyEvent.getCode().equals(KeyCode.F)) {
                 VBox vBox = (VBox) uiState.getEditorTabPane().getSelectionModel().getSelectedItem().getContent();
 
+                var codeArea = (CodeArea) ((VBox)editorTabPane.getSelectionModel().getSelectedItem().getContent()).getChildren().getLast();
+
                 if (vBox.getChildren().size() == 1) {
-                    vBox.getChildren().add(0, FindReplaceHBoxFactory.createFindReplaceHBox());
+                    vBox.getChildren().add(0, FindReplaceHBoxFactory.createFindReplaceHBox(codeArea.getSelectedText()));
                     ((HBox) vBox.getChildren().getFirst()).getChildren().getFirst().requestFocus();
                 } else {
                     vBox.getChildren().removeFirst();
@@ -200,8 +203,10 @@ public class EditorViewController extends MaximizableViewController {
             } else if (keyEvent.getCode().equals(KeyCode.R)) {
                 VBox vBox = (VBox) uiState.getEditorTabPane().getSelectionModel().getSelectedItem().getContent();
 
+                var codeArea = (CodeArea) ((VBox)editorTabPane.getSelectionModel().getSelectedItem().getContent()).getChildren().getLast();
+
                 if (vBox.getChildren().size() == 1) {
-                    vBox.getChildren().add(0, FindReplaceHBoxFactory.createFindReplaceHBox());
+                    vBox.getChildren().add(0, FindReplaceHBoxFactory.createFindReplaceHBox(codeArea.getSelectedText()));
                     ((HBox) vBox.getChildren().getFirst()).getChildren().get(1).requestFocus();
                 } else {
                     vBox.getChildren().removeFirst();

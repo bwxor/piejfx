@@ -17,7 +17,7 @@ public class FindReplaceHBoxFactory {
 
             return () -> {
                 if (((VBox) uiState.getEditorTabPane().getSelectionModel().getSelectedItem().getContent()).getChildren().getLast() instanceof CodeArea c) {
-                    int selectionStart = c.getText().indexOf(findTextField.getText(), c.getCaretPosition());
+                    int selectionStart = c.getText().toLowerCase().indexOf(findTextField.getText().toLowerCase(), c.getCaretPosition());
 
                     if (selectionStart != -1) {
                         c.selectRange(selectionStart, selectionStart + findTextField.getText().length());
@@ -79,7 +79,7 @@ public class FindReplaceHBoxFactory {
         }
     }
 
-    public static HBox createFindReplaceHBox() {
+    public static HBox createFindReplaceHBox(String codeAreaText) {
         HBox hBox = new HBox();
         hBox.getStyleClass().add("find-replace-box");
 
@@ -92,6 +92,11 @@ public class FindReplaceHBoxFactory {
                     }
                 }
         );
+
+        if (codeAreaText != null && !codeAreaText.isEmpty()) {
+            findTextField.setText(codeAreaText);
+        }
+
         hBox.getChildren().add(findTextField);
         hBox.setPadding(new Insets(5));
         hBox.setSpacing(7);
