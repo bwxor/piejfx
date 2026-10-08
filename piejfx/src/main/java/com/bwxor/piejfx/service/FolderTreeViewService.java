@@ -5,15 +5,20 @@ import com.bwxor.piejfx.dto.TreeViewStructure;
 import com.bwxor.piejfx.state.*;
 import com.bwxor.plugin.service.PluginFolderTreeViewService;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.*;
 
 public class FolderTreeViewService implements PluginFolderTreeViewService {
+    private static final String FOLDER_PREFIX = "\uD83D\uDCC1 ";
+
     private boolean firstLaunch = true;
 
     public void showFolderTreeView() {
@@ -57,8 +62,6 @@ public class FolderTreeViewService implements PluginFolderTreeViewService {
 
     public void toggleFolderTreeView() {
         UIState uiState = UIState.instance;
-        MaximizeState maximizeState = MaximizeState.instance;
-        HorizontalSplitPaneDividerState horizontalSplitPaneDividerState = HorizontalSplitPaneDividerState.instance;
 
         if (uiState.getHorizontalSplitPane().getItems().contains(uiState.getSplitTabPane())) {
             FolderTreeViewState.instance.setTreeViewStructure(new TreeViewStructure());
@@ -92,66 +95,219 @@ public class FolderTreeViewService implements PluginFolderTreeViewService {
         });
     }
 
+    // ------------------------------------------------------------------ watching
+
+    /**
+     * Re-reads every loaded folder from disk and updates the tree in place, without
+     * rebuilding it and without firing any plugin events. Keeps expansion, selection and scroll.
+     * Plugins can call this right after an operation if they don't want to wait for the watcher.
+     */
+    public void refreshFolderTreeView() {
+        FileTreeItem root = openedRoot();
+        if (root != null) {
+            refreshRecursively(root);
+        }
+    }
+
+    // ------------------------------------------------------------------ tree building
+
     public TreeItem createTreeItem() {
         File rootFile = FolderTreeViewState.instance.getOpenedFolder();
 
-        if (rootFile != null) {
-            FileTreeItem parent = new FileTreeItem();
-            createTreeItem(rootFile, parent);
-            return parent.getChildren().getFirst();
+        if (rootFile == null) {
+            return null;
         }
 
+        FileTreeItem root = createNode(rootFile, rootFile.isDirectory());
+
+        // One handler on the root instead of one per folder: expansion events bubble up from any
+        // descendant. Re-syncing on every expand (not only the first) also covers folders the
+        // watcher ignores, like node_modules or target.
+        EventHandler<TreeItem.TreeModificationEvent<Object>> onExpand = e -> {
+            Object source = e.getTreeItem();
+            if (source instanceof FileTreeItem item && item.getFile() != null) {
+                syncChildren(item);
+            }
+        };
+        ((TreeItem) root).addEventHandler(TreeItem.branchExpandedEvent(), onExpand);
+
+        return root;
+    }
+
+    private FileTreeItem createNode(File file, boolean isDirectory) {
+        if (!isDirectory) {
+            return new FileTreeItem(file.getName(), file);
+        }
+
+        FileTreeItem node = new FileTreeItem(FOLDER_PREFIX + file.getName(), file);
+        ensurePlaceholder(node);
+        return node;
+    }
+
+    /**
+     * A folder is "loaded" once its real children are in the tree. Unloaded folders hold either
+     * nothing or a single placeholder (a FileTreeItem with no file) to show the expand arrow.
+     */
+    private boolean isLoaded(FileTreeItem node) {
+        ObservableList<TreeItem> children = children(node);
+        return node.isExpanded()
+                || (!children.isEmpty() && ((FileTreeItem) children.getFirst()).getFile() != null);
+    }
+
+    private void syncNode(FileTreeItem node) {
+        if (isLoaded(node)) {
+            syncChildren(node);
+        } else {
+            ensurePlaceholder(node);
+        }
+    }
+
+    /** Unloaded folder: show an expand arrow if and only if it has something inside. */
+    private void ensurePlaceholder(FileTreeItem node) {
+        ObservableList<TreeItem> children = children(node);
+        boolean hasEntries = hasEntries(node.getFile());
+
+        if (hasEntries && children.isEmpty()) {
+            children.add(new FileTreeItem());
+        } else if (!hasEntries && !children.isEmpty()) {
+            children.clear();
+        }
+    }
+
+    /**
+     * Makes a folder's children match the disk: removes what's gone, inserts what's new at its
+     * sorted position, and leaves existing items untouched (so their expansion state and the
+     * selection survive).
+     */
+    private void syncChildren(FileTreeItem node) {
+        File[] listed = node.getFile().listFiles();
+        if (listed == null) {
+            return; // not a directory anymore / gone; the parent's sync will remove it
+        }
+
+        List<Entry> desired = sortedEntries(listed);
+        Set<File> desiredFiles = new HashSet<>();
+        for (Entry entry : desired) {
+            desiredFiles.add(entry.file());
+        }
+
+        ObservableList<TreeItem> children = children(node);
+        children.removeIf(c -> {
+            File f = ((FileTreeItem) c).getFile();
+            return f == null || !desiredFiles.contains(f); // placeholder or deleted
+        });
+
+        Map<File, TreeItem> existing = new HashMap<>();
+        for (TreeItem c : children) {
+            existing.put(((FileTreeItem) c).getFile(), c);
+        }
+
+        for (int i = 0; i < desired.size(); i++) {
+            Entry entry = desired.get(i);
+
+            if (i < children.size() && entry.file().equals(((FileTreeItem) children.get(i)).getFile())) {
+                continue; // already in place
+            }
+
+            TreeItem item = existing.get(entry.file());
+            if (item != null) {
+                children.remove(item); // out of order (rare); move it
+            } else {
+                item = createNode(entry.file(), entry.directory());
+            }
+            children.add(i, item);
+        }
+    }
+
+    private void refreshRecursively(FileTreeItem node) {
+        if (!isLoaded(node)) {
+            ensurePlaceholder(node);
+            return;
+        }
+
+        syncChildren(node);
+
+        for (TreeItem child : List.copyOf(children(node))) {
+            if (child instanceof FileTreeItem item && item.getFile() != null && item.getFile().isDirectory()) {
+                refreshRecursively(item);
+            }
+        }
+    }
+
+    /**
+     * Walks from the root towards {@code dir} through loaded folders only. Returns the folder's
+     * own node, or the deepest loaded/unloaded ancestor on the way (syncing that is enough).
+     */
+    private FileTreeItem findDeepestNode(FileTreeItem root, Path dir) {
+        Path rootPath = normalize(root.getFile());
+        if (!dir.startsWith(rootPath)) {
+            return null;
+        }
+
+        FileTreeItem node = root;
+        for (Path segment : rootPath.relativize(dir)) {
+            if (segment.toString().isEmpty() || !isLoaded(node)) {
+                return node;
+            }
+
+            FileTreeItem next = null;
+            for (TreeItem child : children(node)) {
+                File f = ((FileTreeItem) child).getFile();
+                if (f != null && f.getName().equals(segment.toString())) {
+                    next = (FileTreeItem) child;
+                    break;
+                }
+            }
+
+            if (next == null) {
+                return node; // folder not in the tree yet; syncing the parent will add it
+            }
+            node = next;
+        }
+        return node;
+    }
+
+    // ------------------------------------------------------------------ helpers
+
+    private record Entry(File file, boolean directory) {}
+
+    /** Folders first, then case-insensitive by name. isDirectory() is read once per file. */
+    private static List<Entry> sortedEntries(File[] files) {
+        List<Entry> entries = new ArrayList<>(files.length);
+        for (File f : files) {
+            entries.add(new Entry(f, f.isDirectory()));
+        }
+        entries.sort(Comparator.comparing((Entry e) -> !e.directory())
+                .thenComparing(e -> e.file().getName(), String.CASE_INSENSITIVE_ORDER));
+        return entries;
+    }
+
+    private static boolean hasEntries(File dir) {
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir.toPath())) {
+            return stream.iterator().hasNext();
+        } catch (IOException | RuntimeException e) {
+            return false;
+        }
+    }
+
+    private static Path normalize(File file) {
+        return file.toPath().toAbsolutePath().normalize();
+    }
+
+    private static FileTreeItem openedRoot() {
+        Object root = UIState.instance.getFolderTreeView().getRoot();
+        if (root instanceof FileTreeItem item && item.getFile() != null) {
+            return item;
+        }
         return null;
     }
 
-    private void createTreeItem(File rootFile, TreeItem parent) {
-        if (rootFile.isDirectory()) {
-            FileTreeItem node = new FileTreeItem("\uD83D\uDCC1 " + rootFile.getName(), rootFile);
-            parent.getChildren().add(node);
-            
-            File[] files = rootFile.listFiles();
-            if (files != null && files.length > 0) {
-                // Add a single placeholder to indicate the folder has children
-                TreeItem placeholder = new FileTreeItem();
-                node.getChildren().add(placeholder);
-
-                node.addEventHandler(TreeItem.branchExpandedEvent(), new EventHandler() {
-                    @Override
-                    public void handle(Event event) {
-                        // Get the current File from the node (in case it was renamed)
-                        File currentDir = ((FileTreeItem) node).getFile();
-                        File[] currentFiles = currentDir.listFiles();
-                        
-                        if (currentFiles != null) {
-                            // Clear placeholder
-                            node.getChildren().clear();
-                            
-                            // Create tree items for all children
-                            for (File f : currentFiles) {
-                                createTreeItem(f, node);
-                            }
-                            
-                            // Sort children
-                            node.getChildren().sort(
-                                    (Object t1, Object t2) -> {
-                                        if (((TreeItem) t1).getChildren().size() > 0) {
-                                            return -1;
-                                        } else {
-                                            return 1;
-                                        }
-                                    }
-                            );
-                        }
-                        
-                        node.removeEventHandler(TreeItem.branchExpandedEvent(), this);
-                    }
-                });
-            }
-        } else {
-            FileTreeItem treeItem = new FileTreeItem(rootFile.getName(), rootFile);
-            parent.getChildren().add(treeItem);
-        }
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private static ObservableList<TreeItem> children(TreeItem item) {
+        return item.getChildren();
     }
+
+    // ------------------------------------------------------------------ expansion state (unchanged)
 
     private void fillExpansionState(TreeViewStructure treeViewStructure, TreeItem treeItem) {
         if (treeItem == null) {

@@ -49,8 +49,7 @@ public class FileService implements PluginFileService {
 
         if (indexOfOpenedFile >= 0) {
             uiState.getEditorTabPane().getSelectionModel().select(indexOfOpenedFile);
-        }
-        else {
+        } else {
             serviceState.getEditorTabPaneService().addTabToPane(file);
         }
 
@@ -60,7 +59,7 @@ public class FileService implements PluginFileService {
     private int getIndexOfOpenedFileInTabPane(File file) {
         UIState uiState = UIState.instance;
 
-        for (int i = 0; i<uiState.getEditorTabPane().getTabs().size(); i++) {
+        for (int i = 0; i < uiState.getEditorTabPane().getTabs().size(); i++) {
             CodeAreaState.IndividualState state = CodeAreaState.instance.getIndividualStates().get(i);
             if (state.getOpenedFile() != null && state.getOpenedFile().equals(file)) {
                 return i;
@@ -204,7 +203,7 @@ public class FileService implements PluginFileService {
         File[] contents = file.listFiles();
         if (contents != null) {
             for (File f : contents) {
-                if (! Files.isSymbolicLink(f.toPath())) {
+                if (!Files.isSymbolicLink(f.toPath())) {
                     if (!deleteFolder(f)) {
                         return false;
                     }
@@ -225,10 +224,16 @@ public class FileService implements PluginFileService {
 
     public void openFolder(File folder) {
         ServiceState serviceState = ServiceState.instance;
+        FolderTreeViewState folderTreeViewState = FolderTreeViewState.instance;
 
-        FolderTreeViewState.instance.setOpenedFolder(folder);
+        if (folderTreeViewState.getOpenedFolder() != null &&
+                folderTreeViewState.getOpenedFolder().toPath().toAbsolutePath().normalize().equals(folder.toPath().toAbsolutePath().normalize())) {
+            serviceState.getFolderTreeViewService().refreshFolderTreeView();
+            return;
+        }
+
+        folderTreeViewState.setOpenedFolder(folder);
         serviceState.getFolderTreeViewService().showFolderTreeView();
-
         serviceState.getPluginService().invokeOnOpenFolder(folder);
     }
 
@@ -253,7 +258,7 @@ public class FileService implements PluginFileService {
                 throw new RuntimeException(e);
             }
 
-            if (((VBox)uiState.getEditorTabPane().getSelectionModel().getSelectedItem().getContent()).getChildren().getLast() instanceof CodeArea c) {
+            if (((VBox) uiState.getEditorTabPane().getSelectionModel().getSelectedItem().getContent()).getChildren().getLast() instanceof CodeArea c) {
                 serviceState.getGrammarService().setGrammarToCodeArea(c, codeAreaState.getOpenedFile());
                 serviceState.getGrammarService().resetCodeAreaStyle(c, codeAreaState);
             }
