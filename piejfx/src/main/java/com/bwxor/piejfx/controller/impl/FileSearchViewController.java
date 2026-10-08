@@ -19,8 +19,12 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class FileSearchViewController extends MovableViewController {
+
+    private static final int BATCH_SIZE = 50;
+
     @FXML
     private Label windowTitle;
     @FXML
@@ -30,6 +34,10 @@ public class FileSearchViewController extends MovableViewController {
 
     private File selectedFile;
     private ObservableList<File> matchingFiles;
+
+    // Incremented on every new search and on close; background scans whose
+    // generation no longer matches are stale and stop publishing results.
+    private final AtomicLong searchGeneration = new AtomicLong();
 
     public void initialize() {
         matchingFiles = FXCollections.observableArrayList();
@@ -108,15 +116,24 @@ public class FileSearchViewController extends MovableViewController {
     @FXML
     public void onSearchTextChanged() {
         String searchTerm = searchTextField.getText().trim().toLowerCase();
+        System.out.println("[search for file name] " + searchTextField.getText());
+        long generation = searchGeneration.incrementAndGet();
         matchingFiles.clear();
         
-        if (!searchTerm.isEmpty()) {
-            File rootFolder = FolderTreeViewState.instance.getOpenedFolder();
-            if (rootFolder != null) {
-                List<File> files = searchFiles(rootFolder, searchTerm);
-                matchingFiles.addAll(files);
-            }
+        if (searchTerm.isEmpty()) {
+            return;
         }
+        File rootFolder = FolderTreeViewState.instance.getOpenedFolder();
+        if (rootFolder == null) {
+            return;
+        }
+
+        // Scan the file system off the UI thread; results are published in batches.
+        Thread searchThread = new Thread(
+                () -> searchFilesInBackground(rootFolder, searchTerm, generation),
+                "file-name-search");
+        searchThread.setDaemon(true);
+        searchThread.start();
     }
 
     @FXML
@@ -144,16 +161,43 @@ public class FileSearchViewController extends MovableViewController {
     }
 
     private void closeWindow() {
+        // Cancel any running background scan
+        searchGeneration.incrementAndGet();
         ((Stage) searchTextField.getScene().getWindow()).close();
     }
 
-    private List<File> searchFiles(File directory, String searchTerm) {
-        List<File> result = new ArrayList<>();
-        searchFilesRecursive(directory, searchTerm, result);
-        return result;
+    private void searchFilesInBackground(File rootFolder, String searchTerm, long generation) {
+        List<File> batch = new ArrayList<>();
+        searchFilesRecursive(rootFolder, searchTerm, generation, batch);
+        publishBatch(batch, generation);
     }
 
-    private void searchFilesRecursive(File directory, String searchTerm, List<File> result) {
+    /**
+     * Hands the pending files to the FX thread and clears the batch.
+     * Must be called from the background thread only.
+     */
+    private void publishBatch(List<File> batch, long generation) {
+        if (batch.isEmpty()) {
+            return;
+        }
+        List<File> toPublish = new ArrayList<>(batch);
+        batch.clear();
+        Platform.runLater(() -> {
+            // Drop results from scans that were superseded in the meantime
+            if (generation == searchGeneration.get()) {
+                matchingFiles.addAll(toPublish);
+            }
+        });
+    }
+
+    private boolean isStale(long generation) {
+        return generation != searchGeneration.get();
+    }
+
+    private void searchFilesRecursive(File directory, String searchTerm, long generation, List<File> batch) {
+        if (isStale(generation)) {
+            return;
+        }
         if (directory == null || !directory.exists() || !directory.isDirectory()) {
             return;
         }
@@ -164,6 +208,10 @@ public class FileSearchViewController extends MovableViewController {
         }
 
         for (File file : files) {
+            if (isStale(generation)) {
+                return;
+            }
+
             // Skip hidden files and common directories to ignore
             String fileName = file.getName();
             if (fileName.startsWith(".") || 
@@ -177,10 +225,13 @@ public class FileSearchViewController extends MovableViewController {
 
             if (file.isFile()) {
                 if (file.getName().toLowerCase().contains(searchTerm)) {
-                    result.add(file);
+                    batch.add(file);
+                    if (batch.size() >= BATCH_SIZE) {
+                        publishBatch(batch, generation);
+                    }
                 }
             } else if (file.isDirectory()) {
-                searchFilesRecursive(file, searchTerm, result);
+                searchFilesRecursive(file, searchTerm, generation, batch);
             }
         }
     }
