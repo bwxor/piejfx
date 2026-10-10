@@ -89,6 +89,33 @@ public class ContextMenuFactory {
         return contextMenu;
     }
 
+    public static ContextMenu createEditorTabPaneContextMenu() {
+        ServiceState serviceState = ServiceState.instance;
+
+        ContextMenu contextMenu = new ContextMenu();
+
+        MenuItem closeMenuItem = new MenuItem();
+        closeMenuItem.setText("Close");
+        closeMenuItem.setOnAction(_ -> serviceState.getEditorTabPaneService().removeSelectedTabFromPane());
+        contextMenu.getItems().add(closeMenuItem);
+
+        MenuItem closeOtherTabsMenuItem = new MenuItem();
+        closeOtherTabsMenuItem.setText("Close Other Tabs");
+        closeOtherTabsMenuItem.setOnAction(_ -> {
+            serviceState.getEditorTabPaneService().removeOtherTabsFromPane();
+        });
+        contextMenu.getItems().add(closeOtherTabsMenuItem);
+
+        MenuItem closeAllTabsMenuItem = new MenuItem();
+        closeAllTabsMenuItem.setText("Close All Tabs");
+        closeAllTabsMenuItem.setOnAction(e -> {
+            serviceState.getEditorTabPaneService().removeAllTabsFromPane();
+        });
+        contextMenu.getItems().add(closeAllTabsMenuItem);
+
+        return contextMenu;
+    }
+
     private static void createFile(CreationType creationType, TreeView folderTreeView) {
         ServiceState serviceState = ServiceState.instance;
 
@@ -278,7 +305,7 @@ public class ContextMenuFactory {
                             // Clear them and collapse so they'll be reloaded with correct paths on next expansion
                             fileTreeItem.getChildren().clear();
                             fileTreeItem.setExpanded(false);
-                            
+
                             // Add new placeholders based on the new directory path
                             File[] files = newFile.listFiles();
                             if (files != null && files.length > 0) {

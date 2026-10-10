@@ -1,8 +1,8 @@
 package com.bwxor.piejfx.state;
 
 public class HorizontalSplitPaneDividerState {
-    private double maximizedPos = 0.2;
-    private double normalPos = 0.25;
+    private double maximizedPos = 0.25;
+    private double normalPos = 0.3;
 
     public static final HorizontalSplitPaneDividerState instance = new HorizontalSplitPaneDividerState();
 

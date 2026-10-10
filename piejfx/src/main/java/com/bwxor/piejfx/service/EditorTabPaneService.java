@@ -22,7 +22,7 @@ public class EditorTabPaneService implements PluginEditorTabPaneService {
         UIState uiState = UIState.instance;
 
         for (int i = 0; i < uiState.getEditorTabPane().getTabs().size(); i++) {
-            if (((VBox)uiState.getEditorTabPane().getTabs().get(i).getContent()).getChildren().getLast() instanceof CodeArea c) {
+            if (((VBox) uiState.getEditorTabPane().getTabs().get(i).getContent()).getChildren().getLast() instanceof CodeArea c) {
                 c.setId(String.valueOf(i));
             }
         }
@@ -36,7 +36,7 @@ public class EditorTabPaneService implements PluginEditorTabPaneService {
 
         Tab tab = uiState.getEditorTabPane().getSelectionModel().getSelectedItem();
 
-        if (((VBox)tab.getContent()).getChildren().getLast() instanceof CodeArea c) {
+        if (((VBox) tab.getContent()).getChildren().getLast() instanceof CodeArea c) {
             serviceState.getGrammarService().setGrammarToCodeArea(c, file);
 
             CodeAreaState.IndividualState individualState = CodeAreaState.instance.getIndividualStates().get(Integer.parseInt(c.getId()));
@@ -109,5 +109,73 @@ public class EditorTabPaneService implements PluginEditorTabPaneService {
         resyncCodeAreaIds();
 
         return RemoveSelectedTabFromPaneOption.REMOVED;
+    }
+
+    public void removeOtherTabsFromPane() {
+        UIState uiState = UIState.instance;
+        ServiceState serviceState = ServiceState.instance;
+
+        while (uiState.getEditorTabPane().getTabs().size() > 1) {
+            int indexToDelete;
+
+            if (uiState.getEditorTabPane().getTabs().getFirst().equals(uiState.getEditorTabPane().getSelectionModel().getSelectedItem())) {
+                indexToDelete = 1;
+            } else {
+                indexToDelete = 0;
+            }
+            var tab = uiState.getEditorTabPane().getTabs().get(indexToDelete);
+
+            CodeAreaState.IndividualState individualState = CodeAreaState.instance.getIndividualStates().get(indexToDelete);
+
+            if (!promptForUnsavedFile(individualState, serviceState)) {
+                resyncCodeAreaIds();
+                return;
+            }
+
+            CodeAreaState.instance.getIndividualStates().remove(individualState);
+            uiState.getEditorTabPane().getTabs().remove(tab);
+
+        }
+
+        resyncCodeAreaIds();
+    }
+
+    public void removeAllTabsFromPane() {
+        UIState uiState = UIState.instance;
+        ServiceState serviceState = ServiceState.instance;
+
+        for (int i = uiState.getEditorTabPane().getTabs().size() - 1; i >= 0; i--) {
+            var tab = uiState.getEditorTabPane().getTabs().get(i);
+
+            CodeAreaState.IndividualState individualState = CodeAreaState.instance.getIndividualStates().get(i);
+
+            if (!promptForUnsavedFile(individualState, serviceState)) return;
+
+            CodeAreaState.instance.getIndividualStates().remove(individualState);
+            uiState.getEditorTabPane().getTabs().remove(tab);
+        }
+
+        addTabToPane("Untitled");
+    }
+
+    private static boolean promptForUnsavedFile(CodeAreaState.IndividualState individualState, ServiceState serviceState) {
+        if (!individualState.isSaved()) {
+            boolean repeatPrompt;
+
+            do {
+                repeatPrompt = false;
+
+                var pickedOption = serviceState.getNotificationService().showNotificationYesNoCancel("Save file before closing?");
+
+                if (pickedOption.equals(NotificationYesNoCancelOption.CANCEL)) {
+                    return false;
+                } else if (pickedOption.equals(NotificationYesNoCancelOption.YES)) {
+                    if (!serviceState.getFileService().saveFile()) {
+                        repeatPrompt = true;
+                    }
+                }
+            } while (repeatPrompt);
+        }
+        return true;
     }
 }
