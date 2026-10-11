@@ -2,6 +2,7 @@ package com.bwxor.piejfx.service;
 
 import com.bwxor.piejfx.constants.AppDirConstants;
 import com.bwxor.piejfx.controller.impl.ManagePluginsViewController;
+import com.bwxor.piejfx.dto.FetchedPlugin;
 import com.bwxor.piejfx.exception.FetchPluginsServiceException;
 import com.bwxor.piejfx.state.FetchedPluginsState;
 import com.bwxor.piejfx.state.ServiceState;
@@ -18,6 +19,8 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
@@ -61,17 +64,12 @@ public class ManagePluginsViewService {
             try {
                 return serviceState.getFetchPluginsService().fetchPlugins();
             } catch (FetchPluginsServiceException e) {
-                Platform.runLater(() -> {
-                    serviceState.getNotificationService().showNotificationOk("Error while trying to fetch plugins.");
-                });
-                throw new RuntimeException(e);
+                return new ArrayList<FetchedPlugin>();
             }
-        }).thenAccept(plugins -> {
-            Platform.runLater(() -> {
-                FetchedPluginsState.instance.setPlugins(plugins);
-                controller.loadVBox();
-            });
-        });
+        }).thenAccept(plugins -> Platform.runLater(() -> {
+            FetchedPluginsState.instance.setPlugins(plugins);
+            controller.loadVBox();
+        }));
     }
 
 }

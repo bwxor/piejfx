@@ -2,6 +2,7 @@ package com.bwxor.piejfx.controller.impl;
 
 import com.bwxor.piejfx.controller.MaximizableViewController;
 import com.bwxor.piejfx.dto.FetchedPlugin;
+import com.bwxor.piejfx.exception.FetchPluginsServiceException;
 import com.bwxor.piejfx.exception.PluginManagementServiceException;
 import com.bwxor.piejfx.state.FetchedPluginsState;
 import com.bwxor.piejfx.state.LoadedPluginsState;
@@ -27,6 +28,7 @@ public class ManagePluginsViewController extends MaximizableViewController {
     @FXML private Button    filterAllButton;
     @FXML private Button    filterInstalledButton;
     @FXML private Button    filterNotInstalledButton;
+    @FXML private Button    refreshButton;
 
     private FilterMode currentFilter = FilterMode.ALL;
 
@@ -38,6 +40,56 @@ public class ManagePluginsViewController extends MaximizableViewController {
         // "All" is active by default
         setActiveFilter(FilterMode.ALL);
         applyFilter();
+    }
+
+    // -------------------------------------------------------------------------
+    // Toolbar actions (wired from FXML)
+    // -------------------------------------------------------------------------
+
+    @FXML
+    public void onRefreshButtonClick() {
+        refreshPlugins();
+    }
+
+    @FXML
+    public void onSettingsButtonClick() {
+        ServiceState.instance.getRepositoriesSettingsViewService().showRepositoriesSettingsView();
+    }
+
+    /**
+     * Re-fetches the plugin list from the API and all configured repositories in the background,
+     * then re-applies the current search text and filter.
+     */
+    public void refreshPlugins() {
+        refreshButton.setDisable(true);
+
+        CompletableFuture.supplyAsync(() -> {
+                    try {
+                        return ServiceState.instance.getFetchPluginsService().fetchPlugins();
+                    } catch (FetchPluginsServiceException e) {
+                        throw new java.util.concurrent.CompletionException(e);
+                    }
+                })
+                .thenAccept(plugins -> Platform.runLater(() -> {
+                    FetchedPluginsState.instance.setPlugins(plugins);
+                    applyFilter();
+                    refreshButton.setDisable(false);
+                }))
+                .exceptionally(ex -> {
+                    Throwable root = ex;
+                    while (root.getCause() != null) {
+                        root = root.getCause();
+                    }
+                    String message = root.getMessage() != null ? root.getMessage() : root.toString();
+
+                    Platform.runLater(() -> {
+                        refreshButton.setDisable(false);
+                        ServiceState.instance.getNotificationService().showNotificationOk(
+                                "Error while trying to refresh plugins: " + message,
+                                StageState.instance.getManagePluginsStage());
+                    });
+                    return null;
+                });
     }
 
     // -------------------------------------------------------------------------

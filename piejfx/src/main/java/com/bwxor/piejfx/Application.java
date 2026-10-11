@@ -28,6 +28,7 @@ public class Application extends javafx.application.Application {
         Font.loadFont(serviceState.getResourceService().getResourceByName("config/fonts/SegoeUIBold.ttf").toExternalForm(), 10);
 
         serviceState.getConfigurationService().createConfigDirectoryStructure();
+        serviceState.getRepositoriesConfigService().ensureFileExists();
         serviceState.getPluginEnabledConfigService().ensureFileExists();
         ThemeState.instance.setThemes(serviceState.getThemeService().getThemes());
         serviceState.getConfigurationService().loadConfig();

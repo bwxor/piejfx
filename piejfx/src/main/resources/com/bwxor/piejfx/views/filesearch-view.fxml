@@ -20,7 +20,11 @@
             <AnchorPane minWidth="-Infinity" styleClass="main-content" VBox.vgrow="ALWAYS">
                 <VBox spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                     <TextField fx:id="searchTextField" onKeyTyped="#onSearchTextChanged" promptText="Search for file name..." />
-                    <ListView fx:id="fileListView" VBox.vgrow="ALWAYS" />
+                    <ListView fx:id="fileListView" VBox.vgrow="ALWAYS">
+                        <placeholder>
+                            <Label text="Type in a pattern to search for matching file names."/>
+                        </placeholder>
+                    </ListView>
                 </VBox>
             </AnchorPane>
         </children>

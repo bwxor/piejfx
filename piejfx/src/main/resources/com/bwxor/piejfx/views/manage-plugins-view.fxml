@@ -43,13 +43,20 @@
                         </VBox.margin>
                     </TextField>
 
-                    <HBox spacing="0">
+                    <HBox spacing="0" alignment="CENTER_LEFT">
                         <VBox.margin>
-                            <Insets top="6" left="10"/>
+                            <Insets top="6" left="10" right="10"/>
                         </VBox.margin>
                         <Button fx:id="filterAllButton"          text="All"           styleClass="filter-btn-left"  onAction="#onFilterAll"/>
                         <Button fx:id="filterInstalledButton"    text="Installed"     styleClass="filter-btn-mid"   onAction="#onFilterInstalled"/>
                         <Button fx:id="filterNotInstalledButton" text="Not Installed" styleClass="filter-btn-right" onAction="#onFilterNotInstalled"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button fx:id="refreshButton"  text="Refresh"  mnemonicParsing="false" onAction="#onRefreshButtonClick"/>
+                        <Button fx:id="settingsButton" text="Settings" mnemonicParsing="false" onAction="#onSettingsButtonClick">
+                            <HBox.margin>
+                                <Insets left="6.0"/>
+                            </HBox.margin>
+                        </Button>
                     </HBox>
 
                     <ScrollPane fx:id="pluginScrollPane" fitToWidth="true" fitToHeight="true" style="-fx-background-color: transparent;"

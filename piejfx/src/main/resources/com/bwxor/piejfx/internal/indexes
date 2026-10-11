@@ -34,6 +34,7 @@ config/grammars/xml.json
 config/themes/dark.css
 config/themes/light.css
 config/config.json
+config/repositories.json
 config/extension-filters.json
 config/themes.json
 config/styles/default.css

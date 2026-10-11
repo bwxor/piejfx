@@ -22,6 +22,8 @@ public class ServiceState {
     private PluginInfoViewService pluginInfoViewService;
     private PluginManagementService pluginManagementService;
     private PluginEnabledConfigService pluginEnabledConfigService;
+    private RepositoriesConfigService repositoriesConfigService;
+    private RepositoriesSettingsViewService repositoriesSettingsViewService;
     public static final ServiceState instance = new ServiceState();
 
     private ServiceState() {
@@ -178,5 +180,21 @@ public class ServiceState {
         }
 
         return pluginEnabledConfigService;
+    }
+
+    public RepositoriesConfigService getRepositoriesConfigService() {
+        if (repositoriesConfigService == null) {
+            repositoriesConfigService = new RepositoriesConfigService();
+        }
+
+        return repositoriesConfigService;
+    }
+
+    public RepositoriesSettingsViewService getRepositoriesSettingsViewService() {
+        if (repositoriesSettingsViewService == null) {
+            repositoriesSettingsViewService = new RepositoriesSettingsViewService();
+        }
+
+        return repositoriesSettingsViewService;
     }
 }
