@@ -222,6 +222,7 @@ public class ContextMenuFactory {
                             if (state.getOpenedFile() != null && state.getOpenedFile().equals(file)) {
                                 state.setOpenedFile(fileWithPotentialNewName);
                                 uiState.getEditorTabPane().getTabs().get(i).setText(fileWithPotentialNewName.getName());
+                                uiState.getEditorTabPane().getTabs().get(i).setGraphic(FileToGraphicMapper.mapFileToGraphic(fileWithPotentialNewName));
                                 if (uiState.getEditorTabPane().getSelectionModel().getSelectedIndex() == i) {
                                     uiState.getTitleBarLabel().setText(fileWithPotentialNewName.getName());
                                 }
@@ -254,6 +255,7 @@ public class ContextMenuFactory {
                                     state.setOpenedFile(newFile);
 
                                     uiState.getEditorTabPane().getTabs().get(i).setText(newFile.getName());
+                                    uiState.getEditorTabPane().getTabs().get(i).setGraphic(FileToGraphicMapper.mapFileToGraphic(newFile));
 
                                     if (uiState.getEditorTabPane().getSelectionModel().getSelectedIndex() == i) {
                                         uiState.getTitleBarLabel().setText(newFile.getName());

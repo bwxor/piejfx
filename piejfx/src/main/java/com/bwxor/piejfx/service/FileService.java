@@ -1,6 +1,7 @@
 package com.bwxor.piejfx.service;
 
 import com.bwxor.piejfx.constants.AppDirConstants;
+import com.bwxor.piejfx.mapper.FileToGraphicMapper;
 import com.bwxor.piejfx.controller.impl.FileSearchViewController;
 import com.bwxor.piejfx.controller.impl.NewFileViewController;
 import com.bwxor.piejfx.controller.impl.RenameFileViewController;
@@ -298,6 +299,7 @@ public class FileService implements PluginFileService {
 
             codeAreaState.setSaved(true);
             uiState.getEditorTabPane().getSelectionModel().getSelectedItem().setText(codeAreaState.getOpenedFile().getName());
+            uiState.getEditorTabPane().getSelectionModel().getSelectedItem().setGraphic(FileToGraphicMapper.mapFileToGraphic(codeAreaState.getOpenedFile()));
             uiState.getTitleBarLabel().setText(codeAreaState.getOpenedFile().getName());
 
             if (uiState.getHorizontalSplitPane().getItems().contains(uiState.getSplitTabPane())) {

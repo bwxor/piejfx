@@ -1,6 +1,7 @@
 package com.bwxor.piejfx.service;
 
 import com.bwxor.piejfx.factory.TabFactory;
+import com.bwxor.piejfx.mapper.FileToGraphicMapper;
 import com.bwxor.piejfx.state.CodeAreaState;
 import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.UIState;
@@ -46,6 +47,7 @@ public class EditorTabPaneService implements PluginEditorTabPaneService {
             try (BufferedReader bufferedReader = Files.newBufferedReader(file.toPath(), StandardCharsets.UTF_8)) {
                 c.replaceText(bufferedReader.readAllAsString());
                 tab.setText(file.getName());
+                tab.setGraphic(FileToGraphicMapper.mapFileToGraphic(file));
             } catch (IOException e) {
                 uiState.getEditorTabPane().getTabs().removeLast();
                 CodeAreaState.instance.getIndividualStates().remove(individualState);
