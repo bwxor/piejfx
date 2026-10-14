@@ -1,5 +1,5 @@
 /* ============================================================
- *  LIGHT THEME
+ *  APERTURE LIGHT THEME
  * ============================================================
  *
  *  The dark and light themes are built from the same template:
@@ -73,41 +73,43 @@
 
     /* Accent */
     accent:             #0090eb;                    /* selection / hover / focus highlight */
-    accent-tab-sel:     #0078d7;                    /* selected tab label */
-    text-on-accent:     #ffffff;                    /* text drawn on accent backgrounds */
+    accent-tab-sel:     #1f2228;       /* selected tab label */
+    text-on-accent:     #ffffff;       /* text drawn on accent backgrounds */
+    bg-selected: #e3e3e3;       /* selected / hovered row, open menu (fill) */
+    text-on-selected:   #1f2228;       /* text on bg-selected */
 
     /* Error */
-    error:              #d32f2f;                    /* error messages / failed states */
+    error:              #b3261e;       /* error messages / failed states */
 
     /* Text */
-    text-primary:       #212529;                    /* list / combo cells, menu items */
-    text-secondary:     #4d4d4d;                    /* secondary text (not used by rules; kept for code) */
-    text-bright:        #000000;                    /* text areas / text fields */
-    text-control:       #000000;                    /* buttons, menu bar, editable combo */
-    text-label:         -fx-text-background-color;  /* default label text */
-    text-muted:         #555555;                    /* unselected tab labels */
-    text-prompt:        #999999;                    /* placeholder / prompt text */
-    text-title:         #3d3d3d;                    /* window title */
-    text-selected:      #333333;                    /* selected tab */
-    text-tree:          #000000;                    /* tree cells and their arrows */
-    text-arrow:         text-muted;                 /* combo box arrow */
-    text-arrow-hover:   #000000;                    /* combo box arrow on hover */
-    text-window-btn:    #000000;                    /* minimize / maximize / close glyphs */
-    text-window-close:  #ffffff;                    /* close glyph on hover */
-    text-editor:        #000000;                    /* editor default text */
-    text-lineno:        #000000;                    /* line numbers */
-    caret:              #000000;                    /* editor caret */
+    text-primary:       #1f2228;       /* list / combo cells, menu items */
+    text-secondary:     #585e68;       /* secondary text (not used by rules; kept for code) */
+    text-bright:        #1f2228;       /* text areas / text fields */
+    text-control:       text-primary;  /* buttons, menu bar, editable combo */
+    text-label:         text-bright;   /* default label text */
+    text-muted:         #585e68;       /* unselected tab labels */
+    text-prompt:        #80858d;       /* placeholder / prompt text */
+    text-title:         text-bright;   /* window title */
+    text-selected:      text-bright;   /* selected tab */
+    text-tree:          #1f2228;       /* tree cells and their arrows */
+    text-arrow:         text-muted;    /* combo box arrow */
+    text-arrow-hover:   text-bright;   /* combo box arrow on hover */
+    text-window-btn:    #585e68;       /* minimize / maximize / close glyphs */
+    text-window-close:  #ffffff;       /* close glyph on hover */
+    text-editor:        #1f2228;       /* editor default text */
+    text-lineno:        #80858d;       /* line numbers */
+    caret:              accent;        /* editor caret */
 
     /* Scrollbar */
-    scroll-thumb:       #c2c2c2;                    /* thumb and arrows */
+    scroll-thumb:       #c9c4b8;       /* thumb and arrows */
 
     /* Syntax */
-    syn-keyword:        #2974ff;                    /* keyword / type / function etc. */
-    syn-string:         #a229ff;                    /* string / char / link / header */
-    syn-comment:        #adadad;                    /* comments */
-    syn-number:         #28b066;                    /* numbers */
-    syn-error:          #e82525;                    /* annotation / decorator / boolean / macro */
-    syn-operator:       #000000;                    /* operator / punctuation / identifier */
+    syn-keyword:        #a02f5c;       /* keyword / type / function etc. */
+    syn-string:         #4c6d1c;       /* string / char / link / header */
+    syn-comment:        #5f646c;       /* comments */
+    syn-number:         #1a687a;       /* numbers */
+    syn-error:          #7f5c0e;       /* annotation / decorator / boolean / macro */
+    syn-operator:       #1f2228;       /* operator / punctuation / identifier */
 
     /* JavaFX built-in highlight colors */
     -fx-accent:              accent;
@@ -244,13 +246,13 @@
 }
 
 .menu-bar > .container > .menu-button:hover {
-    -fx-background-color: accent;
-    -fx-text-fill: text-on-accent;
+    -fx-background-color: bg-selected;
+    -fx-text-fill: text-on-selected;
 }
 
 .menu-bar > .container > .menu-button:showing {
-    -fx-background-color: accent;
-    -fx-text-fill: text-on-accent;
+    -fx-background-color: bg-selected;
+    -fx-text-fill: text-on-selected;
 }
 
 .menu-bar > .container > .menu-button > .label {
@@ -258,11 +260,11 @@
 }
 
 .menu-bar > .container > .menu-button:hover > .label {
-    -fx-text-fill: text-on-accent;
+    -fx-text-fill: text-on-selected;
 }
 
 .menu-bar > .container > .menu-button:showing > .label {
-    -fx-text-fill: text-on-accent;
+    -fx-text-fill: text-on-selected;
 }
 
 
@@ -284,8 +286,8 @@
 }
 
 .menu-item:hover {
-    -fx-background-color: accent;
-    -fx-text-fill: text-on-accent;
+    -fx-background-color: bg-selected;
+    -fx-text-fill: text-on-selected;
 }
 
 .menu-item .label {
@@ -398,8 +400,8 @@
 }
 
 .combo-box-popup .list-view .list-cell:selected {
-    -fx-background-color: accent;
-    -fx-text-fill: text-on-accent;
+    -fx-background-color: bg-selected;
+    -fx-text-fill: text-on-selected;
 }
 
 
@@ -536,13 +538,13 @@
 }
 
 .list-view .list-cell:selected {
-    -fx-background-color: accent;
-    -fx-text-fill: text-on-accent;
+    -fx-background-color: bg-selected;
+    -fx-text-fill: text-on-selected;
 }
 
 .list-view .list-cell:focused {
-    -fx-background-color: accent;
-    -fx-text-fill: text-on-accent;
+    -fx-background-color: bg-selected;
+    -fx-text-fill: text-on-selected;
 }
 
 .list-view .corner {
@@ -605,11 +607,11 @@
 }
 
 .table-view .table-row-cell:selected {
-    -fx-background-color: accent;
+    -fx-background-color: bg-selected;
 }
 
 .table-view .table-row-cell:selected .table-cell {
-    -fx-text-fill: text-on-accent;
+    -fx-text-fill: text-on-selected;
 }
 
 .table-view .table-cell {
@@ -628,7 +630,7 @@
 }
 
 .table-view:focused .table-row-cell:selected {
-    -fx-background-color: accent;
+    -fx-background-color: bg-selected;
 }
 
 
@@ -645,12 +647,12 @@
 }
 
 .tree-view .tree-cell:selected {
-    -fx-background-color: accent;
-    -fx-text-fill: text-on-accent;
+    -fx-background-color: bg-selected;
+    -fx-text-fill: text-on-selected;
 }
 
 .tree-view .tree-cell:selected > .tree-disclosure-node > .arrow {
-    -fx-background-color: text-on-accent;
+    -fx-background-color: text-on-selected;
 }
 
 .tree-view .corner {
@@ -725,8 +727,8 @@
  *  20. TERMINAL (literal values — read by the terminal component)
  * ============================================================ */
 .terminal {
-    -fx-background-color: #ffffff;
-    -fx-foreground-color: #000000;
+    -fx-background-color: #fbfaf6;
+    -fx-foreground-color: #1f2228;
     -fx-selection-foreground-color: #ffffff;
     -fx-selection-background-color: #0090eb;
 }

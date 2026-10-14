@@ -1,5 +1,5 @@
 /* ============================================================
- *  DARK THEME
+ *  APERTURE DARK THEME
  * ============================================================
  *
  *  The dark and light themes are built from the same template:
@@ -42,72 +42,74 @@
  * ============================================================ */
 .root {
     /* Backgrounds */
-    bg-base:            #2d2d30;       /* main panels / sidebars / containers */
-    bg-deep:            #1e1e1e;       /* editor / tab content / selected tab */
-    bg-dark:            #252526;       /* tab header area / progress track */
+    bg-base:            #1c1f26;       /* main panels / sidebars / containers */
+    bg-deep:            #16181d;       /* editor / tab content / selected tab */
+    bg-dark:            #111317;       /* tab header area / progress track */
     bg-tab:             bg-base;       /* unselected tab */
-    bg-hover:           #3e3e42;       /* tab hover */
+    bg-hover:           #262a33;       /* tab hover */
     bg-item-hover:      bg-hover;      /* list / combo-popup cell hover */
-    bg-input:           bg-hover;      /* combo box background */
-    bg-input-hover:     #505054;       /* combo box hover */
-    bg-input-editable:  bg-hover;      /* text field inside an editable combo box */
-    bg-list:            bg-dark;       /* list view / combo popup background */
-    bg-menu:            bg-dark;       /* context menu background */
-    bg-btn:             #3e3e42;       /* button background */
-    bg-btn-hover:       #505054;       /* button hover */
-    bg-btn-active:      #505054;       /* active filter button */
-    bg-window-btn:      #39393d;       /* maximize / minimize hover */
-    bg-window-close:    #c2230e;       /* window close button hover */
-    bg-tab-close:       syn-error;     /* tab close button hover */
-    bg-line:            #2a2a2a;       /* caret / active line */
-    bg-lineno:          bg-dark;       /* line number gutter */
+    bg-input:           #20242c;       /* combo box background */
+    bg-input-hover:     #2b303b;       /* combo box hover */
+    bg-input-editable:  bg-input;      /* text field inside an editable combo box */
+    bg-list:            bg-base;       /* list view / combo popup background */
+    bg-menu:            bg-list;       /* context menu background */
+    bg-btn:             #2b303b;       /* button background */
+    bg-btn-hover:       #353b47;       /* button hover */
+    bg-btn-active:      #353b47;       /* active filter button */
+    bg-window-btn:      #2b303b;       /* maximize / minimize hover */
+    bg-window-close:    #c4372b;       /* window close button hover */
+    bg-tab-close:       #c4372b;       /* tab close button hover */
+    bg-line:            #20242c;       /* caret / active line */
+    bg-lineno:          bg-deep;       /* line number gutter */
 
     /* Borders */
-    border-main:        #3d3d41;       /* window / text fields / find bar */
-    border-panel:       #3e3e42;       /* tab pane / progress track */
+    border-main:        #2c313c;       /* window / text fields / find bar */
+    border-panel:       #2c313c;       /* tab pane / progress track */
     border-tab:         border-panel;  /* separators between tabs */
     border-menu:        border-panel;  /* context menu / list view / combo popup */
-    border-btn:         #5a5a5e;       /* button border */
+    border-btn:         #3a404c;       /* button border */
     border-input:       border-btn;    /* combo box border */
-    divider:            #383838;       /* split-pane divider, subtle on bg-base */
+    divider:            #2c313c;       /* split-pane divider, subtle on bg-base */
 
     /* Accent */
     accent:             #0090eb;       /* selection / hover / focus highlight */
-    accent-tab-sel:     #4fc3f7;       /* selected tab label */
-    text-on-accent:     #ffffff;       /* text drawn on accent backgrounds */
+    accent-tab-sel:     #e7e4dd;       /* selected tab label */
+    text-on-accent:     #1b1308;       /* text drawn on accent backgrounds */
+    bg-selected:        #2b303b;       /* selected / hovered row, open menu (fill) */
+    text-on-selected:   #e7e4dd;       /* text on bg-selected */
 
     /* Error */
-    error:              #e04444;       /* error messages / failed states */
+    error:              #f07d70;       /* error messages / failed states */
 
     /* Text */
-    text-primary:       #cccccc;       /* list / combo cells, menu items */
-    text-secondary:     #afafaf;       /* secondary text (not used by rules; kept for code) */
-    text-bright:        #ededed;       /* text areas / text fields */
+    text-primary:       #e7e4dd;       /* list / combo cells, menu items */
+    text-secondary:     #959ba6;       /* secondary text (not used by rules; kept for code) */
+    text-bright:        #e7e4dd;       /* text areas / text fields */
     text-control:       text-primary;  /* buttons, menu bar, editable combo */
     text-label:         text-bright;   /* default label text */
-    text-muted:         #858585;       /* unselected tab labels */
-    text-prompt:        text-muted;    /* placeholder / prompt text */
+    text-muted:         #959ba6;       /* unselected tab labels */
+    text-prompt:        #6d737e;       /* placeholder / prompt text */
     text-title:         text-bright;   /* window title */
-    text-selected:      #d4d4d4;       /* selected tab */
-    text-tree:          #ffffff;       /* tree cells and their arrows */
-    text-arrow:         text-primary;  /* combo box arrow */
-    text-arrow-hover:   #ffffff;       /* combo box arrow on hover */
-    text-window-btn:    #ffffff;       /* minimize / maximize / close glyphs */
+    text-selected:      text-bright;   /* selected tab */
+    text-tree:          #e7e4dd;       /* tree cells and their arrows */
+    text-arrow:         text-muted;    /* combo box arrow */
+    text-arrow-hover:   text-bright;   /* combo box arrow on hover */
+    text-window-btn:    #959ba6;       /* minimize / maximize / close glyphs */
     text-window-close:  #ffffff;       /* close glyph on hover */
-    text-editor:        #ffffff;       /* editor default text */
-    text-lineno:        text-muted;    /* line numbers */
-    caret:              #ffffff;       /* editor caret */
+    text-editor:        #e7e4dd;       /* editor default text */
+    text-lineno:        #6d737e;       /* line numbers */
+    caret:              accent;        /* editor caret */
 
     /* Scrollbar */
-    scroll-thumb:       #545454;       /* thumb and arrows */
+    scroll-thumb:       #3a404c;       /* thumb and arrows */
 
     /* Syntax */
-    syn-keyword:        #4fc3f7;       /* keyword / type / function etc. */
-    syn-string:         #a229ff;       /* string / char / link / header */
-    syn-comment:        #858585;       /* comments */
-    syn-number:         #28b066;       /* numbers */
-    syn-error:          #e74c3c;       /* annotation / decorator / boolean / macro */
-    syn-operator:       #d4d4d4;       /* operator / punctuation / identifier */
+    syn-keyword:        #e08cab;       /* keyword / type / function etc. */
+    syn-string:         #aac97c;       /* string / char / link / header */
+    syn-comment:        #878d98;       /* comments */
+    syn-number:         #7fc6d6;       /* numbers */
+    syn-error:          #e2c47c;       /* annotation / decorator / boolean / macro */
+    syn-operator:       #c9c5bd;       /* operator / punctuation / identifier */
 
     /* JavaFX built-in highlight colors */
     -fx-accent:              accent;
@@ -244,13 +246,13 @@
 }
 
 .menu-bar > .container > .menu-button:hover {
-    -fx-background-color: accent;
-    -fx-text-fill: text-on-accent;
+    -fx-background-color: bg-selected;
+    -fx-text-fill: text-on-selected;
 }
 
 .menu-bar > .container > .menu-button:showing {
-    -fx-background-color: accent;
-    -fx-text-fill: text-on-accent;
+    -fx-background-color: bg-selected;
+    -fx-text-fill: text-on-selected;
 }
 
 .menu-bar > .container > .menu-button > .label {
@@ -258,11 +260,11 @@
 }
 
 .menu-bar > .container > .menu-button:hover > .label {
-    -fx-text-fill: text-on-accent;
+    -fx-text-fill: text-on-selected;
 }
 
 .menu-bar > .container > .menu-button:showing > .label {
-    -fx-text-fill: text-on-accent;
+    -fx-text-fill: text-on-selected;
 }
 
 
@@ -284,8 +286,8 @@
 }
 
 .menu-item:hover {
-    -fx-background-color: accent;
-    -fx-text-fill: text-on-accent;
+    -fx-background-color: bg-selected;
+    -fx-text-fill: text-on-selected;
 }
 
 .menu-item .label {
@@ -398,8 +400,8 @@
 }
 
 .combo-box-popup .list-view .list-cell:selected {
-    -fx-background-color: accent;
-    -fx-text-fill: text-on-accent;
+    -fx-background-color: bg-selected;
+    -fx-text-fill: text-on-selected;
 }
 
 
@@ -536,13 +538,13 @@
 }
 
 .list-view .list-cell:selected {
-    -fx-background-color: accent;
-    -fx-text-fill: text-on-accent;
+    -fx-background-color: bg-selected;
+    -fx-text-fill: text-on-selected;
 }
 
 .list-view .list-cell:focused {
-    -fx-background-color: accent;
-    -fx-text-fill: text-on-accent;
+    -fx-background-color: bg-selected;
+    -fx-text-fill: text-on-selected;
 }
 
 .list-view .corner {
@@ -605,11 +607,11 @@
 }
 
 .table-view .table-row-cell:selected {
-    -fx-background-color: accent;
+    -fx-background-color: bg-selected;
 }
 
 .table-view .table-row-cell:selected .table-cell {
-    -fx-text-fill: text-on-accent;
+    -fx-text-fill: text-on-selected;
 }
 
 .table-view .table-cell {
@@ -628,7 +630,7 @@
 }
 
 .table-view:focused .table-row-cell:selected {
-    -fx-background-color: accent;
+    -fx-background-color: bg-selected;
 }
 
 
@@ -645,12 +647,12 @@
 }
 
 .tree-view .tree-cell:selected {
-    -fx-background-color: accent;
-    -fx-text-fill: text-on-accent;
+    -fx-background-color: bg-selected;
+    -fx-text-fill: text-on-selected;
 }
 
 .tree-view .tree-cell:selected > .tree-disclosure-node > .arrow {
-    -fx-background-color: text-on-accent;
+    -fx-background-color: text-on-selected;
 }
 
 .tree-view .corner {
@@ -725,9 +727,9 @@
  *  20. TERMINAL (literal values — read by the terminal component)
  * ============================================================ */
 .terminal {
-    -fx-background-color: #1e1e1e;
-    -fx-foreground-color: #ffffff;
-    -fx-selection-foreground-color: #ffffff;
+    -fx-background-color: #16181d;
+    -fx-foreground-color: #e7e4dd;
+    -fx-selection-foreground-color: #e7e4dd;
     -fx-selection-background-color: #0090eb;
 }
 

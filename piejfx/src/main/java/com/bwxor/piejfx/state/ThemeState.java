@@ -24,7 +24,7 @@ public final class ThemeState {
 
     public static final ThemeState instance = new ThemeState();
 
-    private Theme currentTheme = new Theme("light.css", ServiceState.instance.getResourceService().getResourceByName("config/themes/light.css"));
+    private Theme currentTheme = new Theme("light_old.css", ServiceState.instance.getResourceService().getResourceByName("config/themes/light_old.css"));
     private List<Theme> themes;
 
     private ThemeState() {}

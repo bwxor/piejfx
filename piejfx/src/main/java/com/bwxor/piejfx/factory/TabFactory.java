@@ -8,6 +8,7 @@ import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.TerminalState;
 import com.pty4j.PtyProcess;
 import com.pty4j.PtyProcessBuilder;
+import com.techsenger.jeditermfx.core.CursorShape;
 import com.techsenger.jeditermfx.core.util.Platform;
 import com.techsenger.jeditermfx.ui.DefaultHyperlinkFilter;
 import com.techsenger.jeditermfx.ui.JediTermFxWidget;
@@ -200,6 +201,7 @@ public class TabFactory {
         jediTermFxWidget.getPane().setOnContextMenuRequested(
                 Event::consume
         );
+        jediTermFxWidget.getTerminalPanel().setCursorShape(CursorShape.BLINK_VERTICAL_BAR);
         jediTermFxWidget.start();
 
         TerminalState.instance.getTerminals().add(jediTermFxWidget);

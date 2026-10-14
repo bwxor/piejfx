@@ -26,7 +26,7 @@
     -fx-border-color: -fx-outer-border;
     -fx-cursor: hand;
 }
-/* .filter-btn-active colors are defined per-theme in dark.css / light.css */
+/* .filter-btn-active colors are defined per-theme in dark-old.css / light_old.css */
 .filter-btn-active:disabled {
     -fx-opacity: 1.0;
 }
