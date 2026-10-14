@@ -47,9 +47,14 @@
                         <VBox.margin>
                             <Insets top="6" left="10" right="10"/>
                         </VBox.margin>
-                        <Button fx:id="filterAllButton"          text="All"           styleClass="filter-btn-left"  onAction="#onFilterAll"/>
-                        <Button fx:id="filterInstalledButton"    text="Installed"     styleClass="filter-btn-mid"   onAction="#onFilterInstalled"/>
-                        <Button fx:id="filterNotInstalledButton" text="Not Installed" styleClass="filter-btn-right" onAction="#onFilterNotInstalled"/>
+                        <fx:define>
+                            <ToggleGroup fx:id="filterGroup"/>
+                        </fx:define>
+                        <children>
+                            <ToggleButton text="All" selected="true" toggleGroup="$filterGroup"/>
+                            <ToggleButton text="Installed" selected="true" toggleGroup="$filterGroup"/>
+                            <ToggleButton text="Not Installed" selected="true" toggleGroup="$filterGroup"/>
+                        </children>
                         <Region HBox.hgrow="ALWAYS"/>
                         <Button fx:id="refreshButton"  text="Refresh"  mnemonicParsing="false" onAction="#onRefreshButtonClick"/>
                         <Button fx:id="settingsButton" text="Settings" mnemonicParsing="false" onAction="#onSettingsButtonClick">

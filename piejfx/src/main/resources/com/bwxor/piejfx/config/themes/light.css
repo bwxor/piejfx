@@ -98,7 +98,7 @@
     text-window-close:  #ffffff;       /* close glyph on hover */
     text-editor:        #1f2228;       /* editor default text */
     text-lineno:        #80858d;       /* line numbers */
-    caret:              accent;        /* editor caret */
+    caret:              text-primary;        /* editor caret */
 
     /* Scrollbar */
     scroll-thumb:       #c9c4b8;       /* thumb and arrows */

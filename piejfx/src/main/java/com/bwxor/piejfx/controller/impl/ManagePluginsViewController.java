@@ -9,6 +9,7 @@ import com.bwxor.piejfx.state.LoadedPluginsState;
 import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.StageState;
 import com.bwxor.piejfx.state.UIState;
+import com.bwxor.piejfx.type.FilterMode;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -20,15 +21,14 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class ManagePluginsViewController extends MaximizableViewController {
-
-    private enum FilterMode { ALL, INSTALLED, NOT_INSTALLED }
-
-    @FXML private TextField pluginsTextField;
-    @FXML private VBox      pluginVBox;
-    @FXML private Button    filterAllButton;
-    @FXML private Button    filterInstalledButton;
-    @FXML private Button    filterNotInstalledButton;
-    @FXML private Button    refreshButton;
+    @FXML
+    private ToggleGroup filterGroup;
+    @FXML
+    private TextField pluginsTextField;
+    @FXML
+    private VBox pluginVBox;
+    @FXML
+    private Button refreshButton;
 
     private FilterMode currentFilter = FilterMode.ALL;
 
@@ -36,9 +36,19 @@ public class ManagePluginsViewController extends MaximizableViewController {
     // Initialisation
     // -------------------------------------------------------------------------
 
+    @FXML
+    public void initialize() {
+        filterGroup.selectedToggleProperty().addListener(((_, _, newValue) -> {
+            var selectedButton = (ToggleButton) newValue;
+            currentFilter = FilterMode.parse(selectedButton.getText());
+            applyFilter();
+        }
+        ));
+    }
+
     public void loadVBox() {
         // "All" is active by default
-        setActiveFilter(FilterMode.ALL);
+        currentFilter = FilterMode.ALL;
         applyFilter();
     }
 
@@ -93,28 +103,6 @@ public class ManagePluginsViewController extends MaximizableViewController {
     }
 
     // -------------------------------------------------------------------------
-    // Filter button actions (wired from FXML)
-    // -------------------------------------------------------------------------
-
-    @FXML
-    public void onFilterAll() {
-        setActiveFilter(FilterMode.ALL);
-        applyFilter();
-    }
-
-    @FXML
-    public void onFilterInstalled() {
-        setActiveFilter(FilterMode.INSTALLED);
-        applyFilter();
-    }
-
-    @FXML
-    public void onFilterNotInstalled() {
-        setActiveFilter(FilterMode.NOT_INSTALLED);
-        applyFilter();
-    }
-
-    // -------------------------------------------------------------------------
     // Search field (wired from FXML)
     // -------------------------------------------------------------------------
 
@@ -140,7 +128,9 @@ public class ManagePluginsViewController extends MaximizableViewController {
                         || l.getName().equals(p.name()));
     }
 
-    /** Rebuilds pluginVBox using the current text query AND the current filter mode. */
+    /**
+     * Rebuilds pluginVBox using the current text query AND the current filter mode.
+     */
     private void applyFilter() {
         String trimmedText = pluginsTextField.getText().trim().toLowerCase();
 
@@ -160,43 +150,14 @@ public class ManagePluginsViewController extends MaximizableViewController {
 
         // Apply installation filter on top of the text result
         List<FetchedPlugin> filtered = switch (currentFilter) {
-            case INSTALLED     -> candidates.stream().filter(this::isPluginInstalled).toList();
+            case INSTALLED -> candidates.stream().filter(this::isPluginInstalled).toList();
             case NOT_INSTALLED -> candidates.stream().filter(p -> !isPluginInstalled(p)).toList();
-            case ALL           -> candidates;
+            case ALL -> candidates;
         };
 
         pluginVBox.getChildren().clear();
         for (var p : filtered) {
             pluginVBox.getChildren().add(createVBox(p));
-        }
-    }
-
-    /** Updates currentFilter, marks the active button as disabled, and re-enables the others. */
-    private void setActiveFilter(FilterMode mode) {
-        currentFilter = mode;
-
-        // Re-enable all, then disable the active one so it cannot be re-clicked
-        filterAllButton.setDisable(false);
-        filterInstalledButton.setDisable(false);
-        filterNotInstalledButton.setDisable(false);
-
-        filterAllButton.getStyleClass().remove("filter-btn-active");
-        filterInstalledButton.getStyleClass().remove("filter-btn-active");
-        filterNotInstalledButton.getStyleClass().remove("filter-btn-active");
-
-        switch (mode) {
-            case ALL -> {
-                filterAllButton.getStyleClass().add("filter-btn-active");
-                filterAllButton.setDisable(true);
-            }
-            case INSTALLED -> {
-                filterInstalledButton.getStyleClass().add("filter-btn-active");
-                filterInstalledButton.setDisable(true);
-            }
-            case NOT_INSTALLED -> {
-                filterNotInstalledButton.getStyleClass().add("filter-btn-active");
-                filterNotInstalledButton.setDisable(true);
-            }
         }
     }
 
@@ -251,7 +212,7 @@ public class ManagePluginsViewController extends MaximizableViewController {
         boolean isInstalled = isPluginInstalled(plugin);
 
         var operationButton = new Button(isInstalled ? "Uninstall" : "Install");
-        var detailsButton   = new Button("Details");
+        var detailsButton = new Button("Details");
 
         // Enable/Disable button — only active when the plugin is installed
         var enableButton = new Button();
