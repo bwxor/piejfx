@@ -296,6 +296,20 @@
 }
 
 
+/* Submenu arrow: follow the item text colour in every state */
+.menu-item .arrow,
+.menu .arrow {
+    -fx-background-color: text-primary;
+}
+
+.menu-item:hover .arrow,
+.menu-item:focused .arrow,
+.menu:hover > .arrow,
+.menu:focused > .arrow,
+.menu:showing > .arrow {
+    -fx-background-color: text-on-selected;
+}
+
 /* ============================================================
  *  9. EDITOR (RichTextFX styled-text-area)
  * ============================================================ */
