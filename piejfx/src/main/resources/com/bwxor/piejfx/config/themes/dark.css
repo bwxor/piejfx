@@ -138,6 +138,17 @@
     icon-config:        #c4a7f2;
     icon-key:           #e2c47c;
     icon-audio:         #e08cab;
+    icon-exe:           #8bd17c;       /* green .exe / .msi / .com icon */
+    icon-lib:           #8a919c;       /* grey .dll / .so / .lib icon */
+    icon-bin:           #7fc6d6;       /* teal .bin / .o / .obj icon */
+    icon-package:       #e2c47c;       /* yellow .apk / .deb / .rpm icon */
+    icon-disc:          #93b2f0;       /* blue .iso / .img / .dmg icon */
+    icon-db:            #7fc6d6;       /* teal .db / .sqlite icon */
+    icon-font:          #c4a7f2;       /* purple .ttf / .otf / .woff icon */
+    icon-video:         #f07d70;       /* red .mp4 / .mkv / .avi icon */
+    icon-doc:           #93b2f0;       /* blue .doc / .docx icon */
+    icon-xls:           #8fd08a;       /* green .xls / .xlsx icon */
+    icon-ppt:           #f2a65a;       /* orange .ppt / .pptx icon */
 
     /* JavaFX built-in highlight colors */
     -fx-accent:              accent;
@@ -964,6 +975,60 @@ HBox {
     -fx-text-fill: icon-audio;
 }
 
+.icon-exe {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-exe;
+}
+
+.icon-lib {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-lib;
+}
+
+.icon-bin {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-bin;
+}
+
+.icon-package {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-package;
+}
+
+.icon-disc {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-disc;
+}
+
+.icon-db {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-db;
+}
+
+.icon-font {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-font;
+}
+
+.icon-video {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-video;
+}
+
+.icon-doc {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-doc;
+}
+
+.icon-xls {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-xls;
+}
+
+.icon-ppt {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-ppt;
+}
 /* ============================================================
  *  23. SYNTAX HIGHLIGHTING (grammars)
  * ============================================================ */

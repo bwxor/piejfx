@@ -21,7 +21,6 @@ public class FileToGraphicMapper {
     private static final String ICON_MD     = new String(Character.toChars(0x10114));  // file-text
     private static final String ICON_CMD    = new String(Character.toChars(0x10196));  // file-settings
     private static final String ICON_JAVA = new String(Character.toChars(0x10009));   // mug (filled)
-    // outline font (tabler-outline)
     private static final String ICON_CSS    = new String(Character.toChars(0xFB08)); // file-type-css
     private static final String ICON_HTML   = new String(Character.toChars(0xFB0C)); // file-type-html
     private static final String ICON_JS     = new String(Character.toChars(0xFB0E)); // file-type-js
@@ -42,6 +41,17 @@ public class FileToGraphicMapper {
     private static final String ICON_CONFIG = new String(Character.toChars(0x10196)); // file-settings (.properties, .yml, .yaml, .ini)
     private static final String ICON_KEY    = new String(Character.toChars(0xFE28));  // key (.key, .pem)
     private static final String ICON_AUDIO  = new String(Character.toChars(0x10199)); // file-music (.mp3, .wav)
+    private static final String ICON_EXE    = new String(Character.toChars(0xECD8));  // brand-windows (.exe, .msi, .com)
+    private static final String ICON_LIB    = new String(Character.toChars(0xFD4C));  // library (.dll, .so, .dylib, .lib, .a)
+    private static final String ICON_BIN    = new String(Character.toChars(0xEE08));  // binary (.bin, .o, .obj, .elf, .out, .pdb)
+    private static final String ICON_PACKAGE = new String(Character.toChars(0xEAFF)); // package (.apk, .deb, .rpm, .appx, .msix)
+    private static final String ICON_DISC   = new String(Character.toChars(0xEA90));  // disc (.iso, .img, .dmg)
+    private static final String ICON_DB     = new String(Character.toChars(0xF037));  // file-database (.db, .sqlite, .mdb)
+    private static final String ICON_FONT   = new String(Character.toChars(0xF041));  // file-typography (.ttf, .otf, .woff)
+    private static final String ICON_VIDEO  = new String(Character.toChars(0xEAFA));  // movie (.mp4, .mkv, .avi)
+    private static final String ICON_DOC    = new String(Character.toChars(0xFB0A));  // file-type-doc (.doc, .docx, .odt, .rtf)
+    private static final String ICON_XLS    = new String(Character.toChars(0xFB1B));  // file-type-xls (.xls, .xlsx, .ods)
+    private static final String ICON_PPT    = new String(Character.toChars(0xFB13));  // file-type-ppt (.ppt, .pptx, .odp)
 
     public static Node mapFileToGraphic(File file) {
         if (file.isDirectory()) {
@@ -125,6 +135,39 @@ public class FileToGraphicMapper {
         }
         else if (hasExtension(name, ".mp3", ".wav", ".ogg", ".flac", ".m4a")) {
             return createIcon(ICON_AUDIO, "icon-audio");
+        }
+        else if (hasExtension(name, ".exe", ".msi", ".com")) {
+            return createIcon(ICON_EXE, "icon-exe");
+        }
+        else if (hasExtension(name, ".dll", ".so", ".dylib", ".lib", ".a", ".ocx")) {
+            return createIcon(ICON_LIB, "icon-lib");
+        }
+        else if (hasExtension(name, ".bin", ".o", ".obj", ".elf", ".out", ".pdb")) {
+            return createIcon(ICON_BIN, "icon-bin");
+        }
+        else if (hasExtension(name, ".apk", ".deb", ".rpm", ".appx", ".msix")) {
+            return createIcon(ICON_PACKAGE, "icon-package");
+        }
+        else if (hasExtension(name, ".iso", ".img", ".dmg")) {
+            return createIcon(ICON_DISC, "icon-disc");
+        }
+        else if (hasExtension(name, ".db", ".sqlite", ".sqlite3", ".mdb", ".accdb")) {
+            return createIcon(ICON_DB, "icon-db");
+        }
+        else if (hasExtension(name, ".ttf", ".otf", ".woff", ".woff2", ".eot")) {
+            return createIcon(ICON_FONT, "icon-font");
+        }
+        else if (hasExtension(name, ".mp4", ".mkv", ".avi", ".mov", ".wmv", ".flv", ".webm", ".m4v", ".mpeg", ".mpg")) {
+            return createIcon(ICON_VIDEO, "icon-video");
+        }
+        else if (hasExtension(name, ".doc", ".docx", ".odt", ".rtf")) {
+            return createIcon(ICON_DOC, "icon-doc");
+        }
+        else if (hasExtension(name, ".xls", ".xlsx", ".ods")) {
+            return createIcon(ICON_XLS, "icon-xls");
+        }
+        else if (hasExtension(name, ".ppt", ".pptx", ".odp")) {
+            return createIcon(ICON_PPT, "icon-ppt");
         }
         else {
             return createIcon(ICON_FILE, "icon-file");
