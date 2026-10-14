@@ -101,7 +101,7 @@
     caret:              text-primary;        /* editor caret */
 
     /* Scrollbar */
-    scroll-thumb:       #c9c4b8;       /* thumb and arrows */
+    scroll-thumb:       #c2c2c2;       /* thumb and arrows */
 
     /* Syntax */
     syn-keyword:        #a02f5c;       /* keyword / type / function etc. */
@@ -442,6 +442,38 @@
     -fx-cursor: default;
 }
 
+
+/* ============================================================
+ *  11.5. TOGGLE BUTTONS (manage-plugins filter buttons)
+ * ============================================================ */
+.filter-toggle-button {
+    -fx-background-color: bg-btn;
+    -fx-border-color: border-btn;
+    -fx-text-fill: text-control;
+    -fx-font-size: 12px;
+    -fx-font-weight: normal;
+    -fx-padding: 4px;
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+    -fx-cursor: hand;
+}
+
+.filter-toggle-button:hover {
+    -fx-background-color: bg-btn-hover;
+}
+
+.filter-toggle-button:selected {
+    -fx-background-color: bg-btn-active;
+}
+
+.filter-toggle-button:focused {
+    -fx-border-color: accent;
+}
+
+.filter-toggle-button:disabled {
+    -fx-opacity: 0.5;
+    -fx-cursor: default;
+}
 
 /* ============================================================
  *  12. WINDOW BUTTONS (close / maximize / minimize)

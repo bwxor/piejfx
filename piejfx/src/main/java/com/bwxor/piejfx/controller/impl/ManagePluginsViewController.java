@@ -40,8 +40,10 @@ public class ManagePluginsViewController extends MaximizableViewController {
     public void initialize() {
         filterGroup.selectedToggleProperty().addListener(((_, _, newValue) -> {
             var selectedButton = (ToggleButton) newValue;
-            currentFilter = FilterMode.parse(selectedButton.getText());
-            applyFilter();
+            if (selectedButton != null) {
+                currentFilter = FilterMode.parse(selectedButton.getText());
+                applyFilter();
+            }
         }
         ));
     }

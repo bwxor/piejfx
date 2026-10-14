@@ -51,9 +51,9 @@
                             <ToggleGroup fx:id="filterGroup"/>
                         </fx:define>
                         <children>
-                            <ToggleButton text="All" selected="true" toggleGroup="$filterGroup"/>
-                            <ToggleButton text="Installed" selected="true" toggleGroup="$filterGroup"/>
-                            <ToggleButton text="Not Installed" selected="true" toggleGroup="$filterGroup"/>
+                            <ToggleButton text="All" selected="true" styleClass="filter-toggle-button" toggleGroup="$filterGroup"/>
+                            <ToggleButton text="Installed" styleClass="filter-toggle-button" toggleGroup="$filterGroup"/>
+                            <ToggleButton text="Not Installed" styleClass="filter-toggle-button" toggleGroup="$filterGroup"/>
                         </children>
                         <Region HBox.hgrow="ALWAYS"/>
                         <Button fx:id="refreshButton"  text="Refresh"  mnemonicParsing="false" onAction="#onRefreshButtonClick"/>

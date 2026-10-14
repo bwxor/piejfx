@@ -74,7 +74,7 @@
     /* Accent */
     accent:             #0090eb;       /* selection / hover / focus highlight */
     accent-tab-sel:     #e7e4dd;       /* selected tab label */
-    text-on-accent:     #1b1308;       /* text drawn on accent backgrounds */
+    text-on-accent:     #e7e4dd;       /* text drawn on accent backgrounds */
     bg-selected:        #2b303b;       /* selected / hovered row, open menu (fill) */
     text-on-selected:   #e7e4dd;       /* text on bg-selected */
 
@@ -442,6 +442,38 @@
     -fx-cursor: default;
 }
 
+
+/* ============================================================
+ *  11.5. TOGGLE BUTTONS (manage-plugins filter buttons)
+ * ============================================================ */
+.filter-toggle-button {
+    -fx-background-color: bg-btn;
+    -fx-border-color: border-btn;
+    -fx-text-fill: text-control;
+    -fx-font-size: 12px;
+    -fx-font-weight: normal;
+    -fx-padding: 4px;
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+    -fx-cursor: hand;
+}
+
+.filter-toggle-button:hover {
+    -fx-background-color: bg-btn-hover;
+}
+
+.filter-toggle-button:selected {
+    -fx-background-color: bg-btn-active;
+}
+
+.filter-toggle-button:focused {
+    -fx-border-color: accent;
+}
+
+.filter-toggle-button:disabled {
+    -fx-opacity: 0.5;
+    -fx-cursor: default;
+}
 
 /* ============================================================
  *  12. WINDOW BUTTONS (close / maximize / minimize)
