@@ -56,7 +56,7 @@
     bg-btn:             #e9e9e9;                    /* button background */
     bg-btn-hover:       #f0f0f0;                    /* button hover */
     bg-btn-active:      #e0e0e0;                    /* active filter button */
-    bg-window-btn:      #c2c2c2;                    /* maximize / minimize hover */
+    bg-window-btn: #e4e4e4;                    /* maximize / minimize hover */
     bg-window-close:    #c2230e;                    /* window close button hover */
     bg-tab-close:       #ff0000;                    /* tab close button hover */
     bg-line:            #f7f7f7;                    /* caret / active line */
