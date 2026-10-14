@@ -26,6 +26,8 @@ public class Application extends javafx.application.Application {
         Font.loadFont(serviceState.getResourceService().getResourceByName("config/fonts/SegoeUISymbol.ttf").toExternalForm(), 10);
         Font.loadFont(serviceState.getResourceService().getResourceByName("config/fonts/SegoeUI.ttf").toExternalForm(), 10);
         Font.loadFont(serviceState.getResourceService().getResourceByName("config/fonts/SegoeUIBold.ttf").toExternalForm(), 10);
+        Font.loadFont(serviceState.getResourceService().getResourceByName("config/fonts/TablerFilled.ttf").toExternalForm(), 10);
+        Font.loadFont(serviceState.getResourceService().getResourceByName("config/fonts/TablerOutline.ttf").toExternalForm(), 10);
 
         serviceState.getConfigurationService().createConfigDirectoryStructure();
         serviceState.getRepositoriesConfigService().ensureFileExists();

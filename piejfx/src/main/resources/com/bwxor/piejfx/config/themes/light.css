@@ -111,6 +111,34 @@
     syn-error:          #7f5c0e;       /* annotation / decorator / boolean / macro */
     syn-operator:       #1f2228;       /* operator / punctuation / identifier */
 
+    /* File tree icons */
+    icon-folder:        #daab19;       /* yellow folder icon in the file tree */
+    icon-image:         #2e7d32;       /* green image file icon in the file tree */
+    icon-xml:           #b35c00;       /* orange .xml icon */
+    icon-md:            #2c54a4;       /* blue .md icon */
+    icon-cmd:           #6f42c1;       /* purple .cmd / .bat / .sh icon */
+    icon-java:          #b3261e;       /* red .java icon */
+    icon-css:           #2c54a4;       /* blue .css icon */
+    icon-html:          #c4372b;       /* red .html icon */
+    icon-js:            #8a6d00;       /* yellow .js icon */
+    icon-ts:            #2c54a4;       /* blue .ts icon */
+    icon-json:          #8a6d00;       /* yellow .json icon */
+    icon-pdf:           #b3261e;       /* red .pdf icon */
+    icon-zip:           #6f7b8a;       /* grey .zip / .jar icon */
+    icon-csv:           #2e7d32;       /* green .csv icon */
+    icon-txt:           #6f7b8a;       /* grey .txt / .log icon */
+    icon-sql:           #1a687a;       /* teal .sql icon */
+    icon-py:            #2c54a4;       /* blue .py icon */
+    icon-git:           #c4372b;       /* red .gitignore icon */
+    icon-kt:            #6f42c1;       /* purple .kt icon */
+    icon-cpp:           #2c54a4;       /* blue .cpp icon */
+    icon-cs:            #6f42c1;       /* purple .cs icon */
+    icon-svg:           #b35c00;       /* orange .svg icon */
+    icon-docker:        #1a687a;       /* teal Dockerfile icon */
+    icon-config:        #6f42c1;       /* purple .properties / .yml icon */
+    icon-key:           #8a6d00;       /* yellow .key / .pem icon */
+    icon-audio:         #a02f5c;       /* rose .mp3 / .wav icon */
+
     /* JavaFX built-in highlight colors */
     -fx-accent:              accent;
     -fx-highlight-text-fill: text-on-accent;
@@ -705,6 +733,10 @@
     -fx-background-color: bg-base;
 }
 
+.tree-view .icon {
+    -fx-font-size: 15px;
+}
+
 
 /* ============================================================
  *  17. SCROLLBARS
@@ -795,9 +827,146 @@ HBox {
     -fx-background-color: bg-base;
 }
 
+/* ============================================================
+ *  22. DIRECTORY NAVIGATOR ICONS
+ * ============================================================ */
+.icon-folder {
+    -fx-font-family: "tabler-filled";
+    -fx-text-fill: icon-folder;
+}
+
+.icon-file {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: text-tree;
+}
+
+.icon-image {
+    -fx-font-family: "tabler-filled";
+    -fx-text-fill: icon-image;
+}
+
+.icon-xml {
+    -fx-font-family: "tabler-filled";
+    -fx-text-fill: icon-xml;
+}
+
+.icon-md {
+    -fx-font-family: "tabler-filled";
+    -fx-text-fill: icon-md;
+}
+
+.icon-cmd {
+    -fx-font-family: "tabler-filled";
+    -fx-text-fill: icon-cmd;
+}
+
+.icon-java {
+    -fx-font-family: "tabler-filled";
+    -fx-text-fill: icon-java;
+}
+
+.icon-css {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-css;
+}
+
+.icon-html {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-html;
+}
+
+.icon-js {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-js;
+}
+
+.icon-ts {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-ts;
+}
+
+.icon-json {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-json;
+}
+
+.icon-pdf {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-pdf;
+}
+
+.icon-zip {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-zip;
+}
+
+.icon-csv {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-csv;
+}
+
+.icon-txt {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-txt;
+}
+
+.icon-sql {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-sql;
+}
+
+.icon-py {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-py;
+}
+
+.icon-git {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-git;
+}
+
+.icon-kt {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-kt;
+}
+
+.icon-cpp {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-cpp;
+}
+
+.icon-cs {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-cs;
+}
+
+.icon-svg {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-svg;
+}
+
+.icon-docker {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-docker;
+}
+
+.icon-config {
+    -fx-font-family: "tabler-filled";
+    -fx-text-fill: icon-config;
+}
+
+.icon-key {
+    -fx-font-family: "tabler-filled";
+    -fx-text-fill: icon-key;
+}
+
+.icon-audio {
+    -fx-font-family: "tabler-filled";
+    -fx-text-fill: icon-audio;
+}
 
 /* ============================================================
- *  22. SYNTAX HIGHLIGHTING (grammars) — keep last
+ *  23. SYNTAX HIGHLIGHTING (grammars)
  * ============================================================ */
 .styled-text-area .keyword {
     -fx-fill: syn-keyword;

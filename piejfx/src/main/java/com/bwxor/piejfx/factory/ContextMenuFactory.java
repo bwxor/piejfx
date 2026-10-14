@@ -2,6 +2,7 @@ package com.bwxor.piejfx.factory;
 
 import com.bwxor.piejfx.control.FileTreeItem;
 import com.bwxor.piejfx.dto.TreeViewStructure;
+import com.bwxor.piejfx.mapper.FileToGraphicMapper;
 import com.bwxor.piejfx.state.CodeAreaState;
 import com.bwxor.piejfx.state.FolderTreeViewState;
 import com.bwxor.piejfx.state.ServiceState;
@@ -157,6 +158,7 @@ public class ContextMenuFactory {
                         } else {
                             ((FileTreeItem) folderTreeView.getSelectionModel().getSelectedItem()).getParent().getChildren().add(fileTreeItem);
                         }
+                        fileTreeItem.setGraphic(FileToGraphicMapper.mapFileToGraphic(fileToCreate));
                     } else {
                         serviceState.getNotificationService().showNotificationOk("File already exists.");
                     }

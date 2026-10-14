@@ -111,6 +111,34 @@
     syn-error:          #e2c47c;       /* annotation / decorator / boolean / macro */
     syn-operator:       #c9c5bd;       /* operator / punctuation / identifier */
 
+    /* File tree icons */
+    icon-folder:        #e8c46a;       /* yellow folder icon in the file tree */
+    icon-image:         #8bd17c;       /* green image file icon in the file tree */
+    icon-xml:           #f2a65a;
+    icon-md:            #93b2f0;
+    icon-cmd:           #c4a7f2;
+    icon-java:          #f07d70;
+    icon-css:           #93b2f0;
+    icon-html:          #f07d70;
+    icon-js:            #e2c47c;
+    icon-ts:            #93b2f0;
+    icon-json:          #e2c47c;
+    icon-pdf:           #f07d70;
+    icon-zip:           #8a919c;
+    icon-csv:           #8fd08a;
+    icon-txt:           #8a919c;
+    icon-sql:           #7fc6d6;
+    icon-py:            #93b2f0;
+    icon-git:           #f07d70;
+    icon-kt:            #c4a7f2;
+    icon-cpp:           #93b2f0;
+    icon-cs:            #c4a7f2;
+    icon-svg:           #f2a65a;
+    icon-docker:        #7fc6d6;
+    icon-config:        #c4a7f2;
+    icon-key:           #e2c47c;
+    icon-audio:         #e08cab;
+
     /* JavaFX built-in highlight colors */
     -fx-accent:              accent;
     -fx-highlight-text-fill: text-on-accent;
@@ -705,6 +733,9 @@
     -fx-background-color: bg-base;
 }
 
+.tree-view .icon {
+    -fx-font-size: 15px;
+}
 
 /* ============================================================
  *  17. SCROLLBARS
@@ -795,9 +826,146 @@ HBox {
     -fx-background-color: bg-base;
 }
 
+/* ============================================================
+ *  22. DIRECTORY NAVIGATOR ICONS
+ * ============================================================ */
+.icon-folder {
+    -fx-font-family: "tabler-filled";
+    -fx-text-fill: icon-folder;
+}
+
+.icon-file {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: text-tree;
+}
+
+.icon-image {
+    -fx-font-family: "tabler-filled";
+    -fx-text-fill: icon-image;
+}
+
+.icon-xml {
+    -fx-font-family: "tabler-filled";
+    -fx-text-fill: icon-xml;
+}
+
+.icon-md {
+    -fx-font-family: "tabler-filled";
+    -fx-text-fill: icon-md;
+}
+
+.icon-cmd {
+    -fx-font-family: "tabler-filled";
+    -fx-text-fill: icon-cmd;
+}
+
+.icon-java {
+    -fx-font-family: "tabler-filled";
+    -fx-text-fill: icon-java;
+}
+
+.icon-css {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-css;
+}
+
+.icon-html {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-html;
+}
+
+.icon-js {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-js;
+}
+
+.icon-ts {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-ts;
+}
+
+.icon-json {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-json;
+}
+
+.icon-pdf {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-pdf;
+}
+
+.icon-zip {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-zip;
+}
+
+.icon-csv {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-csv;
+}
+
+.icon-txt {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-txt;
+}
+
+.icon-sql {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-sql;
+}
+
+.icon-py {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-py;
+}
+
+.icon-git {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-git;
+}
+
+.icon-kt {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-kt;
+}
+
+.icon-cpp {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-cpp;
+}
+
+.icon-cs {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-cs;
+}
+
+.icon-svg {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-svg;
+}
+
+.icon-docker {
+    -fx-font-family: "tabler-outline";
+    -fx-text-fill: icon-docker;
+}
+
+.icon-config {
+    -fx-font-family: "tabler-filled";
+    -fx-text-fill: icon-config;
+}
+
+.icon-key {
+    -fx-font-family: "tabler-filled";
+    -fx-text-fill: icon-key;
+}
+
+.icon-audio {
+    -fx-font-family: "tabler-filled";
+    -fx-text-fill: icon-audio;
+}
 
 /* ============================================================
- *  22. SYNTAX HIGHLIGHTING (grammars) — keep last
+ *  23. SYNTAX HIGHLIGHTING (grammars)
  * ============================================================ */
 .styled-text-area .keyword {
     -fx-fill: syn-keyword;

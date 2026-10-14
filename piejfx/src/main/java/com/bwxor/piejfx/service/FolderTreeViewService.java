@@ -2,10 +2,12 @@ package com.bwxor.piejfx.service;
 
 import com.bwxor.piejfx.control.FileTreeItem;
 import com.bwxor.piejfx.dto.TreeViewStructure;
+import com.bwxor.piejfx.mapper.FileToGraphicMapper;
 import com.bwxor.piejfx.state.*;
 import com.bwxor.plugin.service.PluginFolderTreeViewService;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
@@ -17,8 +19,6 @@ import java.nio.file.Path;
 import java.util.*;
 
 public class FolderTreeViewService implements PluginFolderTreeViewService {
-    private static final String FOLDER_PREFIX = "\uD83D\uDCC1 ";
-
     private boolean firstLaunch = true;
 
     public void showFolderTreeView() {
@@ -88,8 +88,7 @@ public class FolderTreeViewService implements PluginFolderTreeViewService {
         uiState.getHorizontalSplitPane().getDividers().getFirst().positionProperty().addListener((obs, oldPos, newPos) -> {
             if (maximizeState.isMaximized()) {
                 horizontalSplitPaneDividerState.setMaximizedPos(newPos.doubleValue());
-            }
-            else {
+            } else {
                 horizontalSplitPaneDividerState.setNormalPos(newPos.doubleValue());
             }
         });
@@ -135,12 +134,14 @@ public class FolderTreeViewService implements PluginFolderTreeViewService {
     }
 
     private FileTreeItem createNode(File file, boolean isDirectory) {
-        if (!isDirectory) {
-            return new FileTreeItem(file.getName(), file);
+        FileTreeItem node = new FileTreeItem(file.getName(), file);
+
+        if (isDirectory) {
+            ensurePlaceholder(node);
         }
 
-        FileTreeItem node = new FileTreeItem(FOLDER_PREFIX + file.getName(), file);
-        ensurePlaceholder(node);
+        node.setGraphic(FileToGraphicMapper.mapFileToGraphic(file));
+
         return node;
     }
 
@@ -162,7 +163,9 @@ public class FolderTreeViewService implements PluginFolderTreeViewService {
         }
     }
 
-    /** Unloaded folder: show an expand arrow if and only if it has something inside. */
+    /**
+     * Unloaded folder: show an expand arrow if and only if it has something inside.
+     */
     private void ensurePlaceholder(FileTreeItem node) {
         ObservableList<TreeItem> children = children(node);
         boolean hasEntries = hasEntries(node.getFile());
@@ -269,9 +272,12 @@ public class FolderTreeViewService implements PluginFolderTreeViewService {
 
     // ------------------------------------------------------------------ helpers
 
-    private record Entry(File file, boolean directory) {}
+    private record Entry(File file, boolean directory) {
+    }
 
-    /** Folders first, then case-insensitive by name. isDirectory() is read once per file. */
+    /**
+     * Folders first, then case-insensitive by name. isDirectory() is read once per file.
+     */
     private static List<Entry> sortedEntries(File[] files) {
         List<Entry> entries = new ArrayList<>(files.length);
         for (File f : files) {
