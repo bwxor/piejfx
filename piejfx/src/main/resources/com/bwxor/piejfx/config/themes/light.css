@@ -876,7 +876,7 @@ HBox {
 }
 
 .icon-java {
-    -fx-font-family: "tabler-filled";
+    -fx-font-family: "tabler-outline";
     -fx-text-fill: icon-java;
 }
 
