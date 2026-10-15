@@ -240,6 +240,23 @@
     -fx-border-width: 0px;
 }
 
+/* Tab pane dropdown menu button (when many tabs) */
+.tab-pane .tab-header-area .control-buttons-tab {
+    -fx-background-color: transparent;
+}
+
+.tab-pane .tab-header-area .tab-down-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 5px 0 5px;
+}
+
+.tab-pane .tab-header-area .tab-down-button .arrow {
+    -fx-background-color: text-muted;
+}
+
+.tab-pane .tab-header-area .tab-down-button:hover .arrow {
+    -fx-background-color: text-arrow-hover;
+}
 
 /* ============================================================
  *  5. SPLITPANE
@@ -657,12 +674,12 @@
 }
 
 .table-view .column-header-background {
-    -fx-background-color: bg-dark;
+    -fx-background-color: bg-base;
 }
 
 .table-view .column-header,
 .table-view .filler {
-    -fx-background-color: bg-dark;
+    -fx-background-color: bg-base;
     -fx-border-color: transparent border-panel transparent transparent;
     -fx-border-width: 0 1px 0 0;
     -fx-size: 28px;
@@ -671,7 +688,7 @@
 .table-view .column-header .label {
     -fx-text-fill: text-primary;
     -fx-font-size: 12px;
-    -fx-font-weight: bold;
+    -fx-font-weight: normal;
     -fx-alignment: CENTER_LEFT;
     -fx-padding: 0 4px;
 }
@@ -711,7 +728,7 @@
 }
 
 .table-view .corner {
-    -fx-background-color: bg-dark;
+    -fx-background-color: bg-base;
 }
 
 .table-view:focused .table-row-cell:selected {
