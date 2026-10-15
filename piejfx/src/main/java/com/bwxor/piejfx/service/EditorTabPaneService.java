@@ -43,6 +43,7 @@ public class EditorTabPaneService implements PluginEditorTabPaneService {
             CodeAreaState.IndividualState individualState = CodeAreaState.instance.getIndividualStates().get(Integer.parseInt(c.getId()));
             individualState.setOpenedFile(file);
             individualState.setSaved(true);
+            individualState.setJustOpenedFile(true);
 
             try (BufferedReader bufferedReader = Files.newBufferedReader(file.toPath(), StandardCharsets.UTF_8)) {
                 c.replaceText(bufferedReader.readAllAsString());

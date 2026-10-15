@@ -172,12 +172,12 @@ public class TabFactory {
                     individualState.setContent(codeArea.getText());
 
                     if (individualState.isSaved()) {
-                        if (!individualState.isJustOpened()) {
+                        if (!individualState.isJustOpenedFile()) {
                             individualState.setSaved(false);
                             tab.setText("*" + tab.getText());
                         }
 
-                        individualState.setJustOpened(false);
+                        individualState.setJustOpenedFile(false);
                     }
                 }
         );

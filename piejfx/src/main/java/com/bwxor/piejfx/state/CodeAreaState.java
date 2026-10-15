@@ -22,7 +22,7 @@ public final class CodeAreaState {
         private Grammar grammar;
         private ScheduledExecutorService debounceScheduler;
         private ScheduledFuture<?> pendingHighlight;
-        private boolean justOpened = true;
+        private boolean justOpenedFile;
 
         public int getFontSize() {
             return fontSize;
@@ -82,12 +82,12 @@ public final class CodeAreaState {
             this.pendingHighlight = pendingHighlight;
         }
 
-        public boolean isJustOpened() {
-            return justOpened;
+        public boolean isJustOpenedFile() {
+            return justOpenedFile;
         }
 
-        public void setJustOpened(boolean justOpened) {
-            this.justOpened = justOpened;
+        public void setJustOpenedFile(boolean justOpenedFile) {
+            this.justOpenedFile = justOpenedFile;
         }
     }
 
