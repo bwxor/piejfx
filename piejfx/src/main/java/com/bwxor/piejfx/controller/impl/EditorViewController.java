@@ -77,8 +77,18 @@ public class EditorViewController extends MaximizableViewController {
         folderTreeView.setContextMenu(ContextMenuFactory.createFolderTreeViewContextMenu(folderTreeView));
 
         folderTreeView.setOnKeyPressed(e -> {
-            if (e.getCode().equals(KeyCode.DELETE)) {
-                serviceState.getFolderTreeViewService().deleteFile(folderTreeView);
+            if (e.isControlDown()) {
+                if (e.getCode().equals(KeyCode.C)) {
+                    serviceState.getFolderTreeViewService().copyFile(folderTreeView);
+                }
+                else if (e.getCode().equals(KeyCode.V)) {
+                    serviceState.getFolderTreeViewService().pasteFile(folderTreeView);
+                }
+            }
+            else {
+                if (e.getCode().equals(KeyCode.DELETE)) {
+                    serviceState.getFolderTreeViewService().deleteFile(folderTreeView);
+                }
             }
         });
 

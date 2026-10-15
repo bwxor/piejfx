@@ -1,23 +1,11 @@
 package com.bwxor.piejfx.factory;
 
-import com.bwxor.piejfx.control.FileTreeItem;
-import com.bwxor.piejfx.dto.TreeViewStructure;
-import com.bwxor.piejfx.mapper.FileToGraphicMapper;
-import com.bwxor.piejfx.state.CodeAreaState;
-import com.bwxor.piejfx.state.FolderTreeViewState;
 import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.UIState;
 import com.bwxor.piejfx.type.CreationType;
-import com.bwxor.plugin.dto.NewFileResponse;
-import com.bwxor.plugin.dto.RenameFileResponse;
-import com.bwxor.plugin.type.NewFileOption;
-import com.bwxor.plugin.type.NotificationYesNoCancelOption;
-import com.bwxor.plugin.type.RenameFileOption;
 import javafx.scene.control.*;
+import javafx.scene.input.Clipboard;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Paths;
 
 public class ContextMenuFactory {
     public static ContextMenu createFolderTreeViewContextMenu(TreeView folderTreeView) {
@@ -32,16 +20,34 @@ public class ContextMenuFactory {
         newFolderMenuItem.setOnAction(e -> serviceState.getFolderTreeViewService().createFile(CreationType.FOLDER, folderTreeView));
         contextMenu.getItems().add(newFolderMenuItem);
 
+        MenuItem copyMenuItem = new MenuItem("Copy");
+        copyMenuItem.setOnAction(_ -> serviceState.getFolderTreeViewService().copyFile(folderTreeView));
+        contextMenu.getItems().add(copyMenuItem);
+
+        MenuItem pasteMenuItem = new MenuItem("Paste");
+        pasteMenuItem.setOnAction(_ -> serviceState.getFolderTreeViewService().pasteFile(folderTreeView));
+        contextMenu.getItems().add(pasteMenuItem);
+
         MenuItem renameMenuItem = new MenuItem("Rename");
-        renameMenuItem.setOnAction(e -> serviceState.getFolderTreeViewService().renameFile(folderTreeView));
+        renameMenuItem.setOnAction(_ -> serviceState.getFolderTreeViewService().renameFile(folderTreeView));
         contextMenu.getItems().add(renameMenuItem);
 
         MenuItem deleteFileMenuItem = new MenuItem("Delete");
-        deleteFileMenuItem.setOnAction(e ->
+        deleteFileMenuItem.setOnAction(_ ->
         {
             serviceState.getFolderTreeViewService().deleteFile(folderTreeView);
         });
         contextMenu.getItems().add(deleteFileMenuItem);
+
+        contextMenu.setOnShown(_ -> {
+            Clipboard clipboard = Clipboard.getSystemClipboard();
+            if (clipboard.hasFiles()) {
+                pasteMenuItem.setDisable(false);
+            }
+            else {
+                pasteMenuItem.setDisable(true);
+            }
+        });
 
         return contextMenu;
     }

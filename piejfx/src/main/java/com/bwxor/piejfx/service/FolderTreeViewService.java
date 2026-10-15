@@ -15,14 +15,13 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.MouseEvent;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.*;
 
 public class FolderTreeViewService implements PluginFolderTreeViewService {
@@ -364,14 +363,11 @@ public class FolderTreeViewService implements PluginFolderTreeViewService {
         ServiceState serviceState = ServiceState.instance;
 
         String windowTitle;
-        String itemViewPrefix;
 
         if (creationType.equals(CreationType.FILE)) {
             windowTitle = "New File";
-            itemViewPrefix = "";
         } else {
             windowTitle = "New Folder";
-            itemViewPrefix = "\uD83D\uDCC1";
         }
 
         NewFileResponse response = serviceState.getFileService().showNewFileWindow(windowTitle);
@@ -395,12 +391,13 @@ public class FolderTreeViewService implements PluginFolderTreeViewService {
                             serviceState.getPluginService().invokeOnCreateFolder(fileToCreate);
                         }
 
-                        FileTreeItem fileTreeItem = new FileTreeItem(itemViewPrefix + " " + fileToCreate.getName(), fileToCreate);
+                        FileTreeItem fileTreeItem = new FileTreeItem(fileToCreate.getName(), fileToCreate);
                         if (file.isDirectory()) {
                             ((FileTreeItem) folderTreeView.getSelectionModel().getSelectedItem()).getChildren().add(fileTreeItem);
                         } else {
                             ((FileTreeItem) folderTreeView.getSelectionModel().getSelectedItem()).getParent().getChildren().add(fileTreeItem);
                         }
+
                         fileTreeItem.setGraphic(FileToGraphicMapper.mapFileToGraphic(fileToCreate));
                     } else {
                         serviceState.getNotificationService().showNotificationOk("File already exists.");
@@ -409,7 +406,6 @@ public class FolderTreeViewService implements PluginFolderTreeViewService {
                     fileToCreate = new File(Paths.get(FolderTreeViewState.instance.getOpenedFolder().toString(), response.fileName()).toUri());
 
                     if (!fileToCreate.exists()) {
-
                         if (creationType.equals(CreationType.FILE)) {
                             fileToCreate.createNewFile();
                             serviceState.getPluginService().invokeOnCreateFile(fileToCreate);
@@ -418,7 +414,9 @@ public class FolderTreeViewService implements PluginFolderTreeViewService {
                             serviceState.getPluginService().invokeOnCreateFolder(fileToCreate);
                         }
 
-                        ((FileTreeItem) folderTreeView.getRoot()).getChildren().add(new FileTreeItem(itemViewPrefix + " " + fileToCreate.getName(), fileToCreate));
+                        var fileChildren = new FileTreeItem(fileToCreate.getName(), fileToCreate);
+                        fileChildren.setGraphic(FileToGraphicMapper.mapFileToGraphic(fileToCreate));
+                        ((FileTreeItem) folderTreeView.getRoot()).getChildren().add(fileChildren);
                     } else {
                         serviceState.getNotificationService().showNotificationOk("File already exists.");
                     }
@@ -552,6 +550,70 @@ public class FolderTreeViewService implements PluginFolderTreeViewService {
                 }
             }
         }
+    }
+
+    public void copyFile(TreeView folderTreeView) {
+        FileTreeItem treeItem = (FileTreeItem) folderTreeView.getSelectionModel().getSelectedItem();
+
+        ClipboardContent clipboardContent = new ClipboardContent();
+        clipboardContent.putFiles(List.of(treeItem.getFile()));
+        Clipboard.getSystemClipboard().setContent(clipboardContent);
+    }
+
+    public void pasteFile(TreeView folderTreeView) {
+        FileTreeItem treeItem = (FileTreeItem) folderTreeView.getSelectionModel().getSelectedItem();
+
+        File parent = treeItem.getFile().isDirectory() ? treeItem.getFile().getParentFile() : treeItem.getFile();
+
+        Clipboard clipboard = Clipboard.getSystemClipboard();
+        if (!clipboard.hasFiles()) return;
+
+        List<File> files = clipboard.getFiles();
+        for (File src : files) {
+            try {
+                Path dest = uniqueTarget(parent.toPath().resolve(src.getName()));
+                copyRecursive(src.toPath(), dest);
+            } catch (IOException e) {
+                e.printStackTrace(); // show an error dialog instead
+            }
+        }
+
+        refreshFolderTreeView();
+    }
+
+    private void copyRecursive(Path source, Path target) throws IOException {
+        if (Files.isDirectory(source)) {
+            if (target.startsWith(source)) {
+                throw new IOException("Cannot paste a folder into itself");
+            }
+            try (var stream = Files.walk(source)) {
+                for (Path p : (Iterable<Path>) stream::iterator) {
+                    Path dest = target.resolve(source.relativize(p).toString());
+                    if (Files.isDirectory(p)) {
+                        Files.createDirectories(dest);
+                    } else {
+                        Files.copy(p, dest, StandardCopyOption.COPY_ATTRIBUTES);
+                    }
+                }
+            }
+        } else {
+            Files.copy(source, target, StandardCopyOption.COPY_ATTRIBUTES);
+        }
+    }
+
+    // Avoids overwriting: "report.txt" -> "report (1).txt"
+    private Path uniqueTarget(Path path) {
+        if (!Files.exists(path)) return path;
+        String name = path.getFileName().toString();
+        int dot = name.lastIndexOf('.');
+        String base = (dot > 0 && !Files.isDirectory(path)) ? name.substring(0, dot) : name;
+        String ext  = (dot > 0 && !Files.isDirectory(path)) ? name.substring(dot) : "";
+        int i = 1;
+        Path candidate;
+        do {
+            candidate = path.resolveSibling(base + " (" + i++ + ")" + ext);
+        } while (Files.exists(candidate));
+        return candidate;
     }
 
     /**
