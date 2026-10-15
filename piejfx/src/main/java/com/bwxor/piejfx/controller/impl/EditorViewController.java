@@ -47,6 +47,8 @@ public class EditorViewController extends MaximizableViewController {
     }
 
     public void handleParameters() {
+        ServiceState serviceState = ServiceState.instance;
+
         if (!parameters.isEmpty()) {
             ServiceState.instance.getFileService().openFile(new File(parameters.getFirst()));
         } else {
@@ -73,6 +75,12 @@ public class EditorViewController extends MaximizableViewController {
         );
 
         folderTreeView.setContextMenu(ContextMenuFactory.createFolderTreeViewContextMenu(folderTreeView));
+
+        folderTreeView.setOnKeyPressed(e -> {
+            if (e.getCode().equals(KeyCode.DELETE)) {
+                serviceState.getFolderTreeViewService().deleteFile(folderTreeView);
+            }
+        });
 
         CompletableFuture.runAsync(() ->
                 LoadedPluginsState.instance.setPlugins(ServiceState.instance.getPluginService().getPlugins())
@@ -169,7 +177,7 @@ public class EditorViewController extends MaximizableViewController {
                     ServiceState.instance.getNotificationService().showNotificationOk("No folder is currently opened.");
                     return;
                 }
-                
+
                 SearchInFilesDialogService searchService = SearchInFilesDialogService.getInstance();
                 File openedFolder = FolderTreeViewState.instance.getOpenedFolder();
                 searchService.setWorkspaceRoot(openedFolder);
@@ -193,7 +201,7 @@ public class EditorViewController extends MaximizableViewController {
             } else if (keyEvent.getCode().equals(KeyCode.F)) {
                 VBox vBox = (VBox) uiState.getEditorTabPane().getSelectionModel().getSelectedItem().getContent();
 
-                var codeArea = (CodeArea) ((VBox)editorTabPane.getSelectionModel().getSelectedItem().getContent()).getChildren().getLast();
+                var codeArea = (CodeArea) ((VBox) editorTabPane.getSelectionModel().getSelectedItem().getContent()).getChildren().getLast();
 
                 if (vBox.getChildren().size() == 1) {
                     vBox.getChildren().add(0, FindReplaceHBoxFactory.createFindReplaceHBox(codeArea.getSelectedText()));
@@ -204,7 +212,7 @@ public class EditorViewController extends MaximizableViewController {
             } else if (keyEvent.getCode().equals(KeyCode.R)) {
                 VBox vBox = (VBox) uiState.getEditorTabPane().getSelectionModel().getSelectedItem().getContent();
 
-                var codeArea = (CodeArea) ((VBox)editorTabPane.getSelectionModel().getSelectedItem().getContent()).getChildren().getLast();
+                var codeArea = (CodeArea) ((VBox) editorTabPane.getSelectionModel().getSelectedItem().getContent()).getChildren().getLast();
 
                 if (vBox.getChildren().size() == 1) {
                     vBox.getChildren().add(0, FindReplaceHBoxFactory.createFindReplaceHBox(codeArea.getSelectedText()));
