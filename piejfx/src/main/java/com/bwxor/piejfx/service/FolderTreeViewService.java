@@ -13,7 +13,6 @@ import com.bwxor.plugin.type.NotificationYesNoCancelOption;
 import com.bwxor.plugin.type.RenameFileOption;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
@@ -518,49 +517,90 @@ public class FolderTreeViewService implements PluginFolderTreeViewService {
         }
     }
 
-    public void deleteFile(TreeView folderTreeView) {
+    public void deleteFiles(TreeView folderTreeView) {
         ServiceState serviceState = ServiceState.instance;
 
-        if (folderTreeView.getSelectionModel().getSelectedIndex() > 0) {
-            if (folderTreeView.getSelectionModel().getSelectedItem().equals(folderTreeView.getRoot())) {
-                return;
+        var selectedItems = new ArrayList<>(folderTreeView.getSelectionModel().getSelectedItems());
+
+        if (folderTreeView.getSelectionModel().getSelectedIndices().contains(0)) {
+            serviceState.getNotificationService().showNotificationOk("You cannot delete the root folder.");
+            return;
+        }
+
+        List<Path> selectedPaths = new ArrayList<>();
+        for (Object s : selectedItems) {
+            selectedPaths.add(((FileTreeItem) s).getFile().toPath().toAbsolutePath().normalize());
+        }
+
+        selectedItems.removeIf(s -> {
+            Path p = ((FileTreeItem) s).getFile().toPath().toAbsolutePath().normalize();
+            return selectedPaths.stream().anyMatch(other -> !other.equals(p) && p.startsWith(other));
+        });
+
+        NotificationYesNoCancelOption response = serviceState.getNotificationService().showNotificationYesNoCancel("Are you sure you want to delete the file(s)?");
+
+        if (response.equals(NotificationYesNoCancelOption.YES)) {
+            for (var s : selectedItems) {
+                deleteIndividually((FileTreeItem) s, folderTreeView.getRoot());
             }
+        }
 
-            NotificationYesNoCancelOption response = serviceState.getNotificationService().showNotificationYesNoCancel("Are you sure you want to delete the file?");
+        /*
+        Even if the selected files were deleted, the internal state of the TreeView still keeps multiple files as
+        selected, leading to inconsistencies in the context menu.
+         */
+        if (folderTreeView.getSelectionModel().getSelectedItems().size() > 0) {
+            folderTreeView.getSelectionModel().select(folderTreeView.getSelectionModel().getSelectedItems().getFirst());
+        }
+    }
 
-            if (response.equals(NotificationYesNoCancelOption.YES)) {
-                FileTreeItem treeItem = (FileTreeItem) folderTreeView.getSelectionModel().getSelectedItem();
+    public void deleteIndividually(FileTreeItem treeItem, TreeItem root) {
+        ServiceState serviceState = ServiceState.instance;
 
-                if (treeItem.getFile().isDirectory()) {
-                    if (!serviceState.getFileService().deleteFolder(treeItem.getFile())) {
-                        serviceState.getNotificationService().showNotificationOk("Could not delete file.");
-                    } else {
-                        treeItem.getParent().getChildren().remove(treeItem);
-                        serviceState.getPluginService().invokeOnDeleteFile(treeItem.getFile());
-                    }
-                } else {
-                    boolean deletionStatus = treeItem.getFile().delete();
+        if (treeItem.equals(root)) {
+            return;
+        }
 
-                    if (!deletionStatus) {
-                        serviceState.getNotificationService().showNotificationOk("Could not delete file.");
-                    } else {
-                        treeItem.getParent().getChildren().remove(treeItem);
-                        serviceState.getPluginService().invokeOnDeleteFile(treeItem.getFile());
-                    }
-                }
+
+        if (treeItem.getFile().isDirectory()) {
+            if (!serviceState.getFileService().deleteFolder(treeItem.getFile())) {
+                serviceState.getNotificationService().showNotificationOk("Could not delete file.");
+            } else {
+                treeItem.getParent().getChildren().remove(treeItem);
+                serviceState.getPluginService().invokeOnDeleteFile(treeItem.getFile());
+            }
+        } else {
+            boolean deletionStatus = treeItem.getFile().delete();
+
+            if (!deletionStatus) {
+                serviceState.getNotificationService().showNotificationOk("Could not delete file.");
+            } else {
+                treeItem.getParent().getChildren().remove(treeItem);
+                serviceState.getPluginService().invokeOnDeleteFile(treeItem.getFile());
             }
         }
     }
 
-    public void copyFile(TreeView folderTreeView) {
-        FileTreeItem treeItem = (FileTreeItem) folderTreeView.getSelectionModel().getSelectedItem();
-
+    public void copyFiles(TreeView folderTreeView) {
         ClipboardContent clipboardContent = new ClipboardContent();
-        clipboardContent.putFiles(List.of(treeItem.getFile()));
+
+        var selectedItems = folderTreeView.getSelectionModel().getSelectedItems();
+
+        var list = new ArrayList<File>();
+
+        for (var s : selectedItems) {
+            list.add(((FileTreeItem)s).getFile());
+        }
+
+        if (list.isEmpty()) {
+            return;
+        }
+
+        clipboardContent.putFiles(list);
         Clipboard.getSystemClipboard().setContent(clipboardContent);
     }
 
-    public void pasteFile(TreeView folderTreeView) {
+    public void pasteFiles(TreeView folderTreeView) {
         FileTreeItem treeItem = (FileTreeItem) folderTreeView.getSelectionModel().getSelectedItem();
 
         File parent = treeItem.getFile().isDirectory() ? treeItem.getFile() : treeItem.getFile().getParentFile();
@@ -610,7 +650,7 @@ public class FolderTreeViewService implements PluginFolderTreeViewService {
         String name = path.getFileName().toString();
         int dot = name.lastIndexOf('.');
         String base = (dot > 0 && !Files.isDirectory(path)) ? name.substring(0, dot) : name;
-        String ext  = (dot > 0 && !Files.isDirectory(path)) ? name.substring(dot) : "";
+        String ext = (dot > 0 && !Files.isDirectory(path)) ? name.substring(dot) : "";
         int i = 1;
         Path candidate;
         do {

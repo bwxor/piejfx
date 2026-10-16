@@ -21,11 +21,11 @@ public class ContextMenuFactory {
         contextMenu.getItems().add(newFolderMenuItem);
 
         MenuItem copyMenuItem = new MenuItem("Copy");
-        copyMenuItem.setOnAction(_ -> serviceState.getFolderTreeViewService().copyFile(folderTreeView));
+        copyMenuItem.setOnAction(_ -> serviceState.getFolderTreeViewService().copyFiles(folderTreeView));
         contextMenu.getItems().add(copyMenuItem);
 
         MenuItem pasteMenuItem = new MenuItem("Paste");
-        pasteMenuItem.setOnAction(_ -> serviceState.getFolderTreeViewService().pasteFile(folderTreeView));
+        pasteMenuItem.setOnAction(_ -> serviceState.getFolderTreeViewService().pasteFiles(folderTreeView));
         contextMenu.getItems().add(pasteMenuItem);
 
         MenuItem renameMenuItem = new MenuItem("Rename");
@@ -35,17 +35,28 @@ public class ContextMenuFactory {
         MenuItem deleteFileMenuItem = new MenuItem("Delete");
         deleteFileMenuItem.setOnAction(_ ->
         {
-            serviceState.getFolderTreeViewService().deleteFile(folderTreeView);
+            serviceState.getFolderTreeViewService().deleteFiles(folderTreeView);
         });
         contextMenu.getItems().add(deleteFileMenuItem);
 
         contextMenu.setOnShown(_ -> {
-            Clipboard clipboard = Clipboard.getSystemClipboard();
-            if (clipboard.hasFiles()) {
-                pasteMenuItem.setDisable(false);
+            if (folderTreeView.getSelectionModel().getSelectedItems().size() > 1) {
+                newFileMenuItem.setVisible(false);
+                newFolderMenuItem.setVisible(false);
+                renameMenuItem.setVisible(false);
+                pasteMenuItem.setVisible(false);
             }
             else {
-                pasteMenuItem.setDisable(true);
+                newFileMenuItem.setVisible(true);
+                newFolderMenuItem.setVisible(true);
+                renameMenuItem.setVisible(true);
+
+                Clipboard clipboard = Clipboard.getSystemClipboard();
+                if (clipboard.hasFiles()) {
+                    pasteMenuItem.setVisible(true);
+                } else {
+                    pasteMenuItem.setVisible(false);
+                }
             }
         });
 

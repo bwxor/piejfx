@@ -75,19 +75,20 @@ public class EditorViewController extends MaximizableViewController {
         );
 
         folderTreeView.setContextMenu(ContextMenuFactory.createFolderTreeViewContextMenu(folderTreeView));
+        folderTreeView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         folderTreeView.setOnKeyPressed(e -> {
             if (e.isControlDown()) {
                 if (e.getCode().equals(KeyCode.C)) {
-                    serviceState.getFolderTreeViewService().copyFile(folderTreeView);
+                    serviceState.getFolderTreeViewService().copyFiles(folderTreeView);
                 }
                 else if (e.getCode().equals(KeyCode.V)) {
-                    serviceState.getFolderTreeViewService().pasteFile(folderTreeView);
+                    serviceState.getFolderTreeViewService().pasteFiles(folderTreeView);
                 }
             }
             else {
                 if (e.getCode().equals(KeyCode.DELETE)) {
-                    serviceState.getFolderTreeViewService().deleteFile(folderTreeView);
+                    serviceState.getFolderTreeViewService().deleteFiles(folderTreeView);
                 }
             }
         });
