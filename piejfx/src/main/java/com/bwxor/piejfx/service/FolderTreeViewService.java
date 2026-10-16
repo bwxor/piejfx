@@ -563,7 +563,7 @@ public class FolderTreeViewService implements PluginFolderTreeViewService {
     public void pasteFile(TreeView folderTreeView) {
         FileTreeItem treeItem = (FileTreeItem) folderTreeView.getSelectionModel().getSelectedItem();
 
-        File parent = treeItem.getFile().isDirectory() ? treeItem.getFile().getParentFile() : treeItem.getFile();
+        File parent = treeItem.getFile().isDirectory() ? treeItem.getFile() : treeItem.getFile().getParentFile();
 
         Clipboard clipboard = Clipboard.getSystemClipboard();
         if (!clipboard.hasFiles()) return;
@@ -582,9 +582,12 @@ public class FolderTreeViewService implements PluginFolderTreeViewService {
     }
 
     private void copyRecursive(Path source, Path target) throws IOException {
+        ServiceState serviceState = ServiceState.instance;
+
         if (Files.isDirectory(source)) {
             if (target.startsWith(source)) {
-                throw new IOException("Cannot paste a folder into itself");
+                serviceState.getNotificationService().showNotificationOk("Cannot paste a folder into itself.");
+                return;
             }
             try (var stream = Files.walk(source)) {
                 for (Path p : (Iterable<Path>) stream::iterator) {
