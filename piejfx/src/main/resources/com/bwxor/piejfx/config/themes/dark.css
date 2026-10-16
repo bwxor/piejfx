@@ -247,7 +247,7 @@
 
 .tab-pane .tab-header-area .tab-down-button {
     -fx-background-color: transparent;
-    -fx-padding: 0 5px 0 5px;
+    -fx-padding: 0 5px 10px 5px;
 }
 
 .tab-pane .tab-header-area .tab-down-button .arrow {
