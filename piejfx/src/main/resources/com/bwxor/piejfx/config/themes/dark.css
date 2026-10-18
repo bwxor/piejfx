@@ -546,6 +546,50 @@
 }
 
 /* ============================================================
+ *  11.6. STATUS BAR DROPDOWN (MenuButton, text + arrow only)
+ * ============================================================ */
+.status-dropdown,
+.status-dropdown:hover,
+.status-dropdown:focused,
+.status-dropdown:showing,
+.status-dropdown:armed {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-padding: 0 2px;
+    -fx-cursor: hand;
+}
+
+.status-dropdown > .label {
+    -fx-text-fill: text-muted;
+    -fx-padding: 0;
+    -fx-font-size: 12px;
+}
+
+.status-dropdown > .arrow-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 0 0 4px;
+}
+
+.status-dropdown > .arrow-button > .arrow {
+    -fx-background-color: text-muted;
+    -fx-padding: 2px 3px;
+    -fx-rotate: 180;                    /* point up, matching popupSide="TOP" */
+}
+
+/* Highlight on hover / while open */
+.status-dropdown:hover > .label,
+.status-dropdown:showing > .label {
+    -fx-text-fill: accent;
+}
+
+.status-dropdown:hover > .arrow-button > .arrow,
+.status-dropdown:showing > .arrow-button > .arrow {
+    -fx-background-color: accent;
+}
+
+/* ============================================================
  *  12. WINDOW BUTTONS (close / maximize / minimize)
  * ============================================================ */
 .button-close {

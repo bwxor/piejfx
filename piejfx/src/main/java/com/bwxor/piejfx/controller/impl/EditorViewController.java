@@ -7,6 +7,7 @@ import com.bwxor.piejfx.service.SearchInFilesDialogService;
 import com.bwxor.piejfx.state.*;
 import com.bwxor.plugin.type.RemoveSelectedTabFromPaneOption;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -17,6 +18,7 @@ import javafx.stage.Stage;
 import org.fxmisc.richtext.CodeArea;
 
 import java.io.File;
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -40,7 +42,12 @@ public class EditorViewController extends MaximizableViewController {
     private Menu themesMenu;
     @FXML
     private MenuBar menuBar;
-
+    @FXML
+    private MenuItem charsetMenuItem;
+    @FXML
+    private Label lineColLabel;
+    @FXML
+    private Label numCharsLabel;
 
     public void setParameters(List<String> parameters) {
         this.parameters = parameters;
@@ -48,6 +55,7 @@ public class EditorViewController extends MaximizableViewController {
 
     public void handleParameters() {
         ServiceState serviceState = ServiceState.instance;
+        UIState uiState = UIState.instance;
 
         if (!parameters.isEmpty()) {
             ServiceState.instance.getFileService().openFile(new File(parameters.getFirst()));
@@ -65,11 +73,15 @@ public class EditorViewController extends MaximizableViewController {
         editorTabPane.getSelectionModel().selectedItemProperty().addListener(
                 (_, _, t1) -> {
                     if (t1 != null) {
+                        var codeArea = (CodeArea) ((VBox) editorTabPane.getSelectionModel().getSelectedItem().getContent()).getChildren().getLast();
+
                         if (CodeAreaState.instance.getIndividualStates().get(editorTabPane.getSelectionModel().getSelectedIndex()).isSaved()) {
                             titleBarLabel.setText(t1.getText());
                         } else {
                             titleBarLabel.setText(t1.getText().substring(1));
                         }
+                        uiState.getLineColLabel().setText((codeArea.getCurrentParagraph() + 1) + ":" +  (codeArea.getCaretColumn() + 1));
+                        uiState.getNumCharsLabel().setText(codeArea.getText().length() + " chars");
                     }
                 }
         );
@@ -102,15 +114,19 @@ public class EditorViewController extends MaximizableViewController {
 
     @FXML
     public void initialize() {
-        UIState.instance.setHorizontalSplitPane(horizontalSplitPane);
-        UIState.instance.setVerticalSplitPane(verticalSplitPane);
-        UIState.instance.setSplitTabPane(splitTabPane);
-        UIState.instance.setFolderTreeView(folderTreeView);
-        UIState.instance.setEditorTabPane(editorTabPane);
-        UIState.instance.setTerminalTabPane(terminalTabPane);
-        UIState.instance.setTitleBarLabel(titleBarLabel);
-        UIState.instance.setThemesMenu(themesMenu);
-        UIState.instance.setMenuBar(menuBar);
+        UIState uiState = UIState.instance;
+
+        uiState.setHorizontalSplitPane(horizontalSplitPane);
+        uiState.setVerticalSplitPane(verticalSplitPane);
+        uiState.setSplitTabPane(splitTabPane);
+        uiState.setFolderTreeView(folderTreeView);
+        uiState.setEditorTabPane(editorTabPane);
+        uiState.setTerminalTabPane(terminalTabPane);
+        uiState.setTitleBarLabel(titleBarLabel);
+        uiState.setThemesMenu(themesMenu);
+        uiState.setMenuBar(menuBar);
+        uiState.setLineColLabel(lineColLabel);
+        uiState.setNumCharsLabel(numCharsLabel);
 
         ServiceState.instance.getThemeService().loadMenuWithThemes(ThemeState.instance.getThemes());
     }
@@ -233,5 +249,24 @@ public class EditorViewController extends MaximizableViewController {
                 }
             }
         }
+    }
+
+    @FXML
+    public void onEncodingSelected(ActionEvent actionEvent) {
+        // Todo finish
+//        var charset =
+//        var codeArea = (CodeArea) ((VBox) editorTabPane.getSelectionModel().getSelectedItem().getContent()).getChildren().getLast();
+//
+//        String text = new String(codeArea.getText(), charset);
+//        if (text.startsWith("\uFEFF")) text = text.substring(1);   // strip BOM
+//
+//        area.replaceText(text);                    // replaces the whole document
+//        area.moveTo(0);                            // caret to start
+//        area.requestFollowCaret();                 // scroll to the caret
+//        area.getUndoManager().forgetHistory();     // undo shouldn't return to the old decoding
+//        area.getUndoManager().mark();              // mark the current state as "saved"
+//
+//        file.charset = charset;
+//        encodingMenuButton.setText(charset.name());
     }
 }

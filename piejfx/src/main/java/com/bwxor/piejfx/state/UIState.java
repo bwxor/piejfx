@@ -12,6 +12,8 @@ public class UIState {
     private Label titleBarLabel;
     private Menu themesMenu;
     private MenuBar menuBar;
+    private Label lineColLabel;
+    private Label numCharsLabel;
 
     public static final UIState instance = new UIState();
 
@@ -88,5 +90,21 @@ public class UIState {
 
     public void setMenuBar(MenuBar menuBar) {
         this.menuBar = menuBar;
+    }
+
+    public Label getLineColLabel() {
+        return lineColLabel;
+    }
+
+    public void setLineColLabel(Label lineColLabel) {
+        this.lineColLabel = lineColLabel;
+    }
+
+    public Label getNumCharsLabel() {
+        return numCharsLabel;
+    }
+
+    public void setNumCharsLabel(Label numCharsLabel) {
+        this.numCharsLabel = numCharsLabel;
     }
 }

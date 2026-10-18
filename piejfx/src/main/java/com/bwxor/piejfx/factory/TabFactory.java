@@ -6,6 +6,7 @@ import com.bwxor.piejfx.provider.ThemeBasedSettingsProvider;
 import com.bwxor.piejfx.state.CodeAreaState;
 import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.TerminalState;
+import com.bwxor.piejfx.state.UIState;
 import com.pty4j.PtyProcess;
 import com.pty4j.PtyProcessBuilder;
 import com.techsenger.jeditermfx.core.CursorShape;
@@ -24,14 +25,17 @@ import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class TabFactory {
     private static final String TAB_REPLACEMENT = "    ";
 
     public static Tab createEditorTab(String title) {
         ServiceState serviceState = ServiceState.instance;
+        UIState uiState = UIState.instance;
 
         Tab tab = new Tab();
 
@@ -73,7 +77,14 @@ public class TabFactory {
                                 "-fx-font-feature-settings: 'liga' 1, 'calt' 1;",
                         individualState.getFontSize()
                 ));
+
             }
+
+            uiState.getNumCharsLabel().setText(codeArea.getText().length() + " chars");
+        });
+
+        codeArea.caretPositionProperty().addListener((obs, oldPos, newPos) -> {
+            uiState.getLineColLabel().setText((codeArea.getCurrentParagraph() + 1) + ":" +  (codeArea.getCaretColumn() + 1));
         });
 
         codeArea.addEventFilter(ScrollEvent.SCROLL,

@@ -109,6 +109,13 @@
             <artifactId>appdirs</artifactId>
             <version>1.5.0</version>
         </dependency>
+
+        <!-- Detect encoding -->
+        <dependency>
+            <groupId>com.github.albfernandez</groupId>
+            <artifactId>juniversalchardet</artifactId>
+            <version>2.5.0</version>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>
