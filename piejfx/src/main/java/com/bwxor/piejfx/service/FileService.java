@@ -285,7 +285,7 @@ public class FileService implements PluginFileService {
         if (codeAreaState.getOpenedFile() == null) {
             return saveFileAs();
         } else {
-            try (BufferedWriter br = Files.newBufferedWriter(codeAreaState.getOpenedFile().toPath(), StandardCharsets.UTF_8)) {
+            try (BufferedWriter br = Files.newBufferedWriter(codeAreaState.getOpenedFile().toPath(), codeAreaState.getCharset())) {
                 br.write(codeAreaState.getContent());
             } catch (IOException e) {
                 serviceState.getNotificationService().showNotificationOk("Error while trying to save the file.");

@@ -15,6 +15,7 @@ import org.fxmisc.richtext.CodeArea;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
@@ -45,8 +46,17 @@ public class EditorTabPaneService implements PluginEditorTabPaneService {
             individualState.setSaved(true);
             individualState.setJustOpenedFile(true);
 
-            try (BufferedReader bufferedReader = Files.newBufferedReader(file.toPath(), StandardCharsets.UTF_8)) {
-                c.replaceText(bufferedReader.readAllAsString());
+            // Detect file encoding
+            Charset detectedCharset = detectFileEncoding(file);
+            individualState.setCharset(detectedCharset);
+
+            try (BufferedReader bufferedReader = Files.newBufferedReader(file.toPath(), detectedCharset)) {
+                String content = bufferedReader.readAllAsString();
+                // Strip BOM if present
+                if (content.startsWith("\uFEFF")) {
+                    content = content.substring(1);
+                }
+                c.replaceText(content);
                 tab.setText(file.getName());
                 tab.setGraphic(FileToGraphicMapper.mapFileToGraphic(file));
             } catch (IOException e) {
@@ -55,6 +65,50 @@ public class EditorTabPaneService implements PluginEditorTabPaneService {
                 serviceState.getNotificationService().showNotificationOk("Could not open specified file.");
                 throw new RuntimeException();
             }
+        }
+    }
+
+    /**
+     * Detects the encoding of a file by checking for BOM markers and attempting to read with common charsets.
+     *
+     * @param file the file to detect encoding for
+     * @return the detected Charset, or UTF-8 as default
+     */
+    private Charset detectFileEncoding(File file) {
+        try {
+            byte[] bytes = Files.readAllBytes(file.toPath());
+
+            // Check for BOM markers
+            if (bytes.length >= 4) {
+                if (bytes[0] == (byte) 0xFF && bytes[1] == (byte) 0xFE && 
+                    bytes[2] == (byte) 0x00 && bytes[3] == (byte) 0x00) {
+                    return Charset.forName("UTF-32LE");
+                }
+                if (bytes[0] == (byte) 0x00 && bytes[1] == (byte) 0x00 && 
+                    bytes[2] == (byte) 0xFE && bytes[3] == (byte) 0xFF) {
+                    return Charset.forName("UTF-32BE");
+                }
+            }
+
+            if (bytes.length >= 3) {
+                if (bytes[0] == (byte) 0xEF && bytes[1] == (byte) 0xBB && bytes[2] == (byte) 0xBF) {
+                    return StandardCharsets.UTF_8;
+                }
+            }
+
+            if (bytes.length >= 2) {
+                if (bytes[0] == (byte) 0xFF && bytes[1] == (byte) 0xFE) {
+                    return Charset.forName("UTF-16LE");
+                }
+                if (bytes[0] == (byte) 0xFE && bytes[1] == (byte) 0xFF) {
+                    return Charset.forName("UTF-16BE");
+                }
+            }
+
+            // Default to UTF-8
+            return StandardCharsets.UTF_8;
+        } catch (IOException e) {
+            return StandardCharsets.UTF_8;
         }
     }
 

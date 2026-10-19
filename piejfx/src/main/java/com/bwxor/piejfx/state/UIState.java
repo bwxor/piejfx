@@ -1,6 +1,7 @@
 package com.bwxor.piejfx.state;
 
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 
 public class UIState {
     private SplitPane horizontalSplitPane;
@@ -14,6 +15,7 @@ public class UIState {
     private MenuBar menuBar;
     private Label lineColLabel;
     private Label numCharsLabel;
+    private HBox statusBar;
 
     public static final UIState instance = new UIState();
 
@@ -106,5 +108,13 @@ public class UIState {
 
     public void setNumCharsLabel(Label numCharsLabel) {
         this.numCharsLabel = numCharsLabel;
+    }
+
+    public HBox getStatusBar() {
+        return statusBar;
+    }
+
+    public void setStatusBar(HBox statusBar) {
+        this.statusBar = statusBar;
     }
 }

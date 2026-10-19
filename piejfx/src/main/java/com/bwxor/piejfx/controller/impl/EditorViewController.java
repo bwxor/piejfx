@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -19,6 +20,8 @@ import org.fxmisc.richtext.CodeArea;
 
 import java.io.File;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -48,6 +51,12 @@ public class EditorViewController extends MaximizableViewController {
     private Label lineColLabel;
     @FXML
     private Label numCharsLabel;
+    @FXML
+    private MenuButton encodingMenuButton;
+    @FXML
+    private HBox statusBar;
+    @FXML
+    private Label wordWrapLabel;
 
     public void setParameters(List<String> parameters) {
         this.parameters = parameters;
@@ -80,8 +89,11 @@ public class EditorViewController extends MaximizableViewController {
                         } else {
                             titleBarLabel.setText(t1.getText().substring(1));
                         }
-                        uiState.getLineColLabel().setText((codeArea.getCurrentParagraph() + 1) + ":" +  (codeArea.getCaretColumn() + 1));
+                        uiState.getLineColLabel().setText((codeArea.getCurrentParagraph() + 1) + ":"  +  (codeArea.getCaretColumn() + 1));
                         uiState.getNumCharsLabel().setText(codeArea.getText().length() + " chars");
+                        
+                        // Update encoding button to show current tab's encoding
+                        updateEncodingButtonText();
                     }
                 }
         );
@@ -98,7 +110,8 @@ public class EditorViewController extends MaximizableViewController {
                     serviceState.getFolderTreeViewService().pasteFiles(folderTreeView);
                 }
             }
-            else {
+            else
+            {
                 if (e.getCode().equals(KeyCode.DELETE)) {
                     serviceState.getFolderTreeViewService().deleteFiles(folderTreeView);
                 }
@@ -127,6 +140,15 @@ public class EditorViewController extends MaximizableViewController {
         uiState.setMenuBar(menuBar);
         uiState.setLineColLabel(lineColLabel);
         uiState.setNumCharsLabel(numCharsLabel);
+        uiState.setStatusBar(statusBar);
+
+        // Apply status bar visibility from config
+        boolean statusBarVisible = StatusBarState.instance.isStatusBarVisible();
+        statusBar.setVisible(statusBarVisible);
+        statusBar.setManaged(statusBarVisible);
+
+        // Initialize word wrap label state
+        updateWordWrapLabelText();
 
         ServiceState.instance.getThemeService().loadMenuWithThemes(ThemeState.instance.getThemes());
     }
@@ -186,6 +208,32 @@ public class EditorViewController extends MaximizableViewController {
     @FXML
     public void onCheatsheetButtonClickEvent() {
         ServiceState.instance.getViewService().displayView("cheatsheet-view.fxml");
+    }
+
+    @FXML
+    public void onWordWrapToggle(MouseEvent event) {
+        boolean newWordWrapState = !WordWrapState.instance.isWordWrapEnabled();
+        WordWrapState.instance.setWordWrapEnabled(newWordWrapState);
+
+        // Apply word wrap to all open code areas
+        TabPane editorTabPane = UIState.instance.getEditorTabPane();
+        if (editorTabPane != null) {
+            for (Tab tab : editorTabPane.getTabs()) {
+                VBox vBox = (VBox) tab.getContent();
+                CodeArea codeArea = (CodeArea) vBox.getChildren().getLast();
+                codeArea.setWrapText(newWordWrapState);
+            }
+        }
+
+        // Save the configuration
+        ServiceState.instance.getConfigurationService().rewriteConfig();
+
+        // Update the label text
+        updateWordWrapLabelText();
+    }
+
+    private void updateWordWrapLabelText() {
+        wordWrapLabel.setText(WordWrapState.instance.isWordWrapEnabled() ? "Wrap: ON" : "Wrap: OFF");
     }
 
     @FXML
@@ -251,22 +299,62 @@ public class EditorViewController extends MaximizableViewController {
         }
     }
 
+    /**
+     * Updates the encoding button text to reflect the current tab's charset.
+     */
+    private void updateEncodingButtonText() {
+        int selectedIndex = editorTabPane.getSelectionModel().getSelectedIndex();
+        if (selectedIndex >= 0 && selectedIndex < CodeAreaState.instance.getIndividualStates().size()) {
+            Charset charset = CodeAreaState.instance.getIndividualStates().get(selectedIndex).getCharset();
+            encodingMenuButton.setText(charset.displayName());
+        }
+    }
+
     @FXML
     public void onEncodingSelected(ActionEvent actionEvent) {
-        // Todo finish
-//        var charset =
-//        var codeArea = (CodeArea) ((VBox) editorTabPane.getSelectionModel().getSelectedItem().getContent()).getChildren().getLast();
-//
-//        String text = new String(codeArea.getText(), charset);
-//        if (text.startsWith("\uFEFF")) text = text.substring(1);   // strip BOM
-//
-//        area.replaceText(text);                    // replaces the whole document
-//        area.moveTo(0);                            // caret to start
-//        area.requestFollowCaret();                 // scroll to the caret
-//        area.getUndoManager().forgetHistory();     // undo shouldn't return to the old decoding
-//        area.getUndoManager().mark();              // mark the current state as "saved"
-//
-//        file.charset = charset;
-//        encodingMenuButton.setText(charset.name());
+        UIState uiState = UIState.instance;
+        ServiceState serviceState = ServiceState.instance;
+        
+        MenuItem selectedItem = (MenuItem) actionEvent.getSource();
+        String charsetName = selectedItem.getText();
+        Charset selectedCharset = Charset.forName(charsetName);
+        
+        int selectedTabIndex = uiState.getEditorTabPane().getSelectionModel().getSelectedIndex();
+        if (selectedTabIndex < 0) {
+            return;
+        }
+        
+        CodeAreaState.IndividualState codeAreaState = CodeAreaState.instance.getIndividualStates().get(selectedTabIndex);
+        Tab selectedTab = uiState.getEditorTabPane().getSelectionModel().getSelectedItem();
+        
+        if (!(selectedTab.getContent() instanceof VBox vBox) || !(vBox.getChildren().getLast() instanceof CodeArea codeArea)) {
+            return;
+        }
+        
+        // If it's an opened file, re-read it with the new encoding
+        if (codeAreaState.getOpenedFile() != null) {
+            try {
+                String content = new String(Files.readAllBytes(codeAreaState.getOpenedFile().toPath()), selectedCharset);
+                // Strip BOM if present
+                if (content.startsWith("\uFEFF")) {
+                    content = content.substring(1);
+                }
+                
+                codeArea.replaceText(content);
+                codeArea.moveTo(0);
+                codeArea.requestFollowCaret();
+                
+                // Update the charset in the state
+                codeAreaState.setCharset(selectedCharset);
+                encodingMenuButton.setText(selectedCharset.displayName());
+                
+            } catch (Exception e) {
+                serviceState.getNotificationService().showNotificationOk("Error while trying to re-open the file with the selected encoding.");
+            }
+        } else {
+            // For untitled tabs, just set the charset for future saves
+            codeAreaState.setCharset(selectedCharset);
+            encodingMenuButton.setText(selectedCharset.displayName());
+        }
     }
 }

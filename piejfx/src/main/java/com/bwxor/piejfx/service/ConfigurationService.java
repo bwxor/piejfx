@@ -2,7 +2,9 @@ package com.bwxor.piejfx.service;
 
 import com.bwxor.piejfx.constants.AppDirConstants;
 import com.bwxor.piejfx.state.ServiceState;
+import com.bwxor.piejfx.state.StatusBarState;
 import com.bwxor.piejfx.state.ThemeState;
+import com.bwxor.piejfx.state.WordWrapState;
 import org.json.JSONObject;
 
 import java.io.*;
@@ -26,11 +28,16 @@ public class ConfigurationService {
             JSONObject jsonObject = new JSONObject(configContent);
             JSONObject obj = jsonObject.getJSONObject("config");
             String theme = obj.getString("currentTheme");
+            boolean wordWrapEnabled = obj.optBoolean("wordWrapEnabled", false);
+            boolean statusBarVisible = obj.optBoolean("statusBarVisible", true);
 
             ThemeState.instance.getThemes().stream()
                     .filter(t -> t.getName().equals(theme))
                     .findFirst()
                     .ifPresent(ThemeState.instance::setCurrentTheme);
+
+            WordWrapState.instance.setWordWrapEnabled(wordWrapEnabled);
+            StatusBarState.instance.setStatusBarVisible(statusBarVisible);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -44,6 +51,8 @@ public class ConfigurationService {
         root.put("config", config);
 
         config.put("currentTheme", ThemeState.instance.getCurrentTheme().getName());
+        config.put("wordWrapEnabled", WordWrapState.instance.isWordWrapEnabled());
+        config.put("statusBarVisible", StatusBarState.instance.isStatusBarVisible());
 
         try (BufferedWriter bufferedWriter =
                      new BufferedWriter(new FileWriter(AppDirConstants.CONFIG_FILE.toFile()))) {

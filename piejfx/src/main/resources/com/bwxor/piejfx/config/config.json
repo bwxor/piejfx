@@ -1,5 +1,7 @@
 {
   "config": {
-    "currentTheme": "Dark"
+    "currentTheme": "Dark",
+    "wordWrapEnabled": false,
+    "statusBarVisible": true
   }
 }

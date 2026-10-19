@@ -64,7 +64,7 @@
                 <TabPane fx:id="terminalTabPane" layoutX="122.0" layoutY="43.0" prefHeight="200.0" prefWidth="200.0" side="BOTTOM" tabClosingPolicy="SELECTED_TAB">
                 </TabPane>
             </SplitPane>
-            <HBox alignment="CENTER_RIGHT" spacing="7">
+            <HBox fx:id="statusBar" alignment="CENTER_RIGHT" spacing="10">
                 <padding>
                     <Insets top="2.0" right="5.0" />
                 </padding>
@@ -103,6 +103,7 @@
                     </MenuButton>
                     <Label fx:id="lineColLabel" text="1:1" />
                     <Label fx:id="numCharsLabel" text="0 chars" />
+                    <Label fx:id="wordWrapLabel" styleClass="status-label" text="Wrap: OFF" onMouseClicked="#onWordWrapToggle" />
                 </children>
             </HBox>
         </children>

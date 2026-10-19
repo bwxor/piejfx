@@ -4,6 +4,8 @@ import com.bwxor.piejfx.entity.Grammar;
 import javafx.stage.Popup;
 
 import java.io.File;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
@@ -23,6 +25,7 @@ public final class CodeAreaState {
         private ScheduledExecutorService debounceScheduler;
         private ScheduledFuture<?> pendingHighlight;
         private boolean justOpenedFile;
+        private Charset charset = StandardCharsets.UTF_8;
 
         public int getFontSize() {
             return fontSize;
@@ -88,6 +91,14 @@ public final class CodeAreaState {
 
         public void setJustOpenedFile(boolean justOpenedFile) {
             this.justOpenedFile = justOpenedFile;
+        }
+
+        public Charset getCharset() {
+            return charset;
+        }
+
+        public void setCharset(Charset charset) {
+            this.charset = charset;
         }
     }
 

@@ -7,6 +7,7 @@ import com.bwxor.piejfx.state.CodeAreaState;
 import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.piejfx.state.TerminalState;
 import com.bwxor.piejfx.state.UIState;
+import com.bwxor.piejfx.state.WordWrapState;
 import com.pty4j.PtyProcess;
 import com.pty4j.PtyProcessBuilder;
 import com.techsenger.jeditermfx.core.CursorShape;
@@ -25,10 +26,8 @@ import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Stream;
 
 public class TabFactory {
     private static final String TAB_REPLACEMENT = "    ";
@@ -46,6 +45,9 @@ public class TabFactory {
                         "-fx-font-feature-settings: 'liga' 1, 'calt' 1;",
                 10
         ));
+
+        // Apply word wrap setting from configuration
+        codeArea.setWrapText(WordWrapState.instance.isWordWrapEnabled());
 
         var changeListener = new AutofillChangeListener(codeArea);
         changeListener.setOpenPopup(false);
@@ -84,7 +86,7 @@ public class TabFactory {
         });
 
         codeArea.caretPositionProperty().addListener((obs, oldPos, newPos) -> {
-            uiState.getLineColLabel().setText((codeArea.getCurrentParagraph() + 1) + ":" +  (codeArea.getCaretColumn() + 1));
+            uiState.getLineColLabel().setText((codeArea.getCurrentParagraph() + 1) + "::" +  (codeArea.getCaretColumn() + 1));
         });
 
         codeArea.addEventFilter(ScrollEvent.SCROLL,

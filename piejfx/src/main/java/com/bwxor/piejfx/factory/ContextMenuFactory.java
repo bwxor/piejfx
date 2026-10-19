@@ -1,10 +1,14 @@
 package com.bwxor.piejfx.factory;
 
 import com.bwxor.piejfx.state.ServiceState;
+import com.bwxor.piejfx.state.StatusBarState;
 import com.bwxor.piejfx.state.UIState;
 import com.bwxor.piejfx.type.CreationType;
 import javafx.scene.control.*;
 import javafx.scene.input.Clipboard;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import org.fxmisc.richtext.CodeArea;
 
 
 public class ContextMenuFactory {
@@ -65,6 +69,7 @@ public class ContextMenuFactory {
 
     public static ContextMenu createCodeAreaContextMenu() {
         ServiceState serviceState = ServiceState.instance;
+        UIState uiState = UIState.instance;
 
         ContextMenu contextMenu = new ContextMenu();
         contextMenu.setStyle("-fx-font-family: Segoe UI");
@@ -74,8 +79,32 @@ public class ContextMenuFactory {
         showTerminalContextMenuItem.setOnAction(e -> {
             serviceState.getTerminalTabPaneService().toggleTerminalTabPane();
         });
-
         contextMenu.getItems().add(showTerminalContextMenuItem);
+
+        MenuItem toggleStatusBarMenuItem = new MenuItem();
+        toggleStatusBarMenuItem.setText(StatusBarState.instance.isStatusBarVisible() ? "Hide Status Bar" : "Show Status Bar");
+        toggleStatusBarMenuItem.setOnAction(e -> {
+            boolean newStatusBarState = !StatusBarState.instance.isStatusBarVisible();
+            StatusBarState.instance.setStatusBarVisible(newStatusBarState);
+
+            // Toggle the status bar visibility
+            HBox statusBar = uiState.getStatusBar();
+            if (statusBar != null) {
+                statusBar.setVisible(newStatusBarState);
+                statusBar.setManaged(newStatusBarState);
+            }
+
+            // Save the configuration
+            serviceState.getConfigurationService().rewriteConfig();
+
+            // Update the menu item text for next time
+            toggleStatusBarMenuItem.setText(newStatusBarState ? "Hide Status Bar" : "Show Status Bar");
+        });
+        contextMenu.getItems().add(toggleStatusBarMenuItem);
+
+        contextMenu.setOnShown(_ -> {
+            toggleStatusBarMenuItem.setText(StatusBarState.instance.isStatusBarVisible() ? "Hide Status Bar" : "Show Status Bar");
+        });
 
         return contextMenu;
     }
