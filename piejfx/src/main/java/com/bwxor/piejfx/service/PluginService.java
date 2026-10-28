@@ -43,6 +43,8 @@ class PluginClassLoader extends URLClassLoader {
                 || name.startsWith("sun.")
                 || name.startsWith("jdk.")
                 || name.startsWith("javafx.")
+                || name.startsWith("org.fxmisc.")
+                || name.startsWith("org.reactfx.")
                 || name.startsWith("com.sun.javafx.")
                 || name.startsWith("com.sun.glass.")
                 || name.startsWith("com.sun.prism.")

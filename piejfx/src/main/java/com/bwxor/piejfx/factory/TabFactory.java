@@ -10,6 +10,7 @@ import com.bwxor.piejfx.state.UIState;
 import com.bwxor.piejfx.state.WordWrapState;
 import com.pty4j.PtyProcess;
 import com.pty4j.PtyProcessBuilder;
+import java.util.concurrent.atomic.AtomicInteger;
 import com.techsenger.jeditermfx.core.CursorShape;
 import com.techsenger.jeditermfx.core.util.Platform;
 import com.techsenger.jeditermfx.ui.DefaultHyperlinkFilter;
@@ -61,8 +62,17 @@ public class TabFactory {
                 ContextMenuFactory.createCodeAreaContextMenu()
         );
 
+        AtomicInteger textChanges = new AtomicInteger();
         codeArea.setOnKeyPressed(e -> {
+            int changesBefore = textChanges.get();
             serviceState.getPluginService().invokeOnKeyPress(e);
+            if (textChanges.get() != changesBefore) {
+                // A plugin changed the text: restyle now, like a save does, instead of waiting for the debounced highlight.
+                CodeAreaState.IndividualState restyleState = CodeAreaState.instance.getIndividualStates().get(Integer.parseInt(codeArea.getId()));
+                if (restyleState.getGrammar() != null) {
+                    serviceState.getGrammarService().resetCodeAreaStyle(codeArea, restyleState);
+                }
+            }
 
             if (e.isControlDown()) {
                 CodeAreaState.IndividualState individualState = CodeAreaState.instance.getIndividualStates().get(Integer.parseInt(codeArea.getId()));
@@ -183,6 +193,7 @@ public class TabFactory {
                 _ -> {
                     CodeAreaState.IndividualState individualState = CodeAreaState.instance.getIndividualStates().get(Integer.parseInt(codeArea.getId()));
                     individualState.setContent(codeArea.getText());
+                    textChanges.incrementAndGet();
 
                     if (individualState.isSaved()) {
                         if (!individualState.isJustOpenedFile()) {

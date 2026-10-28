@@ -177,7 +177,7 @@ public class GrammarService {
             ScheduledFuture<?> future = scheduler.schedule(
                     () -> {
                         StyleSpans<Collection<String>> spans = computeHighlighting(newText, individualState);
-                        Platform.runLater(() -> resetCodeAreaStyle(codeArea, spans));
+                        Platform.runLater(() -> { if (codeArea.getText().equals(newText)) { resetCodeAreaStyle(codeArea, spans); } });
                     },
                     DEBOUNCE_DELAY,
                     TimeUnit.MILLISECONDS
