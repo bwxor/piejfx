@@ -1,5 +1,6 @@
 package com.bwxor.plugin;
 
+import com.bwxor.plugin.dto.TabState;
 import com.bwxor.plugin.input.PluginContext;
 import javafx.scene.input.KeyEvent;
 
@@ -17,4 +18,5 @@ public interface Plugin {
     void onRenameFile(File file);
     void onDeleteFile(File file);
     void onThemeChange(URL themeURL);
+    void onTabChange(TabState tabState);
 }

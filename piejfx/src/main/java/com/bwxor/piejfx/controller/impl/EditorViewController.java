@@ -5,6 +5,7 @@ import com.bwxor.piejfx.factory.ContextMenuFactory;
 import com.bwxor.piejfx.factory.FindReplaceHBoxFactory;
 import com.bwxor.piejfx.service.SearchInFilesDialogService;
 import com.bwxor.piejfx.state.*;
+import com.bwxor.plugin.dto.TabState;
 import com.bwxor.plugin.type.RemoveSelectedTabFromPaneOption;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -80,20 +81,23 @@ public class EditorViewController extends MaximizableViewController {
         terminalTabPane.setContextMenu(ContextMenuFactory.createTerminalTabPaneContextMenu());
 
         editorTabPane.getSelectionModel().selectedItemProperty().addListener(
-                (_, _, t1) -> {
-                    if (t1 != null) {
+                (_, _, newTab) -> {
+                    if (newTab != null) {
                         var codeArea = (CodeArea) ((VBox) editorTabPane.getSelectionModel().getSelectedItem().getContent()).getChildren().getLast();
 
                         if (CodeAreaState.instance.getIndividualStates().get(editorTabPane.getSelectionModel().getSelectedIndex()).isSaved()) {
-                            titleBarLabel.setText(t1.getText());
+                            titleBarLabel.setText(newTab.getText());
                         } else {
-                            titleBarLabel.setText(t1.getText().substring(1));
+                            titleBarLabel.setText(newTab.getText().substring(1));
                         }
-                        uiState.getLineColLabel().setText((codeArea.getCurrentParagraph() + 1) + ":"  +  (codeArea.getCaretColumn() + 1));
+                        uiState.getLineColLabel().setText((codeArea.getCurrentParagraph() + 1) + ":" + (codeArea.getCaretColumn() + 1));
                         uiState.getNumCharsLabel().setText(codeArea.getText().length() + " chars");
-                        
+
                         // Update encoding button to show current tab's encoding
                         updateEncodingButtonText();
+
+                        var codeAreaState = CodeAreaState.instance.getIndividualStates().get(editorTabPane.getSelectionModel().getSelectedIndex());
+                        serviceState.getPluginService().invokeOnTabChange(new TabState(newTab.getText(), codeAreaState.getOpenedFile()));
                     }
                 }
         );
@@ -105,13 +109,10 @@ public class EditorViewController extends MaximizableViewController {
             if (e.isControlDown()) {
                 if (e.getCode().equals(KeyCode.C)) {
                     serviceState.getFolderTreeViewService().copyFiles(folderTreeView);
-                }
-                else if (e.getCode().equals(KeyCode.V)) {
+                } else if (e.getCode().equals(KeyCode.V)) {
                     serviceState.getFolderTreeViewService().pasteFiles(folderTreeView);
                 }
-            }
-            else
-            {
+            } else {
                 if (e.getCode().equals(KeyCode.DELETE)) {
                     serviceState.getFolderTreeViewService().deleteFiles(folderTreeView);
                 }
@@ -314,23 +315,23 @@ public class EditorViewController extends MaximizableViewController {
     public void onEncodingSelected(ActionEvent actionEvent) {
         UIState uiState = UIState.instance;
         ServiceState serviceState = ServiceState.instance;
-        
+
         MenuItem selectedItem = (MenuItem) actionEvent.getSource();
         String charsetName = selectedItem.getText();
         Charset selectedCharset = Charset.forName(charsetName);
-        
+
         int selectedTabIndex = uiState.getEditorTabPane().getSelectionModel().getSelectedIndex();
         if (selectedTabIndex < 0) {
             return;
         }
-        
+
         CodeAreaState.IndividualState codeAreaState = CodeAreaState.instance.getIndividualStates().get(selectedTabIndex);
         Tab selectedTab = uiState.getEditorTabPane().getSelectionModel().getSelectedItem();
-        
+
         if (!(selectedTab.getContent() instanceof VBox vBox) || !(vBox.getChildren().getLast() instanceof CodeArea codeArea)) {
             return;
         }
-        
+
         // If it's an opened file, re-read it with the new encoding
         if (codeAreaState.getOpenedFile() != null) {
             try {
@@ -339,15 +340,15 @@ public class EditorViewController extends MaximizableViewController {
                 if (content.startsWith("\uFEFF")) {
                     content = content.substring(1);
                 }
-                
+
                 codeArea.replaceText(content);
                 codeArea.moveTo(0);
                 codeArea.requestFollowCaret();
-                
+
                 // Update the charset in the state
                 codeAreaState.setCharset(selectedCharset);
                 encodingMenuButton.setText(selectedCharset.displayName());
-                
+
             } catch (Exception e) {
                 serviceState.getNotificationService().showNotificationOk("Error while trying to re-open the file with the selected encoding.");
             }

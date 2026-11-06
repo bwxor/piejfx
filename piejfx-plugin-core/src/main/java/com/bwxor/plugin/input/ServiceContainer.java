@@ -9,14 +9,16 @@ public class ServiceContainer {
     private PluginNotificationService notificationService;
     private PluginFileService fileService;
     private PluginTerminalTabPaneService pluginTerminalTabPaneService;
+    private PluginSyntaxErrorService pluginSyntaxErrorService;
 
-    public ServiceContainer(PluginCloseService closeService, PluginEditorTabPaneService editorTabPaneService, PluginFolderTreeViewService folderTreeViewService, PluginNotificationService notificationService, PluginFileService fileService, PluginTerminalTabPaneService pluginTerminalTabPaneService) {
+    public ServiceContainer(PluginCloseService closeService, PluginEditorTabPaneService editorTabPaneService, PluginFolderTreeViewService folderTreeViewService, PluginNotificationService notificationService, PluginFileService fileService, PluginTerminalTabPaneService pluginTerminalTabPaneService, PluginSyntaxErrorService pluginSyntaxErrorService) {
         this.closeService = closeService;
         this.editorTabPaneService = editorTabPaneService;
         this.folderTreeViewService = folderTreeViewService;
         this.notificationService = notificationService;
         this.fileService = fileService;
         this.pluginTerminalTabPaneService = pluginTerminalTabPaneService;
+        this.pluginSyntaxErrorService = pluginSyntaxErrorService;
     }
 
     public PluginCloseService getCloseService() {
@@ -41,5 +43,9 @@ public class ServiceContainer {
 
     public PluginTerminalTabPaneService getPluginTerminalTabPaneService() {
         return pluginTerminalTabPaneService;
+    }
+
+    public PluginSyntaxErrorService getPluginSyntaxErrorService() {
+        return pluginSyntaxErrorService;
     }
 }

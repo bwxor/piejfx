@@ -24,6 +24,7 @@ public class ServiceState {
     private PluginEnabledConfigService pluginEnabledConfigService;
     private RepositoriesConfigService repositoriesConfigService;
     private RepositoriesSettingsViewService repositoriesSettingsViewService;
+    private SyntaxErrorService syntaxErrorService;
     public static final ServiceState instance = new ServiceState();
 
     private ServiceState() {
@@ -196,5 +197,13 @@ public class ServiceState {
         }
 
         return repositoriesSettingsViewService;
+    }
+
+    public SyntaxErrorService getSyntaxErrorService() {
+        if (syntaxErrorService == null) {
+            syntaxErrorService = new SyntaxErrorService();
+        }
+
+        return syntaxErrorService;
     }
 }

@@ -1,6 +1,7 @@
 module com.bwxor.plugin {
     requires javafx.controls;
     requires javafx.fxml;
+    requires org.fxmisc.richtext;
 
 
     opens com.bwxor.plugin to javafx.fxml;

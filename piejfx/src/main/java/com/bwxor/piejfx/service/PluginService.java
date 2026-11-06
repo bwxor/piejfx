@@ -5,10 +5,12 @@ import com.bwxor.piejfx.dto.LoadedPlugin;
 import com.bwxor.piejfx.state.*;
 import com.bwxor.piejfx.state.ServiceState;
 import com.bwxor.plugin.Plugin;
+import com.bwxor.plugin.dto.TabState;
 import com.bwxor.plugin.input.ApplicationWindow;
 import com.bwxor.plugin.input.PluginContext;
 import com.bwxor.plugin.input.ServiceContainer;
 import com.bwxor.plugin.input.Stylesheets;
+import javafx.scene.control.Tab;
 import javafx.scene.input.KeyEvent;
 import org.json.JSONObject;
 
@@ -255,7 +257,8 @@ public class PluginService {
                 ServiceState.instance.getFolderTreeViewService(),
                 ServiceState.instance.getNotificationService(),
                 ServiceState.instance.getFileService(),
-                ServiceState.instance.getTerminalTabPaneService()
+                ServiceState.instance.getTerminalTabPaneService(),
+                ServiceState.instance.getSyntaxErrorService()
         );
 
         Path configurationDirectoryPath = Paths.get(AppDirConstants.PLUGINS_DIR.toString(), p.getDirectory().getFileName().toString(), "config");
@@ -334,5 +337,11 @@ public class PluginService {
         LoadedPluginsState.instance.getPlugins().stream()
                 .filter(LoadedPlugin::isEnabled)
                 .forEach(e -> invokeWithPluginClassLoader(e, () -> e.getHook().onThemeChange(url)));
+    }
+
+    public void invokeOnTabChange(TabState tabState) {
+        LoadedPluginsState.instance.getPlugins().stream()
+                .filter(LoadedPlugin::isEnabled)
+                .forEach(e -> invokeWithPluginClassLoader(e, () -> e.getHook().onTabChange(tabState)));
     }
 }
