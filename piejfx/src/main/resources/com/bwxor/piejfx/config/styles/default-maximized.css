@@ -3,3 +3,9 @@
     -fx-background-radius: 0px;
     -fx-border-radius: 0px;
 }
+
+/* --- CodeArea Errors --- */
+.code-area .text.error {
+    -fx-fill: red;
+    -fx-underline: true;
+}

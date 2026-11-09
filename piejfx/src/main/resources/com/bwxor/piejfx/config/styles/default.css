@@ -17,3 +17,9 @@
     -fx-font-size: 12px;
     -fx-cursor: hand;
 }
+
+/* --- CodeArea Errors --- */
+.code-area .text.error {
+    -fx-fill: red;
+    -fx-underline: true;
+}
