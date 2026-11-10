@@ -1,6 +1,6 @@
-# ![pie](https://i.imgur.com/mvR0VQv.png) Pie: A General Purpose Code Editor Focused on Simplicity
+# ![pie](https://i.imgur.com/mvR0VQv.png) PieJFX: A General Purpose Code Editor Focused on Simplicity
 
-Pie is a tool intended to replace existing code editing software in daily tasks such as scripting and text formatting. It has been designed to aid both beginner and experienced developers, providing a simple user interface that doesn't interfere with the main work area of the individual.
+PieJFX (JFX as in the JavaFX port of the original Pie) is a tool intended to replace existing code editing software in daily tasks such as scripting and text formatting. It has been designed to aid both beginner and experienced developers, providing a simple user interface that doesn't interfere with the main work area of the individual.
 
 The tool comes packed with the most commonly accessed development tools, while supporting various types of plugins, for those who want to extend its functionality for their specific needs.
 
