@@ -79,7 +79,7 @@
     text-on-selected:   #e7e4dd;       /* text on bg-selected */
 
     /* Error */
-    error:              #f07d70;       /* error messages / failed states */
+    error: #c35c50;       /* error messages / failed states */
 
     /* Text */
     text-primary:       #e7e4dd;       /* list / combo cells, menu items */
