@@ -1,4 +1,8 @@
-# piejfx - A cross-platform, Java-FX version of pie
+# ![pie](https://i.imgur.com/mvR0VQv.png) Pie: A General Purpose Code Editor Focused on Simplicity
+
+Pie is a tool intended to replace existing code editing software in daily tasks such as scripting and text formatting. It has been designed to aid both beginner and experienced developers, providing a simple user interface that doesn't interfere with the main work area of the individual.
+
+The tool comes packed with the most commonly accessed development tools, while supporting various types of plugins, for those who want to extend its functionality for their specific needs.
 
 ## Table of Contents
 - [Structure](#structure)
@@ -92,6 +96,7 @@ public interface Plugin {
     void onRenameFile(File var1);
     void onDeleteFile(File var1);
     void onThemeChange(URL var1);
+    void onTabChange(TabState tabState);
 }
 ```
 
@@ -139,8 +144,9 @@ sample-plugin/
 ## Official plugins
 piejfx is built like Eclipse: it provides proper extensibility support, but without any plugins, it is raw. Currently, several official plugins are maintained.
 
-1. [piejfx-maven-plugin](https://github.com/bwxor/piejfx-maven-plugin)
-2. [piejfx-git-plugin](https://github.com/bwxor/piejfx-git-plugin)
-3. [piejfx-documentation-plugin](https://github.com/bwxor/piejfx-documentation-plugin)
-4. [crumb](https://github.com/bwxor/crumb)
+1. [piejfx-maven-plugin](https://github.com/pie-plugins/piejfx-maven-plugin)
+2. [piejfx-git-plugin](https://github.com/pie-plugins/piejfx-git-plugin)
+3. [piejfx-documentation-plugin](https://github.com/pie-plugins/piejfx-documentation-plugin)
+4. [crumb](https://github.com/pie-plugins/crumb)
+5. [drp](https://github.com/pie-plugins/drp)
 
